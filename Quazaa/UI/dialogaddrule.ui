@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
  <class>CDialogAddRule</class>
- <widget class="QDialog" name="DialogAddRule">
+ <widget class="QDialog" name="CDialogAddRule">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -21,7 +21,16 @@
    <bool>true</bool>
   </property>
   <layout class="QGridLayout" name="gridLayoutDialogAddRule">
-   <property name="margin">
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
     <number>0</number>
    </property>
    <property name="spacing">
@@ -36,11 +45,20 @@
       <enum>QFrame::Raised</enum>
      </property>
      <layout class="QGridLayout" name="gridLayoutFrameBody">
+      <property name="leftMargin">
+       <number>6</number>
+      </property>
+      <property name="topMargin">
+       <number>6</number>
+      </property>
+      <property name="rightMargin">
+       <number>6</number>
+      </property>
+      <property name="bottomMargin">
+       <number>6</number>
+      </property>
       <property name="verticalSpacing">
        <number>2</number>
-      </property>
-      <property name="margin">
-       <number>6</number>
       </property>
       <item row="0" column="0">
        <widget class="QGroupBox" name="groupBoxRule">
@@ -110,11 +128,20 @@
       <item row="1" column="0">
        <widget class="QStackedWidget" name="stackedWidgetType">
         <property name="currentIndex">
-         <number>0</number>
+         <number>1</number>
         </property>
         <widget class="QWidget" name="pageIPAddress">
          <layout class="QGridLayout" name="gridLayoutIPAddress">
-          <property name="margin">
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
            <number>0</number>
           </property>
           <property name="spacing">
@@ -180,7 +207,16 @@
         </widget>
         <widget class="QWidget" name="pageIPRange">
          <layout class="QGridLayout" name="gridLayoutIPRange">
-          <property name="margin">
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
            <number>0</number>
           </property>
           <property name="spacing">
@@ -192,7 +228,16 @@
              <string>IP Address Range</string>
             </property>
             <layout class="QGridLayout" name="gridLayout_9">
-             <property name="margin">
+             <property name="leftMargin">
+              <number>4</number>
+             </property>
+             <property name="topMargin">
+              <number>4</number>
+             </property>
+             <property name="rightMargin">
+              <number>4</number>
+             </property>
+             <property name="bottomMargin">
               <number>4</number>
              </property>
              <property name="spacing">
@@ -203,6 +248,27 @@
                <property name="spacing">
                 <number>2</number>
                </property>
+               <item row="0" column="3">
+                <widget class="QSpinBox" name="spinBoxStartIP3">
+                 <property name="maximum">
+                  <number>255</number>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="4">
+                <widget class="QSpinBox" name="spinBoxStartIP4">
+                 <property name="maximum">
+                  <number>255</number>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="3">
+                <widget class="QSpinBox" name="spinBoxEndIP3">
+                 <property name="maximum">
+                  <number>255</number>
+                 </property>
+                </widget>
+               </item>
                <item row="0" column="0">
                 <widget class="QLabel" name="labelStartIP">
                  <property name="text">
@@ -224,20 +290,6 @@
                  </property>
                 </widget>
                </item>
-               <item row="0" column="3">
-                <widget class="QSpinBox" name="spinBoxStartIP3">
-                 <property name="maximum">
-                  <number>255</number>
-                 </property>
-                </widget>
-               </item>
-               <item row="0" column="4">
-                <widget class="QSpinBox" name="spinBoxStartIP4">
-                 <property name="maximum">
-                  <number>255</number>
-                 </property>
-                </widget>
-               </item>
                <item row="1" column="0">
                 <widget class="QLabel" name="labelEndIP">
                  <property name="text">
@@ -252,20 +304,6 @@
                  </property>
                 </widget>
                </item>
-               <item row="1" column="2">
-                <widget class="QSpinBox" name="spinBoxEndIP2">
-                 <property name="maximum">
-                  <number>255</number>
-                 </property>
-                </widget>
-               </item>
-               <item row="1" column="3">
-                <widget class="QSpinBox" name="spinBoxEndIP3">
-                 <property name="maximum">
-                  <number>255</number>
-                 </property>
-                </widget>
-               </item>
                <item row="1" column="4">
                 <widget class="QSpinBox" name="spinBoxEndIP4">
                  <property name="maximum">
@@ -273,49 +311,9 @@
                  </property>
                 </widget>
                </item>
-               <item row="2" column="0">
-                <widget class="QLabel" name="labelRangeNetmask">
-                 <property name="text">
-                  <string>Netmask:</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="2" column="1">
-                <widget class="QSpinBox" name="spinBoxRangeNetmask1">
+               <item row="1" column="2">
+                <widget class="QSpinBox" name="spinBoxEndIP2">
                  <property name="maximum">
-                  <number>255</number>
-                 </property>
-                 <property name="value">
-                  <number>255</number>
-                 </property>
-                </widget>
-               </item>
-               <item row="2" column="2">
-                <widget class="QSpinBox" name="spinBoxRangeNetmask2">
-                 <property name="maximum">
-                  <number>255</number>
-                 </property>
-                 <property name="value">
-                  <number>255</number>
-                 </property>
-                </widget>
-               </item>
-               <item row="2" column="3">
-                <widget class="QSpinBox" name="spinBoxRangeNetmask3">
-                 <property name="maximum">
-                  <number>255</number>
-                 </property>
-                 <property name="value">
-                  <number>255</number>
-                 </property>
-                </widget>
-               </item>
-               <item row="2" column="4">
-                <widget class="QSpinBox" name="spinBoxRangeNetmask4">
-                 <property name="maximum">
-                  <number>255</number>
-                 </property>
-                 <property name="value">
                   <number>255</number>
                  </property>
                 </widget>
@@ -329,7 +327,16 @@
         </widget>
         <widget class="QWidget" name="pageCountry">
          <layout class="QGridLayout" name="gridLayoutCountry">
-          <property name="margin">
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
            <number>0</number>
           </property>
           <property name="spacing">
@@ -395,7 +402,16 @@
         </widget>
         <widget class="QWidget" name="pageFile">
          <layout class="QGridLayout" name="gridLayoutFile">
-          <property name="margin">
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
            <number>0</number>
           </property>
           <property name="spacing">
@@ -427,7 +443,16 @@
         </widget>
         <widget class="QWidget" name="pageContent">
          <layout class="QGridLayout" name="gridLayoutContent">
-          <property name="margin">
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
            <number>0</number>
           </property>
           <property name="spacing">
@@ -495,7 +520,16 @@
         </widget>
         <widget class="QWidget" name="pageRegularExpression">
          <layout class="QGridLayout" name="gridLayoutRegEx">
-          <property name="margin">
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
            <number>0</number>
           </property>
           <property name="spacing">
@@ -517,7 +551,16 @@
         </widget>
         <widget class="QWidget" name="pageUserAgent">
          <layout class="QGridLayout" name="gridLayoutUserAgent">
-          <property name="margin">
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
            <number>0</number>
           </property>
           <property name="spacing">
@@ -552,7 +595,16 @@
          <string>Options</string>
         </property>
         <layout class="QGridLayout" name="gridLayoutGroupBoxOptions">
-         <property name="margin">
+         <property name="leftMargin">
+          <number>0</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
           <number>0</number>
          </property>
          <property name="spacing">

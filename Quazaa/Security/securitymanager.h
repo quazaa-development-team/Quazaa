@@ -30,15 +30,19 @@
 #include <queue>
 #include <set>
 
-// Enable/disable GeoIP support of the library.
-#define SECURITY_ENABLE_GEOIP 1
-
 // Increment this if there have been made changes to the way of storing security rules.
 #define SECURITY_CODE_VERSION 0
 // History:
 // 0 - Initial implementation
 
 #include "securerule.h"
+#include "contentrule.h"
+#include "countryrule.h"
+#include "hashrule.h"
+#include "iprangerule.h"
+#include "iprule.h"
+#include "regexprule.h"
+#include "useragentrule.h"
 #include "commonfunctions.h"
 
 // DODO: Add quint16 GUI ID to rules and update GUI only when there is a change to the rule.
@@ -47,14 +51,13 @@
 // TODO: add log calls + defines to enable/disable
 // TODO: user agent blocking case insensitive + partial matching
 
-namespace Security
-{
-
-typedef enum
-{
-	banForever = -1, banSession = -2, ban5Mins = 300, ban30Mins = 1800, ban2Hours = 7200,
-	ban6Hours = 21600, ban12Hours = 42300, ban1Day = 86400, banWeek = 604800, banMonth = 2592000
-} TBanLength;
+namespace BanLength {
+	typedef enum
+	{
+		Forever = -1, Session = -2, FiveMinutes = 300, ThirtyMinutes = 1800, TwoHours = 7200,
+		SixHours = 21600, TwelveHours = 42300, Day = 86400, Week = 604800, Month = 2592000
+	} TBanLength;
+}
 
 class CSecurity : public QObject
 {
@@ -175,7 +178,7 @@ public:
 	inline void     remove(CSecureRule* pRule, bool bLockRequired = true);
 	void            clear();
 
-	void            ban(const QHostAddress& oAddress, TBanLength nBanLength, bool bMessage = true, const QString& sComment = "");
+	void            ban(const QHostAddress& oAddress, BanLength::TBanLength nBanLength, bool bMessage = true, const QString& sComment = "");
 //	void            ban(const CFile& oFile, BanLength nBanLength, bool bMessage = true, const QString& sComment = "");
 
 	// Methods used during sanity check
@@ -309,8 +312,6 @@ CSecurity::TSecurityRuleList::iterator CSecurity::getRWIterator(TConstIterator c
 	return i;
 }
 
-}
-
-extern Security::CSecurity securityManager;
+extern CSecurity securityManager;
 
 #endif // SECURITYMANAGER_H

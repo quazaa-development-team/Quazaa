@@ -29,6 +29,13 @@
 
 #include "securitymanager.h"
 #include "securerule.h"
+#include "contentrule.h"
+#include "countryrule.h"
+#include "hashrule.h"
+#include "iprangerule.h"
+#include "iprule.h"
+#include "regexprule.h"
+#include "useragentrule.h"
 #include "widgetsecurity.h"
 
 namespace Ui
@@ -41,19 +48,6 @@ class CDialogAddRule : public QDialog
 	Q_OBJECT
 
 private:
-	typedef Security::CSecureRule	 CSecureRule;
-	typedef Security::CIPRule		 CIPRule;
-	typedef Security::CIPRangeRule	 CIPRangeRule;
-#if SECURITY_ENABLE_GEOIP
-	typedef Security::CCountryRule	 CCountryRule;
-#endif // SECURITY_ENABLE_GEOIP
-	typedef Security::CHashRule		 CHashRule;
-	typedef Security::CRegExpRule	 CRegExpRule;
-	typedef Security::CUserAgentRule CUserAgentRule;
-	typedef Security::CContentRule	 CContentRule;
-
-	typedef Security::CSecurity		 CSecurity;
-
 	Ui::CDialogAddRule* ui;
 	CSecureRule* m_pRule;
 	CWidgetSecurity* m_pParent;

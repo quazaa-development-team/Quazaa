@@ -223,7 +223,14 @@ contains(DEFINES, _USE_DEBUG_NEW){
 
 # Use Qt's Zlib
 INCLUDEPATH += $$[QT_INSTALL_HEADERS]/QtZlib
-HEADERS += $$[QT_INSTALL_HEADERS]/QtZlib/zlib.h
+HEADERS += $$[QT_INSTALL_HEADERS]/QtZlib/zlib.h \
+    Security/iprule.h \
+    Security/iprangerule.h \
+    Security/countryrule.h \
+    Security/hashrule.h \
+    Security/regexprule.h \
+    Security/useragentrule.h \
+    Security/contentrule.h
 
 # Headers
 HEADERS += \
@@ -540,7 +547,14 @@ SOURCES += \
 	UI/dialogircsettings.cpp \
 	UI/dialogirccolordialog.cpp \
 	UI/wizardircconnection.cpp \
-	Models/ircuserlistmodel.cpp
+	Models/ircuserlistmodel.cpp \
+    Security/iprule.cpp \
+    Security/iprangerule.cpp \
+    Security/countryrule.cpp \
+    Security/hashrule.cpp \
+    Security/regexprule.cpp \
+    Security/useragentrule.cpp \
+    Security/contentrule.cpp
 
 FORMS += \
 		UI/dialogabout.ui \

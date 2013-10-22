@@ -152,7 +152,7 @@ void CWidgetSecurity::on_actionSecurityRemoveRule_triggered()
 	{
 		if ( i.isValid() )
 		{
-			Security::CSecureRule* pRule = m_pSecurityList->nodeFromIndex( i );
+			CSecureRule* pRule = m_pSecurityList->nodeFromIndex( i );
 			securityManager.remove( pRule, false );
 		}
 	}
@@ -182,7 +182,7 @@ void CWidgetSecurity::on_actionSecurityModifyRule_triggered()
 		// Lock security manager while fiddling with rule.
 		QReadLocker lock( &securityManager.m_pRWLock );
 
-		Security::CSecureRule* pRule = m_pSecurityList->nodeFromIndex( index );
+		CSecureRule* pRule = m_pSecurityList->nodeFromIndex( index );
 		CDialogAddRule* dlgAddRule = new CDialogAddRule( this, pRule );
 
 		lock.unlock(); // Make the Security Manager available again.

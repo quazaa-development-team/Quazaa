@@ -53,15 +53,15 @@ CSecurityTableModel::Rule::Rule(CSecureRule* pRule, CSecurityTableModel* model)
 
 	switch( m_nAction )
 	{
-	case Security::CSecureRule::srNull:
+	case CSecureRule::srNull:
 		m_piAction = model->m_pIcons[0];
 		break;
 
-	case Security::CSecureRule::srAccept:
+	case CSecureRule::srAccept:
 		m_piAction = model->m_pIcons[1];
 		break;
 
-	case Security::CSecureRule::srDeny:
+	case CSecureRule::srDeny:
 		m_piAction = model->m_pIcons[2];
 		break;
 
@@ -102,15 +102,15 @@ bool CSecurityTableModel::Rule::update(int row, int col, QModelIndexList &to_upd
 
 		switch( m_nAction )
 		{
-		case Security::CSecureRule::srNull:
+		case CSecureRule::srNull:
 			m_piAction = model->m_pIcons[0];
 			break;
 
-		case Security::CSecureRule::srAccept:
+		case CSecureRule::srAccept:
 			m_piAction = model->m_pIcons[1];
 			break;
 
-		case Security::CSecureRule::srDeny:
+		case CSecureRule::srDeny:
 			m_piAction = model->m_pIcons[2];
 			break;
 
@@ -477,7 +477,7 @@ void CSecurityTableModel::sort(int column, Qt::SortOrder order)
 	emit layoutChanged();
 }
 
-Security::CSecureRule* CSecurityTableModel::nodeFromIndex(const QModelIndex &index)
+CSecureRule* CSecurityTableModel::nodeFromIndex(const QModelIndex &index)
 {
 	if ( index.isValid() && index.row() < m_lNodes.count() && index.row() >= 0 )
 		return m_lNodes[ index.row() ]->m_pNode;
@@ -520,7 +520,7 @@ void CSecurityTableModel::addRule(CSecureRule* pRule)
 	securityManager.m_pRWLock.lockForRead();
 
 	// We should probably be the only one listening.
-	if ( securityManager.receivers ( Security::CSecurity::ruleInfoSignal ) )
+	if ( securityManager.receivers ( CSecurity::ruleInfoSignal ) )
 	{
 		// Make sure we don't recieve any signals we don't want once we got all rules once.
 		if ( m_lNodes.size() == (int)securityManager.getCount() )

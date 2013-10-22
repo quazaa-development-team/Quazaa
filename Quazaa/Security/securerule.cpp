@@ -27,8 +27,6 @@
 
 #include "debug_new.h"
 
-using namespace Security;
-
 /**
  * @brief CSecureRule::CSecureRule Constructor.
  * @param bCreate
@@ -572,673 +570,91 @@ void CSecureRule::toXML(const CSecureRule& oRule, QXmlStreamWriter& oXMLdocument
 	}
 }
 
-//////////////////////////////////////////////////////////////////////
-// CIPRule
-
-CIPRule::CIPRule()
+/**
+ * @brief CSecureRule::isExpired allows to check whether a rule has expired.
+ * @param tNow indicates the current time in seconds since 1.1.1970UTC
+ * @param bSession indicates whether this is the end of the session/start of a new session. In both
+ * cases, set this to true and the return value for session ban rules will be true.
+ * @return true if the rule has expired, false otherwise
+ */
+bool CSecureRule::isExpired(quint32 tNow, bool bSession) const
 {
-	m_nType = srContentAddress;
+	if ( m_tExpire == srIndefinite ) return false;
+	if ( m_tExpire == srSession ) return bSession;
+	return m_tExpire < tNow;
 }
 
-bool CIPRule::parseContent(const QString& sContent)
+/**
+ * @brief CSecureRule::getExpiryTime allows to access the expiry time of a rule.
+ * @return srIndefinite = 0, srSession = 1 or the time in seconds since 1.1.1970UTC when the rule
+ * will/has expire(d)
+ */
+quint32 CSecureRule::getExpiryTime() const
 {
-	QHostAddress oAddress;
-	if ( oAddress.setAddress( sContent ) )
-	{
-		m_oIP = oAddress;
-		m_sContent = oAddress.toString();
-		return true;
-	}
-	return false;
+	return m_tExpire;
 }
 
-bool CIPRule::match(const CEndPoint& oAddress) const
+/**
+ * @brief CSecureRule::count increases the total and today hit counters by one each.
+ * Requires Locking: /
+ */
+void CSecureRule::count()
 {
-	Q_ASSERT( !oAddress.isNull() && m_nType == srContentAddress );
-
-	if ( !oAddress.isNull() && oAddress == m_oIP )
-	{
-		return true;
-	}
-	return false;
+	m_nToday.fetchAndAddOrdered(1);
+	m_nTotal.fetchAndAddOrdered(1);
 }
 
-void CIPRule::toXML(QXmlStreamWriter& oXMLdocument) const
+/**
+ * @brief CSecureRule::resetCount resets total and today hit counters to 0.
+ * Requires Locking: /
+ */
+void CSecureRule::resetCount()
 {
-	Q_ASSERT( m_nType == srContentAddress );
-
-	oXMLdocument.writeStartElement( "rule" );
-
-	oXMLdocument.writeAttribute( "type", "address" );
-	oXMLdocument.writeAttribute( "address", getContentString() );
-
-	CSecureRule::toXML( *this, oXMLdocument );
-
-	oXMLdocument.writeEndElement();
+	m_nToday.fetchAndStoreOrdered(0);
+	m_nTotal.fetchAndAddOrdered(0);
 }
 
-//////////////////////////////////////////////////////////////////////
-// CIPRangeRule
-
-CIPRangeRule::CIPRangeRule()
+/**
+ * @brief CSecureRule::getTodayCount allows to access the today hit counter.
+ * @return the value of the today hit counter.
+ * Requires Locking: /
+ */
+quint32 CSecureRule::getTodayCount() const
 {
-	m_nType = srContentAddressRange;
+	return m_nToday.loadAcquire();
 }
 
-bool CIPRangeRule::parseContent(const QString& sContent)
+/**
+ * @brief CSecureRule::getTotalCount allows to access the total hit counter.
+ * @return the value of the total hit counter.
+ * Requires Locking: /
+ */
+quint32 CSecureRule::getTotalCount() const
 {
-	QPair<QHostAddress, int> oPair = QHostAddress::parseSubnet( sContent );
-
-	if ( oPair != qMakePair( QHostAddress(), -1 ) )
-	{
-		m_oSubNet = oPair;
-		m_sContent = m_oSubNet.first.toString() + "/" + QString::number( m_oSubNet.second );
-		return true;
-	}
-	return false;
+	return m_nTotal.loadAcquire();
 }
 
-void CIPRangeRule::toXML(QXmlStreamWriter& oXMLdocument) const
+/**
+ * @brief CSecureRule::loadTotalCount allows to access the total hit counter.
+ * @param nTotal the new value of the total hit counter.
+ * Requires Locking: /
+ */
+void CSecureRule::loadTotalCount( quint32 nTotal )
 {
-	Q_ASSERT( m_nType == srContentAddressRange );
-
-	oXMLdocument.writeStartElement( "rule" );
-
-	oXMLdocument.writeAttribute( "type", "address" );
-	oXMLdocument.writeAttribute( "address", m_oSubNet.first.toString() );
-	oXMLdocument.writeAttribute( "mask", QString( m_oSubNet.second ) );
-
-	CSecureRule::toXML( *this, oXMLdocument );
-
-	oXMLdocument.writeEndElement();
+	m_nTotal.storeRelease(nTotal);
 }
 
-//////////////////////////////////////////////////////////////////////
-// CCountryRule
-
-#if SECURITY_ENABLE_GEOIP
-CCountryRule::CCountryRule()
+/**
+ * @brief CSecureRule::type allows to access the type of this rule.
+ * @return the rule type.
+ * Requires Locking: R
+ */
+CSecureRule::TRuleType CSecureRule::type() const
 {
-	m_nType = srContentCountry;
+	return m_nType;
 }
 
-bool CCountryRule::parseContent(const QString& sContent)
+void CSecureRule::toXML( QXmlStreamWriter& ) const
 {
-	if ( geoIP.countryNameFromCode( sContent ) != "Unknown" )
-	{
-		m_sContent = sContent;
-		return true;
-	}
-	return false;
-}
 
-bool CCountryRule::match(const CEndPoint& oAddress) const
-{
-	Q_ASSERT( !oAddress.isNull() && m_nType == srContentCountry );
-
-	if ( m_sContent == oAddress.country() )
-		return true;
-
-	return false;
-}
-
-void CCountryRule::toXML(QXmlStreamWriter& oXMLdocument) const
-{
-	Q_ASSERT( m_nType == srContentCountry );
-
-	oXMLdocument.writeStartElement( "rule" );
-
-	oXMLdocument.writeAttribute( "type", "country" );
-	oXMLdocument.writeAttribute( "content", getContentString() );
-
-	CSecureRule::toXML( *this, oXMLdocument );
-
-	oXMLdocument.writeEndElement();
-}
-#endif // SECURITY_ENABLE_GEOIP
-
-//////////////////////////////////////////////////////////////////////
-// CHashRule
-
-CHashRule::CHashRule()
-{
-	m_nType = srContentHash;
-}
-
-QList< CHash > CHashRule::getHashes() const
-{
-	QList< CHash > result;
-	foreach ( CHash oHash, m_Hashes )
-	{
-		result.append( oHash );
-	}
-
-	return result;
-}
-
-void CHashRule::setHashes(const QList< CHash >& hashes)
-{
-	Q_ASSERT( m_nType == srContentHash );
-
-	m_sContent = "";
-
-	foreach ( CHash oHash, hashes )
-	{
-		m_Hashes.insert( oHash.getAlgorithm(), oHash );
-		m_sContent += oHash.ToURN();
-		m_sContent += " ";
-	}
-
-	m_sContent = m_sContent.trimmed();
-}
-
-bool CHashRule::parseContent(const QString& sContent)
-{
-	QString tmp, sHash;
-	int pos1, pos2;
-	QList< CHash > lHashes;
-
-	QString prefixes[5] = { "urn:sha1:", "urn:ed2k:", "urn:tree:tiger:", "urn:btih:", "urn:md5:" };
-	quint8 lengths[5] = { 32 + 9, 32 + 9, 39 + 15, 32 + 9, 32 + 8 };
-
-	for ( quint8 i = 0; i < 5; ++i )
-	{
-		sHash = "";
-
-		pos1 = sContent.indexOf( prefixes[i] );
-		if ( pos1 != -1 )
-		{
-			tmp  = sContent.mid( pos1 );
-			pos2 = tmp.indexOf( ' ' );
-
-			if ( pos2 == lengths[i] )
-			{
-				sHash = tmp.left( pos2 );
-			}
-			else if ( pos2 == -1 && tmp.length() == lengths[i] )
-			{
-				sHash = tmp;
-			}
-			else
-			{
-//				theApp.Message( MSG_ERROR, IDS_SECURITY_XML_HASH_RULE_IMPORT_ERROR );
-				continue;
-			}
-
-			lHashes.append( *CHash::FromURN( sHash ) );
-		}
-	}
-
-	if ( !lHashes.isEmpty() )
-	{
-		setHashes( lHashes );
-		return true;
-	}
-	else
-	{
-//		theApp.Message( MSG_ERROR, IDS_SECURITY_XML_HASH_RULE_IMPORT_FAIL );
-		return false;
-	}
-}
-
-bool CHashRule::hashEquals(CHashRule& oRule) const
-{
-	if ( oRule.m_Hashes.size() != m_Hashes.size() )
-		return false;
-
-	QMap< CHash::Algorithm, CHash >::const_iterator i, j;
-
-	i = m_Hashes.begin();
-	j = oRule.m_Hashes.begin();
-
-	while ( i != m_Hashes.end() )
-	{
-		j = oRule.m_Hashes.find( (*i).getAlgorithm() );
-		if ( *i != *j )
-			return false;
-
-		++i;
-	}
-
-	return true;
-}
-
-bool CHashRule::match(const CQueryHit* const pHit) const
-{
-	return match( pHit->m_lHashes );
-}
-bool CHashRule::match(const QList<CHash>& lHashes) const
-{
-	QMap< CHash::Algorithm, CHash >::const_iterator i;
-	quint8 nCount = 0;
-
-	foreach ( CHash oHash, lHashes )
-	{
-		i = m_Hashes.find( oHash.getAlgorithm() );
-
-		if ( i != m_Hashes.end() )
-		{
-			++nCount;
-
-			if ( oHash != *i )
-				return false;
-		}
-	}
-
-	return nCount;
-}
-
-void CHashRule::toXML(QXmlStreamWriter& oXMLdocument) const
-{
-	Q_ASSERT( m_nType == srContentHash );
-
-	oXMLdocument.writeStartElement( "rule" );
-
-	oXMLdocument.writeAttribute( "type", "hash" );
-	oXMLdocument.writeAttribute( "content", getContentString() );
-
-	CSecureRule::toXML( *this, oXMLdocument );
-
-	oXMLdocument.writeEndElement();
-}
-
-//////////////////////////////////////////////////////////////////////
-// CRegExpRule
-
-CRegExpRule::CRegExpRule()
-{
-	m_nType = srContentRegExp;
-	m_bSpecialElements = false;
-}
-
-bool CRegExpRule::operator==(const CSecureRule& pRule) const
-{
-	return CSecureRule::operator==( pRule ) &&
-		   m_bSpecialElements == ((CRegExpRule*)&pRule)->m_bSpecialElements;
-}
-
-bool CRegExpRule::parseContent(const QString& sContent)
-{
-	m_sContent = sContent.trimmed();
-
-	quint8 nCount = 0;
-	for ( quint8 i = 1; i < 10; i++ )
-	{
-		if ( m_sContent.contains( "<" + QString::number( i ) + ">" ) )
-		{
-			nCount++;
-		}
-	}
-
-	if ( nCount || m_sContent.contains( "<_>" ) || m_sContent.contains( "<>" ) )
-	{
-		// In this case the regular expression must be build ech time a filter request comes in,
-		// so theres no point in doing it here.
-		m_bSpecialElements = true;
-		return true;
-	}
-	else
-	{
-		m_bSpecialElements = false;
-		bool bValid;
-
-#if QT_VERSION >= 0x050000
-		m_regularExpressionContent = QRegularExpression( m_sContent );
-		bValid = m_regularExpressionContent.isValid();
-#else
-		m_regExpContent = QRegExp( m_sContent );
-		bValid = m_regExpContent.isValid();
-#endif
-
-		return bValid;
-	}
-}
-
-bool CRegExpRule::match(const QList<QString>& lQuery, const QString& sContent) const
-{
-	Q_ASSERT( m_nType == srContentRegExp );
-
-	if ( m_sContent.isEmpty() )
-		return false;
-
-	if ( m_bSpecialElements )
-	{
-		// Build a regular expression filter from the search query words.
-		// Returns an empty string if not applied or if the filter was invalid.
-		//
-		// Substitutes:
-		// <_> - inserts all query keywords;
-		// <0>..<9> - inserts query keyword number 0..9;
-		// <> - inserts next query keyword.
-		//
-		// For example regular expression:
-		//	.*(<2><1>)|(<_>).*
-		// for "music mp3" query will be converted to:
-		//	.*(mp3\s*music\s*)|(music\s*mp3\s*).*
-		//
-		// Note: \s* - matches any number of white-space symbols (including zero).
-
-		QString sFilter, sBaseFilter = m_sContent;
-
-		int pos = sBaseFilter.indexOf( '<' );
-		if ( pos != -1 )
-		{
-			quint8 nArg = 0;
-
-			// replace all relevant occurrences of <*something*
-			while ( pos != -1 );
-			{
-				sFilter += sBaseFilter.left( pos );
-				sBaseFilter.remove( 0, pos );
-				bool bSuccess = replace( sBaseFilter, lQuery, nArg );
-
-				pos = sBaseFilter.indexOf( '<', bSuccess ? 0 : 1 );
-			}
-			// add whats left of the base filter string to the newly generated filter
-			sFilter += sBaseFilter;
-
-#if QT_VERSION >= 0x050000
-			QRegularExpression oRegExpFilter = QRegularExpression( sFilter );
-			return oRegExpFilter.match( sContent ).hasMatch();
-#else
-			QRegExp oRegExpFilter = QRegExp( sFilter );
-			return oRegExpFilter.exactMatch( sContent );
-#endif
-		}
-		else
-		{
-			// This shouldn't happen, but it's covered anyway...
-			Q_ASSERT( false );
-
-#if QT_VERSION >= 0x050000
-			QRegularExpression oRegExpFilter = QRegularExpression( m_sContent );
-			return oRegExpFilter.match( sContent ).hasMatch();
-#else
-			QRegExp oRegExpFilter = QRegExp( m_sContent );
-			return oRegExpFilter.exactMatch( sContent );
-#endif
-		}
-	}
-	else
-	{
-#if QT_VERSION >= 0x050000
-		return m_regularExpressionContent.match( sContent ).hasMatch();
-#else
-		return m_regExpContent.exactMatch( sContent );
-#endif
-	}
-}
-
-void CRegExpRule::toXML(QXmlStreamWriter& oXMLdocument) const
-{
-	Q_ASSERT( m_nType == srContentRegExp );
-
-	oXMLdocument.writeStartElement( "rule" );
-
-	oXMLdocument.writeAttribute( "type", "regexp" );
-	oXMLdocument.writeAttribute( "content", getContentString() );
-
-	CSecureRule::toXML( *this, oXMLdocument );
-
-	oXMLdocument.writeEndElement();
-}
-
-bool CRegExpRule::replace(QString& sReplace, const QList<QString>& lQuery, quint8& nCurrent)
-{
-	if ( sReplace.at( 0 ) != '<' )
-		return false;
-
-	if ( sReplace.length() > 1 && sReplace.at( 1 ) == '>' )
-	{
-		sReplace.remove( 0, 2 );
-		if ( nCurrent < lQuery.size() )
-		{
-			sReplace = lQuery.at( nCurrent ) + "\\s*" + sReplace;
-		}
-		nCurrent++;
-		return true;
-	}
-
-	if ( sReplace.length() > 2 && sReplace.at( 2 ) == '>' )
-	{
-		if ( sReplace.at( 1 ) == '_' )
-		{
-			QString sMess;
-			for ( quint8 i = 0; i < lQuery.size(); i++ )
-			{
-				sMess += lQuery.at( i );
-				sMess += "\\s*";
-			}
-			sReplace.remove( 0, 3 );
-			sReplace = sMess + sReplace;
-			return true;
-		}
-		else
-		{
-			bool bSuccess;
-			quint8 nArg = sReplace.mid( 1, 1 ).toShort( &bSuccess );
-			if ( bSuccess )
-			{
-				sReplace.remove( 0, 3 );
-				if ( nArg < lQuery.size() )
-				{
-					sReplace = lQuery.at( nArg ) + "\\s*" + sReplace;
-				}
-				return true;
-			}
-		}
-	}
-	return false;
-}
-
-//////////////////////////////////////////////////////////////////////
-// CUserAgentRule
-
-CUserAgentRule::CUserAgentRule()
-{
-	m_nType = srContentUserAgent;
-	m_bRegExp  = false;
-}
-
-bool CUserAgentRule::operator==(const CSecureRule& pRule) const
-{
-	return CSecureRule::operator==( pRule ) && m_bRegExp == ((CUserAgentRule*)&pRule)->m_bRegExp;
-}
-
-void CUserAgentRule::setRegExp(bool bRegExp)
-{
-	m_bRegExp = bRegExp;
-
-	if ( m_bRegExp )
-	{
-#if QT_VERSION >= 0x050000
-		m_regularExpressionContent = QRegularExpression( m_sContent );
-#else
-		m_regExpContent = QRegExp( m_sContent );
-#endif
-	}
-}
-
-bool CUserAgentRule::parseContent(const QString& sContent)
-{
-	m_sContent = sContent.trimmed();
-
-	if ( m_bRegExp )
-	{
-#if QT_VERSION >= 0x050000
-		m_regularExpressionContent = QRegularExpression( m_sContent );
-#else
-		m_regExpContent = QRegExp( m_sContent );
-#endif
-	}
-
-	return true;
-}
-
-bool CUserAgentRule::match(const QString& sUserAgent) const
-{
-	Q_ASSERT( m_nType == srContentUserAgent );
-
-	if( m_bRegExp )
-	{
-#if QT_VERSION >= 0x050000
-		return m_regularExpressionContent.match( sUserAgent ).hasMatch();
-#else
-		return m_regExpContent.exactMatch( sUserAgent );
-#endif
-	}
-	else
-	{
-		return ( sUserAgent.indexOf( m_sContent ) != -1 );
-	}
-
-	return true;
-}
-
-bool CUserAgentRule::partialMatch(const QString &sUserAgent) const
-{
-	//TODO: Figure out why this is triggered when removing an agent rule
-	Q_ASSERT( m_nType == srContentUserAgent );
-
-	return sUserAgent.contains( m_sContent, Qt::CaseInsensitive );
-}
-
-void CUserAgentRule::toXML(QXmlStreamWriter& oXMLdocument) const
-{
-	Q_ASSERT( m_nType == srContentUserAgent );
-
-	oXMLdocument.writeStartElement( "rule" );
-
-	oXMLdocument.writeAttribute( "type", "agent" );
-
-	if( m_bRegExp )
-	{
-		oXMLdocument.writeAttribute( "match", "regexp" );
-	}
-	else
-	{
-		oXMLdocument.writeAttribute( "match", "list" );
-	}
-
-	oXMLdocument.writeAttribute( "content", getContentString() );
-
-	CSecureRule::toXML( *this, oXMLdocument );
-
-	oXMLdocument.writeEndElement();
-}
-
-//////////////////////////////////////////////////////////////////////
-// CContentRule
-
-CContentRule::CContentRule()
-{
-	m_nType = srContentText;
-	m_bAll = true;
-}
-
-bool CContentRule::operator==(const CSecureRule& pRule) const
-{
-	return CSecureRule::operator==( pRule ) && m_bAll == ((CContentRule*)&pRule)->m_bAll;
-}
-
-bool CContentRule::parseContent(const QString& sContent)
-{
-	Q_ASSERT( m_nType == srContentText );
-
-	QString sWork = sContent;
-	sWork.replace( '\t', ' ' );
-
-	m_lContent.clear();
-
-	QString tmp;
-
-	QList< QString > lWork;
-
-	while ( !sWork.isEmpty() )
-	{
-		sWork = sWork.trimmed();
-		int index = sWork.indexOf( ' ' );
-		tmp = ( index != -1 ) ? sWork.left( index ) : sWork;
-		if ( !tmp.isEmpty() )
-			lWork.push_back( tmp );
-		sWork = sWork.mid( ( index != -1 ) ? index : 0 );
-	}
-
-	if ( !lWork.isEmpty() )
-	{
-		m_lContent = lWork;
-
-		m_sContent.clear();
-		for ( CListIterator i = m_lContent.begin() ; i != m_lContent.end() ; i++ )
-		{
-			m_sContent += *i;
-		}
-		return true;
-	}
-	return false;
-}
-
-bool CContentRule::match(const QString& sFileName) const
-{
-	for ( CListIterator i = m_lContent.begin() ; i != m_lContent.end() ; i++ )
-	{
-		bool bFound = sFileName.indexOf( *i ) != -1;
-
-		if ( bFound && !m_bAll )
-		{
-			return true;
-		}
-		else if ( !bFound && m_bAll )
-		{
-			return false;
-		}
-	}
-
-	if ( m_bAll )
-		return true;
-
-	return false;
-}
-
-bool CContentRule::match(const CQueryHit* const pHit) const
-{
-	if ( !pHit )
-		return false;
-
-	QString sFileName = pHit->m_sDescriptiveName;
-	qint32 index = sFileName.lastIndexOf( '.' );
-	if ( index != -1 )
-	{
-		QString sExt = sFileName.mid( index );
-		QString sExtFileSize = "size:%1:%2";
-		sExtFileSize.arg( sExt, QString::number( pHit->m_nObjectSize ) );
-		if ( match( sExtFileSize ) )
-			return true;
-	}
-
-	return match( sFileName );
-}
-
-void CContentRule::toXML(QXmlStreamWriter& oXMLdocument) const
-{
-	Q_ASSERT( m_nType == srContentText );
-
-	oXMLdocument.writeStartElement( "rule" );
-
-	oXMLdocument.writeAttribute( "type", "content" );
-
-	if( m_bAll )
-	{
-		oXMLdocument.writeAttribute( "match", "all" );
-	}
-	else
-	{
-		oXMLdocument.writeAttribute( "match", "any" );
-	}
-
-	oXMLdocument.writeAttribute( "content", getContentString() );
-
-	CSecureRule::toXML( *this, oXMLdocument );
-
-	oXMLdocument.writeEndElement();
 }

@@ -12,8 +12,6 @@ class CSecurityTableModel : public QAbstractTableModel
 	Q_OBJECT
 
 private:
-	typedef Security::CSecureRule CSecureRule;
-
 	QWidget*		m_oContainer;
 	int				m_nSortColumn;
 	Qt::SortOrder	m_nSortOrder;

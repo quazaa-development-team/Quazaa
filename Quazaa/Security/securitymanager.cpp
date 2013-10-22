@@ -38,8 +38,7 @@
 
 #include "debug_new.h"
 
-Security::CSecurity securityManager;
-using namespace Security;
+CSecurity securityManager;
 
 /**
   * Constructor. Variable initializations.
@@ -165,8 +164,8 @@ void CSecurity::add(CSecureRule* pRule)
 			{
 				if ( pOldRule->m_nAction != pRule->m_nAction ||
 					 pOldRule->m_tExpire != pRule->m_tExpire ||
-					 pOldRule->IP()      != ((CIPRangeRule*)pRule)->IP() ||
-					 pOldRule->mask()    != ((CIPRangeRule*)pRule)->mask() )
+					 pOldRule->startIP()      != ((CIPRangeRule*)pRule)->startIP() ||
+					 pOldRule->endIP()    != ((CIPRangeRule*)pRule)->endIP() )
 				{
 					// remove conflicting rule if one of the important attributes
 					// differs from the rule we'd like to add
@@ -503,7 +502,7 @@ void CSecurity::clear()
   * rule. If bMessage is set to true, a notification is send to the system log.
   * Locking: RW
   */
-void CSecurity::ban(const QHostAddress& oAddress, TBanLength nBanLength, bool bMessage,
+void CSecurity::ban(const QHostAddress& oAddress, BanLength::TBanLength nBanLength, bool bMessage,
 					const QString& sComment)
 {
 	if ( oAddress.isNull() )
@@ -528,43 +527,43 @@ void CSecurity::ban(const QHostAddress& oAddress, TBanLength nBanLength, bool bM
 
 			switch( nBanLength )
 			{
-			case banSession:
+			case BanLength::Session:
 				pIPRule->m_tExpire = CSecureRule::srSession;
 				return;
 
-			case ban5Mins:
-				pIPRule->m_tExpire = tNow + ban5Mins;
+			case BanLength::FiveMinutes:
+				pIPRule->m_tExpire = tNow + BanLength::FiveMinutes;
 				break;
 
-			case ban30Mins:
-				pIPRule->m_tExpire = tNow + ban30Mins;
+			case BanLength::ThirtyMinutes:
+				pIPRule->m_tExpire = tNow + BanLength::ThirtyMinutes;
 				break;
 
-			case ban2Hours:
-				pIPRule->m_tExpire = tNow + ban2Hours;
+			case BanLength::TwoHours:
+				pIPRule->m_tExpire = tNow + BanLength::TwoHours;
 				break;
 
-			case ban6Hours:
-				pIPRule->m_tExpire = tNow + ban6Hours;
+			case BanLength::SixHours:
+				pIPRule->m_tExpire = tNow + BanLength::SixHours;
 				break;
 
-			case ban12Hours:
-				pIPRule->m_tExpire = tNow + ban12Hours;
+			case BanLength::TwelveHours:
+				pIPRule->m_tExpire = tNow + BanLength::TwelveHours;
 				break;
 
-			case ban1Day:
-				pIPRule->m_tExpire = tNow + ban1Day;
+			case BanLength::Day:
+				pIPRule->m_tExpire = tNow + BanLength::Day;
 				break;
 
-			case banWeek:
-				pIPRule->m_tExpire = tNow + banWeek;
+			case BanLength::Week:
+				pIPRule->m_tExpire = tNow + BanLength::Week;
 				break;
 
-			case banMonth:
-				pIPRule->m_tExpire = tNow + banMonth;
+			case BanLength::Month:
+				pIPRule->m_tExpire = tNow + BanLength::Month;
 				break;
 
-			case banForever:
+			case BanLength::Forever:
 				pIPRule->m_tExpire = CSecureRule::srIndefinite;
 				return;
 
@@ -594,52 +593,52 @@ void CSecurity::ban(const QHostAddress& oAddress, TBanLength nBanLength, bool bM
 
 	switch( nBanLength )
 	{
-	case banSession:
+	case BanLength::Session:
 		pIPRule->m_tExpire  = CSecureRule::srSession;
 		pIPRule->m_sComment = tr( "Session Ban" );
 		break;
 
-	case ban5Mins:
-		pIPRule->m_tExpire  = tNow + ban5Mins;
+	case BanLength::FiveMinutes:
+		pIPRule->m_tExpire  = tNow + BanLength::FiveMinutes;
 		pIPRule->m_sComment = tr( "Temp Ignore (5 min)" );
 		break;
 
-	case ban30Mins:
-		pIPRule->m_tExpire  = tNow + ban30Mins;
+	case BanLength::ThirtyMinutes:
+		pIPRule->m_tExpire  = tNow + BanLength::ThirtyMinutes;
 		pIPRule->m_sComment = tr( "Temp Ignore (30 min)" );
 		break;
 
-	case ban2Hours:
-		pIPRule->m_tExpire  = tNow + ban2Hours;
+	case BanLength::TwoHours:
+		pIPRule->m_tExpire  = tNow + BanLength::TwoHours;
 		pIPRule->m_sComment = tr( "Temp Ignore (2 h)" );
 		break;
 
-	case ban6Hours:
-		pIPRule->m_tExpire  = tNow + ban6Hours;
+	case BanLength::SixHours:
+		pIPRule->m_tExpire  = tNow + BanLength::SixHours;
 		pIPRule->m_sComment = tr( "Temp Ignore (2 h)" );
 		break;
 
-	case ban12Hours:
-		pIPRule->m_tExpire  = tNow + ban12Hours;
+	case BanLength::TwelveHours:
+		pIPRule->m_tExpire  = tNow + BanLength::TwelveHours;
 		pIPRule->m_sComment = tr( "Temp Ignore (2 h)" );
 		break;
 
-	case ban1Day:
-		pIPRule->m_tExpire  = tNow + ban1Day;
+	case BanLength::Day:
+		pIPRule->m_tExpire  = tNow + BanLength::Day;
 		pIPRule->m_sComment = tr( "Temp Ignore (1 d)" );
 		break;
 
-	case banWeek:
-		pIPRule->m_tExpire  = tNow + banWeek;
+	case BanLength::Week:
+		pIPRule->m_tExpire  = tNow + BanLength::Week;
 		pIPRule->m_sComment = tr( "Client Block (1 week)" );
 		break;
 
-	case banMonth:
-		pIPRule->m_tExpire  = tNow + banMonth;
+	case BanLength::Month:
+		pIPRule->m_tExpire  = tNow + BanLength::Month;
 		pIPRule->m_sComment = tr( "Quick IP Block (1 month)" );
 		break;
 
-	case banForever:
+	case BanLength::Forever:
 		pIPRule->m_tExpire  = CSecureRule::srIndefinite;
 		pIPRule->m_sComment = tr( "Indefinite Ban" );
 		break;
@@ -1327,7 +1326,7 @@ bool CSecurity::save(bool bForceSaving) const
 	m_pRWLock.lockForRead();
 
 	if ( !common::securredSaveFile( common::userDataFiles, "security.dat", m_sMessage,
-									this, &Security::CSecurity::writeToFile ) )
+									this, &CSecurity::writeToFile ) )
 	{
 		bReturn = false;
 	}
