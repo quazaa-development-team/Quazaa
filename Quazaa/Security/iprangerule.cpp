@@ -36,7 +36,7 @@ bool CIPRangeRule::match(const CEndPoint& oAddress) const
 #ifdef _DEBUG
 	Q_ASSERT( m_nType == srContentAddressRange );
 #endif //_DEBUG
-	if(oAddress.toIPv4Address() > m_oStartIP.toIPv4Address() && oAddress.toIPv4Address() < m_oEndIP.toIPv4Address() )
+	if(oAddress.toIPv4Address() >= m_oStartIP.toIPv4Address() && oAddress.toIPv4Address() <= m_oEndIP.toIPv4Address() )
 		return true;
 
 	return false;
