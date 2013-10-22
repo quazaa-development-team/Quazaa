@@ -34,7 +34,7 @@ public:
 	struct Rule
 	{
 		// Object directly managed by security manager.
-		CSecureRule*		m_pNode;
+		CSecureRule*		m_pRule;
 
 		QString              m_sContent;
 		CSecureRule::TPolicy m_nAction;
