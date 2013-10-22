@@ -1,4 +1,5 @@
 #include "iprangerule.h"
+#include <QDebug>
 
 CIPRangeRule::CIPRangeRule()
 {
@@ -43,10 +44,7 @@ bool CIPRangeRule::match(const CEndPoint& oAddress) const
 
 bool CIPRangeRule::parseContent(const QString& sContent)
 {
-	QStringList addresses = sContent.split(" - ");
-
-	if(addresses.count() != 2)
-		return false;
+	QStringList addresses = sContent.split("-");
 
 	QHostAddress oStartAddress;
 	QHostAddress oEndAddress;

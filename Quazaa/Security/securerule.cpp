@@ -264,110 +264,17 @@ CSecureRule* CSecureRule::fromXML(QXmlStreamReader& oXMLdocument, float nVersion
 	if ( sType.compare( "address", Qt::CaseInsensitive ) == 0 )
 	{
 		QString sAddress = attributes.value( "address" ).toString();
-		const QString sMask    = attributes.value( "mask" ).toString();
 
-		if ( sMask.isEmpty() )
-		{
-			pRule = new CIPRule();
-			pRule->parseContent( sAddress );
-		}
-		else
-		{
-			pRule = new CIPRangeRule();
-			sAddress = sAddress + '/' + sMask;
-			pRule->parseContent( sAddress );
-		}
+		pRule = new CIPRule();
+		pRule->parseContent( sAddress );
+	}
+	else if ( sType.compare( "addressrange", Qt::CaseInsensitive ) == 0 )
+	{
+		QString sStartAddress = attributes.value( "startaddress" ).toString();
+		QString sEndAddress = attributes.value( "endaddress" ).toString();
 
-		/*QHostAddress oIP;
-		if ( oIP.setAddress( sAddress ) )
-		{
-			if ( oIP.protocol() == QAbstractSocket::IPv4Protocol )
-			{
-				quint8 x[4];
-				qint8 pos;
-				bool maskSet = false;
-
-				QString sByte;
-				// This converts the string smask into an array of bytes (quint8).
-				for ( quint8 i = 0; i < 4; i++ )
-				{
-					pos = sMask.indexOf( '.' );
-
-					if ( sMask.isEmpty() ||
-						 ( pos == -1 && ( i != 3 || sMask.length() > 3 ) ) ||
-						 !pos || pos > 2 )
-					{
-						break;
-					}
-
-					if ( pos != -1 )
-					{
-						sByte = sMask.left( pos );
-						sMask = sMask.mid( pos + 1 );
-					}
-					else
-					{
-						sByte = sMask;
-						sMask.clear();
-					}
-
-					int nTmp = sByte.toInt();
-
-					if ( nTmp > -1 && nTmp < 256 )
-					{
-						x[i] = (quint8)nTmp;
-					}
-					else
-					{
-						break;
-					}
-
-					if ( pos == -1 && *(quint32*)x != 0xFFFFFFFF)
-						maskSet = true;
-				}
-
-				if ( maskSet )
-				{
-					CIPRangeRule* rule = new CIPRangeRule();
-					rule->setIP( oIP );
-					rule->setMask( *(quint32*)x );
-
-					pRule = rule;
-				}
-				else
-				{
-					CIPRule* rule = new CIPRule();
-					rule->setIP( oIP );
-
-					pRule = rule;
-				}
-			}
-			else if ( oIP.protocol() == QAbstractSocket::IPv6Protocol )
-			{
-				if ( sMask )
-				{
-					CIPRangeRule* rule = new CIPRangeRule();
-
-				}
-				else
-				{
-					CIPRule* rule = new CIPRule();
-					rule->setIP( oIP );
-
-					pRule = rule;
-				}
-
-			}
-			else
-			{
-				return NULL;
-			}
-		}
-		else
-		{
-			// Error in XML entry.
-			return NULL;
-		}*/
+		pRule = new CIPRangeRule();
+		pRule->parseContent( QString("%1-%2").arg(sStartAddress).arg(sEndAddress) );
 	}
 	else if ( sType.compare( "hash", Qt::CaseInsensitive ) == 0 )
 	{
