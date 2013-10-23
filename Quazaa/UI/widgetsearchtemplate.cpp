@@ -297,5 +297,6 @@ void CWidgetSearchTemplate::on_actionBanNode_triggered()
 	{
 		CEndPoint address = itemSearch->HitData.pQueryHit.data()->m_pHitInfo.data()->m_oNodeAddress;
 		securityManager.ban(address, BanLength::Forever, false, "Banned search node.", false);
+		m_pSearchModel->removeQueryHit(CurrentItem().row(), m_pSearchModel->parent(CurrentItem()));
 	}
 }

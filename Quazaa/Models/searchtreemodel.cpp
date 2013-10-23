@@ -81,6 +81,20 @@ bool SearchTreeModel::isRoot(QModelIndex index)
 	return false;
 }
 
+void SearchTreeModel::removeQueryHit(int position, const QModelIndex &parent)
+{
+	SearchTreeItem *parentItem = rootItem;
+	if (parent.isValid()) {
+		parentItem = static_cast<SearchTreeItem*>(parent.internalPointer());
+	}
+
+	if(parentItem) {
+		beginRemoveRows(parent, position, position);
+		parentItem->removeChild(position);
+		endRemoveRows();
+	}
+}
+
 int SearchTreeModel::columnCount(const QModelIndex& parent) const
 {
 	if ( parent.isValid() )
@@ -460,6 +474,14 @@ QVariant SearchTreeItem::data(int column) const
 SearchTreeItem* SearchTreeItem::parent()
 {
 	return parentItem;
+}
+
+void SearchTreeItem::removeChild(int position)
+{
+	if (position < 0 || position  > childItems.size())
+		return;
+
+	delete childItems.takeAt(position);
 }
 
 int SearchTreeItem::row() const

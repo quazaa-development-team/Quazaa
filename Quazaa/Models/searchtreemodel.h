@@ -94,6 +94,7 @@ public:
 	QVariant data(int column) const;
 	int row() const;
 	SearchTreeItem* parent();
+	void removeChild(int position);
 
 private:
 	QList<SearchTreeItem*> childItems;
@@ -138,6 +139,7 @@ private:
 public slots:
 	void clear();
 	bool isRoot(QModelIndex index);
+	void removeQueryHit(int position, const QModelIndex &parent);
 
 private slots:
 	void addQueryHit(QueryHitSharedPtr pHit);
