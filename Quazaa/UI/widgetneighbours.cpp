@@ -260,7 +260,10 @@ void CWidgetNeighbours::on_tableViewNeighbours_doubleClicked(const QModelIndex &
 void CWidgetNeighbours::on_actionNetworkBan_triggered()
 {
 	CNeighboursTableModel::Neighbour* pNbr = static_cast<CNeighboursTableModel::Neighbour*>(ui->tableViewNeighbours->currentIndex().internalPointer());
-	QString reason = QInputDialog::getText(this, tr("Ban Reason"), tr("Please enter a ban reason."));
-	securityManager.ban(pNbr->oAddress, BanLength::Forever, false, reason, false);
-	on_actionNeighbourDisconnect_triggered();
+	bool ok;
+	QString reason = QInputDialog::getText(this, tr("Ban Reason"), tr("Please enter a ban reason."), QLineEdit::Normal, "", &ok);
+	if(ok && !reason.isEmpty()) {
+		securityManager.ban(pNbr->oAddress, BanLength::Forever, false, reason, false);
+		on_actionNeighbourDisconnect_triggered();
+	}
 }
