@@ -38,11 +38,14 @@
 #include "datagrams.h"
 #include "neighbourstablemodel.h"
 
+#include "securitymanager.h"
+
 #include "chatsessiong2.h"
 
 #include "debug_new.h"
 
 #include <QMenu>
+#include <QInputDialog>
 
 CWidgetNeighbours::CWidgetNeighbours(QWidget* parent) :
 	QMainWindow(parent),
@@ -199,8 +202,8 @@ void CWidgetNeighbours::on_actionNeighbourDisconnect_triggered()
 	if ( Neighbours.NeighbourExists(pNode) )
 	{
 		systemLog.postLog( LogSeverity::Information, Components::Network,
-		                   qPrintable( tr( "Closing connection to neighbour %s" ) ),
-		                   qPrintable( pNode->m_oAddress.toStringWithPort() ) );
+						   qPrintable( tr( "Closing connection to neighbour %s" ) ),
+						   qPrintable( pNode->m_oAddress.toStringWithPort() ) );
 		pNode->Close();
 	}
 	Neighbours.m_pSection.unlock();
@@ -239,7 +242,7 @@ void CWidgetNeighbours::on_actionNetworkChatWith_triggered()
 			break;
 
 		}
-    }
+	}
 }
 
 void CWidgetNeighbours::setSkin()
@@ -249,7 +252,15 @@ void CWidgetNeighbours::setSkin()
 
 void CWidgetNeighbours::on_tableViewNeighbours_doubleClicked(const QModelIndex &index)
 {
-    CNeighboursTableModel::Neighbour* pNbr = static_cast<CNeighboursTableModel::Neighbour*>(index.internalPointer());
-    CDialogNeighbourInfo* dlgNeighbourInfo = new CDialogNeighbourInfo(pNbr, this);
-    dlgNeighbourInfo->exec();
+	CNeighboursTableModel::Neighbour* pNbr = static_cast<CNeighboursTableModel::Neighbour*>(index.internalPointer());
+	CDialogNeighbourInfo* dlgNeighbourInfo = new CDialogNeighbourInfo(pNbr, this);
+	dlgNeighbourInfo->exec();
+}
+
+void CWidgetNeighbours::on_actionNetworkBan_triggered()
+{
+	CNeighboursTableModel::Neighbour* pNbr = static_cast<CNeighboursTableModel::Neighbour*>(ui->tableViewNeighbours->currentIndex().internalPointer());
+	QString reason = QInputDialog::getText(this, tr("Ban Reason"), tr("Please enter a ban reason."));
+	securityManager.ban(pNbr->oAddress, BanLength::Forever, false, reason, false);
+	on_actionNeighbourDisconnect_triggered();
 }
