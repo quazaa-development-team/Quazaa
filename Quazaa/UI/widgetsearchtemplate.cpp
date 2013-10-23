@@ -31,6 +31,7 @@
 #include "NetworkCore/queryhit.h"
 #include "NetworkCore/Hashes/hash.h"
 #include "downloads.h"
+#include "securitymanager.h"
 
 #include "quazaasettings.h"
 #include "skinsettings.h"
@@ -48,6 +49,7 @@ CWidgetSearchTemplate::CWidgetSearchTemplate(QString searchString, QWidget* pare
 	searchMenu = new QMenu(this);
 	searchMenu->addAction(ui->actionDownload);
 	searchMenu->addSeparator();
+	searchMenu->addAction(ui->actionBanNode);
 	searchMenu->addAction(ui->actionMarkAsJunk);
 	searchMenu->addAction(ui->actionClearResults);
 	searchMenu->addSeparator();
@@ -209,7 +211,7 @@ void CWidgetSearchTemplate::loadHeaderState()
 void CWidgetSearchTemplate::on_treeViewSearchResults_doubleClicked(const QModelIndex &index)
 {
 	Q_UNUSED(index);
-	SearchTreeItem* itemSearch = m_pSearchModel->itemFromIndex(CurrentItem());
+	SearchTreeItem* itemSearch = m_pSearchModel->topLevelItemFromIndex(CurrentItem());
 
 	if( itemSearch != NULL )
 	{
@@ -243,13 +245,18 @@ void CWidgetSearchTemplate::on_treeViewSearchResults_customContextMenuRequested(
 	QModelIndex currIndex = ui->treeViewSearchResults->indexAt(pos);
 	if( currIndex.isValid() )
 	{
+		if(m_pSearchModel->parent(CurrentItem()).isValid())
+			ui->actionBanNode->setVisible(true);
+		else
+			ui->actionBanNode->setVisible(false);
+
 		searchMenu->exec(QCursor::pos());
 	}
 }
 
 void CWidgetSearchTemplate::on_actionDownload_triggered()
 {
-	SearchTreeItem* itemSearch = m_pSearchModel->itemFromIndex(CurrentItem());
+	SearchTreeItem* itemSearch = m_pSearchModel->topLevelItemFromIndex(CurrentItem());
 
 	if( itemSearch != NULL )
 	{
@@ -259,7 +266,7 @@ void CWidgetSearchTemplate::on_actionDownload_triggered()
 
 void CWidgetSearchTemplate::on_actionViewReviews_triggered()
 {
-	SearchTreeItem* itemSearch = m_pSearchModel->itemFromIndex(CurrentItem());
+	SearchTreeItem* itemSearch = m_pSearchModel->topLevelItemFromIndex(CurrentItem());
 
 	if( itemSearch != NULL )
 	{
@@ -268,7 +275,8 @@ void CWidgetSearchTemplate::on_actionViewReviews_triggered()
 }
 
 void CWidgetSearchTemplate::on_actionVirusTotalCheck_triggered()
-{SearchTreeItem* itemSearch = m_pSearchModel->itemFromIndex(CurrentItem());
+{
+	SearchTreeItem* itemSearch = m_pSearchModel->topLevelItemFromIndex(CurrentItem());
 
 	if( itemSearch != NULL )
 	{
@@ -279,4 +287,15 @@ void CWidgetSearchTemplate::on_actionVirusTotalCheck_triggered()
 void CWidgetSearchTemplate::setSkin()
 {
 	ui->treeViewSearchResults->setStyleSheet(skinSettings.listViews);
+}
+
+void CWidgetSearchTemplate::on_actionBanNode_triggered()
+{
+	SearchTreeItem* itemSearch = m_pSearchModel->itemFromIndex(CurrentItem());
+
+	if( itemSearch != NULL )
+	{
+		CEndPoint address = itemSearch->HitData.pQueryHit.data()->m_pHitInfo.data()->m_oNodeAddress;
+		securityManager.ban(address, BanLength::Forever, false, "Banned search node.", false);
+	}
 }

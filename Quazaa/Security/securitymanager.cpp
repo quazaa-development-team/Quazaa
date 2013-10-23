@@ -520,12 +520,12 @@ void CSecurity::ban(const QHostAddress& oAddress, BanLength::TBanLength nBanLeng
 	{
 		CSecureRule* pIPRule = (*i).second;
 
+		pIPRule->m_bAutomatic = bAutomatic;
+
 		if ( pIPRule->m_nAction == CSecureRule::srDeny )
 		{
 			if ( !( sComment.isEmpty() ) )
 				pIPRule->m_sComment = sComment;
-
-			pIPRule->m_bAutomatic = bAutomatic;
 
 			switch( nBanLength )
 			{
@@ -592,6 +592,8 @@ void CSecurity::ban(const QHostAddress& oAddress, BanLength::TBanLength nBanLeng
 	mutex.unlock();
 
 	CIPRule* pIPRule = new CIPRule();
+
+	pIPRule->m_bAutomatic = bAutomatic;
 
 	switch( nBanLength )
 	{
@@ -905,7 +907,7 @@ bool CSecurity::isDenied(const CEndPoint &oAddress)
 	{
 		if(isPrivate( oAddress ))
 		{
-			postLog( LogSeverity::Security, tr( "Local/Private IP denied %s" ).arg( oAddress.toString() ) );
+			postLog( LogSeverity::Security, tr( "Local/Private IP denied: %s" ).arg( oAddress.toString() ) );
 			return true;
 		}
 	}
@@ -1001,52 +1003,52 @@ bool CSecurity::isPrivate(const CEndPoint &oAddress)
 	if( oAddress.toIPv4Address() <= CEndPoint("0.255.255.255").toIPv4Address() )
 		return true;
 
-	if( (oAddress.toIPv4Address() >= CEndPoint("10.0.0.0").toIPv4Address()) &&
-	  (oAddress.toIPv4Address() <= CEndPoint("10.255.255.255").toIPv4Address()))
+	if( oAddress.toIPv4Address() >= CEndPoint("10.0.0.0").toIPv4Address() &&
+	  oAddress.toIPv4Address() <= CEndPoint("10.255.255.255").toIPv4Address() )
 		return true;
 
-	if( (oAddress.toIPv4Address() >= CEndPoint("100.64.0.0").toIPv4Address()) &&
-	  (oAddress.toIPv4Address() <= CEndPoint("100.127.255.255").toIPv4Address()))
+	if( oAddress.toIPv4Address() >= CEndPoint("100.64.0.0").toIPv4Address() &&
+	  oAddress.toIPv4Address() <= CEndPoint("100.127.255.255").toIPv4Address() )
 		return true;
 
-	if( (oAddress.toIPv4Address() >= CEndPoint("127.0.0.0").toIPv4Address()) &&
-	  (oAddress.toIPv4Address() <= CEndPoint("127.255.255.255").toIPv4Address()))
+	if( oAddress.toIPv4Address() >= CEndPoint("127.0.0.0").toIPv4Address() &&
+	  oAddress.toIPv4Address() <= CEndPoint("127.255.255.255").toIPv4Address() )
 		return true;
 
-	if( (oAddress.toIPv4Address() >= CEndPoint("169.254.0.0").toIPv4Address()) &&
-	  (oAddress.toIPv4Address() <= CEndPoint("169.254.255.255").toIPv4Address()))
+	if( oAddress.toIPv4Address() >= CEndPoint("169.254.0.0").toIPv4Address() &&
+	  oAddress.toIPv4Address() <= CEndPoint("169.254.255.255").toIPv4Address() )
 		return true;
 
-	if( (oAddress.toIPv4Address() >= CEndPoint("172.16.0.0").toIPv4Address()) &&
-	  (oAddress.toIPv4Address() <= CEndPoint("172.31.255.255").toIPv4Address()))
+	if( oAddress.toIPv4Address() >= CEndPoint("172.16.0.0").toIPv4Address() &&
+	  oAddress.toIPv4Address() <= CEndPoint("172.31.255.255").toIPv4Address() )
 		return true;
 
-	if( (oAddress.toIPv4Address() >= CEndPoint("192.0.0.0").toIPv4Address()) &&
-	  (oAddress.toIPv4Address() <= CEndPoint("192.0.2.255").toIPv4Address()))
+	if( oAddress.toIPv4Address() >= CEndPoint("192.0.0.0").toIPv4Address() &&
+	  oAddress.toIPv4Address() <= CEndPoint("192.0.2.255").toIPv4Address() )
 		return true;
 
-	if( (oAddress.toIPv4Address() >= CEndPoint("192.0.2.0").toIPv4Address()) &&
-	  (oAddress.toIPv4Address() <= CEndPoint("10.255.255.255").toIPv4Address()))
+	if( oAddress.toIPv4Address() >= CEndPoint("192.0.2.0").toIPv4Address() &&
+	  oAddress.toIPv4Address() <= CEndPoint("10.255.255.255").toIPv4Address() )
 		return true;
 
-	if( (oAddress.toIPv4Address() >= CEndPoint("192.168.0.0").toIPv4Address()) &&
-	  (oAddress.toIPv4Address() <= CEndPoint("192.168.255.255").toIPv4Address()))
+	if( oAddress.toIPv4Address() >= CEndPoint("192.168.0.0").toIPv4Address() &&
+	  oAddress.toIPv4Address() <= CEndPoint("192.168.255.255").toIPv4Address() )
 		return true;
 
-	if( (oAddress.toIPv4Address() >= CEndPoint("198.18.0.0").toIPv4Address()) &&
-	  (oAddress.toIPv4Address() <= CEndPoint("198.19.255.255").toIPv4Address()))
+	if( oAddress.toIPv4Address() >= CEndPoint("198.18.0.0").toIPv4Address() &&
+	  oAddress.toIPv4Address() <= CEndPoint("198.19.255.255").toIPv4Address() )
 		return true;
 
-	if( (oAddress.toIPv4Address() >= CEndPoint("198.51.100.0").toIPv4Address()) &&
-	  (oAddress.toIPv4Address() <= CEndPoint("198.51.100.255").toIPv4Address()))
+	if( oAddress.toIPv4Address() >= CEndPoint("198.51.100.0").toIPv4Address() &&
+	  oAddress.toIPv4Address() <= CEndPoint("198.51.100.255").toIPv4Address() )
 		return true;
 
-	if( (oAddress.toIPv4Address() >= CEndPoint("203.0.113.0").toIPv4Address()) &&
-	  (oAddress.toIPv4Address() <= CEndPoint("203.0.113.255").toIPv4Address()))
+	if( oAddress.toIPv4Address() >= CEndPoint("203.0.113.0").toIPv4Address() &&
+	  oAddress.toIPv4Address() <= CEndPoint("203.0.113.255").toIPv4Address() )
 		return true;
 
-	if( (oAddress.toIPv4Address() >= CEndPoint("240.0.0.0").toIPv4Address()) &&
-	  (oAddress.toIPv4Address() <= CEndPoint("255.255.255.255").toIPv4Address()))
+	if( oAddress.toIPv4Address() >= CEndPoint("240.0.0.0").toIPv4Address() &&
+	  oAddress.toIPv4Address() <= CEndPoint("255.255.255.255").toIPv4Address() )
 		return true;
 
 	return false;

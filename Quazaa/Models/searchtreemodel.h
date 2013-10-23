@@ -122,6 +122,7 @@ public:
 	QModelIndex index(int row, int column,
 					  const QModelIndex& parent = QModelIndex()) const;
 	QModelIndex parent(const QModelIndex& index) const;
+	SearchTreeItem* topLevelItemFromIndex(QModelIndex index);
 	SearchTreeItem* itemFromIndex(QModelIndex index);
 	int rowCount(const QModelIndex& parent = QModelIndex()) const;
 	int columnCount(const QModelIndex& parent = QModelIndex()) const;
