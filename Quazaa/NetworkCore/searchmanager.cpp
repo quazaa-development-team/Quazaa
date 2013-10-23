@@ -349,7 +349,7 @@ bool CSearchManager::OnQueryAcknowledge(G2Packet* pPacket, const CEndPoint& oSen
 			}
 
 			securityManager.ban( oBan, BanLength::SixHours, true,
-								 tr( "Likely Foxy client %1" ) );
+								 tr( "Likely Foxy client" ) );
 
 			// remove suggested Hubs from host cache
 			for ( QList<CEndPoint>::iterator itHub = lDoneHubs.begin(); itHub != lDoneHubs.end(); ++itHub )
