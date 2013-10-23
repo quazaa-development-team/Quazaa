@@ -36,12 +36,39 @@
 
 #include "debug_new.h"
 
+
+/*!
+	\file quazaasettings.h
+	\brief \#include &qout;quazaasettings.h&quot;
+ */
+
+/*!
+	\class CQuazaaSettings quazaasettings.h
+	\ingroup base
+	\brief Persistent settings used throughout quazaa.
+
+	The CQuazaaSettings class provides a single place to store, save and load
+	persistent settings used throughout Quazaa.
+
+	\section Accessing CQuazaaSettings
+
+	It is recommended to access CQuazaaSettings via the extern
+	quazaaSettings.Struct.Variable and quazaaSettings.function methods.
+ */
+
+// This is the extern declaration used everywhere else in quazaa.
 CQuazaaSettings quazaaSettings;
 
+/*!
+	Creates a quazaaSettings object. Generally not necessary.
+ */
 CQuazaaSettings::CQuazaaSettings()
 {
 }
 
+/*!
+	Saves most of Quazaa's settings to persistent .ini file.
+ */
 void CQuazaaSettings::saveSettings()
 {
 #if QT_VERSION >= 0x050000
@@ -103,7 +130,7 @@ void CQuazaaSettings::saveSettings()
 	m_qSettings.setValue("TimeoutConnect", quazaaSettings.Connection.TimeoutConnect);
 	m_qSettings.setValue("TimeoutTraffic", quazaaSettings.Connection.TimeoutTraffic);
 	m_qSettings.setValue("PreferredCountries", quazaaSettings.Connection.PreferredCountries);
-    m_qSettings.setValue("UDPOutLimitPPS", quazaaSettings.Connection.UDPOutLimitPPS);
+	m_qSettings.setValue("UDPOutLimitPPS", quazaaSettings.Connection.UDPOutLimitPPS);
 	m_qSettings.endGroup();
 
 	m_qSettings.beginGroup("Discovery");
@@ -375,7 +402,7 @@ void CQuazaaSettings::saveSettings()
 	m_qSettings.setValue("RemoteEnable", quazaaSettings.Security.RemoteEnable);
 	m_qSettings.setValue("RemotePassword", quazaaSettings.Security.RemotePassword);
 	m_qSettings.setValue("RemoteUsername", quazaaSettings.Security.RemoteUsername);
-	m_qSettings.setValue("SearchIgnoreLocalIP", quazaaSettings.Security.SearchIgnoreLocalIP);
+	m_qSettings.setValue("SearchIgnoreLocalIP", quazaaSettings.Security.IgnorePrivateIP);
 	m_qSettings.setValue("SearchIgnoreOwnIP", quazaaSettings.Security.SearchIgnoreOwnIP);
 	m_qSettings.setValue("SearchSpamFilterThreshold", quazaaSettings.Security.SearchSpamFilterThreshold);
 	m_qSettings.setValue("UPnPSkipWANIPSetup", quazaaSettings.Security.UPnPSkipWANIPSetup);
@@ -460,14 +487,19 @@ void CQuazaaSettings::saveSettings()
 	m_qSettings.endGroup();
 }
 
+/*!
+	Loads most of Quazaa's settings from persistent .ini file.
+ */
 void CQuazaaSettings::loadSettings()
 {
 #if QT_VERSION >= 0x050000
 	QSettings m_qSettings(QString("%1/.quazaa/quazaa.ini").arg(QStandardPaths::writableLocation(QStandardPaths::HomeLocation)), QSettings::IniFormat);
-	QString sDefaultDataPath = QString( "%1/%2/" ).arg( QStandardPaths::writableLocation( QStandardPaths::DataLocation ), "Data" );
+	//DataLocation only works on Windows. DO NOT USE IT
+	QString sDefaultDataPath = QString( "%1/.quazaa/%2/" ).arg( QStandardPaths::writableLocation( QStandardPaths::HomeLocation ), "Data" );
 #else
 	QSettings m_qSettings(QString("%1/.quazaa/quazaa.ini").arg(QDesktopServices::storageLocation(QDesktopServices::HomeLocation)), QSettings::IniFormat);
-	QString sDefaultDataPath = QString( "%1/%2/" ).arg( QDesktopServices::storageLocation( QDesktopServices::DataLocation ), "Data" );
+	//DataLocation only works on Windows. DO NOT USE IT
+	QString sDefaultDataPath = QString( "%1/.quazaa/%2/" ).arg( QDesktopServices::storageLocation( QDesktopServices::HomeLocation ), "Data" );
 #endif
 
 	m_qSettings.beginGroup("Ares");
@@ -527,9 +559,9 @@ void CQuazaaSettings::loadSettings()
 	quazaaSettings.Connection.TimeoutConnect = m_qSettings.value("TimeoutConnect", 16).toUInt();
 	quazaaSettings.Connection.TimeoutTraffic = m_qSettings.value("TimeoutTraffic", 60).toUInt();
 	quazaaSettings.Connection.PreferredCountries = m_qSettings.value("PreferredCountries", QStringList()).toStringList();
-    quazaaSettings.Connection.UDPOutLimitPPS = m_qSettings.value("UDPOutLimitPPS", 128).toUInt();
-    if( quazaaSettings.Connection.UDPOutLimitPPS < 10 )
-        quazaaSettings.Connection.UDPOutLimitPPS = 10; // failsafe
+	quazaaSettings.Connection.UDPOutLimitPPS = m_qSettings.value("UDPOutLimitPPS", 128).toUInt();
+	if( quazaaSettings.Connection.UDPOutLimitPPS < 10 )
+		quazaaSettings.Connection.UDPOutLimitPPS = 10; // failsafe
 	m_qSettings.endGroup();
 
 	m_qSettings.beginGroup("Discovery");
@@ -837,7 +869,7 @@ void CQuazaaSettings::loadSettings()
 	quazaaSettings.Security.RemoteEnable = m_qSettings.value("RemoteEnable", false).toBool();
 	quazaaSettings.Security.RemotePassword = m_qSettings.value("RemotePassword", "").toString();
 	quazaaSettings.Security.RemoteUsername = m_qSettings.value("RemoteUsername", "").toString();
-	quazaaSettings.Security.SearchIgnoreLocalIP = m_qSettings.value("SearchIgnoreLocalIP", true).toBool();
+	quazaaSettings.Security.IgnorePrivateIP = m_qSettings.value("SearchIgnoreLocalIP", true).toBool();
 	quazaaSettings.Security.SearchIgnoreOwnIP = m_qSettings.value("SearchIgnoreOwnIP", true).toBool();
 	quazaaSettings.Security.SearchSpamFilterThreshold = m_qSettings.value("SearchSpamFilterThreshold", 20).toInt();
 	quazaaSettings.Security.UPnPSkipWANIPSetup = m_qSettings.value("UPnPSkipWANIPSetup", false).toBool();
@@ -929,6 +961,9 @@ void CQuazaaSettings::loadSettings()
 	m_qSettings.endGroup();
 }
 
+/*!
+	Saves the IRC chat connections to persistent .ini file.
+ */
 void CQuazaaSettings::saveChatConnections()
 {
 #if QT_VERSION >= 0x050000
@@ -942,6 +977,9 @@ void CQuazaaSettings::saveChatConnections()
 	m_qSettings.endGroup();
 }
 
+/*!
+	Loads the IRC chat connections from persistent .ini file.
+ */
 void CQuazaaSettings::loadChatConnections()
 {
 #if QT_VERSION >= 0x050000
@@ -955,6 +993,9 @@ void CQuazaaSettings::loadChatConnections()
 	m_qSettings.endGroup();
 }
 
+/*!
+	Saves the IRC chat connection dialog's autocomplete lists to persistent .ini file.
+ */
 void CQuazaaSettings::saveChatConnectionWizard()
 {
 #if QT_VERSION >= 0x050000
@@ -972,6 +1013,9 @@ void CQuazaaSettings::saveChatConnectionWizard()
 	m_qSettings.endGroup();
 }
 
+/*!
+	Loads the IRC chat connection dialog's autocomplete lists from persistent .ini file.
+ */
 void CQuazaaSettings::loadChatConnectionWizard()
 {
 #if QT_VERSION >= 0x050000
@@ -992,6 +1036,9 @@ void CQuazaaSettings::loadChatConnectionWizard()
 	m_qSettings.endGroup();
 }
 
+/*!
+	Saves the IRC chat settings to persistent .ini file.
+ */
 void CQuazaaSettings::saveChat()
 {
 #if QT_VERSION >= 0x050000
@@ -1001,24 +1048,25 @@ void CQuazaaSettings::saveChat()
 #endif
 
 	m_qSettings.beginGroup("Chat");
+	m_qSettings.setValue("Font", quazaaSettings.Chat.Font);
 	m_qSettings.setValue("ConnectOnStartup", quazaaSettings.Chat.ConnectOnStartup);
 	m_qSettings.setValue("EnableFileTransfers", quazaaSettings.Chat.EnableFileTransfers);
 	m_qSettings.setValue("ShowTimestamp", quazaaSettings.Chat.ShowTimestamp);
 	m_qSettings.setValue("TimeStampFormat", quazaaSettings.Chat.TimestampFormat);
-	m_qSettings.setValue("MaxBlockCount", quazaaSettings.Chat.MaxBlockCount);
-	m_qSettings.setValue("Layout", quazaaSettings.Chat.Layout);
+	m_qSettings.setValue("MaxBlockCount", quazaaSettings.Chat.Scrollback);
 	m_qSettings.setValue("StripNicks", quazaaSettings.Chat.StripNicks);
+	m_qSettings.setValue("HighlightSounds", quazaaSettings.Chat.HighlightSounds);
+	m_qSettings.setValue("DarkTheme", quazaaSettings.Chat.DarkTheme);
 
-
-	m_qSettings.setValue("ShortcutsNavigateUp", quazaaSettings.Chat.Shortcuts[IrcShortcutType::NavigateUp]);
-	m_qSettings.setValue("ShortcutsNavigateDown", quazaaSettings.Chat.Shortcuts[IrcShortcutType::NavigateDown]);
-	m_qSettings.setValue("ShortcutsNavigateLeft", quazaaSettings.Chat.Shortcuts[IrcShortcutType::NavigateLeft]);
-	m_qSettings.setValue("ShortcutsNavigateRight", quazaaSettings.Chat.Shortcuts[IrcShortcutType::NavigateRight]);
-
-	m_qSettings.setValue("ShortcutsNextUnreadUp", quazaaSettings.Chat.Shortcuts[IrcShortcutType::NextUnreadUp]);
-	m_qSettings.setValue("ShortcutsNextUnreadDown", quazaaSettings.Chat.Shortcuts[IrcShortcutType::NextUnreadDown]);
-	m_qSettings.setValue("ShortcutsNextUnreadLeft", quazaaSettings.Chat.Shortcuts[IrcShortcutType::NextUnreadLeft]);
-	m_qSettings.setValue("ShortcutsNextUnreadRight", quazaaSettings.Chat.Shortcuts[IrcShortcutType::NextUnreadRight]);
+	m_qSettings.setValue("ShortcutNextView", quazaaSettings.Chat.Shortcuts[IrcShortcutType::NextView]);
+	m_qSettings.setValue("ShortcutPreviousView", quazaaSettings.Chat.Shortcuts[IrcShortcutType::PreviousView]);
+	m_qSettings.setValue("ShortcutNextActiveView", quazaaSettings.Chat.Shortcuts[IrcShortcutType::NextActiveView]);
+	m_qSettings.setValue("ShortcutPreviousActiveView", quazaaSettings.Chat.Shortcuts[IrcShortcutType::PreviousActiveView]);
+	m_qSettings.setValue("ShortcutMostActiveView", quazaaSettings.Chat.Shortcuts[IrcShortcutType::MostActiveView]);
+	m_qSettings.setValue("ShortcutExpandView", quazaaSettings.Chat.Shortcuts[IrcShortcutType::ExpandView]);
+	m_qSettings.setValue("ShortcutCollapseView", quazaaSettings.Chat.Shortcuts[IrcShortcutType::CollapseView]);
+	m_qSettings.setValue("ShortcutSearchView", quazaaSettings.Chat.Shortcuts[IrcShortcutType::SearchView]);
+	m_qSettings.setValue("ShortcutResetViews", quazaaSettings.Chat.Shortcuts[IrcShortcutType::ResetViews]);
 
 	m_qSettings.setValue("MessagesJoins", quazaaSettings.Chat.Messages[IrcMessageType::Joins]);
 	m_qSettings.setValue("MessagesParts", quazaaSettings.Chat.Messages[IrcMessageType::Parts]);
@@ -1077,6 +1125,9 @@ void CQuazaaSettings::saveChat()
 	emit chatSettingsChanged();
 }
 
+/*!
+	Loads the IRC chat settings from persistent .ini file.
+ */
 void CQuazaaSettings::loadChat()
 {
 #if QT_VERSION >= 0x050000
@@ -1087,31 +1138,33 @@ void CQuazaaSettings::loadChat()
 
 	m_qSettings.beginGroup("Chat");
 
+	quazaaSettings.Chat.Font = m_qSettings.value("Font", QFont()).value<QFont>();
 	quazaaSettings.Chat.ConnectOnStartup = m_qSettings.value("ConnectOnStartup", false).toBool();
 	quazaaSettings.Chat.EnableFileTransfers = m_qSettings.value("EnableFileTransfers", true).toBool();
 	quazaaSettings.Chat.ShowTimestamp = m_qSettings.value("ShowTimestamp", false).toBool();
 	quazaaSettings.Chat.TimestampFormat = m_qSettings.value("TimeStampFormat", "[hh:mm:ss]").toString();
-	quazaaSettings.Chat.MaxBlockCount = m_qSettings.value("MaxBlockCount", -1).toInt();
-	quazaaSettings.Chat.Layout = m_qSettings.value("Layout", "tree").toString();
+	quazaaSettings.Chat.Scrollback = m_qSettings.value("MaxBlockCount", -1).toInt();
 	quazaaSettings.Chat.StripNicks = m_qSettings.value("StripNicks", false).toBool();
+	quazaaSettings.Chat.HighlightSounds = m_qSettings.value("HighlightSounds", true).toBool();
+	quazaaSettings.Chat.DarkTheme = m_qSettings.value("DarkTheme", false).toBool();
 
 #ifdef Q_OS_MAC
 	QString navigate("Ctrl+Alt+%1");
-	QString nextUnread("Shift+Ctrl+Alt+%1");
+	QString nextActive("Shift+Ctrl+Alt+%1");
 #else
 	QString navigate("Alt+%1");
-	QString nextUnread("Shift+Alt+%1");
+	QString nextActive("Shift+Alt+%1");
 #endif
 
-	quazaaSettings.Chat.Shortcuts[IrcShortcutType::NavigateUp] = m_qSettings.value("ShortcutsNavigateUp", navigate.arg("Up")).toString();
-	quazaaSettings.Chat.Shortcuts[IrcShortcutType::NavigateDown] = m_qSettings.value("ShortcutsNavigateDown", navigate.arg("Down")).toString();
-	quazaaSettings.Chat.Shortcuts[IrcShortcutType::NavigateLeft] = m_qSettings.value("ShortcutsNavigateLeft", navigate.arg("Left")).toString();
-	quazaaSettings.Chat.Shortcuts[IrcShortcutType::NavigateRight] = m_qSettings.value("ShortcutsNavigateRight", navigate.arg("Right")).toString();
-
-	quazaaSettings.Chat.Shortcuts[IrcShortcutType::NextUnreadUp] = m_qSettings.value("ShortcutsNextUnreadUp", nextUnread.arg("Up")).toString();
-	quazaaSettings.Chat.Shortcuts[IrcShortcutType::NextUnreadDown] = m_qSettings.value("ShortcutsNextUnreadDown", nextUnread.arg("Down")).toString();
-	quazaaSettings.Chat.Shortcuts[IrcShortcutType::NextUnreadLeft] = m_qSettings.value("ShortcutsNextUnreadLeft", nextUnread.arg("Left")).toString();
-	quazaaSettings.Chat.Shortcuts[IrcShortcutType::NextUnreadRight] = m_qSettings.value("ShortcutsNextUnreadRight", nextUnread.arg("Right")).toString();
+	quazaaSettings.Chat.Shortcuts[IrcShortcutType::PreviousView] = m_qSettings.value("ShortcutPreviousView", navigate.arg("Up")).toString();
+	quazaaSettings.Chat.Shortcuts[IrcShortcutType::NextView] = m_qSettings.value("ShortcutNextView", navigate.arg("Down")).toString();
+	quazaaSettings.Chat.Shortcuts[IrcShortcutType::CollapseView] = m_qSettings.value("ShortcutCollapseView", navigate.arg("Left")).toString();
+	quazaaSettings.Chat.Shortcuts[IrcShortcutType::ExpandView] = m_qSettings.value("ShortcutExpandView", navigate.arg("Right")).toString();
+	quazaaSettings.Chat.Shortcuts[IrcShortcutType::PreviousActiveView] = m_qSettings.value("ShortcutPreviousActiveView", nextActive.arg("Up")).toString();
+	quazaaSettings.Chat.Shortcuts[IrcShortcutType::NextActiveView] = m_qSettings.value("ShortcutNextActiveView", nextActive.arg("Down")).toString();
+	quazaaSettings.Chat.Shortcuts[IrcShortcutType::MostActiveView] = m_qSettings.value("ShortcutMostActiveView", "Ctrl+L").toString();
+	quazaaSettings.Chat.Shortcuts[IrcShortcutType::SearchView] = m_qSettings.value("ShortcutSearchView", "Ctrl+S").toString();
+	quazaaSettings.Chat.Shortcuts[IrcShortcutType::ResetViews] = m_qSettings.value("ShortcutResetViews", "Ctrl+R").toString();
 
 	quazaaSettings.Chat.Messages[IrcMessageType::Joins] =  m_qSettings.value("MessagesJoins", true).toBool();
 	quazaaSettings.Chat.Messages[IrcMessageType::Parts] = m_qSettings.value("MessagesParts", true).toBool();
@@ -1132,7 +1185,7 @@ void CQuazaaSettings::loadChat()
 	// TODO: the default values should respect palette
 	quazaaSettings.Chat.Colors[IrcColorType::Background] = m_qSettings.value("ColorsBackground", "white").toString();
 	quazaaSettings.Chat.Colors[IrcColorType::Default] = m_qSettings.value("ColorsDefault", "black").toString();
-    quazaaSettings.Chat.Colors[IrcColorType::Event] = m_qSettings.value("ColorsEvent", "chocolate").toString();
+	quazaaSettings.Chat.Colors[IrcColorType::Event] = m_qSettings.value("ColorsEvent", "chocolate").toString();
 	quazaaSettings.Chat.Colors[IrcColorType::Notice] = m_qSettings.value("ColorsNotice", "indianred").toString();
 	quazaaSettings.Chat.Colors[IrcColorType::Action] = m_qSettings.value("ColorsAction", "darkmagenta").toString();
 	quazaaSettings.Chat.Colors[IrcColorType::Inactive] = m_qSettings.value("ColorsInactive", "gray").toString();
@@ -1189,6 +1242,9 @@ void CQuazaaSettings::loadChat()
 	m_qSettings.endGroup();
 }
 
+/*!
+	Saves the profile settings to persistent .ini file.
+ */
 void CQuazaaSettings::saveProfile()
 {
 #if QT_VERSION >= 0x050000
@@ -1226,6 +1282,9 @@ void CQuazaaSettings::saveProfile()
 	m_qSettings.endGroup();
 }
 
+/*!
+	Loads the profile settings from persistent .ini file.
+ */
 void CQuazaaSettings::loadProfile()
 {
 #if QT_VERSION >= 0x050000
@@ -1279,6 +1338,9 @@ void CQuazaaSettings::loadProfile()
 	m_qSettings.endGroup();
 }
 
+/*!
+	Saves the window settings to persistent .ini file.
+ */
 void CQuazaaSettings::saveWindowSettings(QMainWindow* window)
 {
 #if QT_VERSION >= 0x050000
@@ -1297,9 +1359,9 @@ void CQuazaaSettings::saveWindowSettings(QMainWindow* window)
 	m_qSettings.setValue("ActivitySplitterRestoreBottom", quazaaSettings.WinMain.ActivitySplitterRestoreBottom);
 	m_qSettings.setValue("ChatRoomsTaskVisible", quazaaSettings.WinMain.ChatRoomsTaskVisible);
 	m_qSettings.setValue("ChatFriendsTaskVisible", quazaaSettings.WinMain.ChatFriendsTaskVisible);
-    m_qSettings.setValue("ChatListSplitter", quazaaSettings.WinMain.ChatUserListSplitter);
-    m_qSettings.setValue("ChatTreeWidget", quazaaSettings.WinMain.ChatTreeWidget);
-    m_qSettings.setValue("ChatTreeWidgetSplitter", quazaaSettings.WinMain.ChatTreeWidgetSplitter);
+	m_qSettings.setValue("ChatListSplitter", quazaaSettings.WinMain.ChatUserListSplitter);
+	m_qSettings.setValue("ChatTreeWidget", quazaaSettings.WinMain.ChatTreeWidget);
+	m_qSettings.setValue("ChatTreeWidgetSplitter", quazaaSettings.WinMain.ChatTreeWidgetSplitter);
 	m_qSettings.setValue("ChatToolbars", quazaaSettings.WinMain.ChatToolbars);
 	m_qSettings.setValue("DiscoveryHeader", quazaaSettings.WinMain.DiscoveryHeader);
 	m_qSettings.setValue("DiscoveryToolbar", quazaaSettings.WinMain.DiscoveryToolbar);
@@ -1352,15 +1414,18 @@ void CQuazaaSettings::saveWindowSettings(QMainWindow* window)
 	m_qSettings.setValue("TransfersSplitter", quazaaSettings.WinMain.TransfersSplitter);
 	m_qSettings.setValue("TransfersSplitterRestoreLeft", quazaaSettings.WinMain.TransfersSplitterRestoreLeft);
 	m_qSettings.setValue("TransfersSplitterRestoreRight", quazaaSettings.WinMain.TransfersSplitterRestoreRight);
-    m_qSettings.setValue("TransfersNavigationSplitter", quazaaSettings.WinMain.TransfersNavigationSplitter);
-    m_qSettings.setValue("TransfersNavigationSplitterRestoreTop", quazaaSettings.WinMain.TransfersNavigationSplitterRestoreTop);
-    m_qSettings.setValue("TransfersNavigationSplitterRestoreBottom", quazaaSettings.WinMain.TransfersNavigationSplitterRestoreBottom);
+	m_qSettings.setValue("TransfersNavigationSplitter", quazaaSettings.WinMain.TransfersNavigationSplitter);
+	m_qSettings.setValue("TransfersNavigationSplitterRestoreTop", quazaaSettings.WinMain.TransfersNavigationSplitterRestoreTop);
+	m_qSettings.setValue("TransfersNavigationSplitterRestoreBottom", quazaaSettings.WinMain.TransfersNavigationSplitterRestoreBottom);
 	m_qSettings.setValue("UploadsSplitter", quazaaSettings.WinMain.UploadsSplitter);
 	m_qSettings.setValue("UploadsSplitterRestoreTop", quazaaSettings.WinMain.UploadsSplitterRestoreTop);
 	m_qSettings.setValue("UploadsSplitterRestoreBottom", quazaaSettings.WinMain.UploadsSplitterRestoreBottom);
 	m_qSettings.setValue("UploadsToolbar", quazaaSettings.WinMain.UploadsToolbar);
 }
 
+/*!
+	Loads the profile settings from persistent .ini file.
+ */
 void CQuazaaSettings::loadWindowSettings(QMainWindow* window)
 {
 #if QT_VERSION >= 0x050000
@@ -1432,15 +1497,18 @@ void CQuazaaSettings::loadWindowSettings(QMainWindow* window)
 	quazaaSettings.WinMain.TransfersSplitter = m_qSettings.value("TransfersSplitter", QByteArray()).toByteArray();
 	quazaaSettings.WinMain.TransfersSplitterRestoreLeft = m_qSettings.value("TransfersSplitterRestoreLeft", 0).toInt();
 	quazaaSettings.WinMain.TransfersSplitterRestoreRight = m_qSettings.value("TransfersSplitterRestoreRight", 0).toInt();
-    quazaaSettings.WinMain.TransfersNavigationSplitter = m_qSettings.value("TransfersNavigationSplitter", QByteArray()).toByteArray();
-    quazaaSettings.WinMain.TransfersNavigationSplitterRestoreTop = m_qSettings.value("TransfersNavigationSplitterRestoreTop", 0).toInt();
-    quazaaSettings.WinMain.TransfersNavigationSplitterRestoreBottom = m_qSettings.value("TransfersNavigationSplitterRestoreBottom", 0).toInt();
+	quazaaSettings.WinMain.TransfersNavigationSplitter = m_qSettings.value("TransfersNavigationSplitter", QByteArray()).toByteArray();
+	quazaaSettings.WinMain.TransfersNavigationSplitterRestoreTop = m_qSettings.value("TransfersNavigationSplitterRestoreTop", 0).toInt();
+	quazaaSettings.WinMain.TransfersNavigationSplitterRestoreBottom = m_qSettings.value("TransfersNavigationSplitterRestoreBottom", 0).toInt();
 	quazaaSettings.WinMain.UploadsSplitter = m_qSettings.value("UploadsSplitter", QByteArray()).toByteArray();
 	quazaaSettings.WinMain.UploadsSplitterRestoreTop = m_qSettings.value("UploadsSplitterRestoreTop", 0).toInt();
 	quazaaSettings.WinMain.UploadsSplitterRestoreBottom = m_qSettings.value("UploadsSplitterRestoreBottom", 0).toInt();
 	quazaaSettings.WinMain.UploadsToolbar = m_qSettings.value("UploadsToolbar", QByteArray()).toByteArray();
 }
 
+/*!
+	Saves the language settings to persistent .ini file.
+ */
 void CQuazaaSettings::saveLanguageSettings()
 {
 #if QT_VERSION >= 0x050000
@@ -1453,6 +1521,9 @@ void CQuazaaSettings::saveLanguageSettings()
 	m_qSettings.endGroup();
 }
 
+/*!
+	Loads the language settings from persistent .ini file.
+ */
 void CQuazaaSettings::loadLanguageSettings()
 {
 #if QT_VERSION >= 0x050000
@@ -1466,6 +1537,9 @@ void CQuazaaSettings::loadLanguageSettings()
 	m_qSettings.endGroup();
 }
 
+/*!
+	Saves if this is Quazaa's first run to persistent .ini file.
+ */
 void CQuazaaSettings::saveFirstRun(bool firstRun)
 {
 #if QT_VERSION >= 0x050000
@@ -1477,6 +1551,9 @@ void CQuazaaSettings::saveFirstRun(bool firstRun)
 	m_qSettings.setValue("FirstRun", firstRun);
 }
 
+/*!
+	Loads if this is Quazaa's first run from persistent .ini file.
+ */
 bool CQuazaaSettings::isFirstRun()
 {
 #if QT_VERSION >= 0x050000
@@ -1488,6 +1565,9 @@ bool CQuazaaSettings::isFirstRun()
 	return m_qSettings.value("FirstRun", true).toBool();
 }
 
+/*!
+	Saves Quazaa's skin settings to persistent .ini file.
+ */
 void CQuazaaSettings::saveSkinSettings()
 {
 #if QT_VERSION >= 0x050000
@@ -1499,6 +1579,9 @@ void CQuazaaSettings::saveSkinSettings()
 	m_qSettings.setValue("SkinFile", Skin.File);
 }
 
+/*!
+	Loads Quazaa's skin settings from persistent .ini file.
+ */
 void CQuazaaSettings::loadSkinSettings()
 {
 #if QT_VERSION >= 0x050000
@@ -1510,6 +1593,9 @@ void CQuazaaSettings::loadSkinSettings()
 	Skin.File = m_qSettings.value("SkinFile", qApp->applicationDirPath() + "/Skin/Greenery/Greenery.qsk").toString();
 }
 
+/*!
+	Saves Quazaa's log settings to persistent .ini file.
+ */
 void CQuazaaSettings::saveLogSettings()
 {
 #if QT_VERSION >= 0x050000
@@ -1532,6 +1618,9 @@ void CQuazaaSettings::saveLogSettings()
 	m_qSettings.endGroup();
 }
 
+/*!
+	Loads Quazaa's log settings from persistent .ini file.
+ */
 void CQuazaaSettings::loadLogSettings()
 {
 #if QT_VERSION >= 0x050000

@@ -263,7 +263,7 @@ void CWidgetSearchResults::on_actionSearchDownload_triggered()
 
 		if( tabSearch )
 		{
-			SearchTreeItem* itemSearch = tabSearch->m_pSearchModel->itemFromIndex(tabSearch->CurrentItem());
+			SearchTreeItem* itemSearch = tabSearch->m_pSearchModel->topLevelItemFromIndex(tabSearch->CurrentItem());
 
 			if( itemSearch != NULL )
 			{

@@ -42,6 +42,7 @@ CDialogAddRule::CDialogAddRule(CWidgetSecurity* parent, CSecureRule* pRule) :
 
 	if ( pRule )
 	{
+		ui->comboBoxRuleType->setEnabled(false);
 		m_pRule = pRule->getCopy();
 		ui->lineEditComment->setText( m_pRule->m_sComment );
 	}
@@ -50,36 +51,41 @@ CDialogAddRule::CDialogAddRule(CWidgetSecurity* parent, CSecureRule* pRule) :
 
 	switch ( m_pRule->type() )
 	{
-	case Security::CSecureRule::srContentAddressRange:
+	case CSecureRule::srContentAddressRange:
+	{
 		ui->comboBoxRuleType->setCurrentIndex( 1 );
 		ui->stackedWidgetType->setCurrentIndex( 1 );
+		QStringList lAddressRange = m_pRule->getContentString().split("-");
+		ui->lineEditStartIP->setText( lAddressRange.at(0) );
+		ui->lineEditEndIP->setText( lAddressRange.at(1) );
 		break;
-	case Security::CSecureRule::srContentCountry:
+	}
+	case CSecureRule::srContentCountry:
 		ui->comboBoxRuleType->setCurrentIndex( 2 );
 		ui->stackedWidgetType->setCurrentIndex( 2 );
 		ui->lineEditCountry->setText( m_pRule->getContentString() );
 		break;
-	case Security::CSecureRule::srContentHash:
+	case CSecureRule::srContentHash:
 		ui->comboBoxRuleType->setCurrentIndex( 3 );
 		ui->stackedWidgetType->setCurrentIndex( 3 );
 		break;
-	case Security::CSecureRule::srContentText:
+	case CSecureRule::srContentText:
 		ui->comboBoxRuleType->setCurrentIndex( 4 );
 		ui->stackedWidgetType->setCurrentIndex( 4 );
 		ui->lineEditContent->setText( m_pRule->getContentString() );
 		break;
-	case Security::CSecureRule::srContentRegExp:
+	case CSecureRule::srContentRegExp:
 		ui->comboBoxRuleType->setCurrentIndex( 5 );
 		ui->stackedWidgetType->setCurrentIndex( 5 );
 		ui->lineEditRegularExpression->setText( m_pRule->getContentString() );
 		break;
-	case Security::CSecureRule::srContentUserAgent:
+	case CSecureRule::srContentUserAgent:
 		ui->comboBoxRuleType->setCurrentIndex( 6 );
 		ui->stackedWidgetType->setCurrentIndex( 6 );
 		ui->checkBoxUserAgent->setChecked( ((CUserAgentRule*)m_pRule)->getRegExp() );
 		ui->lineEditUserAgent->setText( m_pRule->getContentString() );
 		break;
-	case Security::CSecureRule::srContentAddress:
+	case CSecureRule::srContentAddress:
 	default:
 		ui->comboBoxRuleType->setCurrentIndex( 0 );
 		ui->stackedWidgetType->setCurrentIndex( 0 );
@@ -91,14 +97,14 @@ CDialogAddRule::CDialogAddRule(CWidgetSecurity* parent, CSecureRule* pRule) :
 
 	switch ( tExpire )
 	{
-	case Security::CSecureRule::srIndefinite:
+	case CSecureRule::srIndefinite:
 		ui->comboBoxExpire->setCurrentIndex( 0 );
 		ui->lineEditMinutes->setEnabled( false );
 		ui->lineEditHours->setEnabled( false );
 		ui->lineEditDays->setEnabled( false );
 		break;
 
-	case Security::CSecureRule::srSession:
+	case CSecureRule::srSession:
 		ui->comboBoxExpire->setCurrentIndex( 1 );
 		ui->lineEditMinutes->setEnabled( false );
 		ui->lineEditHours->setEnabled( false );
@@ -163,7 +169,12 @@ void CDialogAddRule::on_pushButtonOK_clicked()
 		break;
 	case 1:
 		pRule = new CIPRangeRule();
-
+		sTmp = QString("%1-%2").arg(ui->lineEditStartIP->text()).arg(ui->lineEditEndIP->text());
+		if ( !pRule->parseContent( sTmp ) )
+		{
+			delete pRule;
+			pRule = NULL;
+		}
 		break;
 	case 2:
 #if SECURITY_ENABLE_GEOIP
@@ -233,6 +244,7 @@ void CDialogAddRule::on_pushButtonOK_clicked()
 
 		pRule->m_sComment = ui->lineEditComment->text();
 		pRule->m_oUUID = m_pRule->m_oUUID;
+		pRule->m_bAutomatic = false;
 
 		if ( *pRule != *m_pRule )
 		{

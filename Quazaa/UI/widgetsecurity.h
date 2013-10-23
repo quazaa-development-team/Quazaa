@@ -28,6 +28,7 @@
 #include <QMainWindow>
 
 #include "tableview.h"
+#include "securityfiltermodel.h"
 
 class CSecurityTableModel;
 
@@ -41,19 +42,20 @@ class CWidgetSecurity : public QMainWindow
 	Q_OBJECT
 
 public:
-	CSecurityTableModel* m_pSecurityList;
+	CSecurityTableModel* m_lSecurity;
 
 private:
 	Ui::CWidgetSecurity* ui;
 	QMenu* m_pSecurityMenu;
 	CTableView* tableViewSecurity;
+	CTableView* tableViewSecurityAuto;
+	SecurityFilterModel* m_lManual;
+	SecurityFilterModel* m_lAutomatic;
 
 public:
 	CWidgetSecurity(QWidget* parent = 0);
 	virtual ~CWidgetSecurity();
 
-	void		setModel(QAbstractItemModel* model);
-	QWidget*	tableView();
 	void		saveWidget();
 
 protected:
@@ -71,11 +73,12 @@ private slots:
 	void on_actionSecurityExportRules_triggered();
 	void on_actionSubscribeSecurityList_triggered();
 
-	void tableViewSecurity_customContextMenuRequested(const QPoint &pos);
 	void tableViewSecurity_doubleClicked(const QModelIndex &index);
 	void tableViewSecurity_clicked(const QModelIndex &index);
 
 	void setSkin();
+	void tableViewSecurity_customContextMenuRequested(const QPoint &pos);
+	void tableViewSecurityAuto_customContextMenuRequested(const QPoint &pos);
 };
 
 #endif // WIDGETSECURITY_H

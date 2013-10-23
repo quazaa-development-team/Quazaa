@@ -27,7 +27,7 @@
 
 #include "networkconnection.h"
 #include <QElapsedTimer>
-#include "zlib/zlib.h"
+#include "zlib.h"
 
 
 class CBuffer;

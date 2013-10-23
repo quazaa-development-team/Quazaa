@@ -5,15 +5,13 @@
 #include <QVector>
 #include <QIcon>
 
-#include "Security/securitymanager.h"
+#include "securitymanager.h"
 
 class CSecurityTableModel : public QAbstractTableModel
 {
 	Q_OBJECT
 
 private:
-	typedef Security::CSecureRule CSecureRule;
-
 	QWidget*		m_oContainer;
 	int				m_nSortColumn;
 	Qt::SortOrder	m_nSortOrder;
@@ -36,7 +34,7 @@ public:
 	struct Rule
 	{
 		// Object directly managed by security manager.
-		CSecureRule*		m_pNode;
+		CSecureRule*		m_pRule;
 
 		QString              m_sContent;
 		CSecureRule::TPolicy m_nAction;
@@ -45,6 +43,7 @@ public:
 		quint32              m_nTotal;
 		QString              m_sComment;
 		const QIcon*         m_piAction;
+		bool m_bAutomatic;
 
 		Rule(CSecureRule* pRule, CSecurityTableModel* model);
 		~Rule();
@@ -71,7 +70,7 @@ public:
 
 	void sort(int column, Qt::SortOrder order);
 
-	CSecureRule* nodeFromIndex(const QModelIndex& index);
+	CSecureRule* ruleFromIndex(const QModelIndex& index);
 
 	void completeRefresh();
 

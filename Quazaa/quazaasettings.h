@@ -79,14 +79,15 @@ namespace IrcColorType {
 namespace IrcShortcutType {
 	enum ShortcutType
 	{
-		NavigateUp,
-		NavigateDown,
-		NavigateLeft,
-		NavigateRight,
-		NextUnreadUp,
-		NextUnreadDown,
-		NextUnreadLeft,
-		NextUnreadRight
+		NextView,
+		PreviousView,
+		ExpandView,
+		CollapseView,
+		SearchView,
+		ResetViews,
+		NextActiveView,
+		PreviousActiveView,
+		MostActiveView
 	};
 }
 
@@ -136,20 +137,24 @@ namespace Settings
 
 	struct sChat
 	{
+		QFont       Font;                                   // The font used in IRC windows
 		QVariant	Connections;							// Irc server connections
 		bool		ConnectOnStartup;						// Connect to the chat server and enter rooms on startup
 		bool		EnableFileTransfers;					// Enable Irc File Transfers
 		bool		ShowTimestamp;							// Show timestamps at the beginning of messages
 		QString     TimestampFormat;                        // The format of timestamps
-		int			MaxBlockCount;							// This limits how many blocks(lines) can be in a message view
-		QString		Layout;									// Tree layout or tabbed layout
+		int			Scrollback;							// This limits how many blocks(lines) can be in a message view
 		bool		StripNicks;								// Strip host information from nicks
+		bool        HighlightSounds;                      // Mute the notification sounds
+		bool        DarkTheme;                              // Has the user selected the dark or light theme?
+		bool        SortViews;                              // Can we sort views?
 
 		QStringList Hosts;									// The list of hosts in the connect dialog
 		QStringList NickNames;								// The list of nick names in the connect dialog
 		QStringList RealNames;								// The list of real names in the connect dialog
 		QStringList UserNames;								// The list of user names in the connect dialog
 		QStringList ConnectionNames;						// The list of connection names in the connect dialog
+		QStringList Ignores;                                // Nicks to ignore
 
 		QHash<int, bool> Messages;
 		QHash<int, bool> Highlights;
@@ -530,7 +535,7 @@ namespace Settings
 		bool		RemoteEnable;							// Enable remote access?
 		QString		RemotePassword;							// Remote access password
 		QString		RemoteUsername;							// Remote access user name
-		bool		SearchIgnoreLocalIP;					// Ingnore all 'local' (LAN) IPs
+		bool		IgnorePrivateIP;					// Ingnore all 'local' (LAN) IPs
 		bool		SearchIgnoreOwnIP;						// Do not accept any ports on your external IP as a source
 		int			SearchSpamFilterThreshold;				// Percentage of spam hits which triggers file sources to be treated as spam
 		bool		UPnPSkipWANIPSetup;						// Skip WANIPConn1 device setup (UPnP)

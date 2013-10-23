@@ -52,32 +52,37 @@ CWidgetSecurity::CWidgetSecurity(QWidget* parent) :
 
 	tableViewSecurity = new CTableView();
 	tableViewSecurity->verticalHeader()->setVisible( false );
-	ui->verticalLayoutSecurityTable->addWidget( tableViewSecurity );
+	ui->verticalLayoutManual->addWidget(tableViewSecurity);
 
 	connect(tableViewSecurity, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(tableViewSecurity_customContextMenuRequested(QPoint)));
 	connect(tableViewSecurity, SIGNAL(clicked(QModelIndex)), this, SLOT(tableViewSecurity_clicked(QModelIndex)));
 	connect(tableViewSecurity, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(tableViewSecurity_doubleClicked(QModelIndex)));
 
-	m_pSecurityList = new CSecurityTableModel( this, tableView() );
-	setModel( m_pSecurityList );
-	m_pSecurityList->sort( tableViewSecurity->horizontalHeader()->sortIndicatorSection(),
+	tableViewSecurityAuto = new CTableView();
+	tableViewSecurityAuto->verticalHeader()->setVisible( false );
+	ui->verticalLayoutAuto->addWidget(tableViewSecurityAuto);
+
+	connect(tableViewSecurityAuto, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(tableViewSecurityAuto_customContextMenuRequested(QPoint)));
+	connect(tableViewSecurityAuto, SIGNAL(clicked(QModelIndex)), this, SLOT(tableViewSecurity_clicked(QModelIndex)));
+	connect(tableViewSecurityAuto, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(tableViewSecurity_doubleClicked(QModelIndex)));
+
+	m_lSecurity = new CSecurityTableModel( this );
+
+	m_lManual = new SecurityFilterModel(m_lSecurity, false);
+	m_lAutomatic = new SecurityFilterModel(m_lSecurity, true);
+
+	tableViewSecurity->setModel( m_lManual );
+	tableViewSecurityAuto->setModel( m_lAutomatic );
+	m_lManual->sort( tableViewSecurity->horizontalHeader()->sortIndicatorSection(),
 						   tableViewSecurity->horizontalHeader()->sortIndicatorOrder()    );
+	m_lAutomatic->sort( tableViewSecurityAuto->horizontalHeader()->sortIndicatorSection(),
+						   tableViewSecurityAuto->horizontalHeader()->sortIndicatorOrder()    );
 	setSkin();
 }
 
 CWidgetSecurity::~CWidgetSecurity()
 {
 	delete ui; // Note: This does also take care of m_pSecurityMenu and m_pSecurityList.
-}
-
-void CWidgetSecurity::setModel(QAbstractItemModel* model)
-{
-	tableViewSecurity->setModel( model );
-}
-
-QWidget* CWidgetSecurity::tableView()
-{
-	return tableViewSecurity;
 }
 
 void CWidgetSecurity::saveWidget()
@@ -120,7 +125,7 @@ void CWidgetSecurity::keyPressEvent(QKeyEvent *e)
 
 	case Qt::Key_F5:
 	{
-		m_pSecurityList->completeRefresh();
+		m_lSecurity->completeRefresh();
 		break;
 	}
 	}
@@ -130,7 +135,7 @@ void CWidgetSecurity::keyPressEvent(QKeyEvent *e)
 
 void CWidgetSecurity::update()
 {
-	m_pSecurityList->updateAll();
+	m_lSecurity->updateAll();
 }
 
 void CWidgetSecurity::on_actionSecurityAddRule_triggered()
@@ -141,51 +146,99 @@ void CWidgetSecurity::on_actionSecurityAddRule_triggered()
 
 void CWidgetSecurity::on_actionSecurityRemoveRule_triggered()
 {
-	QModelIndexList selection = tableViewSecurity->selectionModel()->selectedRows();
+	if (ui->tabWidgetSecurity->currentIndex() == 1) {
+		QModelIndexList selection = tableViewSecurityAuto->selectionModel()->selectedRows();
 
-	// Lock security manager while fiddling with rules.
-	QWriteLocker l( &securityManager.m_pRWLock );
+		// Lock security manager while fiddling with rules.
+		QWriteLocker l( &securityManager.m_pRWLock );
 
-	foreach( QModelIndex i, selection )
-	{
-		if ( i.isValid() )
+		foreach( QModelIndex i, selection )
 		{
-			Security::CSecureRule* pRule = m_pSecurityList->nodeFromIndex( i );
-			securityManager.remove( pRule, false );
+			if ( i.isValid() )
+			{
+				CSecureRule* pRule = m_lSecurity->ruleFromIndex( m_lAutomatic->mapToSource(i) );
+				securityManager.remove( pRule, false );
+			}
+		}
+	} else {
+		QModelIndexList selection = tableViewSecurity->selectionModel()->selectedRows();
+
+		// Lock security manager while fiddling with rules.
+		QWriteLocker l( &securityManager.m_pRWLock );
+
+		foreach( QModelIndex i, selection )
+		{
+			if ( i.isValid() )
+			{
+				CSecureRule* pRule = m_lSecurity->ruleFromIndex( m_lManual->mapToSource(i) );
+				securityManager.remove( pRule, false );
+			}
 		}
 	}
 }
 
 void CWidgetSecurity::on_actionSecurityModifyRule_triggered()
 {
-	QModelIndexList selection = tableViewSecurity->selectionModel()->selectedRows();
-	QModelIndex index = QModelIndex();
+	if (ui->tabWidgetSecurity->currentIndex() == 1) {
+		QModelIndexList selection = tableViewSecurityAuto->selectionModel()->selectedRows();
+		QModelIndex index = QModelIndex();
 
-	// Get the highest selected row.
-	foreach( QModelIndex i, selection )
-	{
+		// Get the highest selected row.
+		foreach( QModelIndex i, selection )
+		{
+			if ( index.isValid() )
+			{
+				if ( index.row() > i.row() )
+					index = i;
+			}
+			else
+			{
+				index = i;
+			}
+		}
+
 		if ( index.isValid() )
 		{
-			if ( index.row() > i.row() )
-				index = i;
+			// Lock security manager while fiddling with rule.
+			QReadLocker lock( &securityManager.m_pRWLock );
+
+			CSecureRule* pRule = m_lSecurity->ruleFromIndex( m_lAutomatic->mapToSource(index) );
+			CDialogAddRule* dlgAddRule = new CDialogAddRule( this, pRule );
+
+			lock.unlock(); // Make the Security Manager available again.
+
+			dlgAddRule->show();
 		}
-		else
+	} else {
+		QModelIndexList selection = tableViewSecurity->selectionModel()->selectedRows();
+		QModelIndex index = QModelIndex();
+
+		// Get the highest selected row.
+		foreach( QModelIndex i, selection )
 		{
-			index = i;
+			if ( index.isValid() )
+			{
+				if ( index.row() > i.row() )
+					index = i;
+			}
+			else
+			{
+				index = i;
+			}
 		}
-	}
 
-	if ( index.isValid() )
-	{
-		// Lock security manager while fiddling with rule.
-		QReadLocker lock( &securityManager.m_pRWLock );
+		if ( index.isValid() )
+		{
+			// Lock security manager while fiddling with rule.
+			QReadLocker lock( &securityManager.m_pRWLock );
 
-		Security::CSecureRule* pRule = m_pSecurityList->nodeFromIndex( index );
-		CDialogAddRule* dlgAddRule = new CDialogAddRule( this, pRule );
+			CSecureRule* pRule = m_lSecurity->ruleFromIndex( m_lManual->mapToSource(index) );
+			CDialogAddRule* dlgAddRule = new CDialogAddRule( this, pRule );
 
-		lock.unlock(); // Make the Security Manager available again.
+			lock.unlock(); // Make the Security Manager available again.
 
-		dlgAddRule->show();
+			dlgAddRule->show();
+		}
 	}
 }
 
@@ -203,26 +256,6 @@ void CWidgetSecurity::on_actionSubscribeSecurityList_triggered()
 {
 	CDialogSecuritySubscriptions* dlgSecuritySubscriptions = new CDialogSecuritySubscriptions( this );
 	dlgSecuritySubscriptions->show();
-}
-
-void CWidgetSecurity::tableViewSecurity_customContextMenuRequested(const QPoint& point)
-{
-	QModelIndex index = tableViewSecurity->indexAt( point );
-
-	if ( index.isValid() )
-	{
-		ui->actionSecurityExportRules->setEnabled( true );
-		ui->actionSecurityModifyRule->setEnabled( true );
-		ui->actionSecurityRemoveRule->setEnabled( true );
-	}
-	else
-	{
-		ui->actionSecurityExportRules->setEnabled( false );
-		ui->actionSecurityModifyRule->setEnabled( false );
-		ui->actionSecurityRemoveRule->setEnabled( false );
-	}
-
-	m_pSecurityMenu->popup( QCursor::pos() );
 }
 
 void CWidgetSecurity::tableViewSecurity_doubleClicked(const QModelIndex& index)
@@ -258,4 +291,45 @@ void CWidgetSecurity::tableViewSecurity_clicked(const QModelIndex& index)
 void CWidgetSecurity::setSkin()
 {
 	tableViewSecurity->setStyleSheet( skinSettings.listViews );
+	tableViewSecurityAuto->setStyleSheet( skinSettings.listViews );
+}
+
+void CWidgetSecurity::tableViewSecurity_customContextMenuRequested(const QPoint &pos)
+{
+	QModelIndex index = tableViewSecurity->indexAt( pos );
+
+	if ( index.isValid() )
+	{
+		ui->actionSecurityExportRules->setEnabled( true );
+		ui->actionSecurityModifyRule->setEnabled( true );
+		ui->actionSecurityRemoveRule->setEnabled( true );
+	}
+	else
+	{
+		ui->actionSecurityExportRules->setEnabled( false );
+		ui->actionSecurityModifyRule->setEnabled( false );
+		ui->actionSecurityRemoveRule->setEnabled( false );
+	}
+
+	m_pSecurityMenu->popup( QCursor::pos() );
+}
+
+void CWidgetSecurity::tableViewSecurityAuto_customContextMenuRequested(const QPoint &pos)
+{
+	QModelIndex index = tableViewSecurityAuto->indexAt( pos );
+
+	if ( index.isValid() )
+	{
+		ui->actionSecurityExportRules->setEnabled( true );
+		ui->actionSecurityModifyRule->setEnabled( true );
+		ui->actionSecurityRemoveRule->setEnabled( true );
+	}
+	else
+	{
+		ui->actionSecurityExportRules->setEnabled( false );
+		ui->actionSecurityModifyRule->setEnabled( false );
+		ui->actionSecurityRemoveRule->setEnabled( false );
+	}
+
+	m_pSecurityMenu->popup( QCursor::pos() );
 }

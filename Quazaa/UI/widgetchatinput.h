@@ -31,7 +31,7 @@
 #include <QLabel>
 #include "widgetreturnemittextedit.h"
 #include "widgetsmileylist.h"
-#include "completer.h"
+#include "chatcompleter.h"
 
 #include "network.h"
 
@@ -61,11 +61,11 @@ private:
 	CWidgetSmileyList *widgetSmileyList;
 	QColor defaultColor;
 	QToolButton *toolButtonPickColor;
-	QToolButton *toolButtonPrivateMessage;
 	bool bIsIrc;
 
 public slots:
 	void setText(QString text);
+	void setLag(qint64 lag);
 
 private slots:
 	void on_actionUnderline_toggled(bool checked);
@@ -74,9 +74,8 @@ private slots:
 	void on_toolButtonSend_clicked();
 	void onTextFormatChange(QTextCharFormat newFormat);
 	void pickColor();
-	void addPrivateMessage();
 	void updateToolbar();
-	void setSkin();
+	void applySettings();
 };
 
 #endif // WIDGETCHATINPUT_H
