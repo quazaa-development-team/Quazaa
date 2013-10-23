@@ -40,6 +40,7 @@
 
 #include <QDesktopServices>
 #include <QUrl>
+#include <QInputDialog>
 
 CWidgetSearchTemplate::CWidgetSearchTemplate(QString searchString, QWidget* parent) :
 	QWidget(parent),
@@ -295,8 +296,12 @@ void CWidgetSearchTemplate::on_actionBanNode_triggered()
 
 	if( itemSearch != NULL )
 	{
-		CEndPoint address = itemSearch->HitData.pQueryHit.data()->m_pHitInfo.data()->m_oNodeAddress;
-		securityManager.ban(address, BanLength::Forever, false, "Banned search node.", false);
-		m_pSearchModel->removeQueryHit(CurrentItem().row(), m_pSearchModel->parent(CurrentItem()));
+		bool ok;
+		QString reason = QInputDialog::getText(this, tr("Ban Reason"), tr("Please enter a ban reason."), QLineEdit::Normal, "", &ok);
+		if(ok && !reason.isEmpty()) {
+			CEndPoint address = itemSearch->HitData.pQueryHit.data()->m_pHitInfo.data()->m_oNodeAddress;
+			securityManager.ban(address, BanLength::Forever, false, reason, false);
+			m_pSearchModel->removeQueryHit(CurrentItem().row(), m_pSearchModel->parent(CurrentItem()));
+		}
 	}
 }
