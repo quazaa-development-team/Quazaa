@@ -348,10 +348,10 @@ bool CSearchManager::OnQueryAcknowledge(G2Packet* pPacket, const CEndPoint& oSen
 				oBan = lDoneHubs[0]; // 1st done hub, Shareaza does not include /FR child packet
 			}
 
-			securityManager.ban( oBan, Security::ban6Hours, true,
-								 tr( "[AUTO] Likely Foxy client" )
+			securityManager.ban( oBan, BanLength::SixHours, true,
+								 tr( "[AUTO] Likely Foxy client %1" )
 #ifdef _DEBUG
-								 , QString( "searchmanager.cpp line 307" )
+								 .arg( "searchmanager.cpp line 307" )
 #endif
 								 );
 
