@@ -357,8 +357,10 @@ void CWidgetIrcMain::updateOverlay()
 void CWidgetIrcMain::reconnect()
 {
 	IrcChannelStackView* stack = stackView->currentWidget();
-	if (stack && stack->connection())
+	if (stack && stack->connection()) {
+		stack->connection()->setEnabled(true);
 		stack->connection()->open();
+	}
 }
 
 void CWidgetIrcMain::addView()
