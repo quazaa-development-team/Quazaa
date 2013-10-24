@@ -224,14 +224,14 @@ contains(DEFINES, _USE_DEBUG_NEW){
 # Use Qt's Zlib
 INCLUDEPATH += $$[QT_INSTALL_HEADERS]/QtZlib
 HEADERS += $$[QT_INSTALL_HEADERS]/QtZlib/zlib.h \
-    Security/iprule.h \
-    Security/iprangerule.h \
-    Security/countryrule.h \
-    Security/hashrule.h \
-    Security/regexprule.h \
-    Security/useragentrule.h \
-    Security/contentrule.h \
-    Models/securityfiltermodel.h
+	Security/iprule.h \
+	Security/iprangerule.h \
+	Security/countryrule.h \
+	Security/hashrule.h \
+	Security/regexprule.h \
+	Security/useragentrule.h \
+	Security/contentrule.h \
+	Models/securityfiltermodel.h
 
 # Headers
 HEADERS += \
@@ -549,14 +549,14 @@ SOURCES += \
 	UI/dialogirccolordialog.cpp \
 	UI/wizardircconnection.cpp \
 	Models/ircuserlistmodel.cpp \
-    Security/iprule.cpp \
-    Security/iprangerule.cpp \
-    Security/countryrule.cpp \
-    Security/hashrule.cpp \
-    Security/regexprule.cpp \
-    Security/useragentrule.cpp \
-    Security/contentrule.cpp \
-    Models/securityfiltermodel.cpp
+	Security/iprule.cpp \
+	Security/iprangerule.cpp \
+	Security/countryrule.cpp \
+	Security/hashrule.cpp \
+	Security/regexprule.cpp \
+	Security/useragentrule.cpp \
+	Security/contentrule.cpp \
+	Models/securityfiltermodel.cpp
 
 FORMS += \
 		UI/dialogabout.ui \
@@ -656,6 +656,10 @@ OTHER_FILES += LICENSE.GPL3
 
 mac {
 		QM_DATA.path = Contents/MacOS
+		QM_DATA.files += $$DESTDIR/DefaultSecurity.dat
+		QM_DATA.files += $$DESTDIR/DefaultServices.dat
+		QM_DATA.files += $$DESTDIR/notify.mp3
+		QM_DATA.files += $$DESTDIR/portable.ini
 		for(translation, TRANSLATIONS) {
 				translation ~= s/\\.ts$/.qm
 				QM_DATA.files += $$DESTDIR/$$basename(translation)
