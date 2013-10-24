@@ -1560,6 +1560,38 @@ bool CSecurity::fromXML(const QString& sPath)
 bool CSecurity::fromP2P(const QString &sFile)
 {
 	QFile file(sFile);
+
+	if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+		return false;
+
+	QTextStream import(&file);
+	while (!import.atEnd()) {
+		QString line = import.readLine();
+
+		if(!line.isEmpty() && !line.startsWith("#") && line.contains(":"))
+		{
+			QStringList arguments = line.split(":");
+			QString comment = arguments.at(0);
+			QString rule = arguments.at(1);
+			CSecureRule* pRule;
+
+			if(rule.contains("-")) {
+				pRule = new CIPRangeRule();
+			} else {
+				pRule = new CIPRule();
+			}
+
+			if( !pRule->parseContent(rule) )
+				break;
+
+			pRule->m_sComment = comment;
+			pRule->m_nAction = CSecureRule::srDeny;
+			pRule->m_tExpire = BanLength::Forever;
+			pRule->m_bAutomatic = false;
+
+			add( pRule );
+		}
+	}
 }
 
 const char* CSecurity::ruleInfoSignal = SIGNAL( ruleInfo( CSecureRule* ) );
