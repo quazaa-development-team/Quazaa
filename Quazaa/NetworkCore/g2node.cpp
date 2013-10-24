@@ -269,7 +269,7 @@ void CG2Node::OnTimer(quint32 tNow)
 		// If hub has been connected for more than 5 minutes and it still has less than 5 leaves,
 		// something is very wrong. Ban it for a short while.
 		if(m_nType == G2_HUB && (tNow - m_tConnected > 300) && m_nLeafCount < 5) {
-			Send_ConnectError("503 Your hub is not accepting leaves");
+			Send_ConnectError("403 Your hub is not accepting leaves");
 			securityManager.ban(m_oAddress, BanLength::TwoHours, true, QString("Hub not accepting leaves (%1)").arg(m_oAddress.toString()));
 			return;
 		}
@@ -968,8 +968,8 @@ void CG2Node::OnLNI(G2Packet* pPacket)
 
 			if(hostAddr.isValid())
 			{
-				if(securityManager.isPrivate(hostAddr) && quazaaSettings.Security.IgnorePrivateIP) {
-					Send_ConnectError("422 Local/Private IP addresses are not accepted by this node");
+				if(securityManager.isDenied(hostAddr)) {
+					Send_ConnectError("403 Attempting to switch to a blocked ip address");
 				} else {
 					hasNA = true;
 
