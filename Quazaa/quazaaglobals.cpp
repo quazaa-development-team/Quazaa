@@ -27,6 +27,14 @@
 
 #include "debug_new.h"
 
+#if QT_VERSION >= 0x050000
+#include <QStandardPaths>
+#else
+#include <QDesktopServices>
+#endif
+
+#include <QDir>
+
 /*!
 	\file quazaaglobals.h
 	\brief \#include &qout;quazaaglobals.h&quot;
@@ -133,4 +141,51 @@ QString CQuazaaGlobals::MEDIA_OPEN_FILTER()
 {
 	return tr("All Media Files ") + "(*.3g2 *.3gp *.3gp2 *.3gpp *.d2v *.divx *.amr *.amv *.asf *.avi *.bik *.drc *.dsa *.dsm *.dss *.dsv *.evo *.flc *.fli *.flic *.flv *.hdmov *.ifo *.ivf *.m1v *.m2p *.m2t *.m2ts *.m2v *.m4v *.mkv *.mov *.mp2v *.mp4 *.mp4v *.mpe *.mpeg *.mpg *.mpv2 *.mpv4 *.mts *.ogm *.ogv *.pss *.pva *.ram *.ratdvd *.rm *.rmm *.roq *.rp *.rmvb *.rpm *.rt *.smi *.smil *.smk *.swf *.tp *.tpr *.ts *.tta *.vob *.vp6 *.wm *.wmp *.wmv *.aac *.ac3 *.aif *.aifc *.aiff *.alac *.au *.cda *.dts *.flac *.mid *.midi *.m1a *.m2a *.m4a *.m4b *.mka *.mpa *.mpc *.mp2 *.mp3 *.oga *.ogg *.ra *.rmi *.snd *.wav *.wma);;" + tr("All Files ") + "(*.*);;" + tr("Video Files ") + "(*.3g2 *.3gp *.3gp2 *.3gpp *.d2v *.divx *.amr *.amv *.asf *.avi *.bik *.drc *.dsa *.dsm *.dss *.dsv *.evo *.flc *.fli *.flic *.flv *.hdmov *.ifo *.ivf *.m1v *.m2p *.m2t *.m2ts *.m2v *.m4v *.mkv *.mov *.mp2v *.mp4 *.mp4v *.mpe *.mpeg *.mpg *.mpv2 *.mpv4 *.mts *.ogm *.ogv *.pss *.pva *.ram *.ratdvd *.rm *.rmm *.roq *.rp *.rmvb *.rpm *.rt *.smi *.smil *.smk *.swf *.tp *.tpr *.ts *.tta *.vob *.vp6 *.wm *.wmp *.wmv);;" + tr("Audio Files") + " (*.aac *.ac3 *.aif *.aifc *.aiff *.alac *.au *.cda *.dts *.flac *.mid *.midi *.m1a *.m2a *.m4a *.m4b *.mka *.mpa *.mpc *.mp2 *.mp3 *.oga *.ogg *.ra *.rmi *.snd *.wav *.wma)";
 }
+
+QString CQuazaaGlobals::SETTINGS_PATH()
+{
+#if QT_VERSION >= 0x050000
+	QDir path;
+	path.mkpath( ( QString("%1/.quazaa/").arg(QStandardPaths::writableLocation(QStandardPaths::HomeLocation ) ) ) );
+	return QDir::toNativeSeparators( QString("%1/.quazaa/").arg(QStandardPaths::writableLocation(QStandardPaths::HomeLocation ) ) );
+#else
+	QDir path;
+	path.mkpath( QString("%1/.quazaa/").arg(QDesktopServices::storageLocation(QDesktopServices::HomeLocation ) ) );
+	return QDir::toNativeSeparators( QString("%1/.quazaa/").arg(QDesktopServices::storageLocation(QDesktopServices::HomeLocation ) ) );
+#endif
+}
+
+/*!
+	Returns the path to store Quazaa data files.
+*/
+QString CQuazaaGlobals::DATA_PATH()
+{
+	QDir path;
+	path.mkpath(QString( "%1Data/" ).arg( SETTINGS_PATH()));
+	return QDir::toNativeSeparators( QString( "%1Data/" ).arg( SETTINGS_PATH() ) );
+}
+
+QString CQuazaaGlobals::STORAGE_PATH()
+{
+#if QT_VERSION >= 0x050000
+	QDir path;
+	path.mkpath( QString("%1/Quazaa/").arg(QStandardPaths::writableLocation(QStandardPaths::HomeLocation ) ) );
+	return QDir::toNativeSeparators( QString("%1/Quazaa/").arg(QStandardPaths::writableLocation(QStandardPaths::HomeLocation ) ) );
+#else
+	QDir path;
+	path.mkpath( QString("%1/Quazaa/").arg(QDesktopServices::storageLocation(QDesktopServices::HomeLocation ) ) );
+	return QDir::toNativeSeparators( QString("%1/Quazaa/").arg(QDesktopServices::storageLocation(QDesktopServices::HomeLocation ) ) );
+#endif
+}
+
+QString CQuazaaGlobals::INI_FILE()
+{
+#if QT_VERSION >= 0x050000
+	return QString("%1quazaa.ini").arg( SETTINGS_PATH() );
+#else
+	return QString("%1quazaa.ini").arg( SETTINGS_PATH() );
+#endif
+}
+
+
 

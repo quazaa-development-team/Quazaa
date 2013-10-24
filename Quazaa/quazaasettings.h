@@ -183,7 +183,6 @@ namespace Settings
 	struct sDiscovery
 	{
 		quint16		AccessThrottle;							// Number of seconds to wait between consecutive requests for the same service.
-		QString		DataPath;								// Path to the discovery data folder. Must have a terminal slash.
 		quint8		FailureLimit;							// Number of failures after which a cache should be autodisabled no matter its rating. (0 to disable)
 															// Note that this setting will be ineffective if a value higher than MaximalServiceRating is chosen.
 		quint8		MaximumServiceRating;					// The highest rating a service can reach.
@@ -543,7 +542,6 @@ namespace Settings
 
 		/* --- Settings used by security manager --- */
 // TODO: Make sure slot settingsChanged() is called if these settings are changed to inform security manager about the changes.
-		QString		DataPath;								// Path to the security.dat file
 		bool		LogIPCheckHits;							// Post log message on IsDenied( QHostAdress ) call
 		quint32		RuleExpiryInterval;						// Check the security manager for expired hosts each x seconds
 		quint32		MissCacheExpiryInterval;				// Clear the miss cache each x seconds

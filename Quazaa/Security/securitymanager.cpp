@@ -33,6 +33,7 @@
 
 #include "securitymanager.h"
 
+#include "quazaaglobals.h"
 #include "quazaasettings.h"
 #include "timedsignalqueue.h"
 #include "Misc/timeoutwritelocker.h"
@@ -49,7 +50,6 @@ CSecurity securityManager;
 // no qt specific calls (for example connect() or emit signal) may be used over here.
 // See initialize() for that kind of initializations.
 CSecurity::CSecurity() :
-	m_sDataPath( "" ),
 	m_bLogIPCheckHits( false ),
 	m_tRuleExpiryInterval( 0 ),
 	m_tMissCacheExpiryInterval( 0 ),
@@ -1263,7 +1263,7 @@ bool CSecurity::stop()
   */
 bool CSecurity::load()
 {
-	QString sPath = common::getLocation( common::userDataFiles ) + "security.dat";
+	QString sPath = CQuazaaGlobals::DATA_PATH() + "security.dat";
 
 	if ( load( sPath ) )
 	{
@@ -1394,7 +1394,7 @@ bool CSecurity::save(bool bForceSaving) const
 	bool bReturn;
 	m_pRWLock.lockForRead();
 
-	if ( !common::securredSaveFile( common::userDataFiles, "security.dat", m_sMessage,
+	if ( !common::securedSaveFile( CQuazaaGlobals::DATA_PATH(), "security.dat", m_sMessage,
 									this, &CSecurity::writeToFile ) )
 	{
 		bReturn = false;
@@ -1745,7 +1745,6 @@ void CSecurity::missCacheClear()
 void CSecurity::settingsChanged()
 {
 	QWriteLocker l( &m_pRWLock );
-	m_sDataPath					= quazaaSettings.Security.DataPath;
 	m_bLogIPCheckHits			= quazaaSettings.Security.LogIPCheckHits;
 
 	if ( m_tRuleExpiryInterval != quazaaSettings.Security.RuleExpiryInterval * 1000 )

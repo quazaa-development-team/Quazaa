@@ -24,6 +24,7 @@
 
 #include <QFile>
 #include <QDateTime>
+#include <QDir>
 
 #if QT_VERSION >= 0x050000
 #include <QRegularExpression>
@@ -36,6 +37,7 @@
 #include "discovery.h"
 #include "discoveryservice.h"
 
+#include "quazaaglobals.h"
 #include "quazaasettings.h"
 #include "debug_new.h"
 
@@ -480,8 +482,8 @@ bool CDiscovery::asyncSyncSavingHelper()
 
 	postLog( LogSeverity::Notice, tr( "Saving Discovery Services Manager state." ) );
 
-	QString sPath          = quazaaSettings.Discovery.DataPath + "discovery.dat";
-	QString sBackupPath    = quazaaSettings.Discovery.DataPath + "discovery_backup.dat";
+	QString sPath          = CQuazaaGlobals::DATA_PATH() + "discovery.dat";
+	QString sBackupPath    = CQuazaaGlobals::DATA_PATH() + "discovery_backup.dat";
 	QString sTemporaryPath = sBackupPath + "_tmp";
 
 #if ENABLE_DISCOVERY_DEBUGGING
@@ -906,7 +908,7 @@ bool CDiscovery::doRemove(TServiceID nID)
 // Called only from within startup sequence
 void CDiscovery::load()
 {
-	QString sPath = quazaaSettings.Discovery.DataPath + "discovery.dat";
+	QString sPath = CQuazaaGlobals::DATA_PATH() + "discovery.dat";
 
 #if ENABLE_DISCOVERY_DEBUGGING
 	postLog( LogSeverity::Debug, "Started loading services.", true );
@@ -922,7 +924,7 @@ void CDiscovery::load()
 	postLog( LogSeverity::Debug, "Failed primary attempt on loading services.", true );
 #endif
 
-		sPath = quazaaSettings.Discovery.DataPath + "discovery_backup.dat";
+		sPath = CQuazaaGlobals::DATA_PATH() + "discovery_backup.dat";
 
 		postLog( LogSeverity::Warning,
 				 tr( "Failed to load discovery services from primary file. Switching to backup: " )
@@ -1116,13 +1118,14 @@ bool CDiscovery::add(TServicePtr& pService)
 // Note: When modifying this method, compatibility to Shareaza should be maintained.
 void CDiscovery::addDefaults()
 {
-	QFile oFile( qApp->applicationDirPath() + "\\DefaultServices.dat" );
+	QString sPath = QDir::toNativeSeparators(QString("%1/DefaultServices.dat").arg(qApp->applicationDirPath()));
+	QFile oFile( sPath );
 
 	postLog( LogSeverity::Debug, tr( "Loading default services from file." ) );
 
 	if ( !oFile.open( QIODevice::ReadOnly ) )
 	{
-		postLog( LogSeverity::Error, tr( "Error: Could not open file: " ) + "DefaultServices.dat" );
+		postLog( LogSeverity::Error, tr( "Error: Could not open default services file: " ) + sPath );
 		return;
 	}
 

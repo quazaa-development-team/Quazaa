@@ -133,7 +133,6 @@ private:
 	TUserAgentRuleMap   m_UserAgents;
 
 	// Security manager settings
-	QString             m_sDataPath;                // Path to the security.dat file
 	bool                m_bLogIPCheckHits;          // Post log message on IsDenied( QHostAdress ) call
 	quint64             m_tRuleExpiryInterval;      // Check the security manager for expired hosts each x milliseconds
 	quint64             m_tMissCacheExpiryInterval; // Clear the miss cache each x ms
