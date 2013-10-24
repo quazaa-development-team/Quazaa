@@ -223,8 +223,7 @@ int main(int argc, char *argv[])
 	dlgSplash->updateProgress( 17, QObject::tr( "Loading Security Manager..." ) );
 	qApp->processEvents();
 	if ( !securityManager.start() )
-		systemLog.postLog( LogSeverity::Information,
-						   QObject::tr( "Security data file was not available." ) );
+		qDebug() << "Security data file was not available.";
 
 	//Load Host Cache
 	dlgSplash->updateProgress( 22, QObject::tr( "Loading Host Cache..." ) );
@@ -271,6 +270,7 @@ int main(int argc, char *argv[])
 	dlgSplash->updateProgress( 100, QObject::tr( "Welcome to Quazaa!" ) );
 	qApp->processEvents();
 
+	dlgSplash->close();
 	dlgSplash->deleteLater();
 	dlgSplash = 0;
 

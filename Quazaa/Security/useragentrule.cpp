@@ -55,7 +55,7 @@ bool CUserAgentRule::match(const QString& sUserAgent) const
 {
 	Q_ASSERT( m_nType == srContentUserAgent );
 
-	if( m_bRegExp )
+	if ( m_bRegExp )
 	{
 #if QT_VERSION >= 0x050000
 		return m_regularExpressionContent.match( sUserAgent ).hasMatch();
@@ -65,17 +65,15 @@ bool CUserAgentRule::match(const QString& sUserAgent) const
 	}
 	else
 	{
-		return ( sUserAgent.indexOf( m_sContent ) != -1 );
+		return sUserAgent.contains( m_sContent, Qt::CaseInsensitive );
 	}
 
-	return true;
+	return false;
 }
 
 bool CUserAgentRule::partialMatch(const QString &sUserAgent) const
 {
-	//TODO: Figure out why this is triggered when removing an agent rule
 	Q_ASSERT( m_nType == srContentUserAgent );
-
 	return sUserAgent.contains( m_sContent, Qt::CaseInsensitive );
 }
 

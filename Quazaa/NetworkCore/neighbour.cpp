@@ -130,7 +130,7 @@ void CNeighbour::OnError(QAbstractSocket::SocketError e)
 
 				// for some bad clients that drop connections too early
 				securityManager.ban( m_oAddress, BanLength::FiveMinutes,
-									 true, QString("Dropped handshake %1") );
+									 true, tr("Dropped handshake %1") );
 			}
 		}
 	}

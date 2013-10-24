@@ -52,8 +52,10 @@ typedef quint16 TRuleID; // used for GUI updating
 class CSecureRule
 {
 public:
-	typedef enum { srContentUndefined = 0, srContentAddress = 1, srContentAddressRange = 2, srContentCountry = 3,
-				   srContentHash = 4, srContentRegExp = 5, srContentUserAgent = 6, srContentText = 7 } TRuleType;
+	typedef enum { srContentUndefined = 0, srContentAddress = 1, srContentAddressRange = 2,
+		srContentCountry = 3, srContentHash = 4, srContentRegExp = 5, srContentUserAgent = 6,
+		srContentText = 7
+	} TRuleType;
 
 	typedef enum { srNull = 0, srAccept = 1, srDeny = 2 } TPolicy;
 	enum { srIndefinite = 0, srSession = 1 };

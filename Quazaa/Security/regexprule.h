@@ -6,7 +6,10 @@
 class CRegExpRule : public CSecureRule
 {
 private:
-	bool				m_bSpecialElements;
+	// There are two kinds of rules:
+	// 1. Those which contain <_>, <1>...<9> or <> (e.g. special elements)
+	// 2. All other rules.
+	bool				m_bSpecialElements; // contains special elements
 
 #if QT_VERSION >= 0x050000
 	QRegularExpression	m_regularExpressionContent;

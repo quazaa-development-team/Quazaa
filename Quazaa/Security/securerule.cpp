@@ -521,8 +521,8 @@ quint32 CSecureRule::getExpiryTime() const
  */
 void CSecureRule::count()
 {
-	m_nToday.fetchAndAddOrdered(1);
-	m_nTotal.fetchAndAddOrdered(1);
+	m_nToday.fetchAndAddOrdered( 1 );
+	m_nTotal.fetchAndAddOrdered( 1 );
 }
 
 /**
@@ -531,8 +531,8 @@ void CSecureRule::count()
  */
 void CSecureRule::resetCount()
 {
-	m_nToday.fetchAndStoreOrdered(0);
-	m_nTotal.fetchAndAddOrdered(0);
+	m_nToday.fetchAndStoreOrdered( 0 );
+	m_nTotal.fetchAndAddOrdered( 0 );
 }
 
 /**
