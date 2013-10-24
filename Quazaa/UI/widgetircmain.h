@@ -72,6 +72,7 @@ private slots:
 	void closeView();
 	void searchView();
 	void showSettings();
+	void alert();
 
 private:
 	void createTree();

@@ -248,7 +248,6 @@ void CWidgetIrcMain::highlighted(IrcMessage* message)
 			dockTile->setBadge(dockTile->badge() + 1);
 		if (sound && quazaaSettings.Chat.HighlightSounds )
 			sound->play();
-		qApp->alert();
 	}
 
 	MessageView* view = qobject_cast<MessageView*>(sender());
@@ -281,6 +280,7 @@ void CWidgetIrcMain::viewAdded(MessageView* view)
 	connect(view, SIGNAL(splitterChanged(QByteArray)), this, SLOT(splitterChanged(QByteArray)));
 	connect(view, SIGNAL(highlighted(IrcMessage*)), this, SLOT(highlighted(IrcMessage*)));
 	connect(view, SIGNAL(missed(IrcMessage*)), this, SLOT(missed(IrcMessage*)));
+	connect(view->textBrowser(), SIGNAL(textChanged()), this, SLOT(alert()));
 
 	if (!quazaaSettings.WinMain.ChatUserListSplitter.isEmpty())
 		view->restoreSplitter(quazaaSettings.WinMain.ChatUserListSplitter);
@@ -414,6 +414,11 @@ void CWidgetIrcMain::showSettings()
 	CDialogIrcSettings *dlgIrcSettings = new CDialogIrcSettings(this);
 
 	dlgIrcSettings->exec();
+}
+
+void CWidgetIrcMain::alert()
+{
+	qApp->alert( this );
 }
 
 void CWidgetIrcMain::createTree()
