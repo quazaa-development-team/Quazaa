@@ -248,6 +248,7 @@ void CWidgetIrcMain::highlighted(IrcMessage* message)
 			dockTile->setBadge(dockTile->badge() + 1);
 		if (sound && quazaaSettings.Chat.HighlightSounds )
 			sound->play();
+		qApp->alert();
 	}
 
 	MessageView* view = qobject_cast<MessageView*>(sender());
