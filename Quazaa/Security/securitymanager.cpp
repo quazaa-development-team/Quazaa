@@ -24,6 +24,7 @@
 
 #include <math.h>
 
+#include <QDir>
 #include <QDateTime>
 #include <QMetaType>
 
@@ -1081,7 +1082,6 @@ bool CSecurity::isClientBad(const QString& sUserAgent) const
 		if ( sSubStr.startsWith( " 2.2" ) )     return true; // Old version
 		if ( sSubStr.startsWith( " 2.3" ) )     return true; // Old version
 		if ( sSubStr.startsWith( " 2.4" ) )     return true; // Old version
-		if ( sSubStr.startsWith( " 2.5" ) )     return true; // Old version
 		if ( sSubStr.startsWith( " 3.0" ) )     return true;
 		if ( sSubStr.startsWith( " 3.1" ) )     return true;
 		if ( sSubStr.startsWith( " 3.2" ) )     return true;
@@ -1160,16 +1160,14 @@ bool CSecurity::isClientBad(const QString& sUserAgent) const
 	// Leechers, do not allow to connect
 	if ( sUserAgent.startsWith( "mxie", Qt::CaseInsensitive ) )                   return true;
 
-	// Shareaza rip-off / GPL violator
-	if ( sUserAgent.startsWith( "P2P Rocket", Qt::CaseInsensitive ) )             return true;
+	// ShareZilla (bad Shareaza clone)
+	if ( sUserAgent.startsWith( "ShareZilla", Qt::CaseInsensitive ) )             return true;
 
 	// Rip-off with bad tweaks
 	if ( sUserAgent.startsWith( "SlingerX", Qt::CaseInsensitive ) )               return true;
 
 	// Not clear why it's bad
 	if ( sUserAgent.startsWith( "vagaa", Qt::CaseInsensitive ) )                  return true;
-
-	if ( sUserAgent.startsWith( "WinMX", Qt::CaseInsensitive ) )                  return true;
 
 	// Unknown- Assume OK
 	return false;
@@ -1273,8 +1271,9 @@ bool CSecurity::load()
 	}
 	else
 	{
-		sPath = sPath + "_backup";
-		return load( sPath );
+		sPath = QDir::toNativeSeparators(QString("%1/DefaultSecurity.dat").arg(qApp->applicationDirPath()));
+		qDebug() << "Default security file path: " << sPath;
+		return load(sPath);
 	}
 }
 
