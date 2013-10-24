@@ -1557,6 +1557,11 @@ bool CSecurity::fromXML(const QString& sPath)
 	return nRuleCount != 0;
 }
 
+bool CSecurity::fromP2P(const QString &sFile)
+{
+	QFile file(sFile);
+}
+
 const char* CSecurity::ruleInfoSignal = SIGNAL( ruleInfo( CSecureRule* ) );
 
 /**

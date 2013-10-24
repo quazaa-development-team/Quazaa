@@ -210,6 +210,7 @@ public:
 	bool            import(const QString& sPath);
 	bool            toXML(const QString& sPath) const;
 	bool            fromXML(const QString& sPath);
+	bool			fromP2P(const QString& sFile);
 
 	// Allows for external callers to find out about how many listeners there
 	// are to the Security Manager Signals.
