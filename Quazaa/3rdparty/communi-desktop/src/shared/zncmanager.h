@@ -29,7 +29,11 @@
 #define ZNCMANAGER_H
 
 #include <QObject>
+#if QT_VERSION >= 0x040700
 #include <QElapsedTimer>
+#else
+#include <QTime>
+#endif
 #include <IrcBufferModel>
 #include <IrcMessageFilter>
 
@@ -38,52 +42,56 @@ class IrcPrivateMessage;
 
 class ZncManager : public QObject, public IrcMessageFilter
 {
-    Q_OBJECT
-    Q_INTERFACES(IrcMessageFilter)
-    Q_PROPERTY(bool playbackActive READ isPlaybackActive NOTIFY playbackActiveChanged)
-    Q_PROPERTY(QString playbackTarget READ playbackTarget NOTIFY playbackTargetChanged)
-    Q_PROPERTY(IrcBufferModel* model READ model WRITE setModel NOTIFY modelChanged)
-    Q_PROPERTY(QString timeStampFormat READ timeStampFormat WRITE setTimeStampFormat NOTIFY timeStampFormatChanged)
+	Q_OBJECT
+	Q_INTERFACES(IrcMessageFilter)
+	Q_PROPERTY(bool playbackActive READ isPlaybackActive NOTIFY playbackActiveChanged)
+	Q_PROPERTY(QString playbackTarget READ playbackTarget NOTIFY playbackTargetChanged)
+	Q_PROPERTY(IrcBufferModel* model READ model WRITE setModel NOTIFY modelChanged)
+	Q_PROPERTY(QString timeStampFormat READ timeStampFormat WRITE setTimeStampFormat NOTIFY timeStampFormatChanged)
 
 public:
-    explicit ZncManager(QObject* parent = 0);
-    virtual ~ZncManager();
+	explicit ZncManager(QObject* parent = 0);
+	virtual ~ZncManager();
 
-    bool isPlaybackActive() const;
-    QString playbackTarget() const;
+	bool isPlaybackActive() const;
+	QString playbackTarget() const;
 
-    IrcBufferModel* model() const;
-    void setModel(IrcBufferModel* model);
+	IrcBufferModel* model() const;
+	void setModel(IrcBufferModel* model);
 
-    QString timeStampFormat() const;
-    void setTimeStampFormat(const QString& format);
+	QString timeStampFormat() const;
+	void setTimeStampFormat(const QString& format);
 
-    bool messageFilter(IrcMessage* message);
+	bool messageFilter(IrcMessage* message);
 
 signals:
-    void playbackActiveChanged(bool active);
-    void modelChanged(IrcBufferModel* model);
-    void playbackTargetChanged(const QString& target);
-    void timeStampFormatChanged(const QString& format);
+	void playbackActiveChanged(bool active);
+	void modelChanged(IrcBufferModel* model);
+	void playbackTargetChanged(const QString& target);
+	void timeStampFormatChanged(const QString& format);
 
 protected:
-    bool processMessage(IrcPrivateMessage* message);
-    bool processNotice(IrcNoticeMessage* message);
+	bool processMessage(IrcPrivateMessage* message);
+	bool processNotice(IrcNoticeMessage* message);
 
 private slots:
-    void onConnected();
-    void requestCapabilities();
+	void onConnected();
+	void requestCapabilities();
 
 private:
-    mutable struct Private {
-        bool playback;
-        long timestamp;
-        QString target;
-        IrcBuffer* buffer;
-        IrcBufferModel* model;
-        QString timeStampFormat;
-        QElapsedTimer timestamper;
-    } d;
+	mutable struct Private {
+		bool playback;
+		long timestamp;
+		QString target;
+		IrcBuffer* buffer;
+		IrcBufferModel* model;
+		QString timeStampFormat;
+#if QT_VERSION >= 0x040700
+		QElapsedTimer timestamper;
+#else
+		QTime timestamper;
+#endif
+	} d;
 };
 
 #endif // ZNCMANAGER_H

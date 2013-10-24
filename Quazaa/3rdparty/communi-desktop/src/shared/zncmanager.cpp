@@ -37,7 +37,9 @@ ZncManager::ZncManager(QObject* parent) : QObject(parent)
 	d.buffer = 0;
 	d.timestamp = 0;
 	d.playback = false;
+#if QT_VERSION >= 0x040700
 	d.timestamper.invalidate();
+#endif
 	d.timeStampFormat = "[hh:mm:ss]";
 	setModel(qobject_cast<IrcBufferModel*>(parent));
 }
@@ -233,7 +235,11 @@ bool ZncManager::processNotice(IrcNoticeMessage* message)
 
 void ZncManager::onConnected()
 {
+#if QT_VERSION >= 0x040700
 	d.timestamper.invalidate();
+#else
+	d.timestamper = QTime();
+#endif
 }
 
 void ZncManager::requestCapabilities()
