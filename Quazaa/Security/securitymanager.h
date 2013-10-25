@@ -25,6 +25,7 @@
 #ifndef SECURITYMANAGER_H
 #define SECURITYMANAGER_H
 
+#include <QList>
 #include <list>
 #include <map>
 #include <queue>
@@ -75,7 +76,6 @@ private:
 	typedef std::pair< uint, CHashRule* > THashPair;
 
 	typedef std::list< CSecureRule*  > TSecurityRuleList;
-	typedef std::list< CIPRangeRule* > TIPRangeRuleList;
 	typedef std::list< CRegExpRule*  > TRegExpRuleList;
 	typedef std::list< CContentRule* > TContentRuleList;
 
@@ -113,7 +113,7 @@ private:
 	TAddressRuleMap     m_IPs;
 
 	// multiple IP blocking rules
-	TIPRangeRuleList    m_IPRanges;
+	QList< CIPRangeRule* >    m_lIPRanges;
 
 #if SECURITY_ENABLE_GEOIP
 	// country rules
@@ -188,6 +188,7 @@ public:
 	// This does not check for the hit IP to avoid double checking.
 	bool            isDenied(const CQueryHit* const pHit, const QList<QString>& lQuery);
 	bool isPrivate(const CEndPoint &oAddress);
+	bool isInRanges(const quint32 nIp);
 
 	// Checks the user agent to see if it's a GPL breaker, or other trouble-maker
 	// We don't ban them, but also don't offer leaf slots to them.

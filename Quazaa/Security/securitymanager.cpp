@@ -42,6 +42,11 @@
 
 CSecurity securityManager;
 
+bool securityIPRangeLessThan(CIPRangeRule *rule1, CIPRangeRule *rule2)
+{
+	return rule1->startIP().toIPv4Address() < rule2->startIP().toIPv4Address();
+}
+
 /**
   * Constructor. Variable initializations.
   * Locking: /
@@ -155,10 +160,10 @@ void CSecurity::add(CSecureRule* pRule)
 
 	case CSecureRule::srContentAddressRange:
 	{
-		TIPRangeRuleList::iterator i = m_IPRanges.begin();
+		QList< CIPRangeRule* >::iterator i = m_lIPRanges.begin();
 		CIPRangeRule* pOldRule = NULL;
 
-		while ( i != m_IPRanges.end() )
+		while ( i != m_lIPRanges.end() )
 		{
 			pOldRule = *i;
 			if ( pOldRule->m_oUUID == pRule->m_oUUID )
@@ -184,7 +189,7 @@ void CSecurity::add(CSecureRule* pRule)
 			++i;
 		}
 
-		m_IPRanges.push_front( (CIPRangeRule*)pRule );
+		m_lIPRanges.push_front( (CIPRangeRule*)pRule );
 
 		bNewAddress = true;
 
@@ -460,7 +465,7 @@ void CSecurity::clear()
 	QWriteLocker l( &m_pRWLock );
 
 	m_IPs.clear();
-	m_IPRanges.clear();
+	m_lIPRanges.clear();
 	m_Hashes.clear();
 	m_RegExpressions.clear();
 	m_Contents.clear();
@@ -913,26 +918,8 @@ bool CSecurity::isDenied(const CEndPoint &oAddress)
 		}
 	}
 
-	// Third, check whether the IP is contained within one of the IP range rules.
-	TIPRangeRuleList::const_iterator it_3 = m_IPRanges.begin();
-	while ( it_3 != m_IPRanges.end() )
-	{
-		CIPRangeRule* pRule = *it_3;
-
-		if ( pRule->match( oAddress ) && !pRule->isExpired( tNow ) )
-		{
-			hit( pRule );
-
-			if ( pRule->m_nAction == CSecureRule::srAccept )
-				return false;
-			else if ( pRule->m_nAction == CSecureRule::srDeny )
-				return true;
-			else
-				Q_ASSERT( pRule->m_nAction == CSecureRule::srNull );
-		}
-
-		++it_3;
-	}
+	// Third, check whether the IP is contained within one of the IP range rules using high speed lookup alorithm.
+	isInRanges( oAddress.toIPv4Address() );
 
 	// Fourth, check the fast IP rules lookup map.
 	TAddressRuleMap::const_iterator it_1;
@@ -1051,6 +1038,56 @@ bool CSecurity::isPrivate(const CEndPoint &oAddress)
 	if( oAddress.toIPv4Address() >= CEndPoint("240.0.0.0").toIPv4Address() &&
 	  oAddress.toIPv4Address() <= CEndPoint("255.255.255.255").toIPv4Address() )
 		return true;
+
+	return false;
+}
+
+bool CSecurity::isInRanges(const quint32 nIp)
+{
+	if ( m_lIPRanges.isEmpty() )
+	{
+		return false;
+	}
+
+	qSort(m_lIPRanges.begin(), m_lIPRanges.end(), securityIPRangeLessThan);
+
+	int nMiddle;
+	int nBegin = 0;
+	int nEnd = m_lIPRanges.size();
+
+	int n = nEnd - nBegin;
+
+	int nHalf;
+
+	while (n > 0)
+	{
+		nHalf = n >> 1;
+
+		nMiddle = nBegin + nHalf;
+
+		if ( nIp < m_lIPRanges.at(nMiddle)->startIP().toIPv4Address() )
+		{
+			n = nHalf;
+		}
+		else
+		{
+			if( nIp <= m_lIPRanges.at(nMiddle)->endIP().toIPv4Address() )
+			{
+				CSecureRule* pRule = m_lIPRanges.at(nMiddle);
+
+				hit( pRule );
+
+				if ( pRule->m_nAction == CSecureRule::srAccept )
+					return false;
+				else if ( pRule->m_nAction == CSecureRule::srDeny )
+					return true;
+				else
+					Q_ASSERT( pRule->m_nAction == CSecureRule::srNull );
+			}
+			nBegin = nMiddle + 1;
+			n -= nHalf + 1;
+		}
+	}
 
 	return false;
 }
@@ -1592,6 +1629,8 @@ bool CSecurity::fromP2P(const QString &sFile)
 			add( pRule );
 		}
 	}
+
+	return true;
 }
 
 const char* CSecurity::ruleInfoSignal = SIGNAL( ruleInfo( CSecureRule* ) );
@@ -1943,13 +1982,13 @@ void CSecurity::remove(TConstIterator it)
 
 	case CSecureRule::srContentAddressRange:
 	{
-		TIPRangeRuleList::iterator i = m_IPRanges.begin();
+		QList< CIPRangeRule* >::iterator i = m_lIPRanges.begin();
 
-		while ( i != m_IPRanges.end() )
+		while ( i != m_lIPRanges.end() )
 		{
 			if ( (*i)->m_oUUID == pRule->m_oUUID )
 			{
-				m_IPRanges.erase( i );
+				m_lIPRanges.erase( i );
 				break;
 			}
 
@@ -2200,7 +2239,7 @@ void CSecurity::evaluateCacheUsage()
 						   );
 	}
 
-	m_bUseMissCache = ( s_nLogCache < s_nLogMult + m_IPRanges.size() * log2 );
+	m_bUseMissCache = ( s_nLogCache < s_nLogMult + m_lIPRanges.size() * log2 );
 }
 
 bool CSecurity::isDenied(const QString& sContent)
