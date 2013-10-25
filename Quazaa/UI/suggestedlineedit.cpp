@@ -24,6 +24,7 @@
 
 #include "suggestedlineedit.h"
 #include "skinsettings.h"
+#include "quazaaglobals.h"
 
 #include <QLineEdit>
 #include <QCompleter>
@@ -38,12 +39,6 @@
 #include <QNetworkReply>
 #include <QXmlStreamReader>
 #include <QTimer>
-
-#if QT_VERSION >= 0x050000
-#include <QStandardPaths>
-#else
-#include <QDesktopServices>
-#endif
 
 #include <QDebug>
 
@@ -95,29 +90,29 @@ CSuggestedLineEdit::~CSuggestedLineEdit()
 void CSuggestedLineEdit::load()
 {
 #if QT_VERSION >= 0x050000
-    QSettings m_qSettings(QString("%1/.quazaa/quazaa.ini").arg(QStandardPaths::writableLocation(QStandardPaths::HomeLocation)), QSettings::IniFormat);
+	QSettings m_qSettings(CQuazaaGlobals::INI_FILE(), QSettings::IniFormat);
 #else
-    QSettings m_qSettings(QString("%1/.quazaa/quazaa.ini").arg(QDesktopServices::storageLocation(QDesktopServices::HomeLocation)), QSettings::IniFormat);
+	QSettings m_qSettings(CQuazaaGlobals::INI_FILE(), QSettings::IniFormat);
 #endif
 
-    m_qSettings.beginGroup(objectName());
-    m_lRecent = m_qSettings.value("recent").toStringList();
-    m_nMaxRecent = m_qSettings.value("max", 10).toInt();
-    m_qSettings.endGroup();
+	m_qSettings.beginGroup(objectName());
+	m_lRecent = m_qSettings.value("recent").toStringList();
+	m_nMaxRecent = m_qSettings.value("max", 10).toInt();
+	m_qSettings.endGroup();
 }
 
 void CSuggestedLineEdit::save()
 {
 #if QT_VERSION >= 0x050000
-    QSettings m_qSettings(QString("%1/.quazaa/quazaa.ini").arg(QStandardPaths::writableLocation(QStandardPaths::HomeLocation)), QSettings::IniFormat);
+	QSettings m_qSettings(CQuazaaGlobals::INI_FILE(), QSettings::IniFormat);
 #else
-    QSettings m_qSettings(QString("%1/.quazaa/quazaa.ini").arg(QDesktopServices::storageLocation(QDesktopServices::HomeLocation)), QSettings::IniFormat);
+	QSettings m_qSettings(CQuazaaGlobals::INI_FILE(), QSettings::IniFormat);
 #endif
 
-    m_qSettings.beginGroup(objectName());
-    m_qSettings.setValue("recent", m_lRecent);
-    m_qSettings.setValue("max", m_nMaxRecent);
-    m_qSettings.endGroup();
+	m_qSettings.beginGroup(objectName());
+	m_qSettings.setValue("recent", m_lRecent);
+	m_qSettings.setValue("max", m_nMaxRecent);
+	m_qSettings.endGroup();
 }
 
 void CSuggestedLineEdit::setNetworkAccessManager(QNetworkAccessManager *pManager)

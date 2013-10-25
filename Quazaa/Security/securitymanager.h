@@ -25,6 +25,7 @@
 #ifndef SECURITYMANAGER_H
 #define SECURITYMANAGER_H
 
+#include <QList>
 #include <list>
 #include <map>
 #include <queue>
@@ -75,7 +76,6 @@ private:
 	typedef std::pair< uint, CHashRule* > THashPair;
 
 	typedef std::list< CSecureRule*  > TSecurityRuleList;
-	typedef std::list< CIPRangeRule* > TIPRangeRuleList;
 	typedef std::list< CRegExpRule*  > TRegExpRuleList;
 	typedef std::list< CContentRule* > TContentRuleList;
 
@@ -113,7 +113,7 @@ private:
 	TAddressRuleMap     m_IPs;
 
 	// multiple IP blocking rules
-	TIPRangeRuleList    m_IPRanges;
+	QList< CIPRangeRule* >    m_lIPRanges;
 
 #if SECURITY_ENABLE_GEOIP
 	// country rules
@@ -133,7 +133,6 @@ private:
 	TUserAgentRuleMap   m_UserAgents;
 
 	// Security manager settings
-	QString             m_sDataPath;                // Path to the security.dat file
 	bool                m_bLogIPCheckHits;          // Post log message on IsDenied( QHostAdress ) call
 	quint64             m_tRuleExpiryInterval;      // Check the security manager for expired hosts each x milliseconds
 	quint64             m_tMissCacheExpiryInterval; // Clear the miss cache each x ms
@@ -189,6 +188,7 @@ public:
 	// This does not check for the hit IP to avoid double checking.
 	bool            isDenied(const CQueryHit* const pHit, const QList<QString>& lQuery);
 	bool isPrivate(const CEndPoint &oAddress);
+	bool isInRanges(const quint32 nIp);
 
 	// Checks the user agent to see if it's a GPL breaker, or other trouble-maker
 	// We don't ban them, but also don't offer leaf slots to them.
@@ -211,6 +211,7 @@ public:
 	bool            import(const QString& sPath);
 	bool            toXML(const QString& sPath) const;
 	bool            fromXML(const QString& sPath);
+	bool			fromP2P(const QString& sFile);
 
 	// Allows for external callers to find out about how many listeners there
 	// are to the Security Manager Signals.

@@ -15,7 +15,6 @@ bool SecurityFilterModel::filterAcceptsRow(int sourceRow, const QModelIndex &sou
 	if(m_bShowAutomatic) {
 		return pRule->m_bAutomatic;
 	}
-	if(!m_bShowAutomatic) {
-		return !pRule->m_bAutomatic;
-	}
+
+	return !pRule->m_bAutomatic;
 }

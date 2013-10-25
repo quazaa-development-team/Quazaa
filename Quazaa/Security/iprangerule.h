@@ -12,16 +12,13 @@ private:
 public:
 	CIPRangeRule();
 
-	void setStartIP(QHostAddress ip);
 	QHostAddress	startIP() const;
-	void setEndIP(QHostAddress ip);
 	QHostAddress	endIP() const;
 
 	bool				parseContent(const QString& sContent);
 
 	CSecureRule*	getCopy() const;
 
-	bool			match(const CEndPoint& oAddress) const;
 	void				toXML(QXmlStreamWriter& oXMLdocument) const;
 };
 

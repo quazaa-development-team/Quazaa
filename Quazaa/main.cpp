@@ -44,6 +44,7 @@
 #include "securitymanager.h"
 
 #include <QNetworkProxy>
+#include <QFont>
 #include <QtPlugin>
 #include <QUrl>
 #include <QIcon>
@@ -80,6 +81,11 @@ CQuazaaGlobals quazaaGlobals;
 
 int main(int argc, char *argv[])
 {
+#ifdef Q_OS_MAC
+	// QTBUG-32789 - GUI widgets use the wrong font on OS X Mavericks
+	QFont::insertSubstitution(".Lucida Grande UI", "Lucida Grande");
+#endif
+
 	SingleApplication theApp( argc, argv );
 
 	if(!theApp.shouldContinue())return 0;

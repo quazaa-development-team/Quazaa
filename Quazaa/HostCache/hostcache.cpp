@@ -29,11 +29,7 @@
 #include "quazaasettings.h"
 #include "securitymanager.h"
 
-#if QT_VERSION >= 0x050000
-#include <QStandardPaths>
-#else
-#include <QDesktopServices>
-#endif
+#include "quazaaglobals.h"
 
 #include <QDir>
 
@@ -334,7 +330,7 @@ bool CHostCache::save(const quint32 tNow)
 
 	bool bReturn;
 
-	quint32 nCount = common::securredSaveFile( common::globalDataFiles, "hostcache.dat", m_sMessage,
+	quint32 nCount = common::securedSaveFile( CQuazaaGlobals::DATA_PATH(), "hostcache.dat", m_sMessage,
 											   this, &CHostCache::writeToFile );
 	if ( nCount )
 	{
@@ -358,7 +354,7 @@ void CHostCache::load()
 
 	ASSUME_LOCK( hostCache.m_pSection );
 
-	QFile file( common::getLocation( common::globalDataFiles ) + "hostcache.dat" );
+	QFile file( CQuazaaGlobals::DATA_PATH() + "hostcache.dat" );
 
 	if ( !file.exists() || !file.open( QIODevice::ReadOnly ) )
 		return;

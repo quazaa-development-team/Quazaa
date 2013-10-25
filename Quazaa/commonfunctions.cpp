@@ -24,10 +24,6 @@
 
 #include <QDir>
 
-#if QT_VERSION >= 0x050000
-#include <QStandardPaths>
-#endif
-
 #include <QDesktopServices>
 #include <QUrl>
 #include <QtGlobal>
@@ -148,39 +144,10 @@ QString common::getTempFileName(QString sName)
 	return oHashName.ToString();
 }
 
-QString common::getLocation(Location location)
-{
-#if QT_VERSION >= 0x050000
-	//DataLocation only works on Windows. DO NOT USE IT
-	QString sDefaultDataPath = QString( "%1/.quazaa/%2/" ).arg( QStandardPaths::writableLocation( QStandardPaths::HomeLocation ), "Data" );
-#else
-	//DataLocation only works on Windows. DO NOT USE IT
-	QString sDefaultDataPath = QString( "%1/.quazaa/%2/" ).arg( QDesktopServices::storageLocation( QDesktopServices::HomeLocation ), "Data" );
-#endif
-
-	switch ( location )
-	{
-	case programLocation:
-	case globalDataFiles:
-	case userDataFiles:
-
-	// TODO: Handle the paths correctly once a decision has been made to use this globally or not.
-		return sDefaultDataPath;
-		break;
-	default:
-		// unknown path requested
-		Q_ASSERT( false );
-	}
-
-	return QString();
-}
-
-quint32 common::securredSaveFile(Location location, QString sFileName,
+quint32 common::securedSaveFile(QString sPath, QString sFileName,
 								 QString sMessage, const void* const pManager,
 								 quint32 (*writeData)(const void* const, QFile&))
 {
-	QString sPath          = getLocation( location );
-
 	QDir path = QDir( sPath );
 	if ( !path.exists() )
 		path.mkpath( sPath );

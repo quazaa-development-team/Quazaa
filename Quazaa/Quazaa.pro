@@ -223,18 +223,10 @@ contains(DEFINES, _USE_DEBUG_NEW){
 
 # Use Qt's Zlib
 INCLUDEPATH += $$[QT_INSTALL_HEADERS]/QtZlib
-HEADERS += $$[QT_INSTALL_HEADERS]/QtZlib/zlib.h \
-	Security/iprule.h \
-	Security/iprangerule.h \
-	Security/countryrule.h \
-	Security/hashrule.h \
-	Security/regexprule.h \
-	Security/useragentrule.h \
-	Security/contentrule.h \
-	Models/securityfiltermodel.h
 
 # Headers
 HEADERS += \
+		$$[QT_INSTALL_HEADERS]/QtZlib/zlib.h \
 		3rdparty/CyoEncode/CyoDecode.h \
 		3rdparty/CyoEncode/CyoEncode.h \
 		3rdparty/nvwa/debug_new.h \
@@ -271,7 +263,6 @@ HEADERS += \
 		Models/discoverytablemodel.h \
 		Models/downloadstreemodel.h \
 		Models/downloadspeermodel.h \
-		#Models/ircuserlistmodel.h \
 		Models/neighbourstablemodel.h \
 		Models/searchtreemodel.h \
 		Models/securitytablemodel.h \
@@ -388,14 +379,23 @@ HEADERS += \
 		UI/winmain.h \
 		UI/wizardquickstart.h \
 		UI/wizardtreewidget.h \
-	Chat/chatcompleter.h \
-	UI/ircchannelstackview.h \
-	3rdparty/SingleApplication/singleapplication.h \
-	3rdparty/SingleApplication/localserver.h \
-	UI/dialogircsettings.h \
-	UI/dialogirccolordialog.h \
-	UI/wizardircconnection.h \
-	Models/ircuserlistmodel.h
+		Chat/chatcompleter.h \
+		UI/ircchannelstackview.h \
+		3rdparty/SingleApplication/singleapplication.h \
+		3rdparty/SingleApplication/localserver.h \
+		UI/dialogircsettings.h \
+		UI/dialogirccolordialog.h \
+		UI/wizardircconnection.h \
+		Models/ircuserlistmodel.h \
+		Security/iprule.h \
+		Security/iprangerule.h \
+		Security/countryrule.h \
+		Security/hashrule.h \
+		Security/regexprule.h \
+		Security/useragentrule.h \
+		Security/contentrule.h \
+		Models/securityfiltermodel.h \
+		UI/dialogimportsecurity.h
 
 # Sources
 SOURCES += \
@@ -426,7 +426,6 @@ SOURCES += \
 		Models/discoverytablemodel.cpp \
 		Models/downloadstreemodel.cpp \
 		Models/downloadspeermodel.cpp \
-		#Models/ircuserlistmodel.cpp \
 		Models/neighbourstablemodel.cpp \
 		Models/searchtreemodel.cpp \
 		Models/securitytablemodel.cpp \
@@ -541,22 +540,23 @@ SOURCES += \
 		UI/winmain.cpp \
 		UI/wizardtreewidget.cpp \
 		UI/wizardquickstart.cpp \
-	Chat/chatcompleter.cpp \
-	UI/ircchannelstackview.cpp \
-	3rdparty/SingleApplication/singleapplication.cpp \
-	3rdparty/SingleApplication/localserver.cpp \
-	UI/dialogircsettings.cpp \
-	UI/dialogirccolordialog.cpp \
-	UI/wizardircconnection.cpp \
-	Models/ircuserlistmodel.cpp \
-	Security/iprule.cpp \
-	Security/iprangerule.cpp \
-	Security/countryrule.cpp \
-	Security/hashrule.cpp \
-	Security/regexprule.cpp \
-	Security/useragentrule.cpp \
-	Security/contentrule.cpp \
-	Models/securityfiltermodel.cpp
+		Chat/chatcompleter.cpp \
+		UI/ircchannelstackview.cpp \
+		3rdparty/SingleApplication/singleapplication.cpp \
+		3rdparty/SingleApplication/localserver.cpp \
+		UI/dialogircsettings.cpp \
+		UI/dialogirccolordialog.cpp \
+		UI/wizardircconnection.cpp \
+		Models/ircuserlistmodel.cpp \
+		Security/iprule.cpp \
+		Security/iprangerule.cpp \
+		Security/countryrule.cpp \
+		Security/hashrule.cpp \
+		Security/regexprule.cpp \
+		Security/useragentrule.cpp \
+		Security/contentrule.cpp \
+		Models/securityfiltermodel.cpp \
+		UI/dialogimportsecurity.cpp
 
 FORMS += \
 		UI/dialogabout.ui \
@@ -615,7 +615,8 @@ FORMS += \
 		UI/wizardquickstart.ui \
 	UI/dialogircsettings.ui \
 	UI/dialogirccolordialog.ui \
-	UI/wizardircconnection.ui
+	UI/wizardircconnection.ui \
+	UI/dialogimportsecurity.ui
 
 TRANSLATIONS = \
 		Language/quazaa_af.ts \
