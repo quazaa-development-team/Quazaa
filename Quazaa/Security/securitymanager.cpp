@@ -160,72 +160,76 @@ void CSecurity::add(CSecureRule* pRule)
 
 	case CSecureRule::srContentAddressRange:
 	{
-		QList< CIPRangeRule* >::iterator i = m_lIPRanges.begin();
-		CIPRangeRule* pOldRule = NULL;
 		CIPRangeRule* pNewRule = ((CIPRangeRule*)pRule);
+		CIPRangeRule* pOldRule = isInRangeRules(pNewRule->startIP().toIPv4Address());
 
-		while ( i != m_lIPRanges.end() )
+		if(!pOldRule)
+			 pOldRule = isInRangeRules(pNewRule->endIP().toIPv4Address());
+
+		if(pOldRule)
 		{
-			pOldRule = *i;
-			if ( pOldRule->m_oUUID == pRule->m_oUUID )
-			{
-				if ( pOldRule->m_nAction != pRule->m_nAction ||
-					 pOldRule->m_tExpire != pRule->m_tExpire ||
-					 pOldRule->startIP()      != pNewRule->startIP() ||
-					 pOldRule->endIP()    != pNewRule->endIP() )
+			// fix range conflicts with old rules
+			if((pNewRule->m_nAction == CSecureRule::srDeny && pOldRule->m_nAction == CSecureRule::srDeny) ||
+			   (pNewRule->m_nAction == CSecureRule::srAccept && pOldRule->m_nAction == CSecureRule::srAccept)) {
+				if( pNewRule->startIP().toIPv4Address() == pOldRule->startIP().toIPv4Address() && pNewRule->endIP().toIPv4Address() == pOldRule->endIP().toIPv4Address()  )
 				{
-					// remove conflicting rule if one of the important attributes
-					// differs from the rule we'd like to add
-					remove( pOldRule, false );
-				}
-				else
-				{
-					// the rule does not need to be added.
+					systemLog.postLog(LogSeverity::Security, QString("New IP range rule is the same as old rule %3-%4, skipping.")
+										.arg(pOldRule->startIP().toString())
+										.arg(pOldRule->endIP().toString()) );
+
 					delete pRule;
 					pRule = NULL;
 					return;
 				}
-			}
-			\
-			// fix range conflicts with old rules
-			if( pNewRule->startIP().toIPv4Address() == pOldRule->startIP().toIPv4Address() && pNewRule->endIP().toIPv4Address() == pOldRule->endIP().toIPv4Address()  )
-			{
-				qDebug() << QString("New IP range rule is the same as old rule %2-%3, skipping.")
-									.arg(pOldRule->startIP().toString())
-									.arg(pOldRule->endIP().toString());
-
-				delete pRule;
-				pRule = NULL;
-				return;
-			} else {
-				bool bMatch = false;
-				if( pNewRule->contains( pOldRule->startIP() ) )
+				else if( pOldRule->startIP().toIPv4Address() < pNewRule->startIP().toIPv4Address() && pOldRule->endIP().toIPv4Address() > pNewRule->endIP().toIPv4Address()  )
 				{
-					qDebug() << QString("Old IP range rule start IP %1 is within new rule %2-%3, merging.")
+					systemLog.postLog(LogSeverity::Security, QString("Old IP range rule %1-%2 encompasses new rule %3-%4, skipping.")
+										.arg(pNewRule->startIP().toString())
+										.arg(pNewRule->endIP().toString())
 										.arg(pOldRule->startIP().toString())
-										.arg(pNewRule->startIP().toString())
-										.arg(pNewRule->endIP().toString());
+										.arg(pOldRule->endIP().toString()) );
 
-					bMatch = true;
-					pNewRule->parseContent(QString("%1-%2").arg(pNewRule->startIP().toString()).arg(pOldRule->endIP().toString()));
+					delete pRule;
+					pRule = NULL;
+					return;
 				}
-				if( pNewRule->contains( pOldRule->endIP() ) )
+				else if( pNewRule->startIP().toIPv4Address() < pOldRule->startIP().toIPv4Address() && pNewRule->endIP().toIPv4Address() > pOldRule->endIP().toIPv4Address()  )
 				{
-					qDebug() << QString("Old IP range rule end IP %1 is within new rule %2-%3, merging.")
-										.arg(pOldRule->endIP().toString())
+					systemLog.postLog(LogSeverity::Security, QString("New IP range rule %1-%2 encompasses old rule %3-%4, replacing.")
 										.arg(pNewRule->startIP().toString())
-										.arg(pNewRule->endIP().toString());
+										.arg(pNewRule->endIP().toString())
+										.arg(pOldRule->startIP().toString())
+										.arg(pOldRule->endIP().toString()) );
 
-					bMatch = true;
-					pNewRule->parseContent(QString("%1-%2").arg(pOldRule->startIP().toString()).arg(pNewRule->endIP().toString()));
-				}
-
-				if(bMatch)
 					remove( pOldRule, false );
-			}
+				} else {
+					bool bMatch = false;
+					if( pNewRule->contains( pOldRule->startIP() ) )
+					{
+						systemLog.postLog(LogSeverity::Security, QString("Old IP range rule start IP %1 is within new rule %2-%3, merging.")
+											.arg(pOldRule->startIP().toString())
+											.arg(pNewRule->startIP().toString())
+											.arg(pNewRule->endIP().toString()) );
 
-			pOldRule = NULL;
-			++i;
+						bMatch = true;
+						pNewRule->parseContent(QString("%1-%2").arg(pNewRule->startIP().toString()).arg(pOldRule->endIP().toString()));
+					}
+					if( pNewRule->contains( pOldRule->endIP() ) )
+					{
+						systemLog.postLog(LogSeverity::Security, QString("Old IP range rule end IP %1 is within new rule %2-%3, merging.")
+											.arg(pOldRule->endIP().toString())
+											.arg(pNewRule->startIP().toString())
+											.arg(pNewRule->endIP().toString()) );
+
+						bMatch = true;
+						pNewRule->parseContent(QString("%1-%2").arg(pOldRule->startIP().toString()).arg(pNewRule->endIP().toString()));
+					}
+
+
+					if(bMatch)
+						remove( pOldRule, false );
+				}
+			}
 		}
 
 		m_lIPRanges.push_front( pNewRule );
@@ -959,7 +963,19 @@ bool CSecurity::isDenied(const CEndPoint &oAddress)
 	}
 
 	// Third, check whether the IP is contained within one of the IP range rules using high speed lookup alorithm.
-	isInRanges( oAddress.toIPv4Address() );
+	CSecureRule* pRule = isInRangeRules( oAddress.toIPv4Address() );
+
+	if(pRule)
+	{
+		hit( pRule );
+
+		if ( pRule->m_nAction == CSecureRule::srAccept )
+			return false;
+		else if ( pRule->m_nAction == CSecureRule::srDeny )
+			return true;
+		else
+			Q_ASSERT( pRule->m_nAction == CSecureRule::srNull );
+	}
 
 	// Fourth, check the fast IP rules lookup map.
 	TAddressRuleMap::const_iterator it_1;
@@ -1082,11 +1098,11 @@ bool CSecurity::isPrivate(const CEndPoint &oAddress)
 	return false;
 }
 
-bool CSecurity::isInRanges(const quint32 nIp)
+CIPRangeRule* CSecurity::isInRangeRules(const quint32 nIp)
 {
 	if ( m_lIPRanges.isEmpty() )
 	{
-		return false;
+		return NULL;
 	}
 
 	int nMiddle;
@@ -1111,23 +1127,14 @@ bool CSecurity::isInRanges(const quint32 nIp)
 		{
 			if( nIp <= m_lIPRanges.at(nMiddle)->endIP().toIPv4Address() )
 			{
-				CSecureRule* pRule = m_lIPRanges.at(nMiddle);
-
-				hit( pRule );
-
-				if ( pRule->m_nAction == CSecureRule::srAccept )
-					return false;
-				else if ( pRule->m_nAction == CSecureRule::srDeny )
-					return true;
-				else
-					Q_ASSERT( pRule->m_nAction == CSecureRule::srNull );
+				return m_lIPRanges.at(nMiddle);
 			}
 			nBegin = nMiddle + 1;
 			n -= nHalf + 1;
 		}
 	}
 
-	return false;
+	return NULL;
 }
 
 /**
@@ -1629,6 +1636,8 @@ bool CSecurity::fromP2P(const QString &sFile)
 	emit updateLoadMax(file.size());
 
 	m_bIsLoading = true;
+
+	int iGuiThrottle = 0;
 	QTextStream import(&file);
 	while (!import.atEnd()) {
 		QString line = import.readLine();
@@ -1641,10 +1650,13 @@ bool CSecurity::fromP2P(const QString &sFile)
 			QString rule = arguments.at(1);
 			CSecureRule* pRule;
 
-			if(rule.contains("-")) {
-				pRule = new CIPRangeRule();
-			} else {
+			QStringList addresses = rule.split("-");
+
+			if(addresses.at(0) == addresses.at(1)) {
+				rule = addresses.at(0);
 				pRule = new CIPRule();
+			} else {
+				pRule = new CIPRangeRule();
 			}
 
 			if( !pRule->parseContent(rule) )
@@ -1657,7 +1669,11 @@ bool CSecurity::fromP2P(const QString &sFile)
 
 			add( pRule );
 		}
-		qApp->processEvents(QEventLoop::AllEvents, 50);
+		++iGuiThrottle;
+		if(iGuiThrottle == 50) {
+			qApp->processEvents(QEventLoop::AllEvents, 50);
+			iGuiThrottle = 0;
+		}
 	}
 	m_bIsLoading = false;
 
