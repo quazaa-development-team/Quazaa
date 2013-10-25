@@ -44,7 +44,7 @@ CSecurity securityManager;
 
 bool securityIPRangeLessThan(CIPRangeRule *rule1, CIPRangeRule *rule2)
 {
-	return rule1->startIP().toIPv4Address() < rule2->startIP().toIPv4Address();
+	return rule1->startIP() < rule2->startIP();
 }
 
 /**
@@ -92,7 +92,6 @@ void CSecurity::setDenyPolicy(bool bDenyPolicy)
   */
 bool CSecurity::check(const CSecureRule* const pRule) const
 {
-	QReadLocker l( &(securityManager.m_pRWLock) );
 	return pRule != NULL && getUUID( pRule->m_oUUID ) != m_Rules.end();
 }
 
@@ -161,17 +160,17 @@ void CSecurity::add(CSecureRule* pRule)
 	case CSecureRule::srContentAddressRange:
 	{
 		CIPRangeRule* pNewRule = ((CIPRangeRule*)pRule);
-		CIPRangeRule* pOldRule = isInRangeRules(pNewRule->startIP().toIPv4Address());
+		CIPRangeRule* pOldRule = isInRangeRules(pNewRule->startIP());
 
 		if(!pOldRule)
-			 pOldRule = isInRangeRules(pNewRule->endIP().toIPv4Address());
+			 pOldRule = isInRangeRules(pNewRule->endIP());
 
 		if(pOldRule)
 		{
 			// fix range conflicts with old rules
 			if((pNewRule->m_nAction == CSecureRule::srDeny && pOldRule->m_nAction == CSecureRule::srDeny) ||
 			   (pNewRule->m_nAction == CSecureRule::srAccept && pOldRule->m_nAction == CSecureRule::srAccept)) {
-				if( pNewRule->startIP().toIPv4Address() == pOldRule->startIP().toIPv4Address() && pNewRule->endIP().toIPv4Address() == pOldRule->endIP().toIPv4Address()  )
+				if( pNewRule->startIP() == pOldRule->startIP() && pNewRule->endIP() == pOldRule->endIP()  )
 				{
 					systemLog.postLog(LogSeverity::Security, QString("New IP range rule is the same as old rule %3-%4, skipping.")
 										.arg(pOldRule->startIP().toString())
@@ -181,7 +180,7 @@ void CSecurity::add(CSecureRule* pRule)
 					pRule = NULL;
 					return;
 				}
-				else if( pOldRule->startIP().toIPv4Address() < pNewRule->startIP().toIPv4Address() && pOldRule->endIP().toIPv4Address() > pNewRule->endIP().toIPv4Address()  )
+				else if( pOldRule->startIP() < pNewRule->startIP() && pOldRule->endIP() > pNewRule->endIP()  )
 				{
 					systemLog.postLog(LogSeverity::Security, QString("Old IP range rule %1-%2 encompasses new rule %3-%4, skipping.")
 										.arg(pNewRule->startIP().toString())
@@ -193,7 +192,7 @@ void CSecurity::add(CSecureRule* pRule)
 					pRule = NULL;
 					return;
 				}
-				else if( pNewRule->startIP().toIPv4Address() < pOldRule->startIP().toIPv4Address() && pNewRule->endIP().toIPv4Address() > pOldRule->endIP().toIPv4Address()  )
+				else if( pNewRule->startIP() < pOldRule->startIP() && pNewRule->endIP() > pOldRule->endIP()  )
 				{
 					systemLog.postLog(LogSeverity::Security, QString("New IP range rule %1-%2 encompasses old rule %3-%4, replacing.")
 										.arg(pNewRule->startIP().toString())
@@ -963,7 +962,7 @@ bool CSecurity::isDenied(const CEndPoint &oAddress)
 	}
 
 	// Third, check whether the IP is contained within one of the IP range rules using high speed lookup alorithm.
-	CSecureRule* pRule = isInRangeRules( oAddress.toIPv4Address() );
+	CSecureRule* pRule = isInRangeRules( oAddress );
 
 	if(pRule)
 	{
@@ -1044,61 +1043,61 @@ bool CSecurity::isDenied(const CQueryHit* const pHit, const QList<QString> &lQue
 
 bool CSecurity::isPrivate(const CEndPoint &oAddress)
 {
-	if( oAddress.toIPv4Address() <= CEndPoint("0.255.255.255").toIPv4Address() )
+	if( oAddress <= CEndPoint("0.255.255.255") )
 		return true;
 
-	if( oAddress.toIPv4Address() >= CEndPoint("10.0.0.0").toIPv4Address() &&
-	  oAddress.toIPv4Address() <= CEndPoint("10.255.255.255").toIPv4Address() )
+	if( oAddress >= CEndPoint("10.0.0.0") &&
+	  oAddress <= CEndPoint("10.255.255.255") )
 		return true;
 
-	if( oAddress.toIPv4Address() >= CEndPoint("100.64.0.0").toIPv4Address() &&
-	  oAddress.toIPv4Address() <= CEndPoint("100.127.255.255").toIPv4Address() )
+	if( oAddress >= CEndPoint("100.64.0.0") &&
+	  oAddress <= CEndPoint("100.127.255.255") )
 		return true;
 
-	if( oAddress.toIPv4Address() >= CEndPoint("127.0.0.0").toIPv4Address() &&
-	  oAddress.toIPv4Address() <= CEndPoint("127.255.255.255").toIPv4Address() )
+	if( oAddress >= CEndPoint("127.0.0.0") &&
+	  oAddress <= CEndPoint("127.255.255.255") )
 		return true;
 
-	if( oAddress.toIPv4Address() >= CEndPoint("169.254.0.0").toIPv4Address() &&
-	  oAddress.toIPv4Address() <= CEndPoint("169.254.255.255").toIPv4Address() )
+	if( oAddress >= CEndPoint("169.254.0.0") &&
+	  oAddress <= CEndPoint("169.254.255.255") )
 		return true;
 
-	if( oAddress.toIPv4Address() >= CEndPoint("172.16.0.0").toIPv4Address() &&
-	  oAddress.toIPv4Address() <= CEndPoint("172.31.255.255").toIPv4Address() )
+	if( oAddress >= CEndPoint("172.16.0.0") &&
+	  oAddress <= CEndPoint("172.31.255.255") )
 		return true;
 
-	if( oAddress.toIPv4Address() >= CEndPoint("192.0.0.0").toIPv4Address() &&
-	  oAddress.toIPv4Address() <= CEndPoint("192.0.2.255").toIPv4Address() )
+	if( oAddress >= CEndPoint("192.0.0.0") &&
+	  oAddress <= CEndPoint("192.0.2.255") )
 		return true;
 
-	if( oAddress.toIPv4Address() >= CEndPoint("192.0.2.0").toIPv4Address() &&
-	  oAddress.toIPv4Address() <= CEndPoint("10.255.255.255").toIPv4Address() )
+	if( oAddress >= CEndPoint("192.0.2.0") &&
+	  oAddress <= CEndPoint("10.255.255.255") )
 		return true;
 
-	if( oAddress.toIPv4Address() >= CEndPoint("192.168.0.0").toIPv4Address() &&
-	  oAddress.toIPv4Address() <= CEndPoint("192.168.255.255").toIPv4Address() )
+	if( oAddress >= CEndPoint("192.168.0.0") &&
+	  oAddress <= CEndPoint("192.168.255.255") )
 		return true;
 
-	if( oAddress.toIPv4Address() >= CEndPoint("198.18.0.0").toIPv4Address() &&
-	  oAddress.toIPv4Address() <= CEndPoint("198.19.255.255").toIPv4Address() )
+	if( oAddress >= CEndPoint("198.18.0.0") &&
+	  oAddress <= CEndPoint("198.19.255.255") )
 		return true;
 
-	if( oAddress.toIPv4Address() >= CEndPoint("198.51.100.0").toIPv4Address() &&
-	  oAddress.toIPv4Address() <= CEndPoint("198.51.100.255").toIPv4Address() )
+	if( oAddress >= CEndPoint("198.51.100.0") &&
+	  oAddress <= CEndPoint("198.51.100.255") )
 		return true;
 
-	if( oAddress.toIPv4Address() >= CEndPoint("203.0.113.0").toIPv4Address() &&
-	  oAddress.toIPv4Address() <= CEndPoint("203.0.113.255").toIPv4Address() )
+	if( oAddress >= CEndPoint("203.0.113.0") &&
+	  oAddress <= CEndPoint("203.0.113.255") )
 		return true;
 
-	if( oAddress.toIPv4Address() >= CEndPoint("240.0.0.0").toIPv4Address() &&
-	  oAddress.toIPv4Address() <= CEndPoint("255.255.255.255").toIPv4Address() )
+	if( oAddress >= CEndPoint("240.0.0.0") &&
+	  oAddress <= CEndPoint("255.255.255.255") )
 		return true;
 
 	return false;
 }
 
-CIPRangeRule* CSecurity::isInRangeRules(const quint32 nIp)
+CIPRangeRule* CSecurity::isInRangeRules(const CEndPoint nIp)
 {
 	if ( m_lIPRanges.isEmpty() )
 	{
@@ -1119,13 +1118,13 @@ CIPRangeRule* CSecurity::isInRangeRules(const quint32 nIp)
 
 		nMiddle = nBegin + nHalf;
 
-		if ( nIp < m_lIPRanges.at(nMiddle)->startIP().toIPv4Address() )
+		if ( nIp < m_lIPRanges.at(nMiddle)->startIP() )
 		{
 			n = nHalf;
 		}
 		else
 		{
-			if( nIp <= m_lIPRanges.at(nMiddle)->endIP().toIPv4Address() )
+			if( nIp <= m_lIPRanges.at(nMiddle)->endIP() )
 			{
 				return m_lIPRanges.at(nMiddle);
 			}

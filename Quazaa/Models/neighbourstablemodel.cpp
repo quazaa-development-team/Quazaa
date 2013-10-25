@@ -43,7 +43,7 @@ CNeighboursTableModel::Neighbour::Neighbour(CNeighbour* pNeighbour) : pNode( pNe
 {
 	quint32 tNow = time(0);
 
-    sHandshake      = pNode->m_sHandshake;
+	sHandshake      = pNode->m_sHandshake;
 	oAddress        = pNode->address();
 	tConnected      = tNow - pNode->m_tConnected;
 	nBandwidthIn    = pNode->m_mInput.Usage();
@@ -60,20 +60,20 @@ CNeighboursTableModel::Neighbour::Neighbour(CNeighbour* pNeighbour) : pNode( pNe
 	nState          = pNode->m_nState;
 	nType           = G2_UNKNOWN;
 	sUserAgent      = pNode->m_sUserAgent;
-    sCountryCode    = oAddress.country();
-    sCountry        = geoIP.countryNameFromCode( sCountryCode );
-    iCountry        = QIcon(":/Resource/Flags/" + sCountryCode.toLower() + ".png");
+	sCountryCode    = oAddress.country();
+	sCountry        = geoIP.countryNameFromCode( sCountryCode );
+	iCountry        = QIcon(":/Resource/Flags/" + sCountryCode.toLower() + ".png");
 
 	switch( pNode->m_nProtocol )
 	{
 	case dpG2:
-        nDiscoveryProtocol = dpG2;
+		nDiscoveryProtocol = dpG2;
 		nLeafCount = ((CG2Node*)pNode)->m_nLeafCount;
 		nLeafMax   = ((CG2Node*)pNode)->m_nLeafMax;
 		nType      = ((CG2Node*)pNode)->m_nType;
 		break;
 
-    default:
+	default:
 		break;
 	}
 
@@ -92,7 +92,7 @@ bool CNeighboursTableModel::Neighbour::update(int row, int col, QModelIndexList&
 
 	quint32 tNow = time(0);
 
-    sHandshake = pNode->m_sHandshake;
+	sHandshake = pNode->m_sHandshake;
 
 	if ( oAddress != pNode->address() )
 	{
@@ -263,7 +263,7 @@ QVariant CNeighboursTableModel::Neighbour::data(int col) const
 			return sUserAgent;
 
 		case COUNTRY:
-            return sCountry;
+			return sCountry;
 	}
 
 	return QVariant();
@@ -276,9 +276,9 @@ bool CNeighboursTableModel::Neighbour::lessThan( int col,
 	{
 	case ADDRESS:
 		if ( oAddress.protocol() == QAbstractSocket::IPv4Protocol )
-			return oAddress.toIPv4Address() < pOther->oAddress.toIPv4Address();
+			return oAddress < pOther->oAddress;
 		else
-			return oAddress.toString() < pOther->oAddress.toString();
+			return oAddress < pOther->oAddress;
 
 	case TIME:
 		if ( nState != nsConnected )
@@ -300,7 +300,7 @@ bool CNeighboursTableModel::Neighbour::lessThan( int col,
 		return TypeToString( nType ) < TypeToString( pOther->nType );
 
 	case LEAVES:
-        return nLeafCount + nLeafMax < pOther->nLeafCount + pOther->nLeafMax;
+		return nLeafCount + nLeafMax < pOther->nLeafCount + pOther->nLeafMax;
 
 	case PING:
 		if ( nState < nsConnected )
@@ -318,8 +318,8 @@ bool CNeighboursTableModel::Neighbour::lessThan( int col,
 		return sUserAgent < pOther->sUserAgent;
 
 	case COUNTRY:
-        return geoIP.countryNameFromCode( sCountry ) <
-                geoIP.countryNameFromCode( pOther->sCountry );
+		return geoIP.countryNameFromCode( sCountry ) <
+				geoIP.countryNameFromCode( pOther->sCountry );
 	default:
 		return false;
 	}
@@ -433,7 +433,7 @@ QVariant CNeighboursTableModel::data(const QModelIndex& index, int role) const
 			return nbr->iCountry;
 		}
 	}
-    // TODO: Reimplement formatting options and use them for models.
+	// TODO: Reimplement formatting options and use them for models.
 	else if ( role == Qt::ForegroundRole )
 	{
 		switch ( nbr->nState )

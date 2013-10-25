@@ -188,7 +188,7 @@ public:
 	// This does not check for the hit IP to avoid double checking.
 	bool            isDenied(const CQueryHit* const pHit, const QList<QString>& lQuery);
 	bool isPrivate(const CEndPoint &oAddress);
-	CIPRangeRule *isInRangeRules(const quint32 nIp);
+	CIPRangeRule *isInRangeRules(const CEndPoint nIp);
 
 	// Checks the user agent to see if it's a GPL breaker, or other trouble-maker
 	// We don't ban them, but also don't offer leaf slots to them.
