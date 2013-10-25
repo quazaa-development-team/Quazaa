@@ -1586,7 +1586,7 @@ bool CSecurity::fromP2P(const QString &sFile)
 
 			pRule->m_sComment = comment;
 			pRule->m_nAction = CSecureRule::srDeny;
-			pRule->m_tExpire = BanLength::Forever;
+			pRule->m_tExpire = CSecureRule::srIndefinite;
 			pRule->m_bAutomatic = false;
 
 			add( pRule );

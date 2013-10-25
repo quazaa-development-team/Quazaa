@@ -22,12 +22,13 @@
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#include "securitytablemodel.h"
-
 #include "widgetsecurity.h"
 #include "ui_widgetsecurity.h"
+
+#include "securitytablemodel.h"
 #include "dialogaddrule.h"
 #include "dialogsecuritysubscriptions.h"
+#include "dialogimportsecurity.h"
 
 #include "quazaasettings.h"
 #include "skinsettings.h"
@@ -246,7 +247,8 @@ void CWidgetSecurity::on_actionSecurityModifyRule_triggered()
 
 void CWidgetSecurity::on_actionSecurityImportRules_triggered()
 {
-	// TODO: Implement.
+	CDialogImportSecurity* dlgImportSecurity = new CDialogImportSecurity(this);
+	dlgImportSecurity->exec();
 }
 
 void CWidgetSecurity::on_actionSecurityExportRules_triggered()
