@@ -227,6 +227,8 @@ signals:
 
 	// This is used to inform other modules that a system wide sanity check has become necessary.
 	void            performSanityCheck();
+	void			updateLoadMax(int max);
+	void			updateLoadProgress(int progress);
 
 public slots:
 	// Trigger this to let the Security Manager emit all rules

@@ -12,14 +12,15 @@ private:
 public:
 	CIPRangeRule();
 
-	QHostAddress	startIP() const;
-	QHostAddress	endIP() const;
+	QHostAddress startIP() const;
+	QHostAddress endIP() const;
 
-	bool				parseContent(const QString& sContent);
+	bool parseContent(const QString& sContent);
 
-	CSecureRule*	getCopy() const;
+	CSecureRule* getCopy() const;
 
-	void				toXML(QXmlStreamWriter& oXMLdocument) const;
+	bool contains(const QHostAddress& oAddress) const;
+	void toXML(QXmlStreamWriter& oXMLdocument) const;
 };
 
 #endif // IPRANGERULE_H
