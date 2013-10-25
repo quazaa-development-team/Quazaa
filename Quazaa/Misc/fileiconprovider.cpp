@@ -33,7 +33,7 @@
 #  include <qpixmapcache.h>
 #  include <qdir.h>
 #if QT_VERSION >= 0x050000
-#  include <Windows.h>
+#  include <windows.h>
 #endif
 #endif
 
