@@ -162,6 +162,7 @@ void CSecurity::add(CSecureRule* pRule)
 	{
 		QList< CIPRangeRule* >::iterator i = m_lIPRanges.begin();
 		CIPRangeRule* pOldRule = NULL;
+		CIPRangeRule* pNewRule = ((CIPRangeRule*)pRule);
 
 		while ( i != m_lIPRanges.end() )
 		{
@@ -170,8 +171,8 @@ void CSecurity::add(CSecureRule* pRule)
 			{
 				if ( pOldRule->m_nAction != pRule->m_nAction ||
 					 pOldRule->m_tExpire != pRule->m_tExpire ||
-					 pOldRule->startIP()      != ((CIPRangeRule*)pRule)->startIP() ||
-					 pOldRule->endIP()    != ((CIPRangeRule*)pRule)->endIP() )
+					 pOldRule->startIP()      != pNewRule->startIP() ||
+					 pOldRule->endIP()    != pNewRule->endIP() )
 				{
 					// remove conflicting rule if one of the important attributes
 					// differs from the rule we'd like to add
@@ -185,11 +186,49 @@ void CSecurity::add(CSecureRule* pRule)
 					return;
 				}
 			}
+			\
+			// fix range conflicts with old rules
+			if( pNewRule->startIP().toIPv4Address() == pOldRule->startIP().toIPv4Address() && pNewRule->endIP().toIPv4Address() == pOldRule->endIP().toIPv4Address()  )
+			{
+				qDebug() << QString("New IP range rule is the same as old rule %2-%3, skipping.")
+									.arg(pOldRule->startIP().toString())
+									.arg(pOldRule->endIP().toString());
+
+				delete pRule;
+				pRule = NULL;
+				return;
+			} else {
+				bool bMatch = false;
+				if( pNewRule->contains( pOldRule->startIP() ) )
+				{
+					qDebug() << QString("Old IP range rule start IP %1 is within new rule %2-%3, merging.")
+										.arg(pOldRule->startIP().toString())
+										.arg(pNewRule->startIP().toString())
+										.arg(pNewRule->endIP().toString());
+
+					bMatch = true;
+					pNewRule->parseContent(QString("%1-%2").arg(pNewRule->startIP().toString()).arg(pOldRule->endIP().toString()));
+				}
+				if( pNewRule->contains( pOldRule->endIP() ) )
+				{
+					qDebug() << QString("Old IP range rule end IP %1 is within new rule %2-%3, merging.")
+										.arg(pOldRule->endIP().toString())
+										.arg(pNewRule->startIP().toString())
+										.arg(pNewRule->endIP().toString());
+
+					bMatch = true;
+					pNewRule->parseContent(QString("%1-%2").arg(pOldRule->startIP().toString()).arg(pNewRule->endIP().toString()));
+				}
+
+				if(bMatch)
+					remove( pOldRule, false );
+			}
+
 			pOldRule = NULL;
 			++i;
 		}
 
-		m_lIPRanges.push_front( (CIPRangeRule*)pRule );
+		m_lIPRanges.push_front( pNewRule );
 
 		bNewAddress = true;
 
@@ -441,18 +480,19 @@ void CSecurity::add(CSecureRule* pRule)
 		m_nUnsaved.fetchAndAddRelaxed( 1 );
 	}
 
-	// Inform CSecurityTableModel about new rule.
+	// Inform CSecurityTableModel about new rule and update the GUI.
 	emit ruleAdded( pRule );
 
 	// If we're not loading, check all lists for newly denied hosts.
 	if ( !m_bIsLoading )
 	{
-		// Unlock mutex before performing system wide security check.
-		mutex.unlock();
-		// In case we are currently loading rules from file,
-		// this is done uppon completion of the entire process.
+		if(pRule->type() == CSecureRule::srContentAddressRange)
+			qSort(m_lIPRanges.begin(), m_lIPRanges.end(), securityIPRangeLessThan);
 		sanityCheck();
 		save();
+
+		// Unlock.
+		mutex.unlock();
 	}
 }
 
@@ -1049,8 +1089,6 @@ bool CSecurity::isInRanges(const quint32 nIp)
 		return false;
 	}
 
-	qSort(m_lIPRanges.begin(), m_lIPRanges.end(), securityIPRangeLessThan);
-
 	int nMiddle;
 	int nBegin = 0;
 	int nEnd = m_lIPRanges.size();
@@ -1365,6 +1403,7 @@ bool CSecurity::load( QString sPath )
 			pRule = NULL;
 
 			nCount--;
+			qApp->processEvents(QEventLoop::AllEvents, 50);
 		}
 
 		mutex.relock();
@@ -1372,7 +1411,9 @@ bool CSecurity::load( QString sPath )
 		mutex.unlock();
 
 		// If necessary perform sanity check after loading.
+		qSort(m_lIPRanges.begin(), m_lIPRanges.end(), securityIPRangeLessThan);
 		sanityCheck();
+		save();
 	}
 	catch ( ... )
 	{
@@ -1444,26 +1485,6 @@ bool CSecurity::save(bool bForceSaving) const
 
 	m_pRWLock.unlock();
 	return bReturn;
-}
-
-//////////////////////////////////////////////////////////////////////
-// CSecurity import
-/**
-  * Imports a security file with unknown format located at sPath into the security database.
-  * Currently, only XML is being supported.
-  * Locking: RW
-  */
-bool CSecurity::import(const QString &sPath)
-{
-	if ( fromXML( sPath ) )
-	{
-		sanityCheck();
-		return true;
-	}
-	else
-	{
-		return false;
-	}
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -1584,10 +1605,15 @@ bool CSecurity::fromXML(const QString& sPath)
 					 tr( "Unrecognized entry in XML file with name: " ) +
 					 xmlDocument.name().toString() );
 		}
+		qApp->processEvents(QEventLoop::AllEvents, 50);
 	}
 
 	mutex.relock();
 	m_bIsLoading = false;
+
+	qSort(m_lIPRanges.begin(), m_lIPRanges.end(), securityIPRangeLessThan);
+	sanityCheck();
+	save();
 
 	postLog( LogSeverity::Information, QString::number( nRuleCount ) + tr( " Rules imported." ) );
 
@@ -1600,10 +1626,13 @@ bool CSecurity::fromP2P(const QString &sFile)
 
 	if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
 		return false;
+	emit updateLoadMax(file.size());
 
+	m_bIsLoading = true;
 	QTextStream import(&file);
 	while (!import.atEnd()) {
 		QString line = import.readLine();
+		emit updateLoadProgress(import.pos());
 
 		if(!line.isEmpty() && !line.startsWith("#") && line.contains(":"))
 		{
@@ -1628,7 +1657,13 @@ bool CSecurity::fromP2P(const QString &sFile)
 
 			add( pRule );
 		}
+		qApp->processEvents(QEventLoop::AllEvents, 50);
 	}
+	m_bIsLoading = false;
+
+	qSort(m_lIPRanges.begin(), m_lIPRanges.end(), securityIPRangeLessThan);
+	sanityCheck();
+	save();
 
 	return true;
 }

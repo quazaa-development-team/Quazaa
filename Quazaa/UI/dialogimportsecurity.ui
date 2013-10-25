@@ -10,20 +10,18 @@
     <height>114</height>
    </rect>
   </property>
-  <property name="minimumSize">
-   <size>
-    <width>414</width>
-    <height>114</height>
-   </size>
-  </property>
-  <property name="maximumSize">
-   <size>
-    <width>414</width>
-    <height>114</height>
-   </size>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Import Security File</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="../Resource.qrc">
+    <normaloff>:/Resource/Security/ImportRules.png</normaloff>:/Resource/Security/ImportRules.png</iconset>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <property name="spacing">
@@ -117,6 +115,13 @@
     </layout>
    </item>
    <item>
+    <widget class="QProgressBar" name="progressBarLoad">
+     <property name="value">
+      <number>0</number>
+     </property>
+    </widget>
+   </item>
+   <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
       <spacer name="horizontalSpacer">
@@ -152,6 +157,8 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="../Resource.qrc"/>
+ </resources>
  <connections/>
 </ui>
