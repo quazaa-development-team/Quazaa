@@ -5,12 +5,12 @@ CIPRule::CIPRule()
 	m_nType = srContentAddress;
 }
 
-QHostAddress CIPRule::IP() const
+CEndPoint CIPRule::IP() const
 {
 	return m_oIP;
 }
 
-void CIPRule::setIP( const QHostAddress& oIP )
+void CIPRule::setIP( const CEndPoint& oIP )
 {
 	m_oIP = oIP;
 	m_sContent = oIP.toString();
@@ -23,7 +23,7 @@ CSecureRule* CIPRule::getCopy() const
 
 bool CIPRule::parseContent(const QString& sContent)
 {
-	QHostAddress oAddress;
+	CEndPoint oAddress;
 	if ( oAddress.setAddress( sContent ) )
 	{
 		m_oIP = oAddress;

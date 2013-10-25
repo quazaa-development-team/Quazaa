@@ -6,12 +6,12 @@ CIPRangeRule::CIPRangeRule()
 	m_nType = srContentAddressRange;
 }
 
-QHostAddress CIPRangeRule::startIP() const
+CEndPoint CIPRangeRule::startIP() const
 {
 	return m_oStartIP;
 }
 
-QHostAddress CIPRangeRule::endIP() const
+CEndPoint CIPRangeRule::endIP() const
 {
 	return m_oEndIP;
 }
@@ -21,7 +21,7 @@ CSecureRule* CIPRangeRule::getCopy() const
 	return new CIPRangeRule( *this );
 }
 
-bool CIPRangeRule::contains(const QHostAddress &oAddress) const
+bool CIPRangeRule::contains(const CEndPoint &oAddress) const
 {
 #ifdef _DEBUG
 	Q_ASSERT( m_nType == srContentAddressRange );
@@ -36,8 +36,8 @@ bool CIPRangeRule::parseContent(const QString& sContent)
 {
 	QStringList addresses = sContent.split("-");
 
-	QHostAddress oStartAddress;
-	QHostAddress oEndAddress;
+	CEndPoint oStartAddress;
+	CEndPoint oEndAddress;
 	if ( oStartAddress.setAddress( addresses.at(0) ) && oEndAddress.setAddress( addresses.at(1) ) )
 	{
 		m_oStartIP = oStartAddress;

@@ -6,20 +6,20 @@
 class CIPRangeRule : public CSecureRule
 {
 private:
-	QHostAddress m_oStartIP;
-	QHostAddress m_oEndIP;
+	CEndPoint m_oStartIP;
+	CEndPoint m_oEndIP;
 
 public:
 	CIPRangeRule();
 
-	QHostAddress startIP() const;
-	QHostAddress endIP() const;
+	CEndPoint startIP() const;
+	CEndPoint endIP() const;
 
 	bool parseContent(const QString& sContent);
 
 	CSecureRule* getCopy() const;
 
-	bool contains(const QHostAddress& oAddress) const;
+	bool contains(const CEndPoint& oAddress) const;
 	void toXML(QXmlStreamWriter& oXMLdocument) const;
 };
 

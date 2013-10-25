@@ -6,13 +6,13 @@
 class CIPRule : public CSecureRule
 {
 private:
-	QHostAddress m_oIP;
+	CEndPoint m_oIP;
 
 public:
 	CIPRule();
 
-	QHostAddress IP() const;
-	void			setIP( const QHostAddress& oIP );
+	CEndPoint IP() const;
+	void			setIP(const CEndPoint &oIP );
 
 	bool				parseContent(const QString& sContent);
 

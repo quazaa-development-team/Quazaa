@@ -552,7 +552,7 @@ void CSecurity::clear()
   * rule. If bMessage is set to true, a notification is send to the system log.
   * Locking: RW
   */
-void CSecurity::ban(const QHostAddress& oAddress, BanLength::TBanLength nBanLength, bool bMessage,
+void CSecurity::ban(const CEndPoint& oAddress, BanLength::TBanLength nBanLength, bool bMessage,
 					const QString& sComment, bool bAutomatic)
 {
 	if ( oAddress.isNull() )
