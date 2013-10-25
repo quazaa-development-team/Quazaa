@@ -49,9 +49,12 @@ public:
 	CEndPoint& operator=(const CEndPoint& rhs);
 	inline bool operator ==(const CEndPoint& rhs) const;
 	inline bool operator !=(const CEndPoint& rhs) const;
+	inline bool operator<(const CEndPoint& rhs) const;
+	inline bool operator>(const CEndPoint& rhs) const;
+	inline bool operator<=(const CEndPoint& rhs) const;
+	inline bool operator>=(const CEndPoint& rhs) const;
 	inline bool operator ==(const QHostAddress& rhs) const;
 	inline bool operator !=(const QHostAddress& rhs) const;
-	inline bool operator< (const CEndPoint& rhs) const;
 
 public:
 	void clear();
@@ -105,6 +108,54 @@ bool CEndPoint::operator<(const CEndPoint &rhs) const
 
 		int n = memcmp(&thisAddr, &thatAddr, sizeof(Q_IPV6ADDR));
 		return n < 0;
+	}
+}
+
+bool CEndPoint::operator>(const CEndPoint &rhs) const
+{
+	if( protocol() == QAbstractSocket::IPv4Protocol )
+	{
+		return toIPv4Address() > rhs.toIPv4Address();
+	}
+	else
+	{
+		Q_IPV6ADDR thisAddr = toIPv6Address();
+		Q_IPV6ADDR thatAddr = rhs.toIPv6Address();
+
+		int n = memcmp(&thisAddr, &thatAddr, sizeof(Q_IPV6ADDR));
+		return n > 0;
+	}
+}
+
+bool CEndPoint::operator<=(const CEndPoint &rhs) const
+{
+	if( protocol() == QAbstractSocket::IPv4Protocol )
+	{
+		return toIPv4Address() <= rhs.toIPv4Address();
+	}
+	else
+	{
+		Q_IPV6ADDR thisAddr = toIPv6Address();
+		Q_IPV6ADDR thatAddr = rhs.toIPv6Address();
+
+		int n = memcmp(&thisAddr, &thatAddr, sizeof(Q_IPV6ADDR));
+		return n <= 0;
+	}
+}
+
+bool CEndPoint::operator>=(const CEndPoint &rhs) const
+{
+	if( protocol() == QAbstractSocket::IPv4Protocol )
+	{
+		return toIPv4Address() >= rhs.toIPv4Address();
+	}
+	else
+	{
+		Q_IPV6ADDR thisAddr = toIPv6Address();
+		Q_IPV6ADDR thatAddr = rhs.toIPv6Address();
+
+		int n = memcmp(&thisAddr, &thatAddr, sizeof(Q_IPV6ADDR));
+		return n >= 0;
 	}
 }
 
