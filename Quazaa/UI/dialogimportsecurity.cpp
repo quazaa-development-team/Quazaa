@@ -36,8 +36,7 @@ void CDialogImportSecurity::on_toolButtonChooseFile_clicked()
 			break;
 	}
 
-	QFileDialog* dlgFile = new QFileDialog(this);
-	ui->lineEditFile->setText(dlgFile->getOpenFileName(this,
+	ui->lineEditFile->setText(QFileDialog::getOpenFileName(this,
 		tr("Select File to Import"), quazaaSettings.Downloads.CompletePath, filter));
 
 	if(!ui->lineEditFile->text().isEmpty())
