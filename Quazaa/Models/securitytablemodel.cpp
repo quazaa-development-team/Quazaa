@@ -27,30 +27,20 @@
 
 #include "debug_new.h"
 
-CSecurityTableModel::Rule::Rule(CSecureRule* pRule, CSecurityTableModel* model)
+CSecurityTableModel::Rule::Rule(CSecureRule* pRule, CSecurityTableModel* model) : m_pRule(pRule)
 {
 #ifdef _DEBUG
 	Q_ASSERT( pRule );
 #endif // _DEBUG
 
-	m_pRule = pRule;
-
-	// Write lock required while registering rule pointer.
-	securityManager.m_pRWLock.lockForWrite();
-
-	// This makes sure that if pRule is deleted within the Security Manager,
-	// m_pRule is correctly set to NULL. Note that a write lock is required here.
-	m_pRule->registerPointer( &m_pRule );
-
-	m_sContent	= m_pRule->getContentString();
-	m_nAction	= m_pRule->m_nAction;
-	m_tExpire	= m_pRule->m_tExpire;
-	m_nToday	= m_pRule->getTodayCount();
-	m_nTotal	= m_pRule->getTotalCount();
-	m_sComment	= m_pRule->m_sComment;
-	m_bAutomatic = m_pRule->m_bAutomatic;
-
-	securityManager.m_pRWLock.unlock();
+	m_sContent		= m_pRule->getContentString();
+	m_nAction		= m_pRule->m_nAction;
+	m_tExpire		= m_pRule->m_tExpire;
+	m_nToday		= m_pRule->getTodayCount();
+	m_nTotal		= m_pRule->getTotalCount();
+	m_sComment		= m_pRule->m_sComment;
+	m_bAutomatic	= m_pRule->m_bAutomatic;
+	m_nType			= m_pRule->type();
 
 	switch( m_nAction )
 	{
@@ -73,10 +63,9 @@ CSecurityTableModel::Rule::Rule(CSecureRule* pRule, CSecurityTableModel* model)
 
 CSecurityTableModel::Rule::~Rule()
 {
-	QWriteLocker w( &securityManager.m_pRWLock );
 	// This is important to avoid memory access errors within the Security Manager.
 	if ( m_pRule )
-		m_pRule->unRegisterPointer( &m_pRule );
+		securityManager.remove(m_pRule);
 }
 
 /** Requires an existing security manager read lock **/
@@ -520,8 +509,6 @@ void CSecurityTableModel::addRule(CSecureRule* pRule)
 		m_bNeedSorting = true;
 	}
 
-	securityManager.m_pRWLock.lockForRead();
-
 	// We should probably be the only one listening.
 	if ( securityManager.receivers ( CSecurity::ruleInfoSignal ) )
 	{
@@ -534,7 +521,6 @@ void CSecurityTableModel::addRule(CSecureRule* pRule)
 		Q_ASSERT( m_lNodes.size() <= (int)securityManager.getCount() );
 #endif // _DEBUG
 	}
-	securityManager.m_pRWLock.unlock();
 }
 
 void CSecurityTableModel::removeRule(const QSharedPointer<CSecureRule> pRule)
@@ -558,15 +544,10 @@ void CSecurityTableModel::updateAll()
 	QModelIndexList uplist;
 	bool bSort = m_bNeedSorting;
 
-	if( securityManager.m_pRWLock.tryLockForRead() )
+	for ( quint32 i = 0, max = m_lNodes.count(); i < max; ++i )
 	{
-		for ( quint32 i = 0, max = m_lNodes.count(); i < max; ++i )
-		{
-			if ( m_lNodes[i]->update( i, m_nSortColumn, uplist, this ) )
-				bSort = true;
-		}
-
-		securityManager.m_pRWLock.unlock();
+		if ( m_lNodes[i]->update( i, m_nSortColumn, uplist, this ) )
+			bSort = true;
 	}
 
 	if ( bSort )

@@ -70,8 +70,6 @@ public:
 	static const QString xmlns;
 	static const char* ruleInfoSignal;
 
-	mutable QReadWriteLock m_pRWLock;
-
 private:
 	typedef std::pair< uint, CHashRule* > THashPair;
 
@@ -174,7 +172,7 @@ public:
 	bool            check(const CSecureRule* const pRule) const;
 	void            add(CSecureRule* pRule);
 	// Use bLockRequired to enable/disable locking inside function.
-	inline void     remove(CSecureRule* pRule, bool bLockRequired = true);
+	inline void     remove(CSecureRule* pRule);
 	void            clear();
 
 	void            ban(const CEndPoint &oAddress, BanLength::TBanLength nBanLength, bool bMessage = true, const QString& sComment = "", bool bAutomatic = true);
@@ -287,18 +285,12 @@ bool CSecurity::denyPolicy() const
 	return m_bDenyPolicy;
 }
 
-void CSecurity::remove(CSecureRule* pRule, bool bLockRequired)
+void CSecurity::remove(CSecureRule* pRule)
 {
 	if ( !pRule )
 		return;
 
-	if ( bLockRequired )
-		m_pRWLock.lockForWrite();
-
 	remove( getUUID( pRule->m_oUUID ) );
-
-	if ( bLockRequired )
-		m_pRWLock.unlock();
 }
 
 void CSecurity::hit(CSecureRule* pRule)

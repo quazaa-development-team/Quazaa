@@ -44,6 +44,7 @@ public:
 		QString              m_sComment;
 		const QIcon*         m_piAction;
 		bool m_bAutomatic;
+		int m_nType;
 
 		Rule(CSecureRule* pRule, CSecurityTableModel* model);
 		~Rule();

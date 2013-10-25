@@ -152,29 +152,23 @@ void CWidgetSecurity::on_actionSecurityRemoveRule_triggered()
 	if (ui->tabWidgetSecurity->currentIndex() == 1) {
 		QModelIndexList selection = tableViewSecurityAuto->selectionModel()->selectedRows();
 
-		// Lock security manager while fiddling with rules.
-		QWriteLocker l( &securityManager.m_pRWLock );
-
 		foreach( QModelIndex i, selection )
 		{
 			if ( i.isValid() )
 			{
 				CSecureRule* pRule = m_lSecurity->ruleFromIndex( m_lAutomatic->mapToSource(i) );
-				securityManager.remove( pRule, false );
+				securityManager.remove( pRule );
 			}
 		}
 	} else {
 		QModelIndexList selection = tableViewSecurity->selectionModel()->selectedRows();
-
-		// Lock security manager while fiddling with rules.
-		QWriteLocker l( &securityManager.m_pRWLock );
 
 		foreach( QModelIndex i, selection )
 		{
 			if ( i.isValid() )
 			{
 				CSecureRule* pRule = m_lSecurity->ruleFromIndex( m_lManual->mapToSource(i) );
-				securityManager.remove( pRule, false );
+				securityManager.remove( pRule );
 			}
 		}
 	}
@@ -202,13 +196,8 @@ void CWidgetSecurity::on_actionSecurityModifyRule_triggered()
 
 		if ( index.isValid() )
 		{
-			// Lock security manager while fiddling with rule.
-			QReadLocker lock( &securityManager.m_pRWLock );
-
 			CSecureRule* pRule = m_lSecurity->ruleFromIndex( m_lAutomatic->mapToSource(index) );
 			CDialogAddRule* dlgAddRule = new CDialogAddRule( this, pRule );
-
-			lock.unlock(); // Make the Security Manager available again.
 
 			dlgAddRule->show();
 		}
@@ -232,13 +221,8 @@ void CWidgetSecurity::on_actionSecurityModifyRule_triggered()
 
 		if ( index.isValid() )
 		{
-			// Lock security manager while fiddling with rule.
-			QReadLocker lock( &securityManager.m_pRWLock );
-
 			CSecureRule* pRule = m_lSecurity->ruleFromIndex( m_lManual->mapToSource(index) );
 			CDialogAddRule* dlgAddRule = new CDialogAddRule( this, pRule );
-
-			lock.unlock(); // Make the Security Manager available again.
 
 			dlgAddRule->show();
 		}

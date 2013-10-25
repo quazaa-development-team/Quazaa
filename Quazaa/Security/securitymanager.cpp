@@ -82,7 +82,6 @@ CSecurity::~CSecurity()
   */
 void CSecurity::setDenyPolicy(bool bDenyPolicy)
 {
-	QWriteLocker l( &m_pRWLock );
 	m_bDenyPolicy = bDenyPolicy;
 }
 
@@ -116,8 +115,6 @@ void CSecurity::add(CSecureRule* pRule)
 	bool bNewAddress = false;
 	bool bNewHit	 = false;
 
-	QWriteLocker mutex( &m_pRWLock );
-
 	// Special treatment for the different types of rules
 	switch ( type )
 	{
@@ -135,7 +132,7 @@ void CSecurity::add(CSecureRule* pRule)
 			{
 				// remove conflicting rule if one of the important attributes
 				// differs from the rule we'd like to add
-				remove( pExRule, false );
+				remove( pExRule );
 			}
 			else
 			{
@@ -200,7 +197,7 @@ void CSecurity::add(CSecureRule* pRule)
 										.arg(pOldRule->startIP().toString())
 										.arg(pOldRule->endIP().toString()) );
 
-					remove( pOldRule, false );
+					remove( pOldRule );
 				} else {
 					bool bMatch = false;
 					if( pNewRule->contains( pOldRule->startIP() ) )
@@ -226,7 +223,7 @@ void CSecurity::add(CSecureRule* pRule)
 
 
 					if(bMatch)
-						remove( pOldRule, false );
+						remove( pOldRule );
 				}
 			}
 		}
@@ -256,7 +253,7 @@ void CSecurity::add(CSecureRule* pRule)
 			{
 				// remove conflicting rule if one of the important attributes
 				// differs from the rule we'd like to add
-				remove( pExRule, false );
+				remove( pExRule );
 			}
 			else
 			{
@@ -305,7 +302,7 @@ void CSecurity::add(CSecureRule* pRule)
 				{
 					// remove conflicting rule if one of the important attributes
 					// differs from the rule we'd like to add
-					remove( pExRule, false );
+					remove( pExRule );
 				}
 				else
 				{
@@ -345,7 +342,7 @@ void CSecurity::add(CSecureRule* pRule)
 				{
 					// remove conflicting rule if one of the important attributes
 					// differs from the rule we'd like to add
-					remove( pOldRule, false );
+					remove( pOldRule );
 				}
 				else
 				{
@@ -381,7 +378,7 @@ void CSecurity::add(CSecureRule* pRule)
 				{
 					// remove conflicting rule if one of the important attributes
 					// differs from the rule we'd like to add
-					remove( pOldRule, false );
+					remove( pOldRule );
 				}
 				else
 				{
@@ -415,7 +412,7 @@ void CSecurity::add(CSecureRule* pRule)
 			{
 				// remove conflicting rule if one of the important attributes
 				// differs from the rule we'd like to add
-				remove( pExRule, false );
+				remove( pExRule );
 			}
 			else
 			{
@@ -493,9 +490,6 @@ void CSecurity::add(CSecureRule* pRule)
 			qSort(m_lIPRanges.begin(), m_lIPRanges.end(), securityIPRangeLessThan);
 		sanityCheck();
 		save();
-
-		// Unlock.
-		mutex.unlock();
 	}
 }
 
@@ -505,7 +499,6 @@ void CSecurity::add(CSecureRule* pRule)
   */
 void CSecurity::clear()
 {
-	QWriteLocker l( &m_pRWLock );
 
 	m_IPs.clear();
 	m_lIPRanges.clear();
@@ -559,8 +552,6 @@ void CSecurity::ban(const CEndPoint& oAddress, BanLength::TBanLength nBanLength,
 		Q_ASSERT( false ); // if this happens, make sure to fix the caller... :)
 		return;
 	}
-
-	QWriteLocker mutex( &m_pRWLock );
 
 	const quint32 tNow = common::getTNowUTC();
 
@@ -634,11 +625,9 @@ void CSecurity::ban(const CEndPoint& oAddress, BanLength::TBanLength nBanLength,
 		}
 		else
 		{
-			remove( pIPRule, false );
+			remove( pIPRule );
 		}
 	}
-
-	mutex.unlock();
 
 	CIPRule* pIPRule = new CIPRule();
 
@@ -838,7 +827,6 @@ bool CSecurity::isNewlyDenied(const CEndPoint& oAddress)
 		return false;
 
 	CSecureRule* pRule = NULL;
-	QReadLocker l( &m_pRWLock );
 
 	// This should only be called if new rules have been loaded previously.
 	Q_ASSERT( m_bNewRulesLoaded );
@@ -880,7 +868,6 @@ bool CSecurity::isNewlyDenied(const CQueryHit* pHit, const QList<QString>& lQuer
 		return false;
 
 	CSecureRule* pRule = NULL;
-	QReadLocker l( &m_pRWLock );
 
 	// This should only be called if new rules have been loaded previously.
 	Q_ASSERT( m_bNewRulesLoaded );
@@ -922,8 +909,6 @@ bool CSecurity::isDenied(const CEndPoint &oAddress)
 {
 	if ( oAddress.isNull() )
 		return false;
-
-	QReadLocker mutex( &m_pRWLock );
 
 	const quint32 tNow = common::getTNowUTC();
 
@@ -1017,8 +1002,6 @@ bool CSecurity::isDenied(const CEndPoint &oAddress)
 		}
 	}
 #endif // SECURITY_ENABLE_GEOIP
-
-	mutex.unlock();
 
 	// If the IP is not within the rules (and we're using the cache),
 	// add the IP to the miss cache.
@@ -1388,10 +1371,8 @@ bool CSecurity::load( QString sPath )
 
 		const quint32 tNow = common::getTNowUTC();
 
-		QWriteLocker mutex( &m_pRWLock );
 		m_bDenyPolicy = bDenyPolicy;
 		m_bIsLoading = true; // Prevent sanity check from being executed at each add() operation.
-		mutex.unlock();
 
 		while ( nCount > 0 )
 		{
@@ -1412,9 +1393,7 @@ bool CSecurity::load( QString sPath )
 			qApp->processEvents(QEventLoop::AllEvents, 50);
 		}
 
-		mutex.relock();
 		m_bIsLoading = false;
-		mutex.unlock();
 
 		// If necessary perform sanity check after loading.
 		qSort(m_lIPRanges.begin(), m_lIPRanges.end(), securityIPRangeLessThan);
@@ -1429,7 +1408,6 @@ bool CSecurity::load( QString sPath )
 		clear();
 		oFile.close();
 
-		QWriteLocker l( &m_pRWLock );
 		m_bIsLoading = false;
 
 		return false;
@@ -1476,7 +1454,6 @@ bool CSecurity::save(bool bForceSaving) const
 	}
 
 	bool bReturn;
-	m_pRWLock.lockForRead();
 
 	if ( !common::securedSaveFile( CQuazaaGlobals::DATA_PATH(), "security.dat", m_sMessage,
 									this, &CSecurity::writeToFile ) )
@@ -1489,7 +1466,6 @@ bool CSecurity::save(bool bForceSaving) const
 		bReturn = true;
 	}
 
-	m_pRWLock.unlock();
 	return bReturn;
 }
 
@@ -1514,9 +1490,6 @@ bool CSecurity::toXML(const QString& sPath) const
 
 	xmlDocument.writeStartElement( xmlns, "security" );
 	xmlDocument.writeAttribute( "version", "2.0" );
-
-	// Once the security manager exits this method, m_pRWLock returns to its initial state.
-	QReadLocker l( &m_pRWLock );
 
 	for ( TConstIterator i = m_Rules.begin(); i != m_Rules.end() ; ++i )
 	{
@@ -1568,9 +1541,7 @@ bool CSecurity::fromXML(const QString& sPath)
 
 	const quint32 tNow = common::getTNowUTC();
 
-	QWriteLocker mutex( &m_pRWLock );
 	m_bIsLoading = true;
-	mutex.unlock();
 
 	CSecureRule* pRule = NULL;
 	unsigned int nRuleCount = 0;
@@ -1614,7 +1585,6 @@ bool CSecurity::fromXML(const QString& sPath)
 		qApp->processEvents(QEventLoop::AllEvents, 50);
 	}
 
-	mutex.relock();
 	m_bIsLoading = false;
 
 	qSort(m_lIPRanges.begin(), m_lIPRanges.end(), securityIPRangeLessThan);
@@ -1704,7 +1674,6 @@ int CSecurity::receivers(const char* signal) const
   */
 void CSecurity::requestRuleList()
 {
-	QReadLocker l( &m_pRWLock );
 	for ( TConstIterator i = m_Rules.begin() ; i != m_Rules.end(); ++i )
 	{
 		emit ruleInfo( *i );
@@ -1721,45 +1690,34 @@ void CSecurity::requestRuleList()
   */
 void CSecurity::sanityCheck()
 {
-	bool bSuccess;
-	CTimeoutWriteLocker( &m_pRWLock, bSuccess, 500 );
-
 	const quint32 tNow = common::getTNowUTC();
 
-	if ( bSuccess )
+	// This indicates that an error happend previously.
+	Q_ASSERT( !m_bNewRulesLoaded || !m_loadedAddressRules.empty() || !m_loadedHitRules.empty());
+
+	// Check whether there are new rules to deal with.
+	bool bNewRules = !( m_newAddressRules.empty() && m_newHitRules.empty() );
+
+	if ( bNewRules )
 	{
-		// This indicates that an error happend previously.
-		Q_ASSERT( !m_bNewRulesLoaded || !m_loadedAddressRules.empty() || !m_loadedHitRules.empty());
-
-		// Check whether there are new rules to deal with.
-		bool bNewRules = !( m_newAddressRules.empty() && m_newHitRules.empty() );
-
-		if ( bNewRules )
+		if ( !m_bNewRulesLoaded )
 		{
-			if ( !m_bNewRulesLoaded )
-			{
-				loadNewRules();
+			loadNewRules();
 
-				// Failsafe mechanism in case there are massive problems somewhere else.
-				signalQueue.push( this, SLOT( forceEndOfSanityCheck() ), tNow + 120 );
+			// Failsafe mechanism in case there are massive problems somewhere else.
+			signalQueue.push( this, SLOT( forceEndOfSanityCheck() ), tNow + 120 );
 
-				// Count how many "OK"s we need to get back.
-				m_nPendingOperations = receivers( SIGNAL( performSanityCheck() ) );
+			// Count how many "OK"s we need to get back.
+			m_nPendingOperations = receivers( SIGNAL( performSanityCheck() ) );
 
-				// Inform all other modules aber the necessity of a sanity check.
-				emit performSanityCheck();
-			}
-			else // other sanity check still in progress
-			{
-				// try again later
-				signalQueue.push( this, SLOT( sanityCheck() ), tNow + 5 );
-			}
+			// Inform all other modules aber the necessity of a sanity check.
+			emit performSanityCheck();
 		}
-	}
-	else // We didn't get a write lock in a timely manner.
-	{
-		// try again later
-		signalQueue.push( this, SLOT( sanityCheck() ), tNow + 5 );
+		else // other sanity check still in progress
+		{
+			// try again later
+			signalQueue.push( this, SLOT( sanityCheck() ), tNow + 5 );
+		}
 	}
 }
 
@@ -1769,32 +1727,21 @@ void CSecurity::sanityCheck()
   */
 void CSecurity::sanityCheckPerformed()
 {
-	bool bSuccess;
-	CTimeoutWriteLocker( &m_pRWLock, bSuccess, 500 );
+	Q_ASSERT( m_bNewRulesLoaded );        // TODO: remove after testing
+	Q_ASSERT( m_nPendingOperations > 0 );
 
-	if ( bSuccess )
+	if ( --m_nPendingOperations == 0 )
 	{
-		Q_ASSERT( m_bNewRulesLoaded );        // TODO: remove after testing
-		Q_ASSERT( m_nPendingOperations > 0 );
+		postLog( LogSeverity::Debug, QString( "Sanity Check finished successfully. " ) +
+				 QString( "Starting cleanup now." ), true );
 
-		if ( --m_nPendingOperations == 0 )
-		{
-			postLog( LogSeverity::Debug, QString( "Sanity Check finished successfully. " ) +
-					 QString( "Starting cleanup now." ), true );
-
-			clearNewRules();
-		}
-		else
-		{
-			postLog( LogSeverity::Debug, QString( "A component finished with sanity checking. " ) +
-					 QString( "Still waiting for %s other components to finish."
-							  ).arg( m_nPendingOperations ), true );
-		}
+		clearNewRules();
 	}
-	else // we didn't get a lock
+	else
 	{
-		// try again later
-		signalQueue.push( this, SLOT( sanityCheckPerformed() ), common::getTNowUTC() + 2 );
+		postLog( LogSeverity::Debug, QString( "A component finished with sanity checking. " ) +
+				 QString( "Still waiting for %s other components to finish."
+						  ).arg( m_nPendingOperations ), true );
 	}
 }
 
@@ -1815,9 +1762,7 @@ void CSecurity::forceEndOfSanityCheck()
 	}
 #endif //_DEBUG
 
-	QWriteLocker l( &m_pRWLock );
 	clearNewRules();
-	m_nPendingOperations = 0;
 }
 
 /**
@@ -1827,8 +1772,6 @@ void CSecurity::forceEndOfSanityCheck()
 void CSecurity::expire()
 {
 	postLog( LogSeverity::Debug, QString( "Expiring old rules now!" ), true );
-
-	QWriteLocker l( &m_pRWLock );
 
 	const quint32 tNow = common::getTNowUTC();
 	quint16 nCount = 0;
@@ -1859,7 +1802,6 @@ void CSecurity::expire()
   */
 void CSecurity::missCacheClear()
 {
-	QWriteLocker l( &m_pRWLock );
 	missCacheClear( false );
 }
 
@@ -1870,7 +1812,6 @@ void CSecurity::missCacheClear()
   */
 void CSecurity::settingsChanged()
 {
-	QWriteLocker l( &m_pRWLock );
 	m_bLogIPCheckHits			= quazaaSettings.Security.LogIPCheckHits;
 
 	if ( m_tRuleExpiryInterval != quazaaSettings.Security.RuleExpiryInterval * 1000 )
@@ -2169,8 +2110,6 @@ bool CSecurity::isAgentDenied(const QString& sUserAgent)
 
 	const quint32 tNow = common::getTNowUTC();
 
-	QReadLocker lock( &m_pRWLock );
-
 	TUserAgentRuleMap::iterator i = m_UserAgents.find( sUserAgent );
 	if ( i != m_UserAgents.end() )
 	{
@@ -2212,13 +2151,8 @@ void CSecurity::missCacheAdd(const uint &nIP)
 {
 	if ( m_bUseMissCache )
 	{
-		// Make sure not to wait longer than 100ms for lock.
-		if ( m_pRWLock.tryLockForWrite( 100 ) )
-		{
-			m_Cache.insert( nIP );
-			evaluateCacheUsage();
-			m_pRWLock.unlock();
-		}
+		m_Cache.insert( nIP );
+		evaluateCacheUsage();
 	}
 }
 void CSecurity::missCacheClear(bool bRefreshInterval)
@@ -2299,8 +2233,6 @@ bool CSecurity::isDenied(const QString& sContent)
 
 	const quint32 tNow = common::getTNowUTC();
 
-	QReadLocker mutex( &m_pRWLock );
-
 	TContentRuleList::iterator i = m_Contents.begin();
 	while ( i != m_Contents.end() )
 	{
@@ -2333,8 +2265,6 @@ bool CSecurity::isDenied(const CQueryHit* const pHit)
 	const QList<CHash>& lHashes = pHit->m_lHashes;
 
 	const quint32 tNow = common::getTNowUTC();
-
-	QReadLocker mutex( &m_pRWLock );
 
 	// Search for a rule matching these hashes
 	TConstIterator it = getHash( lHashes );
@@ -2386,8 +2316,6 @@ bool CSecurity::isDenied(const QList<QString>& lQuery, const QString& sContent)
 		return false;
 
 	const quint32 tNow = common::getTNowUTC();
-
-	QReadLocker mutex( &m_pRWLock );
 
 	TRegExpRuleList::iterator i = m_RegExpressions.begin();
 	while ( i != m_RegExpressions.end() )
