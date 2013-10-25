@@ -11,6 +11,8 @@ class SecurityFilterModel : public QSortFilterProxyModel
 public:
 	SecurityFilterModel(CSecurityTableModel* target, bool bShowAutomatic);
 
+	void sort(int column, Qt::SortOrder order);
+
 protected:
 	bool filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const;
 

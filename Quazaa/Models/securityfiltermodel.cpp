@@ -8,6 +8,11 @@ SecurityFilterModel::SecurityFilterModel(CSecurityTableModel *target, bool bShow
 	invalidateFilter();
 }
 
+void SecurityFilterModel::sort(int column, Qt::SortOrder order)
+{
+	m_lSecurity->sort(column, order);
+}
+
 bool SecurityFilterModel::filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const
 {
 	CSecureRule* pRule = m_lSecurity->ruleFromIndex( m_lSecurity->index(sourceRow, 0, sourceParent) );
