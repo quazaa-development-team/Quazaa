@@ -16,6 +16,8 @@ ui(new Ui::CDialogImportSecurity)
 
 	connect(&securityManager, SIGNAL(updateLoadMax(int)), ui->progressBarLoad, SLOT(setMaximum(int)));
 	connect(&securityManager, SIGNAL(updateLoadProgress(int)), ui->progressBarLoad, SLOT(setValue(int)));
+
+	setWindowFlags(windowFlags() |= Qt::FramelessWindowHint);
 }
 
 CDialogImportSecurity::~CDialogImportSecurity()
@@ -51,6 +53,11 @@ void CDialogImportSecurity::on_toolButtonChooseFile_clicked()
 void CDialogImportSecurity::on_pushButtonOK_clicked()
 {
 	ui->progressBarLoad->setVisible(true);
+	ui->comboBoxFilterType->setEnabled(false);
+	ui->toolButtonChooseFile->setEnabled(false);
+	ui->pushButtonOK->setEnabled(false);
+	ui->pushButtonCancel->setEnabled(false);
+
 	switch (ui->comboBoxFilterType->currentIndex()) {
 		case SecurityFilterType::Shareaza:
 			break;
