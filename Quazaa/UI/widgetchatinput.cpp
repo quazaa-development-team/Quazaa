@@ -34,6 +34,7 @@
 #include <QColorDialog>
 #include <QPalette>
 #include <QSpacerItem>
+#include <QRegularExpression>
 
 #include "debug_new.h"
 
