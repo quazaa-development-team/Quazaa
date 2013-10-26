@@ -49,18 +49,27 @@
 
 typedef quint16 TRuleID; // used for GUI updating
 
+namespace RuleType {
+	enum Type { Undefined = 0, Address = 1, AddressRange = 2, Country = 3,
+				   Hash = 4, RegExp = 5, UserAgent = 6, Text = 7 };
+}
+
+namespace RuleAction {
+	enum Action { Null = 0, Accept = 1, Deny = 2 };
+}
+
+namespace RuleTime {
+	enum Time	{
+		Forever = -1, Session = -2, FiveMinutes = 300, ThirtyMinutes = 1800, TwoHours = 7200,
+		SixHours = 21600, TwelveHours = 42300, Day = 86400, Week = 604800, Month = 2592000
+	};
+}
+
 class CSecureRule
 {
-public:
-	typedef enum { srContentUndefined = 0, srContentAddress = 1, srContentAddressRange = 2, srContentCountry = 3,
-				   srContentHash = 4, srContentRegExp = 5, srContentUserAgent = 6, srContentText = 7 } TRuleType;
-
-	typedef enum { srNull = 0, srAccept = 1, srDeny = 2 } TPolicy;
-	enum { srIndefinite = 0, srSession = 1 };
-
 protected:
 	// Type is critical to functionality and may not be changed externally.
-	TRuleType   m_nType;
+	RuleType::Type m_nType;
 
 	// Contains a string representation of the rule content for faster GUI accesses.
 	// Can be accessed via getContentString().
@@ -76,7 +85,7 @@ private:
 	std::list<CSecureRule**> m_lPointers;
 
 public:
-	TPolicy     m_nAction;
+	RuleAction::Action     m_nAction;
 	QUuid       m_oUUID;
 	quint32     m_tExpire;
 	QString     m_sComment;
@@ -118,7 +127,7 @@ public:
 	void     loadTotalCount(quint32 nTotal);
 
 	// get the rule type
-	TRuleType type() const;
+	RuleType::Type type() const;
 
 	// Check content for hits
 	virtual bool    match(const CEndPoint& oAddress) const;

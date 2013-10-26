@@ -69,10 +69,10 @@ private slots:
 	void on_pushButtonCancel_clicked();
 	void on_pushButtonOK_clicked();
 	void on_comboBoxExpire_currentIndexChanged(int index);
-	void on_lineEditMinutes_lostFocus();
-	void on_lineEditHours_lostFocus();
-	void on_lineEditDays_lostFocus();
 	void setSkin();
+	void on_lineEditDays_editingFinished();
+	void on_lineEditHours_editingFinished();
+	void on_lineEditMinutes_editingFinished();
 };
 
 #endif // DIALOGADDRULE_H

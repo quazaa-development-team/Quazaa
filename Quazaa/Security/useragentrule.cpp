@@ -2,7 +2,7 @@
 
 CUserAgentRule::CUserAgentRule()
 {
-	m_nType = srContentUserAgent;
+	m_nType = RuleType::UserAgent;
 	m_bRegExp  = false;
 }
 
@@ -53,7 +53,7 @@ bool CUserAgentRule::parseContent(const QString& sContent)
 
 bool CUserAgentRule::match(const QString& sUserAgent) const
 {
-	Q_ASSERT( m_nType == srContentUserAgent );
+	Q_ASSERT( m_nType == RuleType::UserAgent );
 
 	if( m_bRegExp )
 	{
@@ -74,14 +74,14 @@ bool CUserAgentRule::match(const QString& sUserAgent) const
 bool CUserAgentRule::partialMatch(const QString &sUserAgent) const
 {
 	//TODO: Figure out why this is triggered when removing an agent rule
-	Q_ASSERT( m_nType == srContentUserAgent );
+	Q_ASSERT( m_nType == RuleType::UserAgent );
 
 	return sUserAgent.contains( m_sContent, Qt::CaseInsensitive );
 }
 
 void CUserAgentRule::toXML(QXmlStreamWriter& oXMLdocument) const
 {
-	Q_ASSERT( m_nType == srContentUserAgent );
+	Q_ASSERT( m_nType == RuleType::UserAgent );
 
 	oXMLdocument.writeStartElement( "rule" );
 

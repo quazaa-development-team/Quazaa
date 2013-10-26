@@ -5,7 +5,7 @@
 
 CCountryRule::CCountryRule()
 {
-	m_nType = srContentCountry;
+	m_nType = RuleType::Country;
 }
 
 CSecureRule* CCountryRule::getCopy() const
@@ -25,7 +25,7 @@ bool CCountryRule::parseContent(const QString& sContent)
 
 bool CCountryRule::match(const CEndPoint& oAddress) const
 {
-	Q_ASSERT( !oAddress.isNull() && m_nType == srContentCountry );
+	Q_ASSERT( !oAddress.isNull() && m_nType == RuleType::Country );
 
 	if ( m_sContent == oAddress.country() )
 		return true;
@@ -35,7 +35,7 @@ bool CCountryRule::match(const CEndPoint& oAddress) const
 
 void CCountryRule::toXML(QXmlStreamWriter& oXMLdocument) const
 {
-	Q_ASSERT( m_nType == srContentCountry );
+	Q_ASSERT( m_nType == RuleType::Country );
 
 	oXMLdocument.writeStartElement( "rule" );
 

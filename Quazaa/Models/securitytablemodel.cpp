@@ -44,15 +44,15 @@ CSecurityTableModel::Rule::Rule(CSecureRule* pRule, CSecurityTableModel* model) 
 
 	switch( m_nAction )
 	{
-	case CSecureRule::srNull:
+	case RuleAction::Null:
 		m_piAction = model->m_pIcons[0];
 		break;
 
-	case CSecureRule::srAccept:
+	case RuleAction::Accept:
 		m_piAction = model->m_pIcons[1];
 		break;
 
-	case CSecureRule::srDeny:
+	case RuleAction::Deny:
 		m_piAction = model->m_pIcons[2];
 		break;
 
@@ -85,6 +85,15 @@ bool CSecurityTableModel::Rule::update(int row, int col, QModelIndexList &to_upd
 			bReturn = true;
 	}
 
+	if ( m_nType != m_pRule->type() )
+	{
+		to_update.append( model->index( row, TYPE ) );
+		m_nType = m_pRule->type();
+
+		if ( col == TYPE )
+			bReturn = true;
+	}
+
 	if ( m_nAction != m_pRule->m_nAction )
 	{
 		to_update.append( model->index( row, ACTION ) );
@@ -92,15 +101,15 @@ bool CSecurityTableModel::Rule::update(int row, int col, QModelIndexList &to_upd
 
 		switch( m_nAction )
 		{
-		case CSecureRule::srNull:
+		case RuleAction::Null:
 			m_piAction = model->m_pIcons[0];
 			break;
 
-		case CSecureRule::srAccept:
+		case RuleAction::Accept:
 			m_piAction = model->m_pIcons[1];
 			break;
 
-		case CSecureRule::srDeny:
+		case RuleAction::Deny:
 			m_piAction = model->m_pIcons[2];
 			break;
 
@@ -152,6 +161,27 @@ QVariant CSecurityTableModel::Rule::data(int col) const
 		case CONTENT:
 			return m_sContent;
 
+		case TYPE:
+			switch (m_nType)
+			{
+				case RuleType::Address:
+					return tr("IP Address");
+				case RuleType::AddressRange:
+					return tr("IP Address Range");
+				case RuleType::Country:
+					return tr("Country");
+				case RuleType::Hash:
+					return tr("File Filter");
+				case RuleType::RegExp:
+					return tr("Regular Expression");
+				case RuleType::UserAgent:
+					return tr("User Agent");
+				case RuleType::Text:
+					return tr("Content Filter");
+				default:
+					return tr("Unknown");
+			}
+
 		case ACTION:
 			return actionToString( m_nAction );
 
@@ -180,6 +210,9 @@ bool CSecurityTableModel::Rule::lessThan(int col,
 	case CONTENT:
 		return m_sContent < pOther->m_sContent;
 
+	case TYPE:
+		return m_nType < pOther->m_nType;
+
 	case ACTION:
 		return m_nAction  < pOther->m_nAction;
 
@@ -198,17 +231,17 @@ bool CSecurityTableModel::Rule::lessThan(int col,
 
 }
 
-QString CSecurityTableModel::Rule::actionToString(CSecureRule::TPolicy nAction) const
+QString CSecurityTableModel::Rule::actionToString(RuleAction::Action nAction) const
 {
 	switch( nAction )
 	{
-	case CSecureRule::srNull:
+	case RuleAction::Null:
 		return tr( "None" );
 
-	case CSecureRule::srAccept:
+	case RuleAction::Accept:
 		return tr( "Allow" );
 
-	case CSecureRule::srDeny:
+	case RuleAction::Deny:
 		return tr( "Deny" );
 	}
 
@@ -220,10 +253,10 @@ QString CSecurityTableModel::Rule::expiryToString(quint32 tExpire) const
 {
 	switch( tExpire )
 	{
-	case CSecureRule::srIndefinite:
+	case RuleTime::Forever:
 		return tr( "Never" );
 
-	case CSecureRule::srSession:
+	case RuleTime::Session:
 		return tr( "Session" );
 	}
 
@@ -360,6 +393,9 @@ QVariant CSecurityTableModel::headerData(int section, Qt::Orientation orientatio
 		case CONTENT:
 			return tr( "Content" );
 
+		case TYPE:
+			return tr( "Type" );
+
 		case ACTION:
 			return tr( "Action" );
 
@@ -379,6 +415,9 @@ QVariant CSecurityTableModel::headerData(int section, Qt::Orientation orientatio
 		{
 		case CONTENT:
 			return tr( "The content of the Security Manager rule" );
+
+		case TYPE:
+			return tr( "The rule type." );
 
 		case ACTION:
 			return tr( "Whether a rule blocks or allows content" );

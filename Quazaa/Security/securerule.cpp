@@ -34,10 +34,10 @@
 CSecureRule::CSecureRule()
 {
 	// This invalidates rule as long as it does not contain any useful content.
-	m_nType   = srContentUndefined;
+	m_nType   = RuleType::Undefined;
 
-	m_nAction = srDeny;
-	m_tExpire = srIndefinite;
+	m_nAction = RuleAction::Deny;
+	m_tExpire = RuleTime::Forever;
 	m_nToday  = 0;
 	m_nTotal  = 0;
 
@@ -100,7 +100,7 @@ bool CSecureRule::parseContent(const QString&)
 
 QString CSecureRule::getContentString() const
 {
-	Q_ASSERT( m_nType != srContentUndefined );
+	Q_ASSERT( m_nType != RuleType::Undefined );
 
 	return m_sContent;
 }
@@ -150,11 +150,11 @@ void CSecureRule::save(const CSecureRule* const pRule, QDataStream &oStream)
 
 	oStream << pRule->getContentString();
 
-	if ( pRule->m_nType == srContentUserAgent )
+	if ( pRule->m_nType == RuleType::UserAgent )
 	{
 		oStream << ((CUserAgentRule*)pRule)->getRegExp();
 	}
-	else if ( pRule->m_nType == srContentText )
+	else if ( pRule->m_nType == RuleType::Text )
 	{
 		oStream << ((CContentRule*)pRule)->getAll();
 	}
@@ -242,7 +242,7 @@ void CSecureRule::load(CSecureRule*& pRule, QDataStream &fsFile, int)
 
 	if ( pRule )
 	{
-		pRule->m_nAction  = (TPolicy)nAction;
+		pRule->m_nAction  = (RuleAction::Action)nAction;
 		pRule->m_sComment = sComment;
 		pRule->m_oUUID    = QUuid( sUUID );
 		pRule->m_tExpire  = tExpire;
@@ -381,15 +381,15 @@ CSecureRule* CSecureRule::fromXML(QXmlStreamReader& oXMLdocument, float nVersion
 
 	if ( sAction.compare( "deny", Qt::CaseInsensitive ) == 0 || sAction.isEmpty() )
 	{
-		pRule->m_nAction = srDeny;
+		pRule->m_nAction = RuleAction::Deny;
 	}
 	else if ( sAction.compare( "accept", Qt::CaseInsensitive ) == 0 )
 	{
-		pRule->m_nAction = srAccept;
+		pRule->m_nAction = RuleAction::Accept;
 	}
 	else if ( sAction.compare( "null", Qt::CaseInsensitive ) == 0 )
 	{
-		pRule->m_nAction = srNull;
+		pRule->m_nAction = RuleAction::Null;
 	}
 	else
 	{
@@ -406,13 +406,13 @@ CSecureRule* CSecureRule::fromXML(QXmlStreamReader& oXMLdocument, float nVersion
 	pRule->m_sComment = attributes.value( "comment" ).toString().trimmed();
 
 	QString sExpire = attributes.value( "expire" ).toString();
-	if ( sExpire.compare( "indefinite", Qt::CaseInsensitive ) == 0 )
+	if ( sExpire.compare( "forever", Qt::CaseInsensitive ) == 0 )
 	{
-		pRule->m_tExpire = srIndefinite;
+		pRule->m_tExpire = RuleTime::Forever;
 	}
 	else if ( sExpire.compare( "session", Qt::CaseInsensitive ) == 0 )
 	{
-		pRule->m_tExpire = srSession;
+		pRule->m_tExpire = RuleTime::Session;
 	}
 	else
 	{
@@ -443,13 +443,13 @@ void CSecureRule::toXML(const CSecureRule& oRule, QXmlStreamWriter& oXMLdocument
 	// Write rule action to XML file.
 	switch ( oRule.m_nAction )
 	{
-	case srNull:
+	case RuleAction::Null:
 		sValue = "null";
 		break;
-	case srAccept:
+	case RuleAction::Accept:
 		sValue = "accept";
 		break;
-	case srDeny:
+	case RuleAction::Deny:
 		sValue = "deny";
 		break;
 	default:
@@ -463,15 +463,15 @@ void CSecureRule::toXML(const CSecureRule& oRule, QXmlStreamWriter& oXMLdocument
 		oXMLdocument.writeAttribute( "automatic", "false" );
 
 	// Write expiry date.
-	if ( oRule.m_tExpire == srSession )
+	if ( oRule.m_tExpire == RuleTime::Session )
 	{
 		sValue = "session";
 	}
-	else if ( oRule.m_tExpire == srIndefinite )
+	else if ( oRule.m_tExpire == RuleTime::Forever )
 	{
-		sValue = "indefinite";
+		sValue = "forever";
 	}
-	else if ( oRule.m_tExpire > srSession )
+	else if ( oRule.m_tExpire > RuleTime::Session )
 	{
 		sValue = "%1";
 		sValue.arg( oRule.m_tExpire );
@@ -500,8 +500,8 @@ void CSecureRule::toXML(const CSecureRule& oRule, QXmlStreamWriter& oXMLdocument
  */
 bool CSecureRule::isExpired(quint32 tNow, bool bSession) const
 {
-	if ( m_tExpire == srIndefinite ) return false;
-	if ( m_tExpire == srSession ) return bSession;
+	if ( m_tExpire == RuleTime::Forever ) return false;
+	if ( m_tExpire == RuleTime::Session ) return bSession;
 	return m_tExpire < tNow;
 }
 
@@ -570,7 +570,7 @@ void CSecureRule::loadTotalCount( quint32 nTotal )
  * @return the rule type.
  * Requires Locking: R
  */
-CSecureRule::TRuleType CSecureRule::type() const
+RuleType::Type CSecureRule::type() const
 {
 	return m_nType;
 }

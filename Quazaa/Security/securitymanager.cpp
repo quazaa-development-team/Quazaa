@@ -109,7 +109,7 @@ void CSecurity::add(CSecureRule* pRule)
 	Q_ASSERT( pRule->type() > 0 && pRule->type() < 8 && pRule->m_nAction < 3 );
 	Q_ASSERT( !pRule->m_oUUID.isNull() );
 
-	CSecureRule::TRuleType type = pRule->type();
+	RuleType::Type type = pRule->type();
 	CSecureRule* pExRule = NULL;
 
 	bool bNewAddress = false;
@@ -118,7 +118,7 @@ void CSecurity::add(CSecureRule* pRule)
 	// Special treatment for the different types of rules
 	switch ( type )
 	{
-	case CSecureRule::srContentAddress:
+	case RuleType::Address:
 	{
 		uint nIP = qHash( ((CIPRule*)pRule)->IP() );
 		TAddressRuleMap::iterator i = m_IPs.find( nIP );
@@ -154,7 +154,7 @@ void CSecurity::add(CSecureRule* pRule)
 	}
 	break;
 
-	case CSecureRule::srContentAddressRange:
+	case RuleType::AddressRange:
 	{
 		CIPRangeRule* pNewRule = ((CIPRangeRule*)pRule);
 		CIPRangeRule* pOldRule = isInRangeRules(pNewRule->startIP());
@@ -165,8 +165,8 @@ void CSecurity::add(CSecureRule* pRule)
 		if(pOldRule)
 		{
 			// fix range conflicts with old rules
-			if((pNewRule->m_nAction == CSecureRule::srDeny && pOldRule->m_nAction == CSecureRule::srDeny) ||
-			   (pNewRule->m_nAction == CSecureRule::srAccept && pOldRule->m_nAction == CSecureRule::srAccept)) {
+			if((pNewRule->m_nAction == RuleAction::Deny && pOldRule->m_nAction == RuleAction::Deny) ||
+			   (pNewRule->m_nAction == RuleAction::Accept && pOldRule->m_nAction == RuleAction::Accept)) {
 				if( pNewRule->startIP() == pOldRule->startIP() && pNewRule->endIP() == pOldRule->endIP()  )
 				{
 					systemLog.postLog(LogSeverity::Security, QString("New IP range rule is the same as old rule %3-%4, skipping.")
@@ -237,7 +237,7 @@ void CSecurity::add(CSecureRule* pRule)
 	}
 	break;
 #if SECURITY_ENABLE_GEOIP
-	case CSecureRule::srContentCountry:
+	case RuleType::Country:
 	{
 		QString country = ((CCountryRule*)pRule)->getContentString();
 		TCountryRuleMap::iterator i = m_Countries.find( country );
@@ -275,7 +275,7 @@ void CSecurity::add(CSecureRule* pRule)
 	}
 	break;
 #endif // SECURITY_ENABLE_GEOIP
-	case CSecureRule::srContentHash:
+	case RuleType::Hash:
 	{
 		CHashRule* pHashRule = (CHashRule*)pRule;
 
@@ -326,7 +326,7 @@ void CSecurity::add(CSecureRule* pRule)
 	}
 	break;
 
-	case CSecureRule::srContentRegExp:
+	case RuleType::RegExp:
 	{
 		TRegExpRuleList::iterator i = m_RegExpressions.begin();
 		CRegExpRule* pOldRule = NULL;
@@ -362,7 +362,7 @@ void CSecurity::add(CSecureRule* pRule)
 	}
 	break;
 
-	case CSecureRule::srContentText:
+	case RuleType::Text:
 	{
 		TContentRuleList::iterator i = m_Contents.begin();
 		CContentRule* pOldRule = NULL;
@@ -398,7 +398,7 @@ void CSecurity::add(CSecureRule* pRule)
 	}
 	break;
 
-	case CSecureRule::srContentUserAgent:
+	case RuleType::UserAgent:
 	{
 		QString agent = ((CUserAgentRule*)pRule)->getContentString();
 		TUserAgentRuleMap::iterator i = m_UserAgents.find( agent );
@@ -435,7 +435,7 @@ void CSecurity::add(CSecureRule* pRule)
 #if SECURITY_ENABLE_GEOIP
 		Q_ASSERT( false );
 #else
-		Q_ASSERT( type == CSecureRule::srContentCountry );
+		Q_ASSERT( type == CSecureRule::RuleType::Country );
 #endif // SECURITY_ENABLE_GEOIP
 	}
 
@@ -449,14 +449,14 @@ void CSecurity::add(CSecureRule* pRule)
 
 	// If an address rule is added, the miss cache is cleared either in whole or just the relevant
 	// address.
-	if ( type == CSecureRule::srContentAddress )
+	if ( type == RuleType::Address )
 	{
 		m_Cache.erase( qHash( ((CIPRule*)pRule)->IP() ) );
 
 		if ( !m_bUseMissCache )
 			evaluateCacheUsage();
 	}
-	else if ( type == CSecureRule::srContentAddressRange || type == CSecureRule::srContentCountry )
+	else if ( type == RuleType::AddressRange || type == RuleType::Country )
 	{
 		missCacheClear( true );
 
@@ -486,7 +486,7 @@ void CSecurity::add(CSecureRule* pRule)
 	// If we're not loading, check all lists for newly denied hosts.
 	if ( !m_bIsLoading )
 	{
-		if(pRule->type() == CSecureRule::srContentAddressRange)
+		if(pRule->type() == RuleType::AddressRange)
 			qSort(m_lIPRanges.begin(), m_lIPRanges.end(), securityIPRangeLessThan);
 		sanityCheck();
 		save();
@@ -544,7 +544,7 @@ void CSecurity::clear()
   * rule. If bMessage is set to true, a notification is send to the system log.
   * Locking: RW
   */
-void CSecurity::ban(const CEndPoint& oAddress, BanLength::TBanLength nBanLength, bool bMessage,
+void CSecurity::ban(const CEndPoint& oAddress, RuleTime::Time nRuleTime, bool bMessage,
 					const QString& sComment, bool bAutomatic)
 {
 	if ( oAddress.isNull() )
@@ -562,51 +562,51 @@ void CSecurity::ban(const CEndPoint& oAddress, BanLength::TBanLength nBanLength,
 
 		pIPRule->m_bAutomatic = bAutomatic;
 
-		if ( pIPRule->m_nAction == CSecureRule::srDeny )
+		if ( pIPRule->m_nAction == RuleAction::Deny )
 		{
 			if ( !( sComment.isEmpty() ) )
 				pIPRule->m_sComment = sComment;
 
-			switch( nBanLength )
+			switch( nRuleTime )
 			{
-			case BanLength::Session:
-				pIPRule->m_tExpire = CSecureRule::srSession;
+			case RuleTime::Session:
+				pIPRule->m_tExpire = RuleTime::Session;
 				return;
 
-			case BanLength::FiveMinutes:
-				pIPRule->m_tExpire = tNow + BanLength::FiveMinutes;
+			case RuleTime::FiveMinutes:
+				pIPRule->m_tExpire = tNow + RuleTime::FiveMinutes;
 				break;
 
-			case BanLength::ThirtyMinutes:
-				pIPRule->m_tExpire = tNow + BanLength::ThirtyMinutes;
+			case RuleTime::ThirtyMinutes:
+				pIPRule->m_tExpire = tNow + RuleTime::ThirtyMinutes;
 				break;
 
-			case BanLength::TwoHours:
-				pIPRule->m_tExpire = tNow + BanLength::TwoHours;
+			case RuleTime::TwoHours:
+				pIPRule->m_tExpire = tNow + RuleTime::TwoHours;
 				break;
 
-			case BanLength::SixHours:
-				pIPRule->m_tExpire = tNow + BanLength::SixHours;
+			case RuleTime::SixHours:
+				pIPRule->m_tExpire = tNow + RuleTime::SixHours;
 				break;
 
-			case BanLength::TwelveHours:
-				pIPRule->m_tExpire = tNow + BanLength::TwelveHours;
+			case RuleTime::TwelveHours:
+				pIPRule->m_tExpire = tNow + RuleTime::TwelveHours;
 				break;
 
-			case BanLength::Day:
-				pIPRule->m_tExpire = tNow + BanLength::Day;
+			case RuleTime::Day:
+				pIPRule->m_tExpire = tNow + RuleTime::Day;
 				break;
 
-			case BanLength::Week:
-				pIPRule->m_tExpire = tNow + BanLength::Week;
+			case RuleTime::Week:
+				pIPRule->m_tExpire = tNow + RuleTime::Week;
 				break;
 
-			case BanLength::Month:
-				pIPRule->m_tExpire = tNow + BanLength::Month;
+			case RuleTime::Month:
+				pIPRule->m_tExpire = tNow + RuleTime::Month;
 				break;
 
-			case BanLength::Forever:
-				pIPRule->m_tExpire = CSecureRule::srIndefinite;
+			case RuleTime::Forever:
+				pIPRule->m_tExpire = RuleTime::Forever;
 				return;
 
 			default:
@@ -633,60 +633,60 @@ void CSecurity::ban(const CEndPoint& oAddress, BanLength::TBanLength nBanLength,
 
 	pIPRule->m_bAutomatic = bAutomatic;
 
-	switch( nBanLength )
+	switch( nRuleTime )
 	{
-	case BanLength::Session:
-		pIPRule->m_tExpire  = CSecureRule::srSession;
+	case RuleTime::Session:
+		pIPRule->m_tExpire  = RuleTime::Session;
 		pIPRule->m_sComment = tr( "Session Ban" );
 		break;
 
-	case BanLength::FiveMinutes:
-		pIPRule->m_tExpire  = tNow + BanLength::FiveMinutes;
+	case RuleTime::FiveMinutes:
+		pIPRule->m_tExpire  = tNow + RuleTime::FiveMinutes;
 		pIPRule->m_sComment = tr( "Temp Ignore (5 min)" );
 		break;
 
-	case BanLength::ThirtyMinutes:
-		pIPRule->m_tExpire  = tNow + BanLength::ThirtyMinutes;
+	case RuleTime::ThirtyMinutes:
+		pIPRule->m_tExpire  = tNow + RuleTime::ThirtyMinutes;
 		pIPRule->m_sComment = tr( "Temp Ignore (30 min)" );
 		break;
 
-	case BanLength::TwoHours:
-		pIPRule->m_tExpire  = tNow + BanLength::TwoHours;
+	case RuleTime::TwoHours:
+		pIPRule->m_tExpire  = tNow + RuleTime::TwoHours;
 		pIPRule->m_sComment = tr( "Temp Ignore (2 h)" );
 		break;
 
-	case BanLength::SixHours:
-		pIPRule->m_tExpire  = tNow + BanLength::SixHours;
+	case RuleTime::SixHours:
+		pIPRule->m_tExpire  = tNow + RuleTime::SixHours;
 		pIPRule->m_sComment = tr( "Temp Ignore (2 h)" );
 		break;
 
-	case BanLength::TwelveHours:
-		pIPRule->m_tExpire  = tNow + BanLength::TwelveHours;
+	case RuleTime::TwelveHours:
+		pIPRule->m_tExpire  = tNow + RuleTime::TwelveHours;
 		pIPRule->m_sComment = tr( "Temp Ignore (2 h)" );
 		break;
 
-	case BanLength::Day:
-		pIPRule->m_tExpire  = tNow + BanLength::Day;
+	case RuleTime::Day:
+		pIPRule->m_tExpire  = tNow + RuleTime::Day;
 		pIPRule->m_sComment = tr( "Temp Ignore (1 d)" );
 		break;
 
-	case BanLength::Week:
-		pIPRule->m_tExpire  = tNow + BanLength::Week;
+	case RuleTime::Week:
+		pIPRule->m_tExpire  = tNow + RuleTime::Week;
 		pIPRule->m_sComment = tr( "Client Block (1 week)" );
 		break;
 
-	case BanLength::Month:
-		pIPRule->m_tExpire  = tNow + BanLength::Month;
+	case RuleTime::Month:
+		pIPRule->m_tExpire  = tNow + RuleTime::Month;
 		pIPRule->m_sComment = tr( "Quick IP Block (1 month)" );
 		break;
 
-	case BanLength::Forever:
-		pIPRule->m_tExpire  = CSecureRule::srIndefinite;
+	case RuleTime::Forever:
+		pIPRule->m_tExpire  = RuleTime::Forever;
 		pIPRule->m_sComment = tr( "Indefinite Ban" );
 		break;
 
 	default:
-		pIPRule->m_tExpire  = CSecureRule::srSession;
+		pIPRule->m_tExpire  = RuleTime::Session;
 		pIPRule->m_sComment = tr( "Session Ban" );
 		Q_ASSERT( false ); // this should never happen
 	}
@@ -713,7 +713,7 @@ void CSecurity::ban(const CEndPoint& oAddress, BanLength::TBanLength nBanLength,
   * Locking: R + RW while adding
   */
 // TODO: Implement priorization of hashes to not to ban too many hashes per file.
-/*void CSecurity::ban(const CFile& oFile, TBanLength nBanLength, bool bMessage, const QString& sComment)
+/*void CSecurity::ban(const CFile& oFile, Time nRuleTime, bool bMessage, const QString& sComment)
 {
 	if ( oFile.isNull() )
 	{
@@ -741,10 +741,10 @@ void CSecurity::ban(const CEndPoint& oAddress, BanLength::TBanLength nBanLength,
 	{
 		CHashRule* pRule = new CHashRule();
 
-		switch ( nBanLength )
+		switch ( nRuleTime )
 		{
 		case banSession:
-			pIPRule->m_tExpire  = CSecureRule::srSession;
+			pIPRule->m_tExpire  = RuleAction::Session;
 			pIPRule->m_sComment = tr( "Session Ban" );
 			break;
 
@@ -779,12 +779,12 @@ void CSecurity::ban(const CEndPoint& oAddress, BanLength::TBanLength nBanLength,
 			break;
 
 		case banForever:
-			pIPRule->m_tExpire  = CSecureRule::srIndefinite;
+			pIPRule->m_tExpire  = RuleAction::Indefinite;
 			pIPRule->m_sComment = tr( "Indefinite Ban" );
 			break;
 
 		default:
-			pIPRule->m_tExpire  = CSecureRule::srSession;
+			pIPRule->m_tExpire  = RuleAction::Session;
 			pIPRule->m_sComment = tr( "Session Ban" );
 			Q_ASSERT( false ); // this should never happen
 		}
@@ -846,9 +846,9 @@ bool CSecurity::isNewlyDenied(const CEndPoint& oAddress)
 
 			hit( pRule );
 
-			if ( pRule->m_nAction == CSecureRule::srAccept )
+			if ( pRule->m_nAction == RuleAction::Accept )
 				return false;
-			else if ( pRule->m_nAction == CSecureRule::srDeny )
+			else if ( pRule->m_nAction == RuleAction::Deny )
 				return true;
 		}
 
@@ -888,9 +888,9 @@ bool CSecurity::isNewlyDenied(const CQueryHit* pHit, const QList<QString>& lQuer
 
 			hit( pRule );
 
-			if ( pRule->m_nAction == CSecureRule::srAccept )
+			if ( pRule->m_nAction == RuleAction::Accept )
 				return false;
-			else if ( pRule->m_nAction == CSecureRule::srDeny )
+			else if ( pRule->m_nAction == RuleAction::Deny )
 				return true;
 		}
 
@@ -953,12 +953,12 @@ bool CSecurity::isDenied(const CEndPoint &oAddress)
 	{
 		hit( pRule );
 
-		if ( pRule->m_nAction == CSecureRule::srAccept )
+		if ( pRule->m_nAction == RuleAction::Accept )
 			return false;
-		else if ( pRule->m_nAction == CSecureRule::srDeny )
+		else if ( pRule->m_nAction == RuleAction::Deny )
 			return true;
 		else
-			Q_ASSERT( pRule->m_nAction == CSecureRule::srNull );
+			Q_ASSERT( pRule->m_nAction == RuleAction::Null );
 	}
 
 	// Fourth, check the fast IP rules lookup map.
@@ -972,12 +972,12 @@ bool CSecurity::isDenied(const CEndPoint &oAddress)
 		{
 			hit( pIPRule );
 
-			if ( pIPRule->m_nAction == CSecureRule::srAccept )
+			if ( pIPRule->m_nAction == RuleAction::Accept )
 				return false;
-			else if ( pIPRule->m_nAction == CSecureRule::srDeny )
+			else if ( pIPRule->m_nAction == RuleAction::Deny )
 				return true;
 			else
-				Q_ASSERT( pIPRule->m_nAction == CSecureRule::srNull );
+				Q_ASSERT( pIPRule->m_nAction == RuleAction::Null );
 		}
 	}
 
@@ -993,12 +993,12 @@ bool CSecurity::isDenied(const CEndPoint &oAddress)
 		{
 			hit( pCountryRule );
 
-			if ( pCountryRule->m_nAction == CSecureRule::srAccept )
+			if ( pCountryRule->m_nAction == RuleAction::Accept )
 				return false;
-			else if ( pCountryRule->m_nAction == CSecureRule::srDeny )
+			else if ( pCountryRule->m_nAction == RuleAction::Deny )
 				return true;
 			else
-				Q_ASSERT( pCountryRule->m_nAction == CSecureRule::srNull );
+				Q_ASSERT( pCountryRule->m_nAction == RuleAction::Null );
 		}
 	}
 #endif // SECURITY_ENABLE_GEOIP
@@ -1632,8 +1632,8 @@ bool CSecurity::fromP2P(const QString &sFile)
 				break;
 
 			pRule->m_sComment = comment;
-			pRule->m_nAction = CSecureRule::srDeny;
-			pRule->m_tExpire = CSecureRule::srIndefinite;
+			pRule->m_nAction = RuleAction::Deny;
+			pRule->m_tExpire = RuleTime::Forever;
 			pRule->m_bAutomatic = false;
 
 			add( pRule );
@@ -1956,7 +1956,7 @@ void CSecurity::remove(TConstIterator it)
 	// Removing the rule from special containers for fast access.
 	switch ( pRule->type() )
 	{
-	case CSecureRule::srContentAddress:
+	case RuleType::Address:
 	{
 		uint nIP = qHash( ((CIPRule*)pRule)->IP() );
 		TAddressRuleMap::iterator i = m_IPs.find( nIP );
@@ -1971,7 +1971,7 @@ void CSecurity::remove(TConstIterator it)
 	}
 	break;
 
-	case CSecureRule::srContentAddressRange:
+	case RuleType::AddressRange:
 	{
 		QList< CIPRangeRule* >::iterator i = m_lIPRanges.begin();
 
@@ -1992,7 +1992,7 @@ void CSecurity::remove(TConstIterator it)
 	break;
 
 #if SECURITY_ENABLE_GEOIP
-	case CSecureRule::srContentCountry:
+	case RuleType::Country:
 	{
 		QString country = pRule->getContentString();
 		TCountryRuleMap::iterator i = m_Countries.find( country );
@@ -2008,7 +2008,7 @@ void CSecurity::remove(TConstIterator it)
 	break;
 #endif // SECURITY_ENABLE_GEOIP
 
-	case CSecureRule::srContentHash:
+	case RuleType::Hash:
 	{
 		CHashRule* pHashRule = (CHashRule*)pRule;
 
@@ -2033,7 +2033,7 @@ void CSecurity::remove(TConstIterator it)
 	}
 	break;
 
-	case CSecureRule::srContentText:
+	case RuleType::Text:
 	{
 		TContentRuleList::iterator i = m_Contents.begin();
 
@@ -2050,7 +2050,7 @@ void CSecurity::remove(TConstIterator it)
 	}
 	break;
 
-	case CSecureRule::srContentRegExp:
+	case RuleType::RegExp:
 	{
 		TRegExpRuleList::iterator i = m_RegExpressions.begin();
 
@@ -2067,7 +2067,7 @@ void CSecurity::remove(TConstIterator it)
 	}
 	break;
 
-	case CSecureRule::srContentUserAgent:
+	case RuleType::UserAgent:
 	{
 		TUserAgentRuleMap::iterator i = m_UserAgents.begin();
 
@@ -2090,7 +2090,7 @@ void CSecurity::remove(TConstIterator it)
 #if SECURITY_ENABLE_GEOIP
 		Q_ASSERT( false );
 #else
-		Q_ASSERT( pRule->type() == CSecureRule::srContentCountry );
+		Q_ASSERT( pRule->type() == CSecureRule::RuleType::Country );
 #endif // SECURITY_ENABLE_GEOIP
 	}
 
@@ -2119,9 +2119,9 @@ bool CSecurity::isAgentDenied(const QString& sUserAgent)
 		{
 			hit( pRule );
 
-			if ( pRule->m_nAction == CSecureRule::srAccept )
+			if ( pRule->m_nAction == RuleAction::Accept )
 				return false;
-			else if ( pRule->m_nAction == CSecureRule::srDeny )
+			else if ( pRule->m_nAction == RuleAction::Deny )
 				return true;
 		}
 	}
@@ -2137,9 +2137,9 @@ bool CSecurity::isAgentDenied(const QString& sUserAgent)
 		{
 			hit( pRule );
 
-			if ( pRule->m_nAction == CSecureRule::srAccept )
+			if ( pRule->m_nAction == RuleAction::Accept )
 				return false;
-			else if ( pRule->m_nAction == CSecureRule::srDeny )
+			else if ( pRule->m_nAction == RuleAction::Deny )
 				return true;
 		}
 	}
@@ -2248,9 +2248,9 @@ bool CSecurity::isDenied(const QString& sContent)
 		{
 			hit( pRule );
 
-			if ( pRule->m_nAction == CSecureRule::srAccept )
+			if ( pRule->m_nAction == RuleAction::Accept )
 				return false;
-			else if ( pRule->m_nAction == CSecureRule::srDeny )
+			else if ( pRule->m_nAction == RuleAction::Deny )
 				return true;
 		}
 	}
@@ -2277,9 +2277,9 @@ bool CSecurity::isDenied(const CQueryHit* const pHit)
 		{
 			hit( pRule );
 
-			if ( pRule->m_nAction == CSecureRule::srAccept )
+			if ( pRule->m_nAction == RuleAction::Accept )
 				return false;
-			else if ( pRule->m_nAction == CSecureRule::srDeny )
+			else if ( pRule->m_nAction == RuleAction::Deny )
 				return true;
 		}
 	}
@@ -2301,9 +2301,9 @@ bool CSecurity::isDenied(const CQueryHit* const pHit)
 		{
 			hit( pRule );
 
-			if ( pRule->m_nAction == CSecureRule::srAccept )
+			if ( pRule->m_nAction == RuleAction::Accept )
 				return false;
-			else if ( pRule->m_nAction == CSecureRule::srDeny )
+			else if ( pRule->m_nAction == RuleAction::Deny )
 				return true;
 		}
 	}
@@ -2332,9 +2332,9 @@ bool CSecurity::isDenied(const QList<QString>& lQuery, const QString& sContent)
 		{
 			hit( pRule );
 
-			if ( pRule->m_nAction == CSecureRule::srAccept )
+			if ( pRule->m_nAction == RuleAction::Accept )
 				return false;
-			else if ( pRule->m_nAction == CSecureRule::srDeny )
+			else if ( pRule->m_nAction == RuleAction::Deny )
 				return true;
 		}
 	}

@@ -2,7 +2,7 @@
 
 CIPRule::CIPRule()
 {
-	m_nType = srContentAddress;
+	m_nType = RuleType::Address;
 }
 
 CEndPoint CIPRule::IP() const
@@ -35,7 +35,7 @@ bool CIPRule::parseContent(const QString& sContent)
 
 bool CIPRule::match(const CEndPoint& oAddress) const
 {
-	Q_ASSERT( !oAddress.isNull() && m_nType == srContentAddress );
+	Q_ASSERT( !oAddress.isNull() && m_nType == RuleType::Address );
 
 	if ( !oAddress.isNull() && oAddress == m_oIP )
 	{
@@ -46,7 +46,7 @@ bool CIPRule::match(const CEndPoint& oAddress) const
 
 void CIPRule::toXML(QXmlStreamWriter& oXMLdocument) const
 {
-	Q_ASSERT( m_nType == srContentAddress );
+	Q_ASSERT( m_nType == RuleType::Address );
 
 	oXMLdocument.writeStartElement( "rule" );
 

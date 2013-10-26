@@ -51,7 +51,7 @@ CDialogAddRule::CDialogAddRule(CWidgetSecurity* parent, CSecureRule* pRule) :
 
 	switch ( m_pRule->type() )
 	{
-	case CSecureRule::srContentAddressRange:
+	case RuleType::AddressRange:
 	{
 		ui->comboBoxRuleType->setCurrentIndex( 1 );
 		ui->stackedWidgetType->setCurrentIndex( 1 );
@@ -60,32 +60,32 @@ CDialogAddRule::CDialogAddRule(CWidgetSecurity* parent, CSecureRule* pRule) :
 		ui->lineEditEndIP->setText( lAddressRange.at(1) );
 		break;
 	}
-	case CSecureRule::srContentCountry:
+	case RuleType::Country:
 		ui->comboBoxRuleType->setCurrentIndex( 2 );
 		ui->stackedWidgetType->setCurrentIndex( 2 );
 		ui->lineEditCountry->setText( m_pRule->getContentString() );
 		break;
-	case CSecureRule::srContentHash:
+	case RuleType::Hash:
 		ui->comboBoxRuleType->setCurrentIndex( 3 );
 		ui->stackedWidgetType->setCurrentIndex( 3 );
 		break;
-	case CSecureRule::srContentText:
+	case RuleType::Text:
 		ui->comboBoxRuleType->setCurrentIndex( 4 );
 		ui->stackedWidgetType->setCurrentIndex( 4 );
 		ui->lineEditContent->setText( m_pRule->getContentString() );
 		break;
-	case CSecureRule::srContentRegExp:
+	case RuleType::RegExp:
 		ui->comboBoxRuleType->setCurrentIndex( 5 );
 		ui->stackedWidgetType->setCurrentIndex( 5 );
 		ui->lineEditRegularExpression->setText( m_pRule->getContentString() );
 		break;
-	case CSecureRule::srContentUserAgent:
+	case RuleType::UserAgent:
 		ui->comboBoxRuleType->setCurrentIndex( 6 );
 		ui->stackedWidgetType->setCurrentIndex( 6 );
 		ui->checkBoxUserAgent->setChecked( ((CUserAgentRule*)m_pRule)->getRegExp() );
 		ui->lineEditUserAgent->setText( m_pRule->getContentString() );
 		break;
-	case CSecureRule::srContentAddress:
+	case RuleType::Address:
 	default:
 		ui->comboBoxRuleType->setCurrentIndex( 0 );
 		ui->stackedWidgetType->setCurrentIndex( 0 );
@@ -97,14 +97,14 @@ CDialogAddRule::CDialogAddRule(CWidgetSecurity* parent, CSecureRule* pRule) :
 
 	switch ( tExpire )
 	{
-	case CSecureRule::srIndefinite:
+	case RuleTime::Forever:
 		ui->comboBoxExpire->setCurrentIndex( 0 );
 		ui->lineEditMinutes->setEnabled( false );
 		ui->lineEditHours->setEnabled( false );
 		ui->lineEditDays->setEnabled( false );
 		break;
 
-	case CSecureRule::srSession:
+	case RuleTime::Session:
 		ui->comboBoxExpire->setCurrentIndex( 1 );
 		ui->lineEditMinutes->setEnabled( false );
 		ui->lineEditHours->setEnabled( false );
@@ -231,16 +231,23 @@ void CDialogAddRule::on_pushButtonOK_clicked()
 
 	if ( pRule )
 	{
-		quint32 tExpire = ui->comboBoxExpire->currentIndex();
-		if ( tExpire == 2 )
-		{
-			tExpire = 0;
-			tExpire += ui->lineEditMinutes->text().toUShort() * 60;
-			tExpire += ui->lineEditHours->text().toUShort() * 3600;
-			tExpire += ui->lineEditDays->text().toUShort() * 216000;
-			tExpire += common::getTNowUTC();
+		switch (ui->comboBoxExpire->currentIndex()) {
+			case 0:
+				pRule->m_tExpire = RuleTime::Forever;
+			case 1:
+				pRule->m_tExpire = RuleTime::Session;
+			case 2:
+			{
+				quint32 tExpire = 0;
+				tExpire += ui->lineEditMinutes->text().toUShort() * 60;
+				tExpire += ui->lineEditHours->text().toUShort() * 3600;
+				tExpire += ui->lineEditDays->text().toUShort() * 216000;
+				tExpire += common::getTNowUTC();
+
+				pRule->m_tExpire = tExpire;
+				break;
+			}
 		}
-		pRule->m_tExpire = tExpire;
 
 		pRule->m_sComment = ui->lineEditComment->text();
 		pRule->m_oUUID = m_pRule->m_oUUID;
@@ -279,7 +286,29 @@ void CDialogAddRule::on_comboBoxExpire_currentIndexChanged(int index)
 	}
 }
 
-void CDialogAddRule::on_lineEditMinutes_lostFocus()
+void CDialogAddRule::setSkin()
+{
+
+}
+
+void CDialogAddRule::on_lineEditDays_editingFinished()
+{
+	quint64 nDays = ui->lineEditDays->text().toULong();
+
+	ui->lineEditDays->setText( QString::number( nDays ) );
+}
+
+void CDialogAddRule::on_lineEditHours_editingFinished()
+{
+	quint64 nHours = ui->lineEditHours->text().toULong();
+	quint64 nDays = ui->lineEditDays->text().toULong();
+
+	ui->lineEditHours->setText( QString::number( nHours % 24 ) );
+	nDays += nHours / 24;
+	ui->lineEditDays->setText( QString::number( nDays ) );
+}
+
+void CDialogAddRule::on_lineEditMinutes_editingFinished()
 {
 	quint64 nMinutes = ui->lineEditMinutes->text().toULong();
 	quint64 nHours = ui->lineEditHours->text().toULong();
@@ -290,26 +319,4 @@ void CDialogAddRule::on_lineEditMinutes_lostFocus()
 	ui->lineEditHours->setText( QString::number( nHours % 24 ) );
 	nDays += nHours / 24;
 	ui->lineEditDays->setText( QString::number( nDays ) );
-}
-
-void CDialogAddRule::on_lineEditHours_lostFocus()
-{
-	quint64 nHours = ui->lineEditHours->text().toULong();
-	quint64 nDays = ui->lineEditDays->text().toULong();
-
-	ui->lineEditHours->setText( QString::number( nHours % 24 ) );
-	nDays += nHours / 24;
-	ui->lineEditDays->setText( QString::number( nDays ) );
-}
-
-void CDialogAddRule::on_lineEditDays_lostFocus()
-{
-	quint64 nDays = ui->lineEditDays->text().toULong();
-
-	ui->lineEditDays->setText( QString::number( nDays ) );
-}
-
-void CDialogAddRule::setSkin()
-{
-
 }

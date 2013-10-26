@@ -23,6 +23,12 @@
    <iconset resource="../Resource.qrc">
     <normaloff>:/Resource/Security/ImportRules.png</normaloff>:/Resource/Security/ImportRules.png</iconset>
   </property>
+  <property name="styleSheet">
+   <string notr="true">QDialog#CDialogImportSecurity {
+	border: 2px solid black;
+	border-radius: 6px;
+}</string>
+  </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <property name="spacing">
     <number>4</number>

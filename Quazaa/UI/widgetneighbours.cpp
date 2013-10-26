@@ -263,7 +263,7 @@ void CWidgetNeighbours::on_actionNetworkBan_triggered()
 	bool ok;
 	QString reason = QInputDialog::getText(this, tr("Ban Reason"), tr("Please enter a ban reason."), QLineEdit::Normal, "", &ok);
 	if(ok && !reason.isEmpty()) {
-		securityManager.ban(pNbr->oAddress, BanLength::Forever, false, reason, false);
+		securityManager.ban(pNbr->oAddress, RuleTime::Forever, false, reason, false);
 		on_actionNeighbourDisconnect_triggered();
 	}
 }

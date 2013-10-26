@@ -130,7 +130,7 @@ void CNeighbour::OnError(QAbstractSocket::SocketError e)
 				hostCache.m_pSection.unlock();
 
 				// for some bad clients that drop connections too early
-				securityManager.ban( m_oAddress, BanLength::FiveMinutes,
+				securityManager.ban( m_oAddress, RuleTime::FiveMinutes,
 									 true, "Dropped handshake" );
 			}
 		}

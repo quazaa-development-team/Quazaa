@@ -2,7 +2,7 @@
 
 CHashRule::CHashRule()
 {
-	m_nType = srContentHash;
+	m_nType = RuleType::Hash;
 }
 
 CSecureRule* CHashRule::getCopy() const
@@ -23,7 +23,7 @@ QList< CHash > CHashRule::getHashes() const
 
 void CHashRule::setHashes(const QList< CHash >& hashes)
 {
-	Q_ASSERT( m_nType == srContentHash );
+	Q_ASSERT( m_nType == RuleType::Hash );
 
 	m_sContent = "";
 
@@ -135,7 +135,7 @@ bool CHashRule::match(const QList<CHash>& lHashes) const
 
 void CHashRule::toXML(QXmlStreamWriter& oXMLdocument) const
 {
-	Q_ASSERT( m_nType == srContentHash );
+	Q_ASSERT( m_nType == RuleType::Hash );
 
 	oXMLdocument.writeStartElement( "rule" );
 

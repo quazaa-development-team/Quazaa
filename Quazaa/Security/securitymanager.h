@@ -52,14 +52,6 @@
 // TODO: add log calls + defines to enable/disable
 // TODO: user agent blocking case insensitive + partial matching
 
-namespace BanLength {
-	typedef enum
-	{
-		Forever = -1, Session = -2, FiveMinutes = 300, ThirtyMinutes = 1800, TwoHours = 7200,
-		SixHours = 21600, TwelveHours = 42300, Day = 86400, Week = 604800, Month = 2592000
-	} TBanLength;
-}
-
 class CSecurity : public QObject
 {
 	Q_OBJECT
@@ -175,8 +167,8 @@ public:
 	inline void     remove(CSecureRule* pRule);
 	void            clear();
 
-	void            ban(const CEndPoint &oAddress, BanLength::TBanLength nBanLength, bool bMessage = true, const QString& sComment = "", bool bAutomatic = true);
-//	void            ban(const CFile& oFile, BanLength nBanLength, bool bMessage = true, const QString& sComment = "");
+	void            ban(const CEndPoint &oAddress, RuleTime::Time nRuleTime, bool bMessage = true, const QString& sComment = "", bool bAutomatic = true);
+//	void            ban(const CFile& oFile, BanLength nRuleTime, bool bMessage = true, const QString& sComment = "");
 
 	// Methods used during sanity check
 	bool            isNewlyDenied(const CEndPoint& oAddress);

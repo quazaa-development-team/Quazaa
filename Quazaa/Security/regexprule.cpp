@@ -2,7 +2,7 @@
 
 CRegExpRule::CRegExpRule()
 {
-	m_nType = srContentRegExp;
+	m_nType = RuleType::RegExp;
 	m_bSpecialElements = false;
 }
 
@@ -56,7 +56,7 @@ bool CRegExpRule::parseContent(const QString& sContent)
 
 bool CRegExpRule::match(const QList<QString>& lQuery, const QString& sContent) const
 {
-	Q_ASSERT( m_nType == srContentRegExp );
+	Q_ASSERT( m_nType == RuleType::RegExp );
 
 	if ( m_sContent.isEmpty() )
 		return false;
@@ -131,7 +131,7 @@ bool CRegExpRule::match(const QList<QString>& lQuery, const QString& sContent) c
 
 void CRegExpRule::toXML(QXmlStreamWriter& oXMLdocument) const
 {
-	Q_ASSERT( m_nType == srContentRegExp );
+	Q_ASSERT( m_nType == RuleType::RegExp );
 
 	oXMLdocument.writeStartElement( "rule" );
 
