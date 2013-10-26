@@ -25,6 +25,7 @@
 #include "quazaasysinfo.h"
 #include "quazaaglobals.h"
 #include "chatconverter.h"
+#include <QRegularExpression>
 #include <QAbstractTextDocumentLayout>
 #include <QDesktopServices>
 #include <QTextBlock>
