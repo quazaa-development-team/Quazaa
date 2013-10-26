@@ -33,6 +33,7 @@
 
 #include <QColorDialog>
 #include <QPalette>
+#include <QSpacerItem>
 
 #include "debug_new.h"
 
@@ -79,9 +80,16 @@ CWidgetChatInput::CWidgetChatInput(QWidget *parent, bool isIrc) :
 	toolButtonPickColor->setToolTip(tr("Font Color"));
 	connect(toolButtonPickColor, SIGNAL(clicked()), this, SLOT(pickColor()));
 
+	QWidget* spacer = new QWidget(this);
+	spacer->setStyleSheet( "background-color: transparent;" );
+	spacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Ignored);
+	labelLag = new QLabel(this);
+
 	ui->toolBarTextTools->insertWidget(ui->actionBold, toolButtonPickColor);
 	ui->toolBarTextTools->addSeparator();
 	ui->toolBarTextTools->addWidget(toolButtonSmilies);
+	ui->toolBarTextTools->addWidget(spacer);
+	ui->toolBarTextTools->addWidget(labelLag);
 	ui->actionBold->setChecked(ui->textEditInput->fontWeight() == QFont::Bold);
 	ui->actionItalic->setChecked(ui->textEditInput->fontItalic());
 	ui->actionUnderline->setChecked(ui->textEditInput->fontUnderline());
@@ -238,6 +246,11 @@ QLabel *CWidgetChatInput::helpLabel()
 	return ui->helpLabel;
 }
 
+QLabel *CWidgetChatInput::lagLabel()
+{
+	return labelLag;
+}
+
 void CWidgetChatInput::applySettings()
 {
 	if (bIsIrc) { // Only apply Irc theme if text input belongs to irc
@@ -247,7 +260,7 @@ void CWidgetChatInput::applySettings()
 			baseStyleSheet += QString("QToolButton[popupMode=\"2\"] { padding-right: 10px; } ");
 			baseStyleSheet += QString("QToolButton:hover, QToolButton:pressed { background: #666666; border-radius: 4px; } ");
 			setStyleSheet(baseStyleSheet);
-			ui->labelLag->setStyleSheet(QString("color: %1").arg(quazaaSettings.Chat.Colors[IrcColorType::Default]));
+			labelLag->setStyleSheet(QString("color: %11; padding-right: 5px;").arg(quazaaSettings.Chat.Colors[IrcColorType::Default]));
 			ui->textEditInput->setStyleSheet(QString("border: 1px solid transparent; background: #222222; selection-color: #dedede; selection-background-color: #444444; color: %1").arg(quazaaSettings.Chat.Colors[IrcColorType::Default]));
 			ui->helpLabel->setStyleSheet(QString("QLabel#helpLabel { color: %1; border: 1px solid transparent; border-top-color: palette(dark); background: #222222; } ").arg(quazaaSettings.Chat.Colors[IrcColorType::Default]));
 			toolButtonPickColor->setIcon( QIcon(":/Resource/Chat/PaletteDark.png") );
@@ -259,7 +272,7 @@ void CWidgetChatInput::applySettings()
 			QString baseStyleSheet("CWidgetChatInput { background: palette(alternate-base); } ");
 			baseStyleSheet += QString("QToolButton { color: %1; } ").arg(quazaaSettings.Chat.Colors[IrcColorType::Default]);
 			setStyleSheet(baseStyleSheet);
-			ui->labelLag->setStyleSheet(QString("color: %1").arg(quazaaSettings.Chat.Colors[IrcColorType::Default]));
+			labelLag->setStyleSheet(QString("color: %1; padding-right: 5px;").arg(quazaaSettings.Chat.Colors[IrcColorType::Default]));
 			ui->textEditInput->setStyleSheet(QString("background: palette(alternate-base); border: 1px solid transparent; color: %1").arg(quazaaSettings.Chat.Colors[IrcColorType::Default]));
 			ui->helpLabel->setStyleSheet(QString("QLabel#helpLabel { color: %1; border: border: 1px solid transparent; border-top-color: palette(dark); } ").arg(quazaaSettings.Chat.Colors[IrcColorType::Default]));
 			toolButtonPickColor->setIcon( QIcon(":/Resource/Chat/Palette.png") );
@@ -275,8 +288,8 @@ void CWidgetChatInput::setLag(qint64 lag)
 {
 	if (lag == -1)
 	{
-		ui->labelLag->setText("");
+		labelLag->setText("");
 	} else {
-		ui->labelLag->setText(tr("%1 ms").arg(lag));
+		labelLag->setText(tr("%1 ms").arg(lag));
 	}
 }

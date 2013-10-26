@@ -137,19 +137,6 @@
       </layout>
      </widget>
     </item>
-    <item row="1" column="1">
-     <widget class="QLabel" name="labelLag">
-      <property name="text">
-       <string/>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignCenter</set>
-      </property>
-      <property name="margin">
-       <number>2</number>
-      </property>
-     </widget>
-    </item>
     <item row="1" column="0" rowspan="2">
      <widget class="CWidgetReturnEmitTextEdit" name="textEditInput">
       <property name="sizePolicy">

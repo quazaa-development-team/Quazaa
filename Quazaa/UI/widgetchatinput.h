@@ -46,6 +46,7 @@ public:
 	~CWidgetChatInput();
 	CWidgetReturnEmitTextEdit* textEdit();
 	QLabel* helpLabel();
+	QLabel* lagLabel();
 
 signals:
 	void messageSent(QTextDocument *text);
@@ -61,6 +62,7 @@ private:
 	CWidgetSmileyList *widgetSmileyList;
 	QColor defaultColor;
 	QToolButton *toolButtonPickColor;
+	QLabel *labelLag;
 	bool bIsIrc;
 
 public slots:
