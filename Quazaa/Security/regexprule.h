@@ -3,7 +3,7 @@
 
 #include "securerule.h"
 
-class CRegExpRule : public CSecureRule
+class CRegularExpressionRule : public CSecureRule
 {
 private:
 	bool				m_bSpecialElements;
@@ -15,7 +15,7 @@ private:
 #endif
 
 public:
-	CRegExpRule();
+	CRegularExpressionRule();
 
 	bool				operator==(const CSecureRule& pRule) const;
 

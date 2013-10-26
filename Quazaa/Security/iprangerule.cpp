@@ -3,7 +3,7 @@
 
 CIPRangeRule::CIPRangeRule()
 {
-	m_nType = RuleType::AddressRange;
+	m_nType = RuleType::IPAddressRange;
 }
 
 CEndPoint CIPRangeRule::startIP() const
@@ -24,7 +24,7 @@ CSecureRule* CIPRangeRule::getCopy() const
 bool CIPRangeRule::contains(const CEndPoint &oAddress) const
 {
 #ifdef _DEBUG
-	Q_ASSERT( m_nType == RuleType::AddressRange );
+	Q_ASSERT( m_nType == RuleType::IPAddressRange );
 #endif //_DEBUG
 	if(oAddress > m_oStartIP && oAddress < m_oEndIP)
 		return true;
@@ -50,7 +50,7 @@ bool CIPRangeRule::parseContent(const QString& sContent)
 
 void CIPRangeRule::toXML(QXmlStreamWriter& oXMLdocument) const
 {
-	Q_ASSERT( m_nType == RuleType::AddressRange );
+	Q_ASSERT( m_nType == RuleType::IPAddressRange );
 
 	oXMLdocument.writeStartElement( "rule" );
 

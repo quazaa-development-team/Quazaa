@@ -50,12 +50,12 @@
 typedef quint16 TRuleID; // used for GUI updating
 
 namespace RuleType {
-	enum Type { Undefined = 0, Address = 1, AddressRange = 2, Country = 3,
-				   Hash = 4, RegExp = 5, UserAgent = 6, Text = 7 };
+	enum Type { Undefined = 0, IPAddress = 1, IPAddressRange = 2, Country = 3,
+				   Hash = 4, RegularExpression = 5, UserAgent = 6, Content = 7 };
 }
 
 namespace RuleAction {
-	enum Action { Null = 0, Accept = 1, Deny = 2 };
+	enum Action { None = 0, Accept = 1, Deny = 2 };
 }
 
 namespace RuleTime {
@@ -87,7 +87,7 @@ private:
 public:
 	RuleAction::Action     m_nAction;
 	QUuid       m_oUUID;
-	quint32     m_tExpire;
+	qint64		m_tExpire;
 	QString     m_sComment;
 	bool        m_bAutomatic;
 

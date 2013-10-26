@@ -144,6 +144,7 @@ void CWidgetSecurity::update()
 void CWidgetSecurity::on_actionSecurityAddRule_triggered()
 {
 	CDialogAddRule* dlgAddRule = new CDialogAddRule( this );
+	connect(dlgAddRule, SIGNAL(accepted()), SLOT(update()));
 	dlgAddRule->show();
 }
 
@@ -198,6 +199,7 @@ void CWidgetSecurity::on_actionSecurityModifyRule_triggered()
 		{
 			CSecureRule* pRule = m_lSecurity->ruleFromIndex( m_lAutomatic->mapToSource(index) );
 			CDialogAddRule* dlgAddRule = new CDialogAddRule( this, pRule );
+			connect(dlgAddRule, SIGNAL(accepted()), SLOT(update()));
 
 			dlgAddRule->show();
 		}
@@ -223,6 +225,7 @@ void CWidgetSecurity::on_actionSecurityModifyRule_triggered()
 		{
 			CSecureRule* pRule = m_lSecurity->ruleFromIndex( m_lManual->mapToSource(index) );
 			CDialogAddRule* dlgAddRule = new CDialogAddRule( this, pRule );
+			connect(dlgAddRule, SIGNAL(accepted()), SLOT(update()));
 
 			dlgAddRule->show();
 		}

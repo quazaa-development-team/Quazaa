@@ -51,9 +51,8 @@ private:
 	Ui::CDialogAddRule* ui;
 	CSecureRule* m_pRule;
 	CWidgetSecurity* m_pParent;
-
 public:
-	// Creates a dialog window using a copy of the provided rule as basis.
+	// Creates a dialog window using the provided rule as basis. To create a new rule, don't provide a rule.
 	CDialogAddRule(CWidgetSecurity* parent, CSecureRule* pRule = NULL);
 	~CDialogAddRule();
 

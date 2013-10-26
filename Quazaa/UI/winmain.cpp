@@ -245,6 +245,7 @@ CWinMain::~CWinMain()
 {
 	delete ui;
 }
+
 void CWinMain::loadTrayIcon()
 {
 	// Create the system tray right click menu.

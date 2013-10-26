@@ -44,7 +44,7 @@ CSecurityTableModel::Rule::Rule(CSecureRule* pRule, CSecurityTableModel* model) 
 
 	switch( m_nAction )
 	{
-	case RuleAction::Null:
+	case RuleAction::None:
 		m_piAction = model->m_pIcons[0];
 		break;
 
@@ -101,7 +101,7 @@ bool CSecurityTableModel::Rule::update(int row, int col, QModelIndexList &to_upd
 
 		switch( m_nAction )
 		{
-		case RuleAction::Null:
+		case RuleAction::None:
 			m_piAction = model->m_pIcons[0];
 			break;
 
@@ -164,19 +164,19 @@ QVariant CSecurityTableModel::Rule::data(int col) const
 		case TYPE:
 			switch (m_nType)
 			{
-				case RuleType::Address:
+				case RuleType::IPAddress:
 					return tr("IP Address");
-				case RuleType::AddressRange:
+				case RuleType::IPAddressRange:
 					return tr("IP Address Range");
 				case RuleType::Country:
 					return tr("Country");
 				case RuleType::Hash:
 					return tr("File Filter");
-				case RuleType::RegExp:
+				case RuleType::RegularExpression:
 					return tr("Regular Expression");
 				case RuleType::UserAgent:
 					return tr("User Agent");
-				case RuleType::Text:
+				case RuleType::Content:
 					return tr("Content Filter");
 				default:
 					return tr("Unknown");
@@ -235,7 +235,7 @@ QString CSecurityTableModel::Rule::actionToString(RuleAction::Action nAction) co
 {
 	switch( nAction )
 	{
-	case RuleAction::Null:
+	case RuleAction::None:
 		return tr( "None" );
 
 	case RuleAction::Accept:

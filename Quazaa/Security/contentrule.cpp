@@ -2,7 +2,7 @@
 
 CContentRule::CContentRule()
 {
-	m_nType = RuleType::Text;
+	m_nType = RuleType::Content;
 	m_bAll = true;
 }
 
@@ -28,7 +28,7 @@ bool CContentRule::operator==(const CSecureRule& pRule) const
 
 bool CContentRule::parseContent(const QString& sContent)
 {
-	Q_ASSERT( m_nType == RuleType::Text );
+	Q_ASSERT( m_nType == RuleType::Content );
 
 	QString sWork = sContent;
 	sWork.replace( '\t', ' ' );
@@ -106,7 +106,7 @@ bool CContentRule::match(const CQueryHit* const pHit) const
 
 void CContentRule::toXML(QXmlStreamWriter& oXMLdocument) const
 {
-	Q_ASSERT( m_nType == RuleType::Text );
+	Q_ASSERT( m_nType == RuleType::Content );
 
 	oXMLdocument.writeStartElement( "rule" );
 

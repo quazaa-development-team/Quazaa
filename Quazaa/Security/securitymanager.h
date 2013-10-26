@@ -66,7 +66,7 @@ private:
 	typedef std::pair< uint, CHashRule* > THashPair;
 
 	typedef std::list< CSecureRule*  > TSecurityRuleList;
-	typedef std::list< CRegExpRule*  > TRegExpRuleList;
+	typedef std::list< CRegularExpressionRule*  > TRegExpRuleList;
 	typedef std::list< CContentRule* > TContentRuleList;
 
 	typedef std::queue< CSecureRule* > TNewRulesQueue;

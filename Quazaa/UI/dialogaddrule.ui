@@ -195,7 +195,7 @@
            </property>
            <item>
             <property name="text">
-             <string>Never (Indefinite)</string>
+             <string>Forever (Indefinite)</string>
             </property>
            </item>
            <item>
@@ -258,7 +258,7 @@
       <item row="1" column="0">
        <widget class="QStackedWidget" name="stackedWidgetType">
         <property name="currentIndex">
-         <number>1</number>
+         <number>6</number>
         </property>
         <widget class="QWidget" name="pageIPAddress">
          <layout class="QGridLayout" name="gridLayoutIPAddress">
@@ -586,7 +586,7 @@
               <widget class="QLineEdit" name="lineEditUserAgent"/>
              </item>
              <item>
-              <widget class="QCheckBox" name="checkBoxUserAgent">
+              <widget class="QCheckBox" name="checkBoxUserAgentRegularExpression">
                <property name="text">
                 <string>Regular Expression</string>
                </property>

@@ -118,7 +118,7 @@ void CSecurity::add(CSecureRule* pRule)
 	// Special treatment for the different types of rules
 	switch ( type )
 	{
-	case RuleType::Address:
+	case RuleType::IPAddress:
 	{
 		uint nIP = qHash( ((CIPRule*)pRule)->IP() );
 		TAddressRuleMap::iterator i = m_IPs.find( nIP );
@@ -154,7 +154,7 @@ void CSecurity::add(CSecureRule* pRule)
 	}
 	break;
 
-	case RuleType::AddressRange:
+	case RuleType::IPAddressRange:
 	{
 		CIPRangeRule* pNewRule = ((CIPRangeRule*)pRule);
 		CIPRangeRule* pOldRule = isInRangeRules(pNewRule->startIP());
@@ -326,10 +326,10 @@ void CSecurity::add(CSecureRule* pRule)
 	}
 	break;
 
-	case RuleType::RegExp:
+	case RuleType::RegularExpression:
 	{
 		TRegExpRuleList::iterator i = m_RegExpressions.begin();
-		CRegExpRule* pOldRule = NULL;
+		CRegularExpressionRule* pOldRule = NULL;
 
 		while ( i != m_RegExpressions.end() )
 		{
@@ -338,7 +338,7 @@ void CSecurity::add(CSecureRule* pRule)
 			{
 				if ( pOldRule->m_nAction != pRule->m_nAction ||
 					 pOldRule->m_tExpire != pRule->m_tExpire ||
-					 pOldRule->getContentString() != ((CRegExpRule*)pRule)->getContentString() )
+					 pOldRule->getContentString() != ((CRegularExpressionRule*)pRule)->getContentString() )
 				{
 					// remove conflicting rule if one of the important attributes
 					// differs from the rule we'd like to add
@@ -356,13 +356,13 @@ void CSecurity::add(CSecureRule* pRule)
 			++i;
 		}
 
-		m_RegExpressions.push_front( (CRegExpRule*)pRule );
+		m_RegExpressions.push_front( (CRegularExpressionRule*)pRule );
 
 		bNewHit	= true;
 	}
 	break;
 
-	case RuleType::Text:
+	case RuleType::Content:
 	{
 		TContentRuleList::iterator i = m_Contents.begin();
 		CContentRule* pOldRule = NULL;
@@ -374,7 +374,7 @@ void CSecurity::add(CSecureRule* pRule)
 			{
 				if ( pOldRule->m_nAction != pRule->m_nAction ||
 					 pOldRule->m_tExpire != pRule->m_tExpire ||
-					 pOldRule->getContentString() != ((CRegExpRule*)pRule)->getContentString() )
+					 pOldRule->getContentString() != ((CRegularExpressionRule*)pRule)->getContentString() )
 				{
 					// remove conflicting rule if one of the important attributes
 					// differs from the rule we'd like to add
@@ -449,14 +449,14 @@ void CSecurity::add(CSecureRule* pRule)
 
 	// If an address rule is added, the miss cache is cleared either in whole or just the relevant
 	// address.
-	if ( type == RuleType::Address )
+	if ( type == RuleType::IPAddress )
 	{
 		m_Cache.erase( qHash( ((CIPRule*)pRule)->IP() ) );
 
 		if ( !m_bUseMissCache )
 			evaluateCacheUsage();
 	}
-	else if ( type == RuleType::AddressRange || type == RuleType::Country )
+	else if ( type == RuleType::IPAddressRange || type == RuleType::Country )
 	{
 		missCacheClear( true );
 
@@ -486,7 +486,7 @@ void CSecurity::add(CSecureRule* pRule)
 	// If we're not loading, check all lists for newly denied hosts.
 	if ( !m_bIsLoading )
 	{
-		if(pRule->type() == RuleType::AddressRange)
+		if(pRule->type() == RuleType::IPAddressRange)
 			qSort(m_lIPRanges.begin(), m_lIPRanges.end(), securityIPRangeLessThan);
 		sanityCheck();
 		save();
@@ -958,7 +958,7 @@ bool CSecurity::isDenied(const CEndPoint &oAddress)
 		else if ( pRule->m_nAction == RuleAction::Deny )
 			return true;
 		else
-			Q_ASSERT( pRule->m_nAction == RuleAction::Null );
+			Q_ASSERT( pRule->m_nAction == RuleAction::None );
 	}
 
 	// Fourth, check the fast IP rules lookup map.
@@ -977,7 +977,7 @@ bool CSecurity::isDenied(const CEndPoint &oAddress)
 			else if ( pIPRule->m_nAction == RuleAction::Deny )
 				return true;
 			else
-				Q_ASSERT( pIPRule->m_nAction == RuleAction::Null );
+				Q_ASSERT( pIPRule->m_nAction == RuleAction::None );
 		}
 	}
 
@@ -998,7 +998,7 @@ bool CSecurity::isDenied(const CEndPoint &oAddress)
 			else if ( pCountryRule->m_nAction == RuleAction::Deny )
 				return true;
 			else
-				Q_ASSERT( pCountryRule->m_nAction == RuleAction::Null );
+				Q_ASSERT( pCountryRule->m_nAction == RuleAction::None );
 		}
 	}
 #endif // SECURITY_ENABLE_GEOIP
@@ -1956,7 +1956,7 @@ void CSecurity::remove(TConstIterator it)
 	// Removing the rule from special containers for fast access.
 	switch ( pRule->type() )
 	{
-	case RuleType::Address:
+	case RuleType::IPAddress:
 	{
 		uint nIP = qHash( ((CIPRule*)pRule)->IP() );
 		TAddressRuleMap::iterator i = m_IPs.find( nIP );
@@ -1971,7 +1971,7 @@ void CSecurity::remove(TConstIterator it)
 	}
 	break;
 
-	case RuleType::AddressRange:
+	case RuleType::IPAddressRange:
 	{
 		QList< CIPRangeRule* >::iterator i = m_lIPRanges.begin();
 
@@ -2033,7 +2033,7 @@ void CSecurity::remove(TConstIterator it)
 	}
 	break;
 
-	case RuleType::Text:
+	case RuleType::Content:
 	{
 		TContentRuleList::iterator i = m_Contents.begin();
 
@@ -2050,7 +2050,7 @@ void CSecurity::remove(TConstIterator it)
 	}
 	break;
 
-	case RuleType::RegExp:
+	case RuleType::RegularExpression:
 	{
 		TRegExpRuleList::iterator i = m_RegExpressions.begin();
 
@@ -2320,7 +2320,7 @@ bool CSecurity::isDenied(const QList<QString>& lQuery, const QString& sContent)
 	TRegExpRuleList::iterator i = m_RegExpressions.begin();
 	while ( i != m_RegExpressions.end() )
 	{
-		CRegExpRule* pRule = *i;
+		CRegularExpressionRule* pRule = *i;
 		++i;
 
 		if ( pRule->isExpired( tNow ) )

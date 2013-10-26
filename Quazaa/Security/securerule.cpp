@@ -154,7 +154,7 @@ void CSecureRule::save(const CSecureRule* const pRule, QDataStream &oStream)
 	{
 		oStream << ((CUserAgentRule*)pRule)->getRegExp();
 	}
-	else if ( pRule->m_nType == RuleType::Text )
+	else if ( pRule->m_nType == RuleType::Content )
 	{
 		oStream << ((CContentRule*)pRule)->getAll();
 	}
@@ -217,7 +217,7 @@ void CSecureRule::load(CSecureRule*& pRule, QDataStream &fsFile, int)
 		pRule->parseContent( sTmp );
 		break;
 	case 5:
-		pRule = new CRegExpRule();
+		pRule = new CRegularExpressionRule();
 		fsFile >> sTmp;
 		pRule->parseContent( sTmp );
 		break;
@@ -293,7 +293,7 @@ CSecureRule* CSecureRule::fromXML(QXmlStreamReader& oXMLdocument, float nVersion
 	}
 	else if ( sType.compare( "regexp", Qt::CaseInsensitive ) == 0 )
 	{
-		CRegExpRule* rule = new CRegExpRule();
+		CRegularExpressionRule* rule = new CRegularExpressionRule();
 		if ( !rule->parseContent( attributes.value( "content" ).toString() ) )
 		{
 			delete rule;
@@ -314,7 +314,7 @@ CSecureRule* CSecureRule::fromXML(QXmlStreamReader& oXMLdocument, float nVersion
 			// This handles "old style" Shareaza RegExp rules.
 			if ( sMatch.compare( "regexp", Qt::CaseInsensitive ) == 0 )
 			{
-				CRegExpRule* rule = new CRegExpRule();
+				CRegularExpressionRule* rule = new CRegularExpressionRule();
 				if ( !rule->parseContent( sContent ) )
 				{
 					delete rule;
@@ -389,7 +389,7 @@ CSecureRule* CSecureRule::fromXML(QXmlStreamReader& oXMLdocument, float nVersion
 	}
 	else if ( sAction.compare( "null", Qt::CaseInsensitive ) == 0 )
 	{
-		pRule->m_nAction = RuleAction::Null;
+		pRule->m_nAction = RuleAction::None;
 	}
 	else
 	{
@@ -443,7 +443,7 @@ void CSecureRule::toXML(const CSecureRule& oRule, QXmlStreamWriter& oXMLdocument
 	// Write rule action to XML file.
 	switch ( oRule.m_nAction )
 	{
-	case RuleAction::Null:
+	case RuleAction::None:
 		sValue = "null";
 		break;
 	case RuleAction::Accept:

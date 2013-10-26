@@ -1,23 +1,23 @@
 #include "regexprule.h"
 
-CRegExpRule::CRegExpRule()
+CRegularExpressionRule::CRegularExpressionRule()
 {
-	m_nType = RuleType::RegExp;
+	m_nType = RuleType::RegularExpression;
 	m_bSpecialElements = false;
 }
 
-CSecureRule* CRegExpRule::getCopy() const
+CSecureRule* CRegularExpressionRule::getCopy() const
 {
-	return new CRegExpRule( *this );
+	return new CRegularExpressionRule( *this );
 }
 
-bool CRegExpRule::operator==(const CSecureRule& pRule) const
+bool CRegularExpressionRule::operator==(const CSecureRule& pRule) const
 {
 	return CSecureRule::operator==( pRule ) &&
-		   m_bSpecialElements == ((CRegExpRule*)&pRule)->m_bSpecialElements;
+		   m_bSpecialElements == ((CRegularExpressionRule*)&pRule)->m_bSpecialElements;
 }
 
-bool CRegExpRule::parseContent(const QString& sContent)
+bool CRegularExpressionRule::parseContent(const QString& sContent)
 {
 	m_sContent = sContent.trimmed();
 
@@ -54,9 +54,9 @@ bool CRegExpRule::parseContent(const QString& sContent)
 	}
 }
 
-bool CRegExpRule::match(const QList<QString>& lQuery, const QString& sContent) const
+bool CRegularExpressionRule::match(const QList<QString>& lQuery, const QString& sContent) const
 {
-	Q_ASSERT( m_nType == RuleType::RegExp );
+	Q_ASSERT( m_nType == RuleType::RegularExpression );
 
 	if ( m_sContent.isEmpty() )
 		return false;
@@ -129,9 +129,9 @@ bool CRegExpRule::match(const QList<QString>& lQuery, const QString& sContent) c
 	}
 }
 
-void CRegExpRule::toXML(QXmlStreamWriter& oXMLdocument) const
+void CRegularExpressionRule::toXML(QXmlStreamWriter& oXMLdocument) const
 {
-	Q_ASSERT( m_nType == RuleType::RegExp );
+	Q_ASSERT( m_nType == RuleType::RegularExpression );
 
 	oXMLdocument.writeStartElement( "rule" );
 
@@ -143,7 +143,7 @@ void CRegExpRule::toXML(QXmlStreamWriter& oXMLdocument) const
 	oXMLdocument.writeEndElement();
 }
 
-bool CRegExpRule::replace(QString& sReplace, const QList<QString>& lQuery, quint8& nCurrent)
+bool CRegularExpressionRule::replace(QString& sReplace, const QList<QString>& lQuery, quint8& nCurrent)
 {
 	if ( sReplace.at( 0 ) != '<' )
 		return false;
