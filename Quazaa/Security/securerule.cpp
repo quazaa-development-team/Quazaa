@@ -37,7 +37,8 @@ CSecureRule::CSecureRule()
 	m_nType   = RuleType::Undefined;
 
 	m_nAction = RuleAction::Deny;
-	m_tExpire = RuleTime::Forever;
+	m_bForever = true;
+	m_tExpire = RuleTime::Special;
 	m_nToday  = 0;
 	m_nTotal  = 0;
 
@@ -55,6 +56,7 @@ CSecureRule::CSecureRule(const CSecureRule& pRule)
 	m_nTotal	= pRule.m_nTotal;
 	m_nAction	= pRule.m_nAction;
 	m_oUUID		= pRule.m_oUUID;
+	m_bForever	= pRule.m_bForever;
 	m_tExpire	= pRule.m_tExpire;
 	m_sComment	= pRule.m_sComment;
 }
@@ -83,7 +85,8 @@ bool CSecureRule::operator==(const CSecureRule& pRule) const
 			 m_nAction	== pRule.m_nAction	&&
 			 m_sComment	== pRule.m_sComment	&&
 			 m_oUUID	== pRule.m_oUUID	&&
-			 m_tExpire	== pRule.m_tExpire	&&
+			 m_bForever == pRule.m_bForever &&
+			 m_tExpire	== pRule.m_tExpire &&
 			 m_sContent	== pRule.m_sContent);
 }
 
@@ -144,6 +147,7 @@ void CSecureRule::save(const CSecureRule* const pRule, QDataStream &oStream)
 	oStream << (quint8)(pRule->m_nAction);
 	oStream << pRule->m_sComment;
 	oStream << pRule->m_oUUID.toString();
+	oStream << pRule->m_bForever;
 	oStream << pRule->m_tExpire;
 	oStream << pRule->m_nTotal.loadAcquire();
 	oStream << pRule->m_bAutomatic;
@@ -172,6 +176,7 @@ void CSecureRule::load(CSecureRule*& pRule, QDataStream &fsFile, int)
 	quint8		nAction;
 	QString		sComment;
 	QString		sUUID;
+	bool		bForever;
 	quint32		tExpire;
 	quint32		nTotal;
 	bool        bAutomatic;
@@ -180,6 +185,7 @@ void CSecureRule::load(CSecureRule*& pRule, QDataStream &fsFile, int)
 	fsFile >> nAction;
 	fsFile >> sComment;
 	fsFile >> sUUID;
+	fsFile >> bForever;
 	fsFile >> tExpire;
 	fsFile >> nTotal;
 	fsFile >> bAutomatic;
@@ -245,7 +251,8 @@ void CSecureRule::load(CSecureRule*& pRule, QDataStream &fsFile, int)
 		pRule->m_nAction  = (RuleAction::Action)nAction;
 		pRule->m_sComment = sComment;
 		pRule->m_oUUID    = QUuid( sUUID );
-		pRule->m_tExpire  = tExpire;
+		pRule->setForever(bForever);
+		pRule->setExpiryTime(tExpire);
 		pRule->m_nTotal.storeRelease(nTotal);
 		pRule->m_bAutomatic = bAutomatic;
 	}
@@ -408,11 +415,12 @@ CSecureRule* CSecureRule::fromXML(QXmlStreamReader& oXMLdocument, float nVersion
 	QString sExpire = attributes.value( "expire" ).toString();
 	if ( sExpire.compare( "forever", Qt::CaseInsensitive ) == 0 )
 	{
-		pRule->m_tExpire = RuleTime::Forever;
+		pRule->setForever(true);
 	}
 	else if ( sExpire.compare( "session", Qt::CaseInsensitive ) == 0 )
 	{
-		pRule->m_tExpire = RuleTime::Session;
+		pRule->setForever(false);
+		pRule->m_tExpire = RuleTime::Special;
 	}
 	else
 	{
@@ -463,18 +471,20 @@ void CSecureRule::toXML(const CSecureRule& oRule, QXmlStreamWriter& oXMLdocument
 		oXMLdocument.writeAttribute( "automatic", "false" );
 
 	// Write expiry date.
-	if ( oRule.m_tExpire == RuleTime::Session )
+	if ( oRule.m_tExpire == RuleTime::Special )
 	{
-		sValue = "session";
+		if ( oRule.m_bForever )
+		{
+			sValue = "forever";
+		} else {
+			sValue = "session";
+		}
 	}
-	else if ( oRule.m_tExpire == RuleTime::Forever )
-	{
-		sValue = "forever";
-	}
-	else if ( oRule.m_tExpire > RuleTime::Session )
+
+	else if ( oRule.m_tExpire > 0 )
 	{
 		sValue = "%1";
-		sValue.arg( oRule.m_tExpire );
+		sValue.arg( oRule.getExpiryTime() );
 	}
 	oXMLdocument.writeAttribute( "expire", sValue );
 
@@ -500,9 +510,18 @@ void CSecureRule::toXML(const CSecureRule& oRule, QXmlStreamWriter& oXMLdocument
  */
 bool CSecureRule::isExpired(quint32 tNow, bool bSession) const
 {
-	if ( m_tExpire == RuleTime::Forever ) return false;
-	if ( m_tExpire == RuleTime::Session ) return bSession;
+	if(m_tExpire == RuleTime::Special) {
+		if (m_bForever)
+			return false;
+		else
+			return bSession;
+	}
 	return m_tExpire < tNow;
+}
+
+void CSecureRule::setExpiryTime(const quint32 &time)
+{
+	m_tExpire = time;
 }
 
 /**
@@ -513,6 +532,16 @@ bool CSecureRule::isExpired(quint32 tNow, bool bSession) const
 quint32 CSecureRule::getExpiryTime() const
 {
 	return m_tExpire;
+}
+
+void CSecureRule::setForever(bool bForever)
+{
+	m_bForever = bForever;
+}
+
+bool CSecureRule::isForever()
+{
+	return m_bForever;
 }
 
 /**

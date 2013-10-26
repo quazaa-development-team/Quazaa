@@ -60,8 +60,8 @@ namespace RuleAction {
 
 namespace RuleTime {
 	enum Time	{
-		Forever = -1, Session = -2, FiveMinutes = 300, ThirtyMinutes = 1800, TwoHours = 7200,
-		SixHours = 21600, TwelveHours = 42300, Day = 86400, Week = 604800, Month = 2592000
+		Special = -1, FiveMinutes = 300, ThirtyMinutes = 1800, TwoHours = 7200, SixHours = 21600,
+		TwelveHours = 42300, Day = 86400, Week = 604800, Month = 2592000
 	};
 }
 
@@ -79,6 +79,8 @@ private:
 	// Hit counters
 	QAtomicInt  m_nToday;
 	QAtomicInt  m_nTotal;
+	quint32		m_tExpire;
+	bool		m_bForever;
 
 	// List of pointers that will be set to 0 if this instance of CSecureRule is deleted.
 	// Note that the content of this list is not forwarded to copies of this rule.
@@ -87,7 +89,6 @@ private:
 public:
 	RuleAction::Action     m_nAction;
 	QUuid       m_oUUID;
-	qint64		m_tExpire;
 	QString     m_sComment;
 	bool        m_bAutomatic;
 
@@ -116,8 +117,11 @@ public:
 	// Call this before removing a pointer you have previously registered.
 	void            unRegisterPointer(CSecureRule** pRule);
 
-	bool     isExpired(quint32 tNow, bool bSession = false) const;
-	quint32  getExpiryTime() const;
+	bool	isExpired(quint32 tNow, bool bSession = false) const;
+	void	setExpiryTime(const quint32& time);
+	quint32	getExpiryTime() const;
+	void	setForever(bool bForever);
+	bool	isForever();
 
 	// Hit count control
 	void     count();

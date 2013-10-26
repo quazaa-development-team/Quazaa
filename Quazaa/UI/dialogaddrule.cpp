@@ -108,20 +108,20 @@ CDialogAddRule::CDialogAddRule(CWidgetSecurity* parent, CSecureRule* pRule) :
 
 		switch ( tExpire )
 		{
-		case RuleTime::Forever:
-			ui->comboBoxExpire->setCurrentIndex( 0 );
-			ui->lineEditMinutes->setEnabled( false );
-			ui->lineEditHours->setEnabled( false );
-			ui->lineEditDays->setEnabled( false );
-			break;
+		case RuleTime::Special:
+			if(m_pRule->isForever()) {
+				ui->comboBoxExpire->setCurrentIndex( 0 );
+				ui->lineEditMinutes->setEnabled( false );
+				ui->lineEditHours->setEnabled( false );
+				ui->lineEditDays->setEnabled( false );
 
-		case RuleTime::Session:
-			ui->comboBoxExpire->setCurrentIndex( 1 );
-			ui->lineEditMinutes->setEnabled( false );
-			ui->lineEditHours->setEnabled( false );
-			ui->lineEditDays->setEnabled( false );
+			} else {
+				ui->comboBoxExpire->setCurrentIndex( 1 );
+				ui->lineEditMinutes->setEnabled( false );
+				ui->lineEditHours->setEnabled( false );
+				ui->lineEditDays->setEnabled( false );
+			}
 			break;
-
 		default:
 			ui->comboBoxExpire->setCurrentIndex( 2 );
 			ui->lineEditMinutes->setEnabled( true );
@@ -306,9 +306,13 @@ void CDialogAddRule::on_pushButtonOK_clicked()
 
 	switch (ui->comboBoxExpire->currentIndex()) {
 		case 0: // Forever
-			m_pRule->m_tExpire = RuleTime::Forever;
+			m_pRule->setForever(true);
+			m_pRule->setExpiryTime(RuleTime::Special);
+			break;
 		case 1: // Session
-			m_pRule->m_tExpire = RuleTime::Session;
+			m_pRule->setForever(false);
+			m_pRule->setExpiryTime(RuleTime::Special);
+			break;
 		case 2: // Set Time
 		{
 			quint32 tExpire = 0;
@@ -317,7 +321,7 @@ void CDialogAddRule::on_pushButtonOK_clicked()
 			tExpire += ui->lineEditDays->text().toUShort() * 216000;
 			tExpire += common::getTNowUTC();
 
-			m_pRule->m_tExpire = tExpire;
+			m_pRule->setExpiryTime(tExpire);
 			break;
 		}
 	}

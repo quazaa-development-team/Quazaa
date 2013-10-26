@@ -128,7 +128,8 @@ void CSecurity::add(CSecureRule* pRule)
 			pExRule = (*i).second;
 			if ( pExRule->m_oUUID   != pRule->m_oUUID   ||
 				 pExRule->m_nAction != pRule->m_nAction ||
-				 pExRule->m_tExpire != pRule->m_tExpire )
+				 pExRule->isForever() != pRule->isForever() ||
+				 pExRule->getExpiryTime() != pRule->getExpiryTime() )
 			{
 				// remove conflicting rule if one of the important attributes
 				// differs from the rule we'd like to add
@@ -249,7 +250,8 @@ void CSecurity::add(CSecureRule* pRule)
 			pExRule = (*i).second;
 			if ( pExRule->m_oUUID   != pRule->m_oUUID   ||
 				 pExRule->m_nAction != pRule->m_nAction ||
-				 pExRule->m_tExpire != pRule->m_tExpire )
+				 pExRule->isForever() != pRule->isForever() ||
+				 pExRule->getExpiryTime() != pRule->getExpiryTime() )
 			{
 				// remove conflicting rule if one of the important attributes
 				// differs from the rule we'd like to add
@@ -298,7 +300,8 @@ void CSecurity::add(CSecureRule* pRule)
 			{
 				if ( pExRule->m_oUUID   != pRule->m_oUUID   ||
 					 pExRule->m_nAction != pRule->m_nAction ||
-					 pExRule->m_tExpire != pRule->m_tExpire )
+					 pExRule->isForever() != pRule->isForever() ||
+					 pExRule->getExpiryTime() != pRule->getExpiryTime() )
 				{
 					// remove conflicting rule if one of the important attributes
 					// differs from the rule we'd like to add
@@ -337,7 +340,8 @@ void CSecurity::add(CSecureRule* pRule)
 			if ( (*i)->m_oUUID == pRule->m_oUUID )
 			{
 				if ( pOldRule->m_nAction != pRule->m_nAction ||
-					 pOldRule->m_tExpire != pRule->m_tExpire ||
+					 pOldRule->isForever() != pRule->isForever() ||
+					 pOldRule->getExpiryTime() != pRule->getExpiryTime() ||
 					 pOldRule->getContentString() != ((CRegularExpressionRule*)pRule)->getContentString() )
 				{
 					// remove conflicting rule if one of the important attributes
@@ -373,7 +377,8 @@ void CSecurity::add(CSecureRule* pRule)
 			if ( (*i)->m_oUUID == pRule->m_oUUID )
 			{
 				if ( pOldRule->m_nAction != pRule->m_nAction ||
-					 pOldRule->m_tExpire != pRule->m_tExpire ||
+					 pExRule->isForever() != pRule->isForever() ||
+					 pExRule->getExpiryTime() != pRule->getExpiryTime() ||
 					 pOldRule->getContentString() != ((CRegularExpressionRule*)pRule)->getContentString() )
 				{
 					// remove conflicting rule if one of the important attributes
@@ -408,7 +413,8 @@ void CSecurity::add(CSecureRule* pRule)
 			pExRule = (*i).second;
 			if ( pExRule->m_oUUID   != pRule->m_oUUID   ||
 				 pExRule->m_nAction != pRule->m_nAction ||
-				 pExRule->m_tExpire != pRule->m_tExpire )
+				 pExRule->isForever() != pRule->isForever() ||
+				 pExRule->getExpiryTime() != pRule->getExpiryTime() )
 			{
 				// remove conflicting rule if one of the important attributes
 				// differs from the rule we'd like to add
@@ -475,7 +481,7 @@ void CSecurity::add(CSecureRule* pRule)
 
 	const quint32 tNow = common::getTNowUTC();
 	// if ( indefinite or longer than 1,5h ) increase unsaved rules counter
-	if ( !pRule->m_tExpire || pRule->m_tExpire - tNow > 60 * 90 )
+	if ( !pRule->isForever() || pRule->getExpiryTime() - tNow > 60 * 90 )
 	{
 		m_nUnsaved.fetchAndAddRelaxed( 1 );
 	}
@@ -545,7 +551,7 @@ void CSecurity::clear()
   * Locking: RW
   */
 void CSecurity::ban(const CEndPoint& oAddress, RuleTime::Time nRuleTime, bool bMessage,
-					const QString& sComment, bool bAutomatic)
+					const QString& sComment, bool bAutomatic, bool bForever)
 {
 	if ( oAddress.isNull() )
 	{
@@ -569,45 +575,42 @@ void CSecurity::ban(const CEndPoint& oAddress, RuleTime::Time nRuleTime, bool bM
 
 			switch( nRuleTime )
 			{
-			case RuleTime::Session:
-				pIPRule->m_tExpire = RuleTime::Session;
-				return;
+			case RuleTime::Special:
+				pIPRule->setForever(bForever);
+				pIPRule->setExpiryTime(RuleTime::Special);
+				break;
 
 			case RuleTime::FiveMinutes:
-				pIPRule->m_tExpire = tNow + RuleTime::FiveMinutes;
+				pIPRule->setExpiryTime(tNow + RuleTime::FiveMinutes);
 				break;
 
 			case RuleTime::ThirtyMinutes:
-				pIPRule->m_tExpire = tNow + RuleTime::ThirtyMinutes;
+				pIPRule->setExpiryTime(tNow + RuleTime::ThirtyMinutes);
 				break;
 
 			case RuleTime::TwoHours:
-				pIPRule->m_tExpire = tNow + RuleTime::TwoHours;
+				pIPRule->setExpiryTime(tNow + RuleTime::TwoHours);
 				break;
 
 			case RuleTime::SixHours:
-				pIPRule->m_tExpire = tNow + RuleTime::SixHours;
+				pIPRule->setExpiryTime(tNow + RuleTime::SixHours);
 				break;
 
 			case RuleTime::TwelveHours:
-				pIPRule->m_tExpire = tNow + RuleTime::TwelveHours;
+				pIPRule->setExpiryTime(tNow + RuleTime::TwelveHours);
 				break;
 
 			case RuleTime::Day:
-				pIPRule->m_tExpire = tNow + RuleTime::Day;
+				pIPRule->setExpiryTime(tNow + RuleTime::Day);
 				break;
 
 			case RuleTime::Week:
-				pIPRule->m_tExpire = tNow + RuleTime::Week;
+				pIPRule->setExpiryTime(tNow + RuleTime::Week);
 				break;
 
 			case RuleTime::Month:
-				pIPRule->m_tExpire = tNow + RuleTime::Month;
+				pIPRule->setExpiryTime(tNow + RuleTime::Month);
 				break;
-
-			case RuleTime::Forever:
-				pIPRule->m_tExpire = RuleTime::Forever;
-				return;
 
 			default:
 				Q_ASSERT( false );
@@ -615,10 +618,22 @@ void CSecurity::ban(const CEndPoint& oAddress, RuleTime::Time nRuleTime, bool bM
 
 			if ( bMessage )
 			{
-				postLog( LogSeverity::Security,
-						 tr( "Adjusted ban expiry time of %1 to %2."
-							 ).arg( oAddress.toString(),
-									QDateTime::fromTime_t( pIPRule->m_tExpire ).toString() ) );
+				if( nRuleTime == RuleTime::Special ) {
+					if( bForever ) {
+						postLog( LogSeverity::Security,
+								 tr( "Adjusted ban expiry time of %1 to forever."
+									 ).arg( oAddress.toString() ) );
+					} else {
+						postLog( LogSeverity::Security,
+								 tr( "Adjusted ban expiry time of %1 to end of session."
+									 ).arg( oAddress.toString() ) );
+					}
+				} else {
+					postLog( LogSeverity::Security,
+							 tr( "Adjusted ban expiry time of %1 to %2."
+								 ).arg( oAddress.toString(),
+										QDateTime::fromTime_t( pIPRule->getExpiryTime() ).toString() ) );
+				}
 			}
 
 			return;
@@ -635,58 +650,53 @@ void CSecurity::ban(const CEndPoint& oAddress, RuleTime::Time nRuleTime, bool bM
 
 	switch( nRuleTime )
 	{
-	case RuleTime::Session:
-		pIPRule->m_tExpire  = RuleTime::Session;
-		pIPRule->m_sComment = tr( "Session Ban" );
+	case RuleTime::Special:
+		pIPRule->setForever(bForever);
+		pIPRule->setExpiryTime(RuleTime::Special);
 		break;
 
 	case RuleTime::FiveMinutes:
-		pIPRule->m_tExpire  = tNow + RuleTime::FiveMinutes;
+		pIPRule->setExpiryTime(tNow + RuleTime::FiveMinutes);
 		pIPRule->m_sComment = tr( "Temp Ignore (5 min)" );
 		break;
 
 	case RuleTime::ThirtyMinutes:
-		pIPRule->m_tExpire  = tNow + RuleTime::ThirtyMinutes;
+		pIPRule->setExpiryTime(tNow + RuleTime::ThirtyMinutes);
 		pIPRule->m_sComment = tr( "Temp Ignore (30 min)" );
 		break;
 
 	case RuleTime::TwoHours:
-		pIPRule->m_tExpire  = tNow + RuleTime::TwoHours;
+		pIPRule->setExpiryTime(tNow + RuleTime::TwoHours);
 		pIPRule->m_sComment = tr( "Temp Ignore (2 h)" );
 		break;
 
 	case RuleTime::SixHours:
-		pIPRule->m_tExpire  = tNow + RuleTime::SixHours;
+		pIPRule->setExpiryTime(tNow + RuleTime::SixHours);
 		pIPRule->m_sComment = tr( "Temp Ignore (2 h)" );
 		break;
 
 	case RuleTime::TwelveHours:
-		pIPRule->m_tExpire  = tNow + RuleTime::TwelveHours;
+		pIPRule->setExpiryTime(tNow + RuleTime::TwelveHours);
 		pIPRule->m_sComment = tr( "Temp Ignore (2 h)" );
 		break;
 
 	case RuleTime::Day:
-		pIPRule->m_tExpire  = tNow + RuleTime::Day;
+		pIPRule->setExpiryTime(tNow + RuleTime::Day);
 		pIPRule->m_sComment = tr( "Temp Ignore (1 d)" );
 		break;
 
 	case RuleTime::Week:
-		pIPRule->m_tExpire  = tNow + RuleTime::Week;
+		pIPRule->setExpiryTime(tNow + RuleTime::Week);
 		pIPRule->m_sComment = tr( "Client Block (1 week)" );
 		break;
 
 	case RuleTime::Month:
-		pIPRule->m_tExpire  = tNow + RuleTime::Month;
+		pIPRule->setExpiryTime(tNow + RuleTime::Month);
 		pIPRule->m_sComment = tr( "Quick IP Block (1 month)" );
 		break;
 
-	case RuleTime::Forever:
-		pIPRule->m_tExpire  = RuleTime::Forever;
-		pIPRule->m_sComment = tr( "Indefinite Ban" );
-		break;
-
 	default:
-		pIPRule->m_tExpire  = RuleTime::Session;
+		pIPRule->setForever(false);
 		pIPRule->m_sComment = tr( "Session Ban" );
 		Q_ASSERT( false ); // this should never happen
 	}
@@ -700,10 +710,22 @@ void CSecurity::ban(const CEndPoint& oAddress, RuleTime::Time nRuleTime, bool bM
 
 	if ( bMessage )
 	{
-		postLog( LogSeverity::Security,
-				 tr( "Banned %1 until %2."
-					 ).arg( oAddress.toString(),
-							QDateTime::fromTime_t( pIPRule->m_tExpire ).toString() ) );
+		if( nRuleTime == RuleTime::Special ) {
+			if( bForever ) {
+				postLog( LogSeverity::Security,
+						 tr( "Banned %1 forever."
+							 ).arg( oAddress.toString() ) );
+			} else {
+				postLog( LogSeverity::Security,
+						 tr( "Banned %1 until the end of the session."
+							 ).arg( oAddress.toString() ) );
+			}
+		} else {
+			postLog( LogSeverity::Security,
+					 tr( "Banned %1 until %2."
+						 ).arg( oAddress.toString(),
+								QDateTime::fromTime_t( pIPRule->getExpiryTime() ).toString() ) );
+		}
 	}
 }
 
@@ -1633,7 +1655,7 @@ bool CSecurity::fromP2P(const QString &sFile)
 
 			pRule->m_sComment = comment;
 			pRule->m_nAction = RuleAction::Deny;
-			pRule->m_tExpire = RuleTime::Forever;
+			pRule->setForever(true);
 			pRule->m_bAutomatic = false;
 
 			add( pRule );

@@ -35,7 +35,8 @@ CSecurityTableModel::Rule::Rule(CSecureRule* pRule, CSecurityTableModel* model) 
 
 	m_sContent		= m_pRule->getContentString();
 	m_nAction		= m_pRule->m_nAction;
-	m_tExpire		= m_pRule->m_tExpire;
+	m_bForever		= m_pRule->isForever();
+	m_tExpire		= m_pRule->getExpiryTime();
 	m_nToday		= m_pRule->getTodayCount();
 	m_nTotal		= m_pRule->getTotalCount();
 	m_sComment		= m_pRule->m_sComment;
@@ -121,10 +122,19 @@ bool CSecurityTableModel::Rule::update(int row, int col, QModelIndexList &to_upd
 			bReturn = true;
 	}
 
-	if ( m_tExpire != m_pRule->m_tExpire )
+	if ( m_tExpire != m_pRule->getExpiryTime() )
 	{
 		to_update.append( model->index( row, EXPIRES ) );
-		m_tExpire = m_pRule->m_tExpire;
+		m_tExpire = m_pRule->getExpiryTime();
+
+		if ( col == EXPIRES )
+			bReturn = true;
+	}
+
+	if ( m_bForever != m_pRule->isForever() )
+	{
+		to_update.append( model->index( row, EXPIRES ) );
+		m_bForever = m_pRule->isForever();
 
 		if ( col == EXPIRES )
 			bReturn = true;
@@ -217,6 +227,8 @@ bool CSecurityTableModel::Rule::lessThan(int col,
 		return m_nAction  < pOther->m_nAction;
 
 	case EXPIRES:
+		if(!m_bForever && pOther->m_bForever)
+			return true;
 		return m_tExpire  < pOther->m_tExpire;
 
 	case HITS:
@@ -251,13 +263,11 @@ QString CSecurityTableModel::Rule::actionToString(RuleAction::Action nAction) co
 // TODO: Implement loading translation string.
 QString CSecurityTableModel::Rule::expiryToString(quint32 tExpire) const
 {
-	switch( tExpire )
-	{
-	case RuleTime::Forever:
-		return tr( "Never" );
-
-	case RuleTime::Session:
-		return tr( "Session" );
+	if(tExpire == RuleTime::Special) {
+		if(m_bForever)
+			return tr( "Forever" );
+		else
+			return tr( "Session" );
 	}
 
 	return QDateTime::fromTime_t( tExpire ).toLocalTime().toString();

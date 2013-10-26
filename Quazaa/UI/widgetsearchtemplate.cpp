@@ -300,7 +300,7 @@ void CWidgetSearchTemplate::on_actionBanNode_triggered()
 		QString reason = QInputDialog::getText(this, tr("Ban Reason"), tr("Please enter a ban reason."), QLineEdit::Normal, "", &ok);
 		if(ok && !reason.isEmpty()) {
 			CEndPoint address = itemSearch->HitData.pQueryHit.data()->m_pHitInfo.data()->m_oNodeAddress;
-			securityManager.ban(address, RuleTime::Forever, false, reason, false);
+			securityManager.ban(address, RuleTime::Special, false, reason, false, true);
 			m_pSearchModel->removeQueryHit(CurrentItem().row(), m_pSearchModel->parent(CurrentItem()));
 		}
 	}

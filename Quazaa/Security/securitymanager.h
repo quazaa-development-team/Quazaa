@@ -167,7 +167,7 @@ public:
 	inline void     remove(CSecureRule* pRule);
 	void            clear();
 
-	void            ban(const CEndPoint &oAddress, RuleTime::Time nRuleTime, bool bMessage = true, const QString& sComment = "", bool bAutomatic = true);
+	void            ban(const CEndPoint &oAddress, RuleTime::Time nRuleTime, bool bMessage = true, const QString& sComment = "", bool bAutomatic = true, bool bForever = false);
 //	void            ban(const CFile& oFile, BanLength nRuleTime, bool bMessage = true, const QString& sComment = "");
 
 	// Methods used during sanity check

@@ -41,6 +41,7 @@ public:
 		int						m_nType;
 		RuleAction::Action		m_nAction;
 		quint32					m_tExpire; // UTC time in seconds
+		bool					m_bForever;
 		quint32					m_nToday;
 		quint32					m_nTotal;
 		QString					m_sComment;
