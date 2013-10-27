@@ -241,16 +241,16 @@ void CDatagrams::OnReceiveGND()
 	systemLog.postLog(LogSeverity::Debug, "Received GND from %s:%u nSequence = %u nPart = %u nCount = %u", m_pHostAddress->toString().toLocal8Bit().constData(), m_nPort, pHeader->nSequence, pHeader->nPart, pHeader->nCount);
 #endif
 
-	DatagramIn* pDG = 0;
+	DatagramIn* pDatagram = 0;
 
 	if(m_RecvCache.contains(nIp) && m_RecvCache[nIp].contains(nSeq))
 	{
-		pDG = m_RecvCache[nIp][nSeq];
+		pDatagram = m_RecvCache[nIp][nSeq];
 
 		// To give a chance for bigger packages ;)
-		if(pDG->m_nLeft)
+		if(pDatagram->m_nLeft)
 		{
-			pDG->m_tStarted = time(0);
+			pDatagram->m_tStarted = time(0);
 		}
 	}
 	else
@@ -259,7 +259,7 @@ void CDatagrams::OnReceiveGND()
 
 		if(!m_FreeDGIn.isEmpty())
 		{
-			pDG = m_FreeDGIn.takeFirst();
+			pDatagram = m_FreeDGIn.takeFirst();
 		}
 		else
 		{
@@ -276,27 +276,27 @@ void CDatagrams::OnReceiveGND()
 				}
 			}
 
-			pDG = m_FreeDGIn.takeFirst();
+			pDatagram = m_FreeDGIn.takeFirst();
 		}
 
 		if(m_FreeBuffer.size() < pHeader->nCount)
 		{
 			m_nDiscarded++;
-			m_FreeDGIn.append(pDG);
+			m_FreeDGIn.append(pDatagram);
 			RemoveOldIn(false);
 			return;
 		}
 
-		pDG->Create(CEndPoint(*m_pHostAddress, m_nPort), pHeader->nFlags, pHeader->nSequence, pHeader->nCount);
+		pDatagram->Create(CEndPoint(*m_pHostAddress, m_nPort), pHeader->nFlags, pHeader->nSequence, pHeader->nCount);
 
 		for(int i = 0; i < pHeader->nCount; i++)
 		{
-			Q_ASSERT(pDG->m_pBuffer[i] == 0);
-			pDG->m_pBuffer[i] = m_FreeBuffer.takeFirst();
+			Q_ASSERT(pDatagram->m_pBuffer[i] == 0);
+			pDatagram->m_pBuffer[i] = m_FreeBuffer.takeFirst();
 		}
 
-		m_RecvCache[nIp][nSeq] = pDG;
-		m_RecvCacheTime.prepend(pDG);
+		m_RecvCache[nIp][nSeq] = pDatagram;
+		m_RecvCacheTime.prepend(pDatagram);
 	}
 
 	// It is here, in case if we did not have free datagrams
@@ -320,14 +320,14 @@ void CDatagrams::OnReceiveGND()
 			QMetaObject::invokeMethod(this, "FlushSendCache", Qt::QueuedConnection);
 	}
 
-	if(pDG->Add(pHeader->nPart, m_pRecvBuffer->data() + sizeof(GND_HEADER), m_pRecvBuffer->size() - sizeof(GND_HEADER)))
+	if(pDatagram->Add(pHeader->nPart, m_pRecvBuffer->data() + sizeof(GND_HEADER), m_pRecvBuffer->size() - sizeof(GND_HEADER)))
 	{
 
 		G2Packet* pPacket = 0;
 		try
 		{
 			CEndPoint addr(*m_pHostAddress, m_nPort);
-			pPacket = pDG->ToG2Packet();
+			pPacket = pDatagram->ToG2Packet();
 			if(pPacket)
 			{
 				OnPacket(addr, pPacket);
@@ -344,7 +344,7 @@ void CDatagrams::OnReceiveGND()
 		}
 
 		m_pSection.lock();
-		Remove(pDG, true);
+		Remove(pDatagram, true);
 		m_pSection.unlock();
 	}
 
@@ -363,23 +363,23 @@ void CDatagrams::OnAcknowledgeGND()
 		return;
 	}
 
-	DatagramOut* pDG = m_SendCacheMap.value(pHeader->nSequence);
+	DatagramOut* pDatagram = m_SendCacheMap.value(pHeader->nSequence);
 
-	if(pDG->Acknowledge(pHeader->nPart))
+	if(pDatagram->Acknowledge(pHeader->nPart))
 	{
-		Remove(pDG);
+		Remove(pDatagram);
 	}
 }
 
-void CDatagrams::Remove(DatagramIn* pDG, bool bReclaim)
+void CDatagrams::Remove(DatagramIn* pDatagram, bool bReclaim)
 {
-	for(int i = 0; i < pDG->m_nCount; i++)
+	for(int i = 0; i < pDatagram->m_nCount; i++)
 	{
-		if(pDG->m_pBuffer[i])
+		if(pDatagram->m_pBuffer[i])
 		{
-			m_FreeBuffer.append(pDG->m_pBuffer[i]);
-			pDG->m_pBuffer[i]->clear();
-			pDG->m_pBuffer[i] = 0;
+			m_FreeBuffer.append(pDatagram->m_pBuffer[i]);
+			pDatagram->m_pBuffer[i]->clear();
+			pDatagram->m_pBuffer[i] = 0;
 		}
 	}
 
@@ -388,14 +388,14 @@ void CDatagrams::Remove(DatagramIn* pDG, bool bReclaim)
 		return;
 	}
 
-	if(m_RecvCache.contains(pDG->m_oAddress))
+	if(m_RecvCache.contains(pDatagram->m_oAddress))
 	{
-		quint32 nSeq = ((pDG->m_nSequence << 16) & 0xFFFF0000) + (pDG->m_oAddress.port() & 0x0000FFFF);
-		Q_ASSERT(pDG == m_RecvCache[pDG->m_oAddress][nSeq]);
-		m_RecvCache[pDG->m_oAddress].remove(nSeq);
-		if(m_RecvCache[pDG->m_oAddress].isEmpty())
+		quint32 nSeq = ((pDatagram->m_nSequence << 16) & 0xFFFF0000) + (pDatagram->m_oAddress.port() & 0x0000FFFF);
+		Q_ASSERT(pDatagram == m_RecvCache[pDatagram->m_oAddress][nSeq]);
+		m_RecvCache[pDatagram->m_oAddress].remove(nSeq);
+		if(m_RecvCache[pDatagram->m_oAddress].isEmpty())
 		{
-			m_RecvCache.remove(pDG->m_oAddress);
+			m_RecvCache.remove(pDatagram->m_oAddress);
 		}
 
 		QLinkedList<DatagramIn*>::iterator itFrame = m_RecvCacheTime.end();
@@ -403,14 +403,14 @@ void CDatagrams::Remove(DatagramIn* pDG, bool bReclaim)
 		{
 			--itFrame;
 
-			if( *itFrame == pDG )
+			if( *itFrame == pDatagram )
 			{
 				m_RecvCacheTime.erase(itFrame);
 				break;
 			}
 		}
 
-		m_FreeDGIn.append(pDG);
+		m_FreeDGIn.append(pDatagram);
 	}
 }
 
@@ -439,29 +439,29 @@ void CDatagrams::RemoveOldIn(bool bForce)
 	}
 }
 
-void CDatagrams::Remove(DatagramOut* pDG)
+void CDatagrams::Remove(DatagramOut* pDatagram)
 {
-	m_SendCacheMap.remove(pDG->m_nSequence);
+	m_SendCacheMap.remove(pDatagram->m_nSequence);
 
 	QLinkedList<DatagramOut*>::iterator itFrame = m_SendCache.end();
 	while( itFrame != m_SendCache.begin() )
 	{
 		--itFrame;
 
-		if( *itFrame == pDG )
+		if( *itFrame == pDatagram )
 		{
 			m_SendCache.erase(itFrame);
 			break;
 		}
 	}
 
-	m_FreeDGOut.append(pDG);
+	m_FreeDGOut.append(pDatagram);
 
-	if(pDG->m_pBuffer)
+	if(pDatagram->m_pBuffer)
 	{
-		m_FreeBuffer.append(pDG->m_pBuffer);
-		pDG->m_pBuffer->clear();
-		pDG->m_pBuffer = 0;
+		m_FreeBuffer.append(pDatagram->m_pBuffer);
+		pDatagram->m_pBuffer->clear();
+		pDatagram->m_pBuffer = 0;
 	}
 }
 
@@ -522,24 +522,24 @@ void CDatagrams::__FlushSendCache()
 
 		for(QLinkedList<DatagramOut*>::iterator itPacket = m_SendCache.begin(); itPacket != m_SendCache.end(); ++itPacket)
 		{
-			DatagramOut* pDG = *itPacket;
+			DatagramOut* pDatagram = *itPacket;
 
-			if(pDG->m_oAddress == nLastHost)
+			if(pDatagram->m_oAddress == nLastHost)
 			{
 				continue;
 			}
 
 			// TODO: Check the firewall's UDP state. Could do 3 UDP states.
-			if(pDG->GetPacket(tNow, &pPacket, &nPacket, pDG->m_bAck && m_nInFrags > 0))
+			if(pDatagram->GetPacket(tNow, &pPacket, &nPacket, pDatagram->m_bAck && m_nInFrags > 0))
 			{
 #ifdef DEBUG_UDP
-				systemLog.postLog(LogSeverity::Debug, "UDP sending to %s seq %u part %u count %u", pDG->m_oAddress.toString().toLocal8Bit().constData(), pDG->m_nSequence, ((GND_HEADER*)pPacket)->nPart, pDG->m_nCount);
+				systemLog.postLog(LogSeverity::Debug, "UDP sending to %s seq %u part %u count %u", pDatagram->m_oAddress.toString().toLocal8Bit().constData(), pDatagram->m_nSequence, ((GND_HEADER*)pPacket)->nPart, pDatagram->m_nCount);
 #endif
 
-				m_pSocket->writeDatagram(pPacket, nPacket, pDG->m_oAddress, pDG->m_oAddress.port());
+				m_pSocket->writeDatagram(pPacket, nPacket, pDatagram->m_oAddress, pDatagram->m_oAddress.port());
 				m_nOutFrags++;
 
-				nLastHost = pDG->m_oAddress;
+				nLastHost = pDatagram->m_oAddress;
 
 				if(nToWrite >= nPacket)
 				{
@@ -552,9 +552,9 @@ void CDatagrams::__FlushSendCache()
 
 				m_mOutput.Add(nPacket);
 
-				if(!pDG->m_bAck)
+				if(!pDatagram->m_bAck)
 				{
-					Remove(pDG);
+					Remove(pDatagram);
 				}
 
 				nMaxPPS--;
@@ -613,16 +613,16 @@ void CDatagrams::SendPacket(CEndPoint& oAddr, G2Packet* pPacket, bool bAck, Data
 		}
 	}
 
-	DatagramOut* pDG = m_FreeDGOut.takeFirst();
-	pDG->Create(oAddr, pPacket, m_nSequence++, m_FreeBuffer.takeFirst(), (bAck && (m_nInFrags > 0))); // to prevent net spam when unable to receive datagrams
+	DatagramOut* pDatagram = m_FreeDGOut.takeFirst();
+	pDatagram->Create(oAddr, pPacket, m_nSequence++, m_FreeBuffer.takeFirst(), (bAck && (m_nInFrags > 0))); // to prevent net spam when unable to receive datagrams
 
-	m_SendCache.prepend(pDG);
-	m_SendCacheMap[pDG->m_nSequence] = pDG;
+	m_SendCache.prepend(pDatagram);
+	m_SendCacheMap[pDatagram->m_nSequence] = pDatagram;
 
 	// TODO: Notify the listener if we have one.
 
 #ifdef DEBUG_UDP
-	systemLog.postLog(LogSeverity::Debug, "UDP queued for %s seq %u parts %u", oAddr.toString().toLocal8Bit().constData(), pDG->m_nSequence, pDG->m_nCount);
+	systemLog.postLog(LogSeverity::Debug, "UDP queued for %s seq %u parts %u", oAddr.toString().toLocal8Bit().constData(), pDatagram->m_nSequence, pDatagram->m_nCount);
 #endif
 
 	//emit SendQueueUpdated();

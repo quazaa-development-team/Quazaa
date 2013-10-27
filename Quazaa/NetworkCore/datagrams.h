@@ -106,8 +106,8 @@ public:
 	void SendPacket(CEndPoint& oAddr, G2Packet* pPacket, bool bAck = false, DatagramWatcher* pWatcher = 0, void* pParam = 0);
 
 	void RemoveOldIn(bool bForce = false);
-	void Remove(DatagramIn* pDG, bool bReclaim = false);
-	void Remove(DatagramOut* pDG);
+	void Remove(DatagramIn* pDatagram, bool bReclaim = false);
+	void Remove(DatagramOut* pDatagram);
 	void OnReceiveGND();
 	void OnAcknowledgeGND();
 
