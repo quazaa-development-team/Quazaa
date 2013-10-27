@@ -277,10 +277,10 @@ void CWidgetIrcMain::missed(IrcMessage* message)
 
 void CWidgetIrcMain::viewAdded(MessageView* view)
 {
-	connect(view, SIGNAL(splitterChanged(QByteArray)), this, SLOT(splitterChanged(QByteArray)));
-	connect(view, SIGNAL(highlighted(IrcMessage*)), this, SLOT(highlighted(IrcMessage*)));
-	connect(view, SIGNAL(missed(IrcMessage*)), this, SLOT(missed(IrcMessage*)));
-	connect(view->textBrowser(), SIGNAL(textChanged()), this, SLOT(alert()));
+	connect(view, SIGNAL(splitterChanged(QByteArray)), SLOT(splitterChanged(QByteArray)));
+	connect(view, SIGNAL(highlighted(IrcMessage*)), SLOT(highlighted(IrcMessage*)));
+	connect(view, SIGNAL(missed(IrcMessage*)), SLOT(missed(IrcMessage*)));
+	connect(view, SIGNAL(messageAlert()), SLOT(alert()));
 
 	if (!quazaaSettings.WinMain.ChatUserListSplitter.isEmpty())
 		view->restoreSplitter(quazaaSettings.WinMain.ChatUserListSplitter);

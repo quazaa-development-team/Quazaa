@@ -736,6 +736,8 @@ void MessageView::receiveMessage(IrcMessage* message)
 				emit highlighted(message);
 			else if (type == IrcMessage::Notice || type == IrcMessage::Private) // TODO: || (!d.receivedCodes.contains(Irc::RPL_ENDOFMOTD) && d.viewType == ViewInfo::Server))
 				emit missed(message);
+			if(type == IrcMessage::Notice || type == IrcMessage::Private || type == IrcMessage::Invite || type == IrcMessage::Kick)
+				emit messageAlert();
 		}
 
 		d.textBrowser->append(formatted, options.highlight);

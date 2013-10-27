@@ -74,6 +74,7 @@ public slots:
 signals:
 	void activeChanged();
 	void receiverChanged(const QString& receiver);
+	void messageAlert();
 
 	void highlighted(IrcMessage* message);
 	void missed(IrcMessage* message);
