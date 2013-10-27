@@ -88,10 +88,6 @@ private:
 
 	QUuid           m_oSQCancelRequestID; // ID of cancel request (signal queue)
 
-	// List of pointers that will be set to 0 if this instance of CDiscoveryService is deleted.
-	// Note that the content of this list is not forwarded to copies of this service.
-	std::list<const CDiscoveryService**> m_lPointers;
-
 	/* ========================================================================================== */
 	/* ====================================== Construction ====================================== */
 	/* ========================================================================================== */

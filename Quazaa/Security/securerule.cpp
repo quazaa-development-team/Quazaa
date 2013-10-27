@@ -63,12 +63,7 @@ CSecureRule::CSecureRule(const CSecureRule& pRule)
 
 CSecureRule::~CSecureRule()
 {
-	// Set all pointers to this rule to NULL to notify them about the deletion of this object.
-	for ( std::list<CSecureRule**>::iterator i = m_lPointers.begin();
-		  i != m_lPointers.end(); ++i )
-	{
-		*(*i) = NULL;
-	}
+
 }
 
 CSecureRule* CSecureRule::getCopy() const
@@ -106,16 +101,6 @@ QString CSecureRule::getContentString() const
 	Q_ASSERT( m_nType != RuleType::Undefined );
 
 	return m_sContent;
-}
-
-void CSecureRule::registerPointer(CSecureRule** pRule)
-{
-	m_lPointers.push_back( pRule );
-}
-
-void CSecureRule::unRegisterPointer(CSecureRule** pRule)
-{
-	m_lPointers.remove( pRule );
 }
 
 //////////////////////////////////////////////////////////////////////

@@ -82,10 +82,6 @@ private:
 	quint32		m_tExpire;
 	bool		m_bForever;
 
-	// List of pointers that will be set to 0 if this instance of CSecureRule is deleted.
-	// Note that the content of this list is not forwarded to copies of this rule.
-	std::list<CSecureRule**> m_lPointers;
-
 public:
 	RuleAction::Action     m_nAction;
 	QUuid       m_oUUID;
@@ -95,7 +91,6 @@ public:
 public:
 	// Construction / Destruction
 	CSecureRule();
-	// See m_lPointers for why we don't use the default copy constructor.
 	CSecureRule(const CSecureRule& pRule);
 	virtual ~CSecureRule();
 
@@ -109,13 +104,6 @@ public:
 
 	virtual bool    parseContent(const QString& sContent);
 	QString         getContentString() const;
-
-	// Registers a pointer to a Secure Rule to assure it is set to NULL if the Secure
-	// Rule is deleted. Note that a pointer who has been registered needs to be unregistered
-	// before freeing its memory.
-	void            registerPointer(CSecureRule** pRule);
-	// Call this before removing a pointer you have previously registered.
-	void            unRegisterPointer(CSecureRule** pRule);
 
 	bool	isExpired(quint32 tNow, bool bSession = false) const;
 	void	setExpiryTime(const quint32& time);
