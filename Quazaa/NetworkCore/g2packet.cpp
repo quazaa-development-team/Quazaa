@@ -28,6 +28,8 @@
 
 #include "debug_new.h"
 
+#include <stdexcept>
+
 G2PacketPool G2Packets;
 
 G2Packet::G2Packet()

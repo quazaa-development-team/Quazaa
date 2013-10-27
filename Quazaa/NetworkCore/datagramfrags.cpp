@@ -32,6 +32,8 @@
 
 #include "debug_new.h"
 
+#include <stdexcept>
+
 DatagramIn::DatagramIn()
 {
 	m_pBuffer = 0;

@@ -29,6 +29,7 @@
 #include <QtGlobal>
 #include <QMutex>
 #include <QList>
+#include <stdexcept>
 
 class CBuffer;
 

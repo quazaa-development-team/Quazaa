@@ -66,8 +66,6 @@ private:
 	typedef std::pair< uint, CHashRule* > THashPair;
 
 	typedef std::list< CSecureRule*  > TSecurityRuleList;
-	typedef std::list< CRegularExpressionRule*  > TRegExpRuleList;
-	typedef std::list< CContentRule* > TContentRuleList;
 
 	typedef std::queue< CSecureRule* > TNewRulesQueue;
 
@@ -114,10 +112,10 @@ private:
 	THashRuleMap        m_Hashes;
 
 	// all other content rules
-	TContentRuleList    m_Contents;
+	QList<CContentRule*>    m_Contents;
 
 	// RegExp rules
-	TRegExpRuleList     m_RegExpressions;
+	QList<CRegularExpressionRule*>     m_RegExpressions;
 
 	// User agent rules
 	TUserAgentRuleMap   m_UserAgents;

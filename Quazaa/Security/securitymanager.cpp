@@ -331,7 +331,7 @@ void CSecurity::add(CSecureRule* pRule)
 
 	case RuleType::RegularExpression:
 	{
-		TRegExpRuleList::iterator i = m_RegExpressions.begin();
+		QList<CRegularExpressionRule*>::iterator i = m_RegExpressions.begin();
 		CRegularExpressionRule* pOldRule = NULL;
 
 		while ( i != m_RegExpressions.end() )
@@ -368,7 +368,7 @@ void CSecurity::add(CSecureRule* pRule)
 
 	case RuleType::Content:
 	{
-		TContentRuleList::iterator i = m_Contents.begin();
+		QList<CContentRule*>::iterator i = m_Contents.begin();
 		CContentRule* pOldRule = NULL;
 
 		while ( i != m_Contents.end() )
@@ -2057,7 +2057,7 @@ void CSecurity::remove(TConstIterator it)
 
 	case RuleType::Content:
 	{
-		TContentRuleList::iterator i = m_Contents.begin();
+		QList<CContentRule*>::iterator i = m_Contents.begin();
 
 		while ( i != m_Contents.end() )
 		{
@@ -2074,7 +2074,7 @@ void CSecurity::remove(TConstIterator it)
 
 	case RuleType::RegularExpression:
 	{
-		TRegExpRuleList::iterator i = m_RegExpressions.begin();
+		QList<CRegularExpressionRule*>::iterator i = m_RegExpressions.begin();
 
 		while ( i != m_RegExpressions.end() )
 		{
@@ -2255,7 +2255,7 @@ bool CSecurity::isDenied(const QString& sContent)
 
 	const quint32 tNow = common::getTNowUTC();
 
-	TContentRuleList::iterator i = m_Contents.begin();
+	QList<CContentRule*>::iterator i = m_Contents.begin();
 	while ( i != m_Contents.end() )
 	{
 		CContentRule* pRule = *i;
@@ -2307,7 +2307,7 @@ bool CSecurity::isDenied(const CQueryHit* const pHit)
 	}
 
 	// Else check other content rules.
-	TContentRuleList::iterator i = m_Contents.begin();
+	QList<CContentRule*>::iterator i = m_Contents.begin();
 	CContentRule* pRule;
 	while ( i != m_Contents.end() )
 	{
@@ -2339,7 +2339,7 @@ bool CSecurity::isDenied(const QList<QString>& lQuery, const QString& sContent)
 
 	const quint32 tNow = common::getTNowUTC();
 
-	TRegExpRuleList::iterator i = m_RegExpressions.begin();
+	QList<CRegularExpressionRule*>::iterator i = m_RegExpressions.begin();
 	while ( i != m_RegExpressions.end() )
 	{
 		CRegularExpressionRule* pRule = *i;
