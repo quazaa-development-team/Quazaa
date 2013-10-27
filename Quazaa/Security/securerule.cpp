@@ -529,6 +529,16 @@ bool CSecureRule::isForever()
 	return m_bForever;
 }
 
+void CSecureRule::setLockForModify(bool lock)
+{
+	m_bModifyLock = lock;
+}
+
+bool CSecureRule::isLockedForModify()
+{
+	return m_bModifyLock;
+}
+
 /**
  * @brief CSecureRule::count increases the total and today hit counters by one each.
  * Requires Locking: /

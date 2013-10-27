@@ -81,6 +81,7 @@ private:
 	QAtomicInt  m_nTotal;
 	quint32		m_tExpire;
 	bool		m_bForever;
+	bool		m_bModifyLock;
 
 public:
 	RuleAction::Action     m_nAction;
@@ -110,6 +111,10 @@ public:
 	quint32	getExpiryTime() const;
 	void	setForever(bool bForever);
 	bool	isForever();
+
+	// Modify locking to avoid deleting pointers to files being modified.
+	void	setLockForModify(bool lock);
+	bool	isLockedForModify();
 
 	// Hit count control
 	void     count();

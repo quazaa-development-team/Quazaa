@@ -47,6 +47,7 @@ CDialogModifyRule::CDialogModifyRule(CWidgetSecurity* parent, CSecureRule* pRule
 	if(m_pRule) { // We are modifying a rule.
 		ui->comboBoxRuleType->setEnabled(false);
 		ui->lineEditComment->setText( m_pRule->m_sComment );
+		m_pRule->setLockForModify(true);
 
 		switch ( m_pRule->type() )
 		{
@@ -153,6 +154,8 @@ CDialogModifyRule::CDialogModifyRule(CWidgetSecurity* parent, CSecureRule* pRule
 
 CDialogModifyRule::~CDialogModifyRule()
 {
+	if(m_pRule)
+		m_pRule->setLockForModify(false);
 	delete ui;
 }
 

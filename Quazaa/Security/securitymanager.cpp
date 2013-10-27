@@ -2017,156 +2017,158 @@ void CSecurity::remove(TConstIterator it)
 
 	CSecureRule* pRule = *it;
 
-	// Removing the rule from special containers for fast access.
-	switch ( pRule->type() )
-	{
-	case RuleType::IPAddress:
-	{
-		QList<CIPRule*>::iterator i = m_lIPs.begin();
-
-		while ( i != m_lIPs.end() )
+	if(!pRule->isLockedForModify()) {
+		// Removing the rule from special containers for fast access.
+		switch ( pRule->type() )
 		{
-			if ( (*i)->m_oUUID == pRule->m_oUUID )
+		case RuleType::IPAddress:
+		{
+			QList<CIPRule*>::iterator i = m_lIPs.begin();
+
+			while ( i != m_lIPs.end() )
 			{
-				m_lIPs.erase( i );
-				break;
-			}
-
-			++i;
-		}
-	}
-	break;
-
-	case RuleType::IPAddressRange:
-	{
-		QList<CIPRangeRule*>::iterator i = m_lIPRanges.begin();
-
-		while ( i != m_lIPRanges.end() )
-		{
-			if ( (*i)->m_oUUID == pRule->m_oUUID )
-			{
-				m_lIPRanges.erase( i );
-				break;
-			}
-
-			++i;
-		}
-
-		if ( m_bUseMissCache )
-			evaluateCacheUsage();
-	}
-	break;
-
-#if SECURITY_ENABLE_GEOIP
-	case RuleType::Country:
-	{
-		QString country = pRule->getContentString();
-		TCountryRuleMap::iterator i = m_Countries.find( country );
-
-		if ( i != m_Countries.end() && (*i).second->m_oUUID == pRule->m_oUUID )
-		{
-			m_Countries.erase( i );
-
-			if ( m_bUseMissCache )
-				evaluateCacheUsage();
-		}
-	}
-	break;
-#endif // SECURITY_ENABLE_GEOIP
-
-	case RuleType::Hash:
-	{
-		CHashRule* pHashRule = (CHashRule*)pRule;
-
-		QList< CHash > oHashes = pHashRule->getHashes();
-
-		THashRuleMap::iterator i;
-		foreach ( CHash oHash, oHashes )
-		{
-			i = m_Hashes.find( qHash( oHash.RawValue() ) );
-
-			while ( i != m_Hashes.end() && (*i).first == qHash( oHash.RawValue() ) )
-			{
-				if ( (*i).second->m_oUUID == pHashRule->m_oUUID )
+				if ( (*i)->m_oUUID == pRule->m_oUUID )
 				{
-					m_Hashes.erase( i );
+					m_lIPs.erase( i );
 					break;
 				}
 
 				++i;
 			}
 		}
-	}
-	break;
+		break;
 
-	case RuleType::Content:
-	{
-		QList<CContentRule*>::iterator i = m_Contents.begin();
-
-		while ( i != m_Contents.end() )
+		case RuleType::IPAddressRange:
 		{
-			if ( (*i)->m_oUUID == pRule->m_oUUID )
+			QList<CIPRangeRule*>::iterator i = m_lIPRanges.begin();
+
+			while ( i != m_lIPRanges.end() )
 			{
-				m_Contents.erase( i );
-				break;
+				if ( (*i)->m_oUUID == pRule->m_oUUID )
+				{
+					m_lIPRanges.erase( i );
+					break;
+				}
+
+				++i;
 			}
 
-			++i;
+			if ( m_bUseMissCache )
+				evaluateCacheUsage();
 		}
-	}
-	break;
+		break;
 
-	case RuleType::RegularExpression:
-	{
-		QList<CRegularExpressionRule*>::iterator i = m_RegExpressions.begin();
-
-		while ( i != m_RegExpressions.end() )
-		{
-			if ( (*i)->m_oUUID == pRule->m_oUUID )
-			{
-				m_RegExpressions.erase( i );
-				break;
-			}
-
-			++i;
-		}
-	}
-	break;
-
-	case RuleType::UserAgent:
-	{
-		TUserAgentRuleMap::iterator i = m_UserAgents.begin();
-
-		while ( i != m_UserAgents.end() )
-		{
-			CUserAgentRule* pIRule = (*i).second;
-
-			if ( pIRule->m_oUUID == pRule->m_oUUID )
-			{
-				m_UserAgents.erase( i );
-				break;
-			}
-
-			++i;
-		}
-	}
-	break;
-
-	default:
 #if SECURITY_ENABLE_GEOIP
-		Q_ASSERT( false );
-#else
-		Q_ASSERT( pRule->type() == CSecureRule::RuleType::Country );
+		case RuleType::Country:
+		{
+			QString country = pRule->getContentString();
+			TCountryRuleMap::iterator i = m_Countries.find( country );
+
+			if ( i != m_Countries.end() && (*i).second->m_oUUID == pRule->m_oUUID )
+			{
+				m_Countries.erase( i );
+
+				if ( m_bUseMissCache )
+					evaluateCacheUsage();
+			}
+		}
+		break;
 #endif // SECURITY_ENABLE_GEOIP
+
+		case RuleType::Hash:
+		{
+			CHashRule* pHashRule = (CHashRule*)pRule;
+
+			QList< CHash > oHashes = pHashRule->getHashes();
+
+			THashRuleMap::iterator i;
+			foreach ( CHash oHash, oHashes )
+			{
+				i = m_Hashes.find( qHash( oHash.RawValue() ) );
+
+				while ( i != m_Hashes.end() && (*i).first == qHash( oHash.RawValue() ) )
+				{
+					if ( (*i).second->m_oUUID == pHashRule->m_oUUID )
+					{
+						m_Hashes.erase( i );
+						break;
+					}
+
+					++i;
+				}
+			}
+		}
+		break;
+
+		case RuleType::Content:
+		{
+			QList<CContentRule*>::iterator i = m_Contents.begin();
+
+			while ( i != m_Contents.end() )
+			{
+				if ( (*i)->m_oUUID == pRule->m_oUUID )
+				{
+					m_Contents.erase( i );
+					break;
+				}
+
+				++i;
+			}
+		}
+		break;
+
+		case RuleType::RegularExpression:
+		{
+			QList<CRegularExpressionRule*>::iterator i = m_RegExpressions.begin();
+
+			while ( i != m_RegExpressions.end() )
+			{
+				if ( (*i)->m_oUUID == pRule->m_oUUID )
+				{
+					m_RegExpressions.erase( i );
+					break;
+				}
+
+				++i;
+			}
+		}
+		break;
+
+		case RuleType::UserAgent:
+		{
+			TUserAgentRuleMap::iterator i = m_UserAgents.begin();
+
+			while ( i != m_UserAgents.end() )
+			{
+				CUserAgentRule* pIRule = (*i).second;
+
+				if ( pIRule->m_oUUID == pRule->m_oUUID )
+				{
+					m_UserAgents.erase( i );
+					break;
+				}
+
+				++i;
+			}
+		}
+		break;
+
+		default:
+#if SECURITY_ENABLE_GEOIP
+			Q_ASSERT( false );
+#else
+			Q_ASSERT( pRule->type() == CSecureRule::RuleType::Country );
+#endif // SECURITY_ENABLE_GEOIP
+		}
+
+		m_nUnsaved.fetchAndAddRelaxed( 1 );
+
+		// Remove rule entry from list of all rules
+		// m_Rules.erase( common::getRWIterator<CSecurityRuleList>( m_Rules, it ) );
+		m_Rules.erase( getRWIterator( it ) );
+
+		emit ruleRemoved( QSharedPointer<CSecureRule>( pRule ) );
 	}
-
-	m_nUnsaved.fetchAndAddRelaxed( 1 );
-
-	// Remove rule entry from list of all rules
-	// m_Rules.erase( common::getRWIterator<CSecurityRuleList>( m_Rules, it ) );
-	m_Rules.erase( getRWIterator( it ) );
-
-	emit ruleRemoved( QSharedPointer<CSecureRule>( pRule ) );
 }
 
 bool CSecurity::isAgentDenied(const QString& sUserAgent)
