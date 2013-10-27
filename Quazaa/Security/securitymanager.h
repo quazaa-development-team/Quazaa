@@ -70,8 +70,6 @@ private:
 	typedef std::queue< CSecureRule* > TNewRulesQueue;
 
 	typedef std::set< uint >           TMissCache;
-
-	typedef std::map< uint, CIPRule*           > TAddressRuleMap;
 #if SECURITY_ENABLE_GEOIP
 	typedef std::map< QString, CCountryRule*   > TCountryRuleMap;
 #endif // SECURITY_ENABLE_GEOIP
@@ -98,10 +96,10 @@ private:
 	TMissCache          m_Cache;
 
 	// single IP blocking rules
-	TAddressRuleMap     m_IPs;
+	QList<CIPRule*>     m_lIPs;
 
 	// multiple IP blocking rules
-	QList< CIPRangeRule* >    m_lIPRanges;
+	QList<CIPRangeRule*>    m_lIPRanges;
 
 #if SECURITY_ENABLE_GEOIP
 	// country rules
@@ -176,7 +174,8 @@ public:
 	// This does not check for the hit IP to avoid double checking.
 	bool            isDenied(const CQueryHit* const pHit, const QList<QString>& lQuery);
 	bool isPrivate(const CEndPoint &oAddress);
-	CIPRangeRule *isInRangeRules(const CEndPoint nIp);
+	CIPRule *isInAddressRules(const CEndPoint nIp);
+	CIPRangeRule *isInAddressRangeRules(const CEndPoint nIp);
 
 	// Checks the user agent to see if it's a GPL breaker, or other trouble-maker
 	// We don't ban them, but also don't offer leaf slots to them.

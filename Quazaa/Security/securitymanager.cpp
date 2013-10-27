@@ -42,9 +42,14 @@
 
 CSecurity securityManager;
 
-bool securityIPRangeLessThan(CIPRangeRule *rule1, CIPRangeRule *rule2)
+bool IPRangeLessThan(CIPRangeRule *rule1, CIPRangeRule *rule2)
 {
 	return rule1->startIP() < rule2->startIP();
+}
+
+bool IPLessThan(CIPRule *rule1, CIPRule *rule2)
+{
+	return rule1->IP() < rule2->IP();
 }
 
 /**
@@ -120,20 +125,19 @@ void CSecurity::add(CSecureRule* pRule)
 	{
 	case RuleType::IPAddress:
 	{
-		uint nIP = qHash( ((CIPRule*)pRule)->IP() );
-		TAddressRuleMap::iterator i = m_IPs.find( nIP );
+		CIPRule* pNewRule = ((CIPRule*)pRule);
+		CIPRule* pOldRule = isInAddressRules( pNewRule->IP() );
 
-		if ( i != m_IPs.end() ) // there is a potentially conflicting rule in our map
+		if ( pOldRule ) // there is a potentially conflicting rule in our map
 		{
-			pExRule = (*i).second;
-			if ( pExRule->m_oUUID   != pRule->m_oUUID   ||
-				 pExRule->m_nAction != pRule->m_nAction ||
-				 pExRule->isForever() != pRule->isForever() ||
-				 pExRule->getExpiryTime() != pRule->getExpiryTime() )
+			if ( pOldRule->m_oUUID   != pNewRule->m_oUUID   ||
+				 pOldRule->m_nAction != pNewRule->m_nAction ||
+				 pOldRule->isForever() != pNewRule->isForever() ||
+				 pOldRule->getExpiryTime() != pNewRule->getExpiryTime() )
 			{
 				// remove conflicting rule if one of the important attributes
 				// differs from the rule we'd like to add
-				remove( pExRule );
+				remove( pOldRule );
 			}
 			else
 			{
@@ -142,11 +146,9 @@ void CSecurity::add(CSecureRule* pRule)
 				pRule = NULL;
 				return;
 			}
-
-			pExRule = NULL;
 		}
 
-		m_IPs[ nIP ] = (CIPRule*)pRule;
+		m_lIPs.prepend(pNewRule);
 
 		bNewAddress = true;
 
@@ -158,10 +160,10 @@ void CSecurity::add(CSecureRule* pRule)
 	case RuleType::IPAddressRange:
 	{
 		CIPRangeRule* pNewRule = ((CIPRangeRule*)pRule);
-		CIPRangeRule* pOldRule = isInRangeRules(pNewRule->startIP());
+		CIPRangeRule* pOldRule = isInAddressRangeRules(pNewRule->startIP());
 
 		if(!pOldRule)
-			 pOldRule = isInRangeRules(pNewRule->endIP());
+			 pOldRule = isInAddressRangeRules(pNewRule->endIP());
 
 		if(pOldRule)
 		{
@@ -229,7 +231,7 @@ void CSecurity::add(CSecureRule* pRule)
 			}
 		}
 
-		m_lIPRanges.push_front( pNewRule );
+		m_lIPRanges.prepend( pNewRule );
 
 		bNewAddress = true;
 
@@ -492,8 +494,10 @@ void CSecurity::add(CSecureRule* pRule)
 	// If we're not loading, check all lists for newly denied hosts.
 	if ( !m_bIsLoading )
 	{
+		if(pRule->type() == RuleType::IPAddress)
+			qSort(m_lIPs.begin(), m_lIPs.end(), IPLessThan);
 		if(pRule->type() == RuleType::IPAddressRange)
-			qSort(m_lIPRanges.begin(), m_lIPRanges.end(), securityIPRangeLessThan);
+			qSort(m_lIPRanges.begin(), m_lIPRanges.end(), IPRangeLessThan);
 		sanityCheck();
 		save();
 	}
@@ -505,8 +509,7 @@ void CSecurity::add(CSecureRule* pRule)
   */
 void CSecurity::clear()
 {
-
-	m_IPs.clear();
+	m_lIPs.clear();
 	m_lIPRanges.clear();
 	m_Hashes.clear();
 	m_RegExpressions.clear();
@@ -561,11 +564,9 @@ void CSecurity::ban(const CEndPoint& oAddress, RuleTime::Time nRuleTime, bool bM
 
 	const quint32 tNow = common::getTNowUTC();
 
-	TAddressRuleMap::const_iterator i = m_IPs.find( qHash( oAddress ) );
-	if ( i != m_IPs.end() )
+	CIPRule* pIPRule = isInAddressRules(oAddress);
+	if ( pIPRule )
 	{
-		CSecureRule* pIPRule = (*i).second;
-
 		pIPRule->m_bAutomatic = bAutomatic;
 
 		if ( pIPRule->m_nAction == RuleAction::Deny )
@@ -644,7 +645,7 @@ void CSecurity::ban(const CEndPoint& oAddress, RuleTime::Time nRuleTime, bool bM
 		}
 	}
 
-	CIPRule* pIPRule = new CIPRule();
+	pIPRule = new CIPRule();
 
 	pIPRule->m_bAutomatic = bAutomatic;
 
@@ -969,27 +970,25 @@ bool CSecurity::isDenied(const CEndPoint &oAddress)
 	}
 
 	// Third, check whether the IP is contained within one of the IP range rules using high speed lookup alorithm.
-	CSecureRule* pRule = isInRangeRules( oAddress );
+	CSecureRule* pIPRangeRule = isInAddressRangeRules( oAddress );
 
-	if(pRule)
+	if(pIPRangeRule)
 	{
-		hit( pRule );
+		hit( pIPRangeRule );
 
-		if ( pRule->m_nAction == RuleAction::Accept )
+		if ( pIPRangeRule->m_nAction == RuleAction::Accept )
 			return false;
-		else if ( pRule->m_nAction == RuleAction::Deny )
+		else if ( pIPRangeRule->m_nAction == RuleAction::Deny )
 			return true;
 		else
-			Q_ASSERT( pRule->m_nAction == RuleAction::None );
+			Q_ASSERT( pIPRangeRule->m_nAction == RuleAction::None );
 	}
 
 	// Fourth, check the fast IP rules lookup map.
-	TAddressRuleMap::const_iterator it_1;
-	it_1 = m_IPs.find( qHash( oAddress ) );
+	CSecureRule* pIPRule = isInAddressRules( oAddress );
 
-	if ( it_1 != m_IPs.end() )
+	if ( pIPRule )
 	{
-		CIPRule* pIPRule = (*it_1).second;
 		if ( !pIPRule->isExpired( tNow ) && pIPRule->match( oAddress ) )
 		{
 			hit( pIPRule );
@@ -1102,7 +1101,46 @@ bool CSecurity::isPrivate(const CEndPoint &oAddress)
 	return false;
 }
 
-CIPRangeRule* CSecurity::isInRangeRules(const CEndPoint nIp)
+CIPRule *CSecurity::isInAddressRules(const CEndPoint nIp)
+{
+	if ( m_lIPs.isEmpty() )
+	{
+		return NULL;
+	}
+
+	int nMiddle;
+	int nBegin = 0;
+	int nEnd = m_lIPs.size();
+
+	int n = nEnd - nBegin;
+
+	int nHalf;
+
+	while (n > 0)
+	{
+		nHalf = n >> 1;
+
+		nMiddle = nBegin + nHalf;
+
+		if ( nIp < m_lIPs.at(nMiddle)->IP() )
+		{
+			n = nHalf;
+		}
+		else
+		{
+			if( nIp == m_lIPs.at(nMiddle)->IP() )
+			{
+				return m_lIPs.at(nMiddle);
+			}
+			nBegin = nMiddle + 1;
+			n -= nHalf + 1;
+		}
+	}
+
+	return NULL;
+}
+
+CIPRangeRule* CSecurity::isInAddressRangeRules(const CEndPoint nIp)
 {
 	if ( m_lIPRanges.isEmpty() )
 	{
@@ -1418,7 +1456,8 @@ bool CSecurity::load( QString sPath )
 		m_bIsLoading = false;
 
 		// If necessary perform sanity check after loading.
-		qSort(m_lIPRanges.begin(), m_lIPRanges.end(), securityIPRangeLessThan);
+		qSort(m_lIPs.begin(), m_lIPs.end(), IPLessThan);
+		qSort(m_lIPRanges.begin(), m_lIPRanges.end(), IPRangeLessThan);
 		sanityCheck();
 		save();
 	}
@@ -1609,7 +1648,8 @@ bool CSecurity::fromXML(const QString& sPath)
 
 	m_bIsLoading = false;
 
-	qSort(m_lIPRanges.begin(), m_lIPRanges.end(), securityIPRangeLessThan);
+	qSort(m_lIPs.begin(), m_lIPs.end(), IPLessThan);
+	qSort(m_lIPRanges.begin(), m_lIPRanges.end(), IPRangeLessThan);
 	sanityCheck();
 	save();
 
@@ -1668,7 +1708,8 @@ bool CSecurity::fromP2P(const QString &sFile)
 	}
 	m_bIsLoading = false;
 
-	qSort(m_lIPRanges.begin(), m_lIPRanges.end(), securityIPRangeLessThan);
+	qSort(m_lIPs.begin(), m_lIPs.end(), IPLessThan);
+	qSort(m_lIPRanges.begin(), m_lIPRanges.end(), IPRangeLessThan);
 	sanityCheck();
 	save();
 
@@ -1980,22 +2021,24 @@ void CSecurity::remove(TConstIterator it)
 	{
 	case RuleType::IPAddress:
 	{
-		uint nIP = qHash( ((CIPRule*)pRule)->IP() );
-		TAddressRuleMap::iterator i = m_IPs.find( nIP );
+		QList<CIPRule*>::iterator i = m_lIPs.begin();
 
-		if ( i != m_IPs.end() && (*i).second->m_oUUID == pRule->m_oUUID )
+		while ( i != m_lIPs.end() )
 		{
-			m_IPs.erase( i );
+			if ( (*i)->m_oUUID == pRule->m_oUUID )
+			{
+				m_lIPs.erase( i );
+				break;
+			}
 
-			if ( m_bUseMissCache )
-				evaluateCacheUsage();
+			++i;
 		}
 	}
 	break;
 
 	case RuleType::IPAddressRange:
 	{
-		QList< CIPRangeRule* >::iterator i = m_lIPRanges.begin();
+		QList<CIPRangeRule*>::iterator i = m_lIPRanges.begin();
 
 		while ( i != m_lIPRanges.end() )
 		{
@@ -2190,7 +2233,7 @@ void CSecurity::missCacheClear(bool bRefreshInterval)
 void CSecurity::evaluateCacheUsage()
 {
 	double nCache		= m_Cache.size();
-	double nIPMap		= m_IPs.size();
+	double nIPMap		= m_lIPs.size();
 
 #if SECURITY_ENABLE_GEOIP
 	double nCountryMap	= m_Countries.size();
