@@ -1,5 +1,5 @@
 /*
-** dialogaddrule.h
+** dialogmodifyrule.h
 **
 ** Copyright  Quazaa Development Team, 2009-2012.
 ** This file is part of QUAZAA (quazaa.sourceforge.net)
@@ -22,8 +22,8 @@
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#ifndef DIALOGADDRULE_H
-#define DIALOGADDRULE_H
+#ifndef DIALOGMODIFYRULE_H
+#define DIALOGMODIFYRULE_H
 
 #include <QDialog>
 
@@ -40,21 +40,21 @@
 
 namespace Ui
 {
-	class CDialogAddRule;
+	class CDialogModifyRule;
 }
 
-class CDialogAddRule : public QDialog
+class CDialogModifyRule : public QDialog
 {
 	Q_OBJECT
 
 private:
-	Ui::CDialogAddRule* ui;
+	Ui::CDialogModifyRule* ui;
 	CSecureRule* m_pRule;
 	CWidgetSecurity* m_pParent;
 public:
 	// Creates a dialog window using the provided rule as basis. To create a new rule, don't provide a rule.
-	CDialogAddRule(CWidgetSecurity* parent, CSecureRule* pRule = NULL);
-	~CDialogAddRule();
+	CDialogModifyRule(CWidgetSecurity* parent, CSecureRule* pRule = NULL);
+	~CDialogModifyRule();
 
 protected:
 	void changeEvent(QEvent* e);
@@ -74,4 +74,4 @@ private slots:
 	void on_lineEditMinutes_editingFinished();
 };
 
-#endif // DIALOGADDRULE_H
+#endif // DIALOGMODIFYRULE_H

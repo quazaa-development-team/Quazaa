@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>CDialogAddRule</class>
- <widget class="QDialog" name="CDialogAddRule">
+ <class>CDialogModifyRule</class>
+ <widget class="QDialog" name="CDialogModifyRule">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -11,11 +11,11 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Security Rule</string>
+   <string>Modify Security Rule</string>
   </property>
   <property name="windowIcon">
    <iconset resource="../Resource.qrc">
-    <normaloff>:/Resource/Security/SecurityRule.png</normaloff>:/Resource/Security/SecurityRule.png</iconset>
+    <normaloff>:/Resource/Security/ModifyRule.png</normaloff>:/Resource/Security/ModifyRule.png</iconset>
   </property>
   <property name="autoFillBackground">
    <bool>true</bool>

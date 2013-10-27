@@ -37,7 +37,7 @@
 #include "dialoglanguage.h"
 #include "dialogscheduler.h"
 #include "dialogprofile.h"
-#include "dialogaddrule.h"
+#include "dialogmodifyrule.h"
 #include "dialogsecuritysubscriptions.h"
 #include "dialoglibrarysearch.h"
 #include "dialogfiltersearch.h"

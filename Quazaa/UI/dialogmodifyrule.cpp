@@ -22,8 +22,8 @@
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-#include "dialogaddrule.h"
-#include "ui_dialogaddrule.h"
+#include "dialogmodifyrule.h"
+#include "ui_dialogmodifyrule.h"
 #include "skinsettings.h"
 
 #include <QListView>
@@ -31,9 +31,9 @@
 
 #include "debug_new.h"
 
-CDialogAddRule::CDialogAddRule(CWidgetSecurity* parent, CSecureRule* pRule) :
+CDialogModifyRule::CDialogModifyRule(CWidgetSecurity* parent, CSecureRule* pRule) :
 	QDialog( parent ),
-	ui( new Ui::CDialogAddRule ),
+	ui( new Ui::CDialogModifyRule ),
 	m_pParent( parent )
 {
 	ui->setupUi( this );
@@ -44,7 +44,7 @@ CDialogAddRule::CDialogAddRule(CWidgetSecurity* parent, CSecureRule* pRule) :
 
 	m_pRule = pRule;
 
-	if(m_pRule) {
+	if(m_pRule) { // We are modifying a rule.
 		ui->comboBoxRuleType->setEnabled(false);
 		ui->lineEditComment->setText( m_pRule->m_sComment );
 
@@ -138,7 +138,10 @@ CDialogAddRule::CDialogAddRule(CWidgetSecurity* parent, CSecureRule* pRule) :
 			ui->lineEditDays->setText(    QString::number( tExpire / 24 ) );
 			break;
 		}
-	} else {
+	} else { // We are adding a rule.
+		setWindowTitle(tr("Add Security Rule"));
+		setWindowIcon(QIcon(":/Resource/Security/AddRule.png"));
+
 		ui->comboBoxRuleType->setCurrentIndex( 0 );
 		ui->stackedWidgetType->setCurrentIndex( 0 );
 		ui->comboBoxAction->setCurrentIndex(0);
@@ -148,12 +151,12 @@ CDialogAddRule::CDialogAddRule(CWidgetSecurity* parent, CSecureRule* pRule) :
 	setSkin();
 }
 
-CDialogAddRule::~CDialogAddRule()
+CDialogModifyRule::~CDialogModifyRule()
 {
 	delete ui;
 }
 
-void CDialogAddRule::changeEvent(QEvent* e)
+void CDialogModifyRule::changeEvent(QEvent* e)
 {
 	QDialog::changeEvent( e );
 	switch ( e->type() )
@@ -167,7 +170,7 @@ void CDialogAddRule::changeEvent(QEvent* e)
 }
 
 // TODO: change user interface for IP ranges and hashes.
-void CDialogAddRule::on_pushButtonOK_clicked()
+void CDialogModifyRule::on_pushButtonOK_clicked()
 {
 	bool bIsNewRule = false;
 
@@ -335,12 +338,12 @@ void CDialogAddRule::on_pushButtonOK_clicked()
 	accept();
 }
 
-void CDialogAddRule::on_pushButtonCancel_clicked()
+void CDialogModifyRule::on_pushButtonCancel_clicked()
 {
 	reject();
 }
 
-void CDialogAddRule::on_comboBoxExpire_currentIndexChanged(int index)
+void CDialogModifyRule::on_comboBoxExpire_currentIndexChanged(int index)
 {
 	if ( index == 2 )
 	{
@@ -356,19 +359,19 @@ void CDialogAddRule::on_comboBoxExpire_currentIndexChanged(int index)
 	}
 }
 
-void CDialogAddRule::setSkin()
+void CDialogModifyRule::setSkin()
 {
 
 }
 
-void CDialogAddRule::on_lineEditDays_editingFinished()
+void CDialogModifyRule::on_lineEditDays_editingFinished()
 {
 	quint64 nDays = ui->lineEditDays->text().toULong();
 
 	ui->lineEditDays->setText( QString::number( nDays ) );
 }
 
-void CDialogAddRule::on_lineEditHours_editingFinished()
+void CDialogModifyRule::on_lineEditHours_editingFinished()
 {
 	quint64 nHours = ui->lineEditHours->text().toULong();
 	quint64 nDays = ui->lineEditDays->text().toULong();
@@ -378,7 +381,7 @@ void CDialogAddRule::on_lineEditHours_editingFinished()
 	ui->lineEditDays->setText( QString::number( nDays ) );
 }
 
-void CDialogAddRule::on_lineEditMinutes_editingFinished()
+void CDialogModifyRule::on_lineEditMinutes_editingFinished()
 {
 	quint64 nMinutes = ui->lineEditMinutes->text().toULong();
 	quint64 nHours = ui->lineEditHours->text().toULong();

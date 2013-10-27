@@ -321,7 +321,6 @@ HEADERS += \
 		UI/completerlineedit.h \
 		UI/dialogabout.h \
 		UI/dialogadddownload.h \
-		UI/dialogaddrule.h \
 		UI/dialogaddsecuritysubscription.h \
 		UI/dialogclosetype.h \
 		UI/dialogconnectto.h \
@@ -395,7 +394,8 @@ HEADERS += \
 		Security/useragentrule.h \
 		Security/contentrule.h \
 		Models/securityfiltermodel.h \
-		UI/dialogimportsecurity.h
+		UI/dialogimportsecurity.h \
+    UI/dialogmodifyrule.h
 
 # Sources
 SOURCES += \
@@ -483,7 +483,6 @@ SOURCES += \
 		UI/completerlineedit.cpp \
 		UI/dialogabout.cpp \
 		UI/dialogadddownload.cpp \
-		UI/dialogaddrule.cpp \
 		UI/dialogaddsecuritysubscription.cpp \
 		UI/dialogclosetype.cpp \
 		UI/dialogconnectto.cpp \
@@ -556,12 +555,12 @@ SOURCES += \
 		Security/useragentrule.cpp \
 		Security/contentrule.cpp \
 		Models/securityfiltermodel.cpp \
-		UI/dialogimportsecurity.cpp
+		UI/dialogimportsecurity.cpp \
+    UI/dialogmodifyrule.cpp
 
 FORMS += \
 		UI/dialogabout.ui \
 		UI/dialogadddownload.ui \
-		UI/dialogaddrule.ui \
 		UI/dialogaddsecuritysubscription.ui \
 		UI/dialogclosetype.ui \
 		UI/dialogconnectto.ui \
@@ -616,7 +615,8 @@ FORMS += \
 	UI/dialogircsettings.ui \
 	UI/dialogirccolordialog.ui \
 	UI/wizardircconnection.ui \
-	UI/dialogimportsecurity.ui
+	UI/dialogimportsecurity.ui \
+    UI/dialogmodifyrule.ui
 
 TRANSLATIONS = \
 		Language/quazaa_af.ts \
