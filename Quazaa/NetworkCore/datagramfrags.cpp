@@ -13,12 +13,12 @@
 ** but WITHOUT ANY WARRANTY; without even the implied warranty of
 ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 **
-** Please review the following information to ensure the GNU General Public 
-** License version 3.0 requirements will be met: 
+** Please review the following information to ensure the GNU General Public
+** License version 3.0 requirements will be met:
 ** http://www.gnu.org/copyleft/gpl.html.
 **
-** You should have received a copy of the GNU General Public License version 
-** 3.0 along with Quazaa; if not, write to the Free Software Foundation, 
+** You should have received a copy of the GNU General Public License version
+** 3.0 along with Quazaa; if not, write to the Free Software Foundation,
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
@@ -118,7 +118,7 @@ G2Packet* DatagramIn::ToG2Packet()
 
 	if(m_bCompressed && !ZLibUtils::Uncompress(*m_pBuffer[0]))
 	{
-		throw packet_error();
+		throw std::logic_error("Unable to uncompress compressed packet.");
 	}
 
 	return G2Packet::ReadBuffer(m_pBuffer[0]);

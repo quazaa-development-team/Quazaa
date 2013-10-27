@@ -145,7 +145,7 @@ G2Packet* G2Packet::New(char* pSource)
 
 	if(bBigEndian)
 	{
-		throw packet_error();
+		throw std::logic_error("New G2 packet is big endian.");
 	}
 	else
 	{
@@ -249,7 +249,7 @@ bool G2Packet::ReadPacket(char* pszType, quint32& nLength, bool* pbCompound)
 
 	if(GetRemaining() < nTypeLen + nLenLen + 1)
 	{
-		throw packet_error();
+		throw std::underflow_error("Packet read will not reach end.");
 	}
 
 	nLength = 0;
@@ -257,7 +257,7 @@ bool G2Packet::ReadPacket(char* pszType, quint32& nLength, bool* pbCompound)
 
 	if(GetRemaining() < (int)(nLength + nTypeLen + 1))
 	{
-		throw packet_error();
+		throw std::underflow_error("Packet read will not reach end.");
 	}
 
 	Read(pszType, nTypeLen + 1);
@@ -312,7 +312,7 @@ bool G2Packet::SkipCompound(quint32& nLength, quint32 nRemaining)
 
 		if(m_nPosition + nTypeLen + nLenLen + 1 > nEnd)
 		{
-			throw packet_error();
+			throw std::overflow_error("Packet will read past end.");
 		}
 
 		quint32 nPacket = 0;
@@ -321,7 +321,7 @@ bool G2Packet::SkipCompound(quint32& nLength, quint32 nRemaining)
 
 		if(m_nPosition + nTypeLen + 1 + nPacket > nEnd)
 		{
-			throw packet_error();
+			throw std::overflow_error("Packet will read past end.");
 		}
 
 		m_nPosition += nPacket + nTypeLen + 1;
@@ -330,7 +330,7 @@ bool G2Packet::SkipCompound(quint32& nLength, quint32 nRemaining)
 	nEnd = m_nPosition - nStart;
 	if(nEnd > nLength)
 	{
-		throw packet_error();
+		throw std::overflow_error("Packet will read past end.");
 	}
 	nLength -= nEnd;
 
@@ -410,7 +410,7 @@ G2Packet* G2Packet::ReadBuffer(CBuffer* pBuffer)
 
 	if(nFlags & G2_FLAG_BIG_ENDIAN)
 	{
-		throw packet_error();
+		throw "Big endian packet sent to G2 buffer.";
 	}
 	else
 	{

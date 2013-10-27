@@ -30,9 +30,6 @@
 #include <QMutex>
 #include <QList>
 
-struct packet_error {};
-struct packet_read_past_end {};
-
 class CBuffer;
 
 class G2Packet
@@ -184,7 +181,7 @@ void G2Packet::Read(void* pData, int nLength)
 {
 	if(m_nPosition + nLength > m_nLength)
 	{
-		throw packet_read_past_end();
+		throw std::overflow_error("Packet will read past end.");
 	}
 	memcpy(pData, m_pBuffer + m_nPosition, nLength);
 	m_nPosition += nLength;
@@ -201,7 +198,7 @@ T G2Packet::ReadIntBE()
 {
 	if(m_nLength - m_nPosition < sizeof(T))
 	{
-		throw packet_read_past_end();
+		throw std::overflow_error("Packet will read past end.");
 	}
 
 	T nRet = qFromBigEndian(*(T*)(m_pBuffer + m_nPosition));
@@ -213,7 +210,7 @@ T G2Packet::ReadIntLE()
 {
 	if(m_nLength - m_nPosition < sizeof(T))
 	{
-		throw packet_read_past_end();
+		throw std::overflow_error("Packet will read past end.");
 	}
 
 	T nRet = qFromLittleEndian(*(T*)(m_pBuffer + m_nPosition));
