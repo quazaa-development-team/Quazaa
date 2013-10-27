@@ -1206,6 +1206,7 @@ bool CSecurity::isClientBad(const QString& sUserAgent) const
 		if ( sSubStr.startsWith( " 2.2" ) )     return true; // Old version
 		if ( sSubStr.startsWith( " 2.3" ) )     return true; // Old version
 		if ( sSubStr.startsWith( " 2.4" ) )     return true; // Old version
+		if ( sSubStr.startsWith( " 2.5.0") )	return true; // Old version
 		if ( sSubStr.startsWith( " 3.0" ) )     return true;
 		if ( sSubStr.startsWith( " 3.1" ) )     return true;
 		if ( sSubStr.startsWith( " 3.2" ) )     return true;
