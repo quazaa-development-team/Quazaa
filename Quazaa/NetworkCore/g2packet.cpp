@@ -412,6 +412,7 @@ G2Packet* G2Packet::ReadBuffer(CBuffer* pBuffer)
 
 	if(nFlags & G2_FLAG_BIG_ENDIAN)
 	{
+		qDebug(qPrintable(pBuffer->dump()));
 		throw "Big endian packet sent to G2 buffer.";
 	}
 	else
