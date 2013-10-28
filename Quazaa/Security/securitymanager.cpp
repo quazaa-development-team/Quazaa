@@ -36,7 +36,6 @@
 #include "quazaaglobals.h"
 #include "quazaasettings.h"
 #include "timedsignalqueue.h"
-#include "timeoutwritelocker.h"
 
 #include "debug_new.h"
 
@@ -1275,10 +1274,6 @@ bool CSecurity::isVendorBlocked(const QString& sVendor) const
   */
 bool CSecurity::start()
 {
-	// We don't really need a lock here as nobody is supposed to use the manager before
-	// it is properly initialized.
-	m_sMessage = tr( "[Security] " );
-
 	// Register QSharedPointer<CSecureRule> to allow using this type with queued signal/slot
 	// connections.
 	qRegisterMetaType< QSharedPointer< CSecureRule > >( "QSharedPointer<CSecureRule>" );
@@ -1451,7 +1446,7 @@ bool CSecurity::save(bool bForceSaving) const
 
 	bool bReturn;
 
-	if ( !common::securedSaveFile( CQuazaaGlobals::DATA_PATH(), "security.dat", m_sMessage,
+	if ( !common::securedSaveFile( CQuazaaGlobals::DATA_PATH(), "security.dat", "[Security] ",
 									this, &CSecurity::writeToFile ) )
 	{
 		bReturn = false;
@@ -1556,7 +1551,7 @@ bool CSecurity::fromXML(const QString& sPath)
 
 			if ( pRule )
 			{
-				if ( getUUID( pRule->m_oUUID ) == m_Rules.end() && !pRule->isExpired( tNow ) )
+				if ( !pRule->isExpired( tNow ) )
 				{
 					add( pRule );
 				}
@@ -1694,7 +1689,7 @@ void CSecurity::sanityCheck()
 	Q_ASSERT( !m_bNewRulesLoaded || !m_loadedAddressRules.empty() || !m_loadedHitRules.empty());
 
 	// Check whether there are new rules to deal with.
-	bool bNewRules = !( m_newAddressRules.empty() && m_newHitRules.empty() );
+	bool bNewRules = m_newAddressRules.size() || m_newHitRules.size();
 
 	if ( bNewRules )
 	{
@@ -1702,20 +1697,35 @@ void CSecurity::sanityCheck()
 		{
 			loadNewRules();
 
-			// Failsafe mechanism in case there are massive problems somewhere else.
-			signalQueue.push( this, SLOT( forceEndOfSanityCheck() ), tNow + 120 );
-
 			// Count how many "OK"s we need to get back.
 			m_nPendingOperations = receivers( SIGNAL( performSanityCheck() ) );
 
-			// Inform all other modules aber the necessity of a sanity check.
-			emit performSanityCheck();
+			// if there is anyone listening, start the sanity check
+			if ( m_nPendingOperations )
+			{
+#ifdef _DEBUG
+				// Failsafe mechanism in case there are massive problems somewhere else.
+				m_idForceEoSC = signalQueue.push( this, "forceEndOfSanityCheck", 120 );
+#endif
+
+				// Inform all other modules about the necessity of a sanity check.
+				emit performSanityCheck();
+			}
+			else
+			{
+				clearNewRules();
+			}
 		}
 		else // other sanity check still in progress
 		{
 			// try again later
-			signalQueue.push( this, SLOT( sanityCheck() ), tNow + 5 );
+			signalQueue.push( this, "sanityCheck", 5 );
 		}
+	}
+	else // We didn't get a write lock in a timely manner.
+	{
+		// try again later
+		signalQueue.push( this, "sanityCheck", 5 );
 	}
 }
 
@@ -2291,24 +2301,25 @@ bool CSecurity::isDenied(const QList<QString>& lQuery, const QString& sContent)
  */
 void CSecurity::postLog(LogSeverity::Severity severity, QString message, bool bDebug)
 {
-	QString sMessage = securityManager.m_sMessage;
+	QString sMessage = "[Security] ";
 
 	switch ( severity )
 	{
-	case LogSeverity::Warning:
-		sMessage += tr ( "Warning: " );
-		break;
 
-	case LogSeverity::Error:
-		sMessage += tr ( "Error: " );
-		break;
+		case LogSeverity::Warning:
+			sMessage += tr ( "Warning: " );
+			break;
 
-	case LogSeverity::Critical:
-		sMessage += tr ( "Critical Error: " );
-		break;
+		case LogSeverity::Error:
+			sMessage += tr ( "Error: " );
+			break;
 
-	default:
-		break; // do nothing
+		case LogSeverity::Critical:
+			sMessage += tr ( "Critical Error: " );
+			break;
+
+		default:
+			break; // do nothing
 	}
 
 	sMessage += message;

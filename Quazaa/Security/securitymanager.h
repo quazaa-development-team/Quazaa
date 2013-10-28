@@ -75,8 +75,6 @@ private:
 
 	typedef TSecurityRuleList::const_iterator TConstIterator;
 
-	QString             m_sMessage;
-
 	// contains all rules
 	TSecurityRuleList   m_Rules;
 
@@ -115,6 +113,9 @@ private:
 	// Timer IDs
 	QUuid               m_idRuleExpiry;       // The ID of the signalQueue object.
 	QUuid               m_idMissCacheExpiry;  // The ID of the signalQueue object.
+#ifdef _DEBUG // use failsafe to abort sanity check only in debug version
+	QUuid               m_idForceEoSC;        // The signalQueue ID (force end of sanity check)
+#endif
 
 	// Other
 	bool                m_bUseMissCache;
