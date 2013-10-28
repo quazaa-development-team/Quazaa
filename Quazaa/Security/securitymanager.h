@@ -69,11 +69,7 @@ private:
 	typedef std::set< uint >           TMissCache;
 	typedef std::map< QString, CUserAgentRule* > TUserAgentRuleMap;
 
-	// Note: Using a multimap eliminates eventual problems of hash
-	// collisions caused by weaker hashes like MD5 for example.
-	typedef std::multimap< uint, CHashRule* > THashRuleMap;
-
-	typedef TSecurityRuleList::const_iterator TConstIterator;
+	typedef TSecurityRuleList::const_iterator TConstSecurityIterator;
 
 	// contains all rules
 	TSecurityRuleList   m_Rules;
@@ -94,13 +90,15 @@ private:
 	QList<CIPRangeRule*>    m_lIPRanges;
 
 	// hash rules
-	THashRuleMap        m_Hashes;
+	// Note: Using a multimap eliminates eventual problems of hash
+	// collisions caused by weaker hashes like MD5 for example.
+	QMultiMap<uint, CHashRule*>        m_Hashes;
 
 	// all other content rules
 	QList<CContentRule*>    m_Contents;
 
 	// RegExp rules
-	QList<CRegularExpressionRule*>     m_RegExpressions;
+	QList<CRegularExpressionRule*>     m_lRegularExpressions;
 
 	// User agent rules
 	TUserAgentRuleMap   m_UserAgents;
@@ -226,10 +224,10 @@ private:
 	bool            load(QString sPath);
 
 	// this returns the first rule found. Note that there might be others, too.
-	TConstIterator  getHash(const QList< CHash >& hashes) const;
-	TConstIterator  getUUID(const QUuid& oUUID) const;
+	TConstSecurityIterator  getHash(const QList< CHash >& hashes) const;
+	TConstSecurityIterator  getUUID(const QUuid& oUUID) const;
 
-	void            remove(TConstIterator i);
+	void            remove(TConstSecurityIterator i);
 
 	bool            isAgentDenied(const QString& sUserAgent);
 
@@ -245,7 +243,7 @@ private:
 
 	inline void     hit(CSecureRule *pRule);
 
-	inline TSecurityRuleList::iterator getRWIterator(TConstIterator constIt);
+	inline TSecurityRuleList::iterator getRWIterator(TConstSecurityIterator constIt);
 };
 
 quint32 CSecurity::getCount() const
@@ -272,11 +270,11 @@ void CSecurity::hit(CSecureRule* pRule)
 	emit securityHit();
 }
 
-CSecurity::TSecurityRuleList::iterator CSecurity::getRWIterator(TConstIterator constIt)
+CSecurity::TSecurityRuleList::iterator CSecurity::getRWIterator(TConstSecurityIterator constIt)
 {
 	TSecurityRuleList::iterator i = m_Rules.begin();
-	TConstIterator const_begin = m_Rules.begin();
-	int nDistance = std::distance< TConstIterator >( const_begin, constIt );
+	TConstSecurityIterator const_begin = m_Rules.begin();
+	int nDistance = std::distance< TConstSecurityIterator >( const_begin, constIt );
 	std::advance( i, nDistance );
 	return i;
 }

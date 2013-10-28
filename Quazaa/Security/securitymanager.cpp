@@ -242,7 +242,7 @@ void CSecurity::add(CSecureRule* pRule)
 	{
 		CHashRule* pHashRule = (CHashRule*)pRule;
 
-		QList< CHash > oHashes = pHashRule->getHashes();
+		QList<CHash> oHashes = pHashRule->getHashes();
 
 		if ( oHashes.isEmpty() )
 		{
@@ -252,7 +252,7 @@ void CSecurity::add(CSecureRule* pRule)
 			return;
 		}
 
-		TConstIterator i = getHash( oHashes );
+		TConstSecurityIterator i = getHash( oHashes );
 
 		if ( i != m_Rules.end() )
 		{
@@ -283,7 +283,7 @@ void CSecurity::add(CSecureRule* pRule)
 		// similar but not 100% identical content, add hashes to map.
 		foreach ( CHash oHash, oHashes )
 		{
-			m_Hashes.insert( THashPair( qHash( oHash.RawValue() ), pHashRule ) );
+			m_Hashes.insert( qHash( oHash.RawValue() ), pHashRule );
 		}
 
 		bNewHit	= true;
@@ -292,10 +292,10 @@ void CSecurity::add(CSecureRule* pRule)
 
 	case RuleType::RegularExpression:
 	{
-		QList<CRegularExpressionRule*>::iterator i = m_RegExpressions.begin();
+		QList<CRegularExpressionRule*>::iterator i = m_lRegularExpressions.begin();
 		CRegularExpressionRule* pOldRule = NULL;
 
-		while ( i != m_RegExpressions.end() )
+		while ( i != m_lRegularExpressions.end() )
 		{
 			pOldRule = *i;
 			if ( (*i)->m_oUUID == pRule->m_oUUID )
@@ -321,7 +321,7 @@ void CSecurity::add(CSecureRule* pRule)
 			++i;
 		}
 
-		m_RegExpressions.push_front( (CRegularExpressionRule*)pRule );
+		m_lRegularExpressions.push_front( (CRegularExpressionRule*)pRule );
 
 		bNewHit	= true;
 	}
@@ -403,7 +403,7 @@ void CSecurity::add(CSecureRule* pRule)
 	}
 
 	// Add rule to list of all rules
-	TConstIterator iExRule = getUUID( pRule->m_oUUID );
+	TConstSecurityIterator iExRule = getUUID( pRule->m_oUUID );
 	if ( iExRule != m_Rules.end() ) // we do not allow 2 rules by the same UUID
 	{
 		remove( iExRule );
@@ -467,7 +467,7 @@ void CSecurity::clear()
 	m_lIPs.clear();
 	m_lIPRanges.clear();
 	m_Hashes.clear();
-	m_RegExpressions.clear();
+	m_lRegularExpressions.clear();
 	m_Contents.clear();
 	m_UserAgents.clear();
 
@@ -812,7 +812,7 @@ bool CSecurity::isNewlyDenied(const CEndPoint& oAddress)
 	if ( m_loadedAddressRules.empty() )
 		return false;
 
-	TConstIterator i = m_loadedAddressRules.begin();
+	TConstSecurityIterator i = m_loadedAddressRules.begin();
 
 	while ( i != m_loadedAddressRules.end() )
 	{
@@ -853,7 +853,7 @@ bool CSecurity::isNewlyDenied(const CQueryHit* pHit, const QList<QString>& lQuer
 	if ( m_loadedHitRules.empty() )
 		return false;
 
-	TConstIterator i = m_loadedHitRules.begin();
+	TConstSecurityIterator i = m_loadedHitRules.begin();
 
 	while ( i != m_loadedHitRules.end() )
 	{
@@ -1423,7 +1423,7 @@ quint32 CSecurity::writeToFile(const void * const pManager, QFile& oFile)
 	oStream << pSManager->m_bDenyPolicy;
 	oStream << pSManager->getCount();
 
-	for ( TConstIterator i = pSManager->m_Rules.begin(); i != pSManager->m_Rules.end(); ++i )
+	for ( TConstSecurityIterator i = pSManager->m_Rules.begin(); i != pSManager->m_Rules.end(); ++i )
 	{
 		const CSecureRule* pRule = *i;
 		CSecureRule::save( pRule, oStream );
@@ -1482,7 +1482,7 @@ bool CSecurity::toXML(const QString& sPath) const
 	xmlDocument.writeStartElement( xmlns, "security" );
 	xmlDocument.writeAttribute( "version", "2.0" );
 
-	for ( TConstIterator i = m_Rules.begin(); i != m_Rules.end() ; ++i )
+	for ( TConstSecurityIterator i = m_Rules.begin(); i != m_Rules.end() ; ++i )
 	{
 		(*i)->toXML( xmlDocument );
 	}
@@ -1667,7 +1667,7 @@ int CSecurity::receivers(const char* signal) const
   */
 void CSecurity::requestRuleList()
 {
-	for ( TConstIterator i = m_Rules.begin() ; i != m_Rules.end(); ++i )
+	for ( TConstSecurityIterator i = m_Rules.begin() ; i != m_Rules.end(); ++i )
 	{
 		emit ruleInfo( *i );
 	}
@@ -1683,8 +1683,6 @@ void CSecurity::requestRuleList()
   */
 void CSecurity::sanityCheck()
 {
-	const quint32 tNow = common::getTNowUTC();
-
 	// This indicates that an error happend previously.
 	Q_ASSERT( !m_bNewRulesLoaded || !m_loadedAddressRules.empty() || !m_loadedHitRules.empty());
 
@@ -1784,7 +1782,7 @@ void CSecurity::expire()
 	const quint32 tNow = common::getTNowUTC();
 	quint16 nCount = 0;
 
-	TConstIterator j, i = m_Rules.begin();
+	TConstSecurityIterator j, i = m_Rules.begin();
 	while (  i != m_Rules.end() )
 	{
 		if ( (*i)->isExpired( tNow ) )
@@ -1916,36 +1914,36 @@ void CSecurity::clearNewRules()
 	m_bNewRulesLoaded = false;
 }
 
-CSecurity::TConstIterator CSecurity::getHash(const QList< CHash >& hashes) const
+CSecurity::TConstSecurityIterator CSecurity::getHash(const QList< CHash >& hashes) const
 {
 	// We are not searching for any hash. :)
 	if ( hashes.isEmpty() )
 		return m_Rules.end();
 
-	THashRuleMap::const_iterator i;
+	QMultiMap<uint, CHashRule*>::const_iterator it;
 
 	// For each hash that has been given to the function:
 	foreach ( CHash oHash, hashes )
 	{
 		// 1. Check whether a corresponding rule can be found in our lookup container.
-		i = m_Hashes.find( qHash( oHash.RawValue() ) );
+		it = m_Hashes.find( qHash( oHash.RawValue() ) );
 
 		// 2. Iterate threw all rules that include the current hash
 		// (this is important for weaker hashes to deal correctly with hash collisions)
-		while ( i != m_Hashes.end() && (*i).first == qHash( oHash.RawValue() ) )
+		while ( it != m_Hashes.end() && it.key() == qHash( oHash.RawValue() ) )
 		{
-			if ( (*i).second->match( hashes ) )
-				return getUUID( (*i).second->m_oUUID );
-			++i;
+			if ( it.value()->match( hashes ) )
+				return getUUID( it.value()->m_oUUID );
+			++it;
 		}
 	}
 
 	return m_Rules.end();
 }
 
-CSecurity::TConstIterator CSecurity::getUUID(const QUuid& oUUID) const
+CSecurity::TConstSecurityIterator CSecurity::getUUID(const QUuid& oUUID) const
 {
-	for ( TConstIterator i = m_Rules.begin() ; i != m_Rules.end(); i++ )
+	for ( TConstSecurityIterator i = m_Rules.begin() ; i != m_Rules.end(); i++ )
 	{
 		if ( (*i)->m_oUUID == oUUID ) return i;
 	}
@@ -1954,7 +1952,7 @@ CSecurity::TConstIterator CSecurity::getUUID(const QUuid& oUUID) const
 }
 
 /** Requires locking: yes */
-void CSecurity::remove(TConstIterator it)
+void CSecurity::remove(TConstSecurityIterator it)
 {
 	if ( it == m_Rules.end() )
 		return;
@@ -2008,20 +2006,20 @@ void CSecurity::remove(TConstIterator it)
 
 			QList< CHash > oHashes = pHashRule->getHashes();
 
-			THashRuleMap::iterator i;
+			QMultiMap<uint, CHashRule*>::iterator it;
 			foreach ( CHash oHash, oHashes )
 			{
-				i = m_Hashes.find( qHash( oHash.RawValue() ) );
+				it = m_Hashes.find( qHash( oHash.RawValue() ) );
 
-				while ( i != m_Hashes.end() && (*i).first == qHash( oHash.RawValue() ) )
+				while ( it != m_Hashes.end() && it.key() == qHash( oHash.RawValue() ) )
 				{
-					if ( (*i).second->m_oUUID == pHashRule->m_oUUID )
+					if ( it.value()->m_oUUID == pHashRule->m_oUUID )
 					{
-						m_Hashes.erase( i );
+						m_Hashes.erase( it );
 						break;
 					}
 
-					++i;
+					++it;
 				}
 			}
 		}
@@ -2046,13 +2044,13 @@ void CSecurity::remove(TConstIterator it)
 
 		case RuleType::RegularExpression:
 		{
-			QList<CRegularExpressionRule*>::iterator i = m_RegExpressions.begin();
+			QList<CRegularExpressionRule*>::iterator i = m_lRegularExpressions.begin();
 
-			while ( i != m_RegExpressions.end() )
+			while ( i != m_lRegularExpressions.end() )
 			{
 				if ( (*i)->m_oUUID == pRule->m_oUUID )
 				{
-					m_RegExpressions.erase( i );
+					m_lRegularExpressions.erase( i );
 					break;
 				}
 
@@ -2216,7 +2214,7 @@ bool CSecurity::isDenied(const CQueryHit* const pHit)
 	const quint32 tNow = common::getTNowUTC();
 
 	// Search for a rule matching these hashes
-	TConstIterator it = getHash( lHashes );
+	TConstSecurityIterator it = getHash( lHashes );
 
 	// If this rule matches the file, return the specified action.
 	if ( it != m_Rules.end() )
@@ -2266,8 +2264,8 @@ bool CSecurity::isDenied(const QList<QString>& lQuery, const QString& sContent)
 
 	const quint32 tNow = common::getTNowUTC();
 
-	QList<CRegularExpressionRule*>::iterator i = m_RegExpressions.begin();
-	while ( i != m_RegExpressions.end() )
+	QList<CRegularExpressionRule*>::iterator i = m_lRegularExpressions.begin();
+	while ( i != m_lRegularExpressions.end() )
 	{
 		CRegularExpressionRule* pRule = *i;
 		++i;
