@@ -44,7 +44,6 @@ bool CHashRule::parseContent(const QString& sContent)
 	QStringList prefixes;
 	prefixes << "urn:sha1:" << "urn:ed2k:" << "urn:ed2khash:" << "urn:tree:tiger:" << "urn:btih:" << "urn:bitprint:" << "urn:md5:";
 	QList<int> lengths;
-	lengths << 32 << 32 << 32 << 39 << 32 << 72 << 32;
 
 	for ( int i = 0; i < prefixes.size(); ++i )
 	{
@@ -55,11 +54,15 @@ bool CHashRule::parseContent(const QString& sContent)
 		if ( pos1 != -1 )
 		{
 			tmp  = sContent.mid( pos1 );
-			int length = lengths.at(i) + prefixes.at(i).length();
+			int length = CHash::lengthForUrn(prefixes.at(i)) + prefixes.at(i).length();
 			pos2 = tmp.indexOf( "&" );
+
+			qDebug() << "Expected hash length:" << length;
+			qDebug() << "Actual hash length:" << pos2;
 
 			if ( pos2 == length )
 			{
+				qDebug() << "Hash:" << tmp.left( pos2 );
 				systemLog.postLog(LogSeverity::Information, Components::Security, QApplication::tr("Hash found for hash rule: %1").arg(tmp.left( pos2 )));
 				sHash = tmp.left( pos2 );
 			}
