@@ -88,6 +88,10 @@ public:
 
 	void	 resize(const quint32 nLength);
 
+	QString toHex() const;
+	QString toAscii() const;
+	QString dump() const;
+
 };
 
 #endif // BUFFER_H
