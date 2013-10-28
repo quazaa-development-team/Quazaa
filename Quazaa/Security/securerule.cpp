@@ -31,7 +31,7 @@
  * @brief CSecureRule::CSecureRule Constructor.
  * @param bCreate
  */
-CSecureRule::CSecureRule()
+CSecureRule::CSecureRule() : m_bModifyLock( false )
 {
 	// This invalidates rule as long as it does not contain any useful content.
 	m_nType   = RuleType::Undefined;
@@ -41,7 +41,6 @@ CSecureRule::CSecureRule()
 	m_tExpire = RuleTime::Special;
 	m_nToday  = 0;
 	m_nTotal  = 0;
-
 	m_oUUID   = QUuid::createUuid();
 }
 
