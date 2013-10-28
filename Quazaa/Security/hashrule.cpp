@@ -77,7 +77,11 @@ bool CHashRule::parseContent(const QString& sContent)
 				continue;
 			}
 
-			lHashes.append( *CHash::FromURN( sHash ) );
+			CHash* pHash = CHash::FromURN( sHash );
+			if(pHash)
+				lHashes.append( *CHash::FromURN( sHash ) );
+			else
+				qDebug() << "Hash type not recognised.";
 		}
 	}
 
