@@ -65,18 +65,10 @@ bool CUserAgentRule::match(const QString& sUserAgent) const
 	}
 	else
 	{
-		return ( sUserAgent.indexOf( m_sContent ) != -1 );
+		return sUserAgent.contains( m_sContent, Qt::CaseInsensitive );
 	}
 
-	return true;
-}
-
-bool CUserAgentRule::partialMatch(const QString &sUserAgent) const
-{
-	//TODO: Figure out why this is triggered when removing an agent rule
-	Q_ASSERT( m_nType == RuleType::UserAgent );
-
-	return sUserAgent.contains( m_sContent, Qt::CaseInsensitive );
+	return false;
 }
 
 void CUserAgentRule::toXML(QXmlStreamWriter& oXMLdocument) const

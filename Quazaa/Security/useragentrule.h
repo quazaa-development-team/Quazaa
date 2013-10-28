@@ -27,7 +27,6 @@ public:
 	CSecureRule*	getCopy() const;
 
 	bool				match(const QString& sUserAgent) const;
-	bool				partialMatch(const QString &sUserAgent) const;
 	void				toXML(QXmlStreamWriter& oXMLdocument) const;
 };
 

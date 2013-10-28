@@ -36,7 +36,7 @@
 #include "quazaaglobals.h"
 #include "quazaasettings.h"
 #include "timedsignalqueue.h"
-#include "Misc/timeoutwritelocker.h"
+#include "timeoutwritelocker.h"
 
 #include "debug_new.h"
 
@@ -239,46 +239,6 @@ void CSecurity::add(CSecureRule* pRule)
 			evaluateCacheUsage();
 	}
 	break;
-#if SECURITY_ENABLE_GEOIP
-	case RuleType::Country:
-	{
-		QString country = ((CCountryRule*)pRule)->getContentString();
-		TCountryRuleMap::iterator i = m_Countries.find( country );
-
-		bNewAddress = true;
-
-		if ( i != m_Countries.end() ) // there is a potentially conflicting rule in our map
-		{
-			pExRule = (*i).second;
-			if ( pExRule->m_oUUID   != pRule->m_oUUID   ||
-				 pExRule->m_nAction != pRule->m_nAction ||
-				 pExRule->isForever() != pRule->isForever() ||
-				 pExRule->getExpiryTime() != pRule->getExpiryTime() )
-			{
-				// remove conflicting rule if one of the important attributes
-				// differs from the rule we'd like to add
-				remove( pExRule );
-			}
-			else
-			{
-				// the rule does not need to be added.
-				delete pRule;
-				pRule = NULL;
-				return;
-			}
-
-			pExRule = NULL;
-		}
-
-		m_Countries[ country ] = (CCountryRule*)pRule;
-
-		bNewAddress = true;
-
-		if ( !m_bUseMissCache )
-			evaluateCacheUsage();
-	}
-	break;
-#endif // SECURITY_ENABLE_GEOIP
 	case RuleType::Hash:
 	{
 		CHashRule* pHashRule = (CHashRule*)pRule;
@@ -440,11 +400,7 @@ void CSecurity::add(CSecureRule* pRule)
 	break;
 
 	default:
-#if SECURITY_ENABLE_GEOIP
 		Q_ASSERT( false );
-#else
-		Q_ASSERT( type == CSecureRule::RuleType::Country );
-#endif // SECURITY_ENABLE_GEOIP
 	}
 
 	// Add rule to list of all rules
@@ -464,7 +420,7 @@ void CSecurity::add(CSecureRule* pRule)
 		if ( !m_bUseMissCache )
 			evaluateCacheUsage();
 	}
-	else if ( type == RuleType::IPAddressRange || type == RuleType::Country )
+	else if ( type == RuleType::IPAddressRange )
 	{
 		missCacheClear( true );
 
@@ -969,7 +925,7 @@ bool CSecurity::isDenied(const CEndPoint &oAddress)
 		}
 	}
 
-	// Third, check whether the IP is contained within one of the IP range rules using high speed lookup alorithm.
+	// Third, check whether the IP is contained within one of the IP range rules
 	CSecureRule* pIPRangeRule = isInAddressRangeRules( oAddress );
 
 	if(pIPRangeRule)
@@ -984,7 +940,7 @@ bool CSecurity::isDenied(const CEndPoint &oAddress)
 			Q_ASSERT( pIPRangeRule->m_nAction == RuleAction::None );
 	}
 
-	// Fourth, check the fast IP rules lookup map.
+	// Fourth, check whether the IP is contained within one of the single IP rules
 	CSecureRule* pIPRule = isInAddressRules( oAddress );
 
 	if ( pIPRule )
@@ -1001,28 +957,6 @@ bool CSecurity::isDenied(const CEndPoint &oAddress)
 				Q_ASSERT( pIPRule->m_nAction == RuleAction::None );
 		}
 	}
-
-	// Fifth, look up the IP in our country rule map.
-#if SECURITY_ENABLE_GEOIP
-	TCountryRuleMap::const_iterator it_2;
-	it_2 = m_Countries.find( oAddress.country() );
-
-	if ( it_2 != m_Countries.end() )
-	{
-		CSecureRule* pCountryRule = (*it_2).second;
-		if ( !pCountryRule->isExpired( tNow ) && pCountryRule->match( oAddress ) )
-		{
-			hit( pCountryRule );
-
-			if ( pCountryRule->m_nAction == RuleAction::Accept )
-				return false;
-			else if ( pCountryRule->m_nAction == RuleAction::Deny )
-				return true;
-			else
-				Q_ASSERT( pCountryRule->m_nAction == RuleAction::None );
-		}
-	}
-#endif // SECURITY_ENABLE_GEOIP
 
 	// If the IP is not within the rules (and we're using the cache),
 	// add the IP to the miss cache.
@@ -2058,23 +1992,6 @@ void CSecurity::remove(TConstIterator it)
 		}
 		break;
 
-#if SECURITY_ENABLE_GEOIP
-		case RuleType::Country:
-		{
-			QString country = pRule->getContentString();
-			TCountryRuleMap::iterator i = m_Countries.find( country );
-
-			if ( i != m_Countries.end() && (*i).second->m_oUUID == pRule->m_oUUID )
-			{
-				m_Countries.erase( i );
-
-				if ( m_bUseMissCache )
-					evaluateCacheUsage();
-			}
-		}
-		break;
-#endif // SECURITY_ENABLE_GEOIP
-
 		case RuleType::Hash:
 		{
 			CHashRule* pHashRule = (CHashRule*)pRule;
@@ -2140,9 +2057,7 @@ void CSecurity::remove(TConstIterator it)
 
 			while ( i != m_UserAgents.end() )
 			{
-				CUserAgentRule* pIRule = (*i).second;
-
-				if ( pIRule->m_oUUID == pRule->m_oUUID )
+				if ( (*i).second->m_oUUID == pRule->m_oUUID )
 				{
 					m_UserAgents.erase( i );
 					break;
@@ -2154,11 +2069,7 @@ void CSecurity::remove(TConstIterator it)
 		break;
 
 		default:
-#if SECURITY_ENABLE_GEOIP
 			Q_ASSERT( false );
-#else
-			Q_ASSERT( pRule->type() == CSecureRule::RuleType::Country );
-#endif // SECURITY_ENABLE_GEOIP
 		}
 
 		m_nUnsaved.fetchAndAddRelaxed( 1 );
@@ -2184,24 +2095,6 @@ bool CSecurity::isAgentDenied(const QString& sUserAgent)
 		CUserAgentRule* pRule = (*i).second;
 
 		if ( !pRule->isExpired( tNow ) && pRule->match( sUserAgent ) )
-		{
-			hit( pRule );
-
-			if ( pRule->m_nAction == RuleAction::Accept )
-				return false;
-			else if ( pRule->m_nAction == RuleAction::Deny )
-				return true;
-		}
-	}
-
-	i = m_UserAgents.begin();
-	CUserAgentRule* pRule;
-	while ( i != m_UserAgents.end() )
-	{
-		pRule = (*i).second;
-		++i;
-
-		if ( !pRule->isExpired( tNow ) && pRule->partialMatch( sUserAgent ) )
 		{
 			hit( pRule );
 
@@ -2238,10 +2131,6 @@ void CSecurity::evaluateCacheUsage()
 	double nCache		= m_Cache.size();
 	double nIPMap		= m_lIPs.size();
 
-#if SECURITY_ENABLE_GEOIP
-	double nCountryMap	= m_Countries.size();
-#endif // SECURITY_ENABLE_GEOIP
-
 	static const double log2	= log( 2.0 );
 
 	static double s_nCache		= 0;
@@ -2249,10 +2138,6 @@ void CSecurity::evaluateCacheUsage()
 
 	static double s_nIPMap		= -1;
 	static double s_nLogMult	= 0;
-
-#if SECURITY_ENABLE_GEOIP
-	static double s_nCountryMap	= 0;
-#endif // SECURITY_ENABLE_GEOIP
 
 	// Only do the heavy log operations if necessary.
 	if ( s_nCache != nCache )
@@ -2267,28 +2152,14 @@ void CSecurity::evaluateCacheUsage()
 
 	// Only do the heavy log operations if necessary.
 	if ( s_nIPMap != nIPMap
-#if SECURITY_ENABLE_GEOIP
-		 || s_nCountryMap != nCountryMap
-#endif // SECURITY_ENABLE_GEOIP
 		 )
 	{
 		s_nIPMap		= nIPMap;
-#if SECURITY_ENABLE_GEOIP
-		s_nCountryMap	= nCountryMap;
-#endif // SECURITY_ENABLE_GEOIP
 
 		if ( !nIPMap )
 			nIPMap = 1;
-#if SECURITY_ENABLE_GEOIP
-		if ( !nCountryMap )
-			nCountryMap = 1;
-#endif // SECURITY_ENABLE_GEOIP
 
-		s_nLogMult	= log( nIPMap
-#if SECURITY_ENABLE_GEOIP
-						   * nCountryMap
-#endif // SECURITY_ENABLE_GEOIP
-						   );
+		s_nLogMult	= log( nIPMap );
 	}
 
 	m_bUseMissCache = ( s_nLogCache < s_nLogMult + m_lIPRanges.size() * log2 );

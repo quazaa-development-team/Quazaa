@@ -1,5 +1,5 @@
 /*
-** $Id$
+** dialogmodifyrule.cpp
 **
 ** Copyright © Quazaa Development Team, 2009-2013.
 ** This file is part of QUAZAA (quazaa.sourceforge.net)
@@ -53,42 +53,36 @@ CDialogModifyRule::CDialogModifyRule(CWidgetSecurity* parent, CSecureRule* pRule
 		{
 		case RuleType::IPAddressRange:
 		{
-			ui->comboBoxRuleType->setCurrentIndex( 1 );
-			ui->stackedWidgetType->setCurrentIndex( 1 );
+			ui->comboBoxRuleType->setCurrentIndex( RuleIndex::IPAddressRange );
+			ui->stackedWidgetType->setCurrentIndex( RuleIndex::IPAddressRange );
 			QStringList lAddressRange = m_pRule->getContentString().split("-");
 			ui->lineEditStartIP->setText( lAddressRange.at(0) );
 			ui->lineEditEndIP->setText( lAddressRange.at(1) );
 			break;
 		}
-		case RuleType::Country:
-			ui->comboBoxRuleType->setCurrentIndex( 2 );
-			ui->stackedWidgetType->setCurrentIndex( 2 );
-			ui->lineEditCountry->setText( m_pRule->getContentString() );
-			break;
 		case RuleType::Hash:
-			ui->comboBoxRuleType->setCurrentIndex( 3 );
-			ui->stackedWidgetType->setCurrentIndex( 3 );
+			ui->comboBoxRuleType->setCurrentIndex( RuleIndex::Hash );
+			ui->stackedWidgetType->setCurrentIndex( RuleIndex::Hash );
 			break;
 		case RuleType::Content:
-			ui->comboBoxRuleType->setCurrentIndex( 4 );
-			ui->stackedWidgetType->setCurrentIndex( 4 );
+			ui->comboBoxRuleType->setCurrentIndex( RuleIndex::Content );
+			ui->stackedWidgetType->setCurrentIndex( RuleIndex::Content );
 			ui->lineEditContent->setText( m_pRule->getContentString() );
 			break;
 		case RuleType::RegularExpression:
-			ui->comboBoxRuleType->setCurrentIndex( 5 );
-			ui->stackedWidgetType->setCurrentIndex( 5 );
+			ui->comboBoxRuleType->setCurrentIndex( RuleIndex::RegularExpression );
+			ui->stackedWidgetType->setCurrentIndex( RuleIndex::RegularExpression );
 			ui->lineEditRegularExpression->setText( m_pRule->getContentString() );
 			break;
 		case RuleType::UserAgent:
-			ui->comboBoxRuleType->setCurrentIndex( 6 );
-			ui->stackedWidgetType->setCurrentIndex( 6 );
+			ui->comboBoxRuleType->setCurrentIndex( RuleIndex::UserAgent );
+			ui->stackedWidgetType->setCurrentIndex( RuleIndex::UserAgent );
 			ui->checkBoxUserAgentRegularExpression->setChecked( ((CUserAgentRule*)m_pRule)->getRegExp() );
 			ui->lineEditUserAgent->setText( m_pRule->getContentString() );
 			break;
-		case RuleType::IPAddress:
 		default:
-			ui->comboBoxRuleType->setCurrentIndex( 0 );
-			ui->stackedWidgetType->setCurrentIndex( 0 );
+			ui->comboBoxRuleType->setCurrentIndex( RuleIndex::IPAddress );
+			ui->stackedWidgetType->setCurrentIndex( RuleIndex::IPAddress );
 			ui->lineEditIP->setText( ((CIPRule*)m_pRule)->getContentString() );
 			break;
 		}
@@ -181,27 +175,22 @@ void CDialogModifyRule::on_pushButtonOK_clicked()
 		bIsNewRule = true;
 		switch ( ui->comboBoxRuleType->currentIndex() )
 		{
-			case 0:
+			case RuleIndex::IPAddress:
 				m_pRule = new CIPRule();
 				break;
-			case 1:
+			case RuleIndex::IPAddressRange:
 				m_pRule = new CIPRangeRule();
 				break;
-			case 2:
-#if SECURITY_ENABLE_GEOIP
-				m_pRule = new CCountryRule();
-#endif // SECURITY_ENABLE_GEOIP
-				break;
-			case 3:
+			case RuleIndex::Hash:
 				m_pRule = new CHashRule();
 				break;
-			case 4:
+			case RuleIndex::Content:
 				m_pRule = new CContentRule();
 				break;
-			case 5:
+			case RuleIndex::RegularExpression:
 				m_pRule = new CRegularExpressionRule();
 				break;
-			case 6:
+			case RuleIndex::UserAgent:
 				m_pRule = new CUserAgentRule();
 				break;
 			default:
@@ -234,19 +223,6 @@ void CDialogModifyRule::on_pushButtonOK_clicked()
 											   QMessageBox::Ok);
 				return;
 			}
-			break;
-		case RuleType::Country:
-#if SECURITY_ENABLE_GEOIP
-			sTmp = ui->lineEditCountry->text();
-			if ( !m_pRule->parseContent( sTmp ) )
-			{
-				QMessageBox::warning(this, tr("Country Rule Invalid"),
-											   tr("The country rule is invalid. Please see the example for correct usage."),
-											   QMessageBox::Ok,
-											   QMessageBox::Ok);
-				return;
-			}
-#endif // SECURITY_ENABLE_GEOIP
 			break;
 		case RuleType::Hash:
 			sTmp = ui->lineEditURI->text();

@@ -90,11 +90,6 @@
            </item>
            <item>
             <property name="text">
-             <string>Country</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
              <string>File Filter</string>
             </property>
            </item>

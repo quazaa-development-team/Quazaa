@@ -388,7 +388,6 @@ HEADERS += \
 		Models/ircuserlistmodel.h \
 		Security/iprule.h \
 		Security/iprangerule.h \
-		Security/countryrule.h \
 		Security/hashrule.h \
 		Security/regexprule.h \
 		Security/useragentrule.h \
@@ -549,7 +548,6 @@ SOURCES += \
 		Models/ircuserlistmodel.cpp \
 		Security/iprule.cpp \
 		Security/iprangerule.cpp \
-		Security/countryrule.cpp \
 		Security/hashrule.cpp \
 		Security/regexprule.cpp \
 		Security/useragentrule.cpp \

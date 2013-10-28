@@ -195,13 +195,6 @@ void CSecureRule::load(CSecureRule*& pRule, QDataStream &fsFile, int)
 		fsFile >> sTmp;
 		pRule->parseContent( sTmp );
 		break;
-	case 3:
-#if SECURITY_ENABLE_GEOIP
-		pRule = new CCountryRule();
-		fsFile >> sTmp;
-		pRule->parseContent( sTmp );
-#endif
-		break;
 	case 4:
 		pRule = new CHashRule();
 		fsFile >> sTmp;
@@ -351,19 +344,6 @@ CSecureRule* CSecureRule::fromXML(QXmlStreamReader& oXMLdocument, float nVersion
 			}
 		}
 	}
-#if SECURITY_ENABLE_GEOIP
-	else if ( sType.compare( "country", Qt::CaseInsensitive ) == 0 )
-	{
-		CCountryRule* rule = new CCountryRule();
-		if ( !rule->parseContent( attributes.value( "content" ).toString() ) )
-		{
-			delete rule;
-			return NULL;
-		}
-
-		pRule = rule;
-	}
-#endif // SECURITY_ENABLE_GEOIP
 	else
 	{
 		return NULL;

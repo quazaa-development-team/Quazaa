@@ -50,8 +50,7 @@
 typedef quint16 TRuleID; // used for GUI updating
 
 namespace RuleType {
-	enum Type { Undefined = 0, IPAddress = 1, IPAddressRange = 2, Country = 3,
-				   Hash = 4, RegularExpression = 5, UserAgent = 6, Content = 7 };
+	enum Type { Undefined = 0, IPAddress = 1, IPAddressRange = 2, Hash = 4, RegularExpression = 5, UserAgent = 6, Content = 7 };
 }
 
 namespace RuleAction {

@@ -178,8 +178,6 @@ QVariant CSecurityTableModel::Rule::data(int col) const
 					return tr("IP Address");
 				case RuleType::IPAddressRange:
 					return tr("IP Address Range");
-				case RuleType::Country:
-					return tr("Country");
 				case RuleType::Hash:
 					return tr("File Filter");
 				case RuleType::RegularExpression:

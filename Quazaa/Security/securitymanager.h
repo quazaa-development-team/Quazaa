@@ -32,13 +32,12 @@
 #include <set>
 
 // Increment this if there have been made changes to the way of storing security rules.
-#define SECURITY_CODE_VERSION 0
+#define SECURITY_CODE_VERSION 1
 // History:
 // 0 - Initial implementation
 
 #include "securerule.h"
 #include "contentrule.h"
-#include "countryrule.h"
 #include "hashrule.h"
 #include "iprangerule.h"
 #include "iprule.h"
@@ -55,9 +54,7 @@
 class CSecurity : public QObject
 {
 	Q_OBJECT
-	/* ================================================================ */
-	/* ========================== Attributes ========================== */
-	/* ================================================================ */
+
 public:
 	static const QString xmlns;
 	static const char* ruleInfoSignal;
@@ -70,9 +67,6 @@ private:
 	typedef std::queue< CSecureRule* > TNewRulesQueue;
 
 	typedef std::set< uint >           TMissCache;
-#if SECURITY_ENABLE_GEOIP
-	typedef std::map< QString, CCountryRule*   > TCountryRuleMap;
-#endif // SECURITY_ENABLE_GEOIP
 	typedef std::map< QString, CUserAgentRule* > TUserAgentRuleMap;
 
 	// Note: Using a multimap eliminates eventual problems of hash
@@ -100,11 +94,6 @@ private:
 
 	// multiple IP blocking rules
 	QList<CIPRangeRule*>    m_lIPRanges;
-
-#if SECURITY_ENABLE_GEOIP
-	// country rules
-	TCountryRuleMap     m_Countries;
-#endif // SECURITY_ENABLE_GEOIP
 
 	// hash rules
 	THashRuleMap        m_Hashes;
@@ -143,15 +132,9 @@ private:
 	// else does not make any sense.
 
 public:
-	/* ================================================================ */
-	/* ========================= Construction ========================= */
-	/* ================================================================ */
 	CSecurity();
 	~CSecurity();
 
-	/* ================================================================ */
-	/* ========================== Operations ========================== */
-	/* ================================================================ */
 	inline quint32  getCount() const;
 
 	inline bool     denyPolicy() const;

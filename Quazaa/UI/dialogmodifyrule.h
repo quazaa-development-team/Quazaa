@@ -30,7 +30,6 @@
 #include "securitymanager.h"
 #include "securerule.h"
 #include "contentrule.h"
-#include "countryrule.h"
 #include "hashrule.h"
 #include "iprangerule.h"
 #include "iprule.h"
@@ -41,6 +40,12 @@
 namespace Ui
 {
 	class CDialogModifyRule;
+}
+
+namespace RuleIndex {
+	enum Rows {
+		IPAddress = 0, IPAddressRange = 1, Hash = 2, Content = 3, RegularExpression = 4, UserAgent = 5
+	};
 }
 
 class CDialogModifyRule : public QDialog

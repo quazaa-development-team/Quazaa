@@ -29,7 +29,7 @@
 #include <QReadWriteLock>
 #include <QUrl>
 
-//#include "Misc/debugrwlock.h"
+//#include "debugrwlock.h"
 #include "discovery.h"
 
 // Requirements of all subclasses
