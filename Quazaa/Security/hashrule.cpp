@@ -39,29 +39,33 @@ void CHashRule::setHashes(const QList< CHash >& hashes)
 
 bool CHashRule::parseContent(const QString& sContent)
 {
-	QString tmp, sHash;
-	int pos1, pos2;
-	QList< CHash > lHashes;
+	QList<CHash> lHashes;
 
-	QString prefixes[5] = { "urn:sha1:", "urn:ed2k:", "urn:tree:tiger:", "urn:btih:", "urn:md5:" };
-	quint8 lengths[5] = { 32 + 9, 32 + 9, 39 + 15, 32 + 9, 32 + 8 };
+	QStringList prefixes;
+	prefixes << "urn:sha1:" << "urn:ed2k:" << "urn:ed2khash:" << "urn:tree:tiger:" << "urn:btih:" << "urn:bitprint:" << "urn:md5:";
+	QList<int> lengths;
+	lengths << 32 << 32 << 32 << 39 << 32 << 72 << 32;
 
-	for ( quint8 i = 0; i < 5; ++i )
+	for ( int i = 0; i < prefixes.size(); ++i )
 	{
-		sHash = "";
+		QString tmp, sHash;
+		int pos1, pos2;
 
-		pos1 = sContent.indexOf( prefixes[i] );
+		pos1 = sContent.indexOf( prefixes.at(i) );
 		if ( pos1 != -1 )
 		{
 			tmp  = sContent.mid( pos1 );
-			pos2 = tmp.indexOf( ' ' );
+			int length = lengths.at(i) + prefixes.at(i).length();
+			pos2 = tmp.indexOf( "&" );
 
-			if ( pos2 == lengths[i] )
+			if ( pos2 == length )
 			{
+				systemLog.postLog(LogSeverity::Information, Components::Security, tr("Hash found for hash rule: %1").arg(tmp.left( pos2 )));
 				sHash = tmp.left( pos2 );
 			}
-			else if ( pos2 == -1 && tmp.length() == lengths[i] )
+			else if ( pos2 == -1 && tmp.length() == length )
 			{
+				systemLog.postLog(LogSeverity::Information, Components::Security, tr("Hash found for hash rule at end of string: %1").arg(tmp.left( pos2 )));
 				sHash = tmp;
 			}
 			else
