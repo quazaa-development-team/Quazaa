@@ -60,12 +60,12 @@ bool CHashRule::parseContent(const QString& sContent)
 
 			if ( pos2 == length )
 			{
-				systemLog.postLog(LogSeverity::Information, Components::Security, tr("Hash found for hash rule: %1").arg(tmp.left( pos2 )));
+				systemLog.postLog(LogSeverity::Information, Components::Security, QApplication::tr("Hash found for hash rule: %1").arg(tmp.left( pos2 )));
 				sHash = tmp.left( pos2 );
 			}
 			else if ( pos2 == -1 && tmp.length() == length )
 			{
-				systemLog.postLog(LogSeverity::Information, Components::Security, tr("Hash found for hash rule at end of string: %1").arg(tmp.left( pos2 )));
+				systemLog.postLog(LogSeverity::Information, Components::Security, QApplication::tr("Hash found for hash rule at end of string: %1").arg(tmp.left( pos2 )));
 				sHash = tmp;
 			}
 			else
