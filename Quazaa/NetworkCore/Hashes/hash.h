@@ -52,6 +52,8 @@ public:
 	static CHash* FromURN(QString sURN);
 	static CHash* FromRaw(QByteArray& baRaw, CHash::Algorithm algo);
 
+	static int lengthForUrn(const QString& urn);
+
 	QString ToURN() const;
 	QString ToString() const;
 

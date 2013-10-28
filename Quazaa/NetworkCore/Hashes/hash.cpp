@@ -13,12 +13,12 @@
 ** but WITHOUT ANY WARRANTY; without even the implied warranty of
 ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 **
-** Please review the following information to ensure the GNU General Public 
-** License version 3.0 requirements will be met: 
+** Please review the following information to ensure the GNU General Public
+** License version 3.0 requirements will be met:
 ** http://www.gnu.org/copyleft/gpl.html.
 **
-** You should have received a copy of the GNU General Public License version 
-** 3.0 along with Quazaa; if not, write to the Free Software Foundation, 
+** You should have received a copy of the GNU General Public License version
+** 3.0 along with Quazaa; if not, write to the Free Software Foundation,
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
@@ -76,6 +76,7 @@ CHash::CHash(QByteArray baRaw, CHash::Algorithm algo)
 	m_pContext = 0;
 	m_bFinalized = true;
 }
+
 CHash::~CHash()
 {
 	if ( m_pContext )
@@ -146,8 +147,8 @@ CHash* CHash::FromURN(QString sURN)
 	}
 
 	return 0;
-
 }
+
 CHash* CHash::FromRaw(QByteArray &baRaw, CHash::Algorithm algo)
 {
 	try
@@ -160,6 +161,25 @@ CHash* CHash::FromRaw(QByteArray &baRaw, CHash::Algorithm algo)
 
 	}
 	return 0;
+}
+
+int CHash::lengthForUrn(const QString &urn)
+{
+	if(urn == "urn:sha1:")
+		return 32;
+	if(urn == "urn:ed2k:")
+		return 32;
+	if(urn == "urn:ed2khash:")
+		return 32;
+	if(urn == "urn:tree:tiger:")
+		return 39;
+	if(urn == "urn:btih:")
+		return 40;
+	if(urn == "urn:bitprint:")
+		return 72;
+	if(urn == "urn:md5:")
+		return 32;
+	return -1;
 }
 
 // Returns URN as string
@@ -255,6 +275,7 @@ QDataStream& operator<<(QDataStream& s, const CHash& rhs)
 	s << rhs.ToURN();
 	return s;
 }
+
 QDataStream& operator>>(QDataStream& s, CHash& rhs)
 {
 	QString sTmp;
