@@ -429,11 +429,11 @@ void CSecurity::add(CSecureRule* pRule)
 
 	if ( bNewAddress )	// only add IP, IP range and country rules to the queue
 	{
-		m_newAddressRules.push( pRule->getCopy() );
+		m_newAddressRules.enqueue( pRule->getCopy() );
 	}
 	else if ( bNewHit )		// only add rules related to hit filtering to the queue
 	{
-		m_newHitRules.push( pRule->getCopy() );
+		m_newHitRules.enqueue( pRule->getCopy() );
 	}
 
 	const quint32 tNow = common::getTNowUTC();
@@ -483,15 +483,13 @@ void CSecurity::clear()
 	CSecureRule* pRule = NULL;
 	while( m_newAddressRules.size() )
 	{
-		pRule = m_newAddressRules.front();
-		m_newAddressRules.pop();
+		pRule = m_newAddressRules.dequeue();
 		delete pRule;
 	}
 
 	while ( m_newHitRules.size() )
 	{
-		pRule = m_newHitRules.front();
-		m_newHitRules.pop();
+		pRule = m_newHitRules.dequeue();
 		delete pRule;
 	}
 
@@ -1851,8 +1849,7 @@ void CSecurity::loadNewRules()
 
 	while ( m_newAddressRules.size() )
 	{
-		pRule = m_newAddressRules.front();
-		m_newAddressRules.pop();
+		pRule = m_newAddressRules.dequeue();
 
 		// Only IP, IP range and coutry rules are allowed.
 		Q_ASSERT( pRule->type() != 0 && pRule->type() < 4 );
@@ -1864,8 +1861,7 @@ void CSecurity::loadNewRules()
 
 	while ( m_newHitRules.size() )
 	{
-		pRule = m_newHitRules.front();
-		m_newHitRules.pop();
+		pRule = m_newHitRules.dequeue();
 
 		// Only hit related rules are allowed.
 		Q_ASSERT( pRule->type() > 3 );

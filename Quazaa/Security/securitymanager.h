@@ -26,6 +26,7 @@
 #define SECURITYMANAGER_H
 
 #include <QList>
+#include <QQueue>
 #include <list>
 #include <map>
 #include <queue>
@@ -62,8 +63,6 @@ public:
 private:
 	typedef std::list< CSecureRule*  > TSecurityRuleList;
 
-	typedef std::queue< CSecureRule* > TNewRulesQueue;
-
 	typedef std::set< uint >           TMissCache;
 	typedef std::map< QString, CUserAgentRule* > TUserAgentRuleMap;
 
@@ -74,9 +73,9 @@ private:
 
 	// Used to manage newly added rules during sanity check
 	TSecurityRuleList   m_loadedAddressRules;
-	TNewRulesQueue      m_newAddressRules;
+	QQueue<CSecureRule*>      m_newAddressRules;
 	TSecurityRuleList   m_loadedHitRules;
-	TNewRulesQueue      m_newHitRules;
+	QQueue<CSecureRule*>      m_newHitRules;
 
 	// IP rule miss cache
 	TMissCache          m_Cache;
