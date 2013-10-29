@@ -60,8 +60,6 @@ public:
 	static const char* ruleInfoSignal;
 
 private:
-	typedef std::pair< uint, CHashRule* > THashPair;
-
 	typedef std::list< CSecureRule*  > TSecurityRuleList;
 
 	typedef std::queue< CSecureRule* > TNewRulesQueue;
