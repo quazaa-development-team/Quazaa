@@ -72,10 +72,10 @@ public:
 	~CQueryHit();
 
 	static QueryHitInfo* ReadInfo(G2Packet* pPacket, CEndPoint* pSender = 0);
-	static CQueryHit*    ReadPacket(G2Packet* pPacket, QueryHitInfo* pHitInfo);
+	static CQueryHit*    readPacket(G2Packet* pPacket, QueryHitInfo* pHitInfo);
 
-	void ResolveURLs();
-	bool IsValid(CQuery* pQuery = 0);
+	void resolveURLs();
+	bool isValid(CQuery* pQuery = 0);
 };
 
 typedef QSharedPointer<CQueryHit> QueryHitSharedPtr;

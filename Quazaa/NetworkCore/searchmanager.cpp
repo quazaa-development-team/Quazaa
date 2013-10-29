@@ -345,7 +345,7 @@ bool CSearchManager::OnQueryHit(G2Packet* pPacket, QueryHitInfo* pHitInfo)
 	{
 		// our search
 
-		CQueryHit* pHit = CQueryHit::ReadPacket(pPacket, pHitInfo);
+		CQueryHit* pHit = CQueryHit::readPacket(pPacket, pHitInfo);
 
 		if(pHit)
 		{

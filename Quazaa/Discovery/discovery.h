@@ -88,9 +88,6 @@ class CDiscovery : public QObject
 {
 	Q_OBJECT
 
-	/* ========================================================================================== */
-	/* ====================================== Definitions  ====================================== */
-	/* ========================================================================================== */
 private:
 	/**
 	 * @brief TServicePtr is a shared pointer class for internal use.
@@ -127,9 +124,6 @@ private:
 	 */
 	typedef TDiscoveryServicesList::const_iterator TListIterator;
 
-	/* ========================================================================================== */
-	/* ======================================= Attributes ======================================= */
-	/* ========================================================================================== */
 private:
 	// handles web requests
 	QWeakPointer<QNetworkAccessManager> m_pNetAccessMgr;
@@ -155,9 +149,6 @@ public:
 	// text preceeding a message from the manager on the log
 	QString               m_sMessage;
 
-	/* ========================================================================================== */
-	/* ====================================== Construction ====================================== */
-	/* ========================================================================================== */
 public:
 	/**
 	 * @brief CDiscovery: Constructs a new discovery services manager.
@@ -170,9 +161,6 @@ public:
 	 */
 	~CDiscovery();
 
-	/* ========================================================================================== */
-	/* ======================================= Operations ======================================= */
-	/* ========================================================================================== */
 public:
 	/**
 	 * @brief count allows you to access the number of working services for a given network.
@@ -298,9 +286,6 @@ public:
 	 */
 	QString getWorkingService(TServiceType type);
 
-	/* ========================================================================================== */
-	/* ===================================== Static Methods ===================================== */
-	/* ========================================================================================== */
 public:
 	/**
 	 * @brief postLog writes a message to the system log or to the debug output.
@@ -313,9 +298,6 @@ public:
 	static void postLog(LogSeverity::Severity severity, QString message,
 						bool bDebug = false, TServiceID nID = 0);
 
-	/* ========================================================================================== */
-	/* ======================================== Signals  ======================================== */
-	/* ========================================================================================== */
 signals:
 	/**
 	 * @brief serviceAdded is emitted each time a new service is added to the manager.
@@ -335,9 +317,6 @@ signals:
 	 */
 	void serviceInfo(TConstServicePtr pService);
 
-	/* ========================================================================================== */
-	/* ===================== Private Slots / Asynchronous Operation Support ===================== */
-	/* ========================================================================================== */
 private slots:
 	// All methods in this section are helpers to do certain tasks asynchronously. See their
 	// respective callers for documentation.
@@ -349,9 +328,6 @@ private slots:
 	void asyncQueryServiceHelper(const CNetworkType type);
 	void asyncQueryServiceHelper(TServiceID nID);
 
-	/* ========================================================================================== */
-	/* ================================= Other Private Helpers  ================================= */
-	/* ========================================================================================== */
 private:
 	/**
 	 * @brief doCount: Internal helper without locking. See count for documentation.

@@ -158,7 +158,7 @@ QueryHitInfo* CQueryHit::ReadInfo(G2Packet* pPacket, CEndPoint* pSender)
 	return pHitInfo;
 }
 
-CQueryHit* CQueryHit::ReadPacket(G2Packet* pPacket, QueryHitInfo* pHitInfo)
+CQueryHit* CQueryHit::readPacket(G2Packet* pPacket, QueryHitInfo* pHitInfo)
 {
 	if(!pPacket->m_bCompound)
 	{
@@ -367,14 +367,14 @@ CQueryHit* CQueryHit::ReadPacket(G2Packet* pPacket, QueryHitInfo* pHitInfo)
 
 	while(pHit != 0)
 	{
-		pHit->ResolveURLs();
+		pHit->resolveURLs();
 		pHit = pHit->m_pNext;
 	}
 
 	return pThisHit;
 }
 
-void CQueryHit::ResolveURLs()
+void CQueryHit::resolveURLs()
 {
 	if(!m_sURL.isEmpty())
 	{
@@ -386,7 +386,7 @@ void CQueryHit::ResolveURLs()
 
 	m_sURL = QString("http://%1/uri-res/N2R?%2").arg(m_pHitInfo->m_oNodeAddress.toStringWithPort()).arg(m_lHashes[0].toURN());
 }
-bool CQueryHit::IsValid(CQuery* pQuery)
+bool CQueryHit::isValid(CQuery* pQuery)
 {
 	if(pQuery)
 	{

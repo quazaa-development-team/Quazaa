@@ -31,7 +31,7 @@
 
 #include "debug_new.h"
 
-CHash::CHash(const CHash &rhs)
+CHash::CHash(const CHash &rhs) //Right Hash Set
 {
 	if ( !rhs.m_bFinalized )
 	{
