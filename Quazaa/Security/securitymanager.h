@@ -61,10 +61,9 @@ public:
 	static const char* ruleInfoSignal;
 
 private:
-	typedef std::list< CSecureRule*  > TSecurityRuleList;
+	typedef std::list<CSecureRule*> TSecurityRuleList;
 
 	typedef std::set< uint >           TMissCache;
-	typedef std::map< QString, CUserAgentRule* > TUserAgentRuleMap;
 
 	typedef TSecurityRuleList::const_iterator TConstSecurityIterator;
 
@@ -98,7 +97,7 @@ private:
 	QList<CRegularExpressionRule*>     m_lRegularExpressions;
 
 	// User agent rules
-	TUserAgentRuleMap   m_UserAgents;
+	QMap<QString, CUserAgentRule*>   m_UserAgents;
 
 	// Security manager settings
 	bool                m_bLogIPCheckHits;          // Post log message on IsDenied( QHostAdress ) call

@@ -367,11 +367,11 @@ void CSecurity::add(CSecureRule* pRule)
 	case RuleType::UserAgent:
 	{
 		QString agent = ((CUserAgentRule*)pRule)->getContentString();
-		TUserAgentRuleMap::iterator i = m_UserAgents.find( agent );
+		QMap<QString, CUserAgentRule*>::iterator it = m_UserAgents.find( agent );
 
-		if ( i != m_UserAgents.end() ) // there is a conflicting rule in our map
+		if ( it != m_UserAgents.end() ) // there is a conflicting rule in our map
 		{
-			pExRule = (*i).second;
+			pExRule = it.value();
 			if ( pExRule->m_oUUID   != pRule->m_oUUID   ||
 				 pExRule->m_nAction != pRule->m_nAction ||
 				 pExRule->isForever() != pRule->isForever() ||
@@ -2057,17 +2057,17 @@ void CSecurity::remove(TConstSecurityIterator it)
 
 		case RuleType::UserAgent:
 		{
-			TUserAgentRuleMap::iterator i = m_UserAgents.begin();
+			QMap<QString, CUserAgentRule*>::iterator it = m_UserAgents.begin();
 
-			while ( i != m_UserAgents.end() )
+			while ( it != m_UserAgents.end() )
 			{
-				if ( (*i).second->m_oUUID == pRule->m_oUUID )
+				if ( it.value()->m_oUUID == pRule->m_oUUID )
 				{
-					m_UserAgents.erase( i );
+					m_UserAgents.erase( it );
 					break;
 				}
 
-				++i;
+				++it;
 			}
 		}
 		break;
@@ -2093,10 +2093,10 @@ bool CSecurity::isAgentDenied(const QString& sUserAgent)
 
 	const quint32 tNow = common::getTNowUTC();
 
-	TUserAgentRuleMap::iterator i = m_UserAgents.find( sUserAgent );
-	if ( i != m_UserAgents.end() )
+	QMap<QString, CUserAgentRule*>::iterator it = m_UserAgents.find( sUserAgent );
+	if ( it != m_UserAgents.end() )
 	{
-		CUserAgentRule* pRule = (*i).second;
+		CUserAgentRule* pRule = it.value();
 
 		if ( !pRule->isExpired( tNow ) && pRule->match( sUserAgent ) )
 		{
