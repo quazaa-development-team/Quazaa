@@ -61,17 +61,17 @@ public:
 	static const char* ruleInfoSignal;
 
 private:
-	typedef std::list<CSecureRule*> TSecurityRuleList;
+	typedef std::list<CSecureRule*> SecurityRuleList;
 
-	typedef TSecurityRuleList::const_iterator TConstSecurityIterator;
+	typedef SecurityRuleList::const_iterator ConstSecurityIterator;
 
 	// contains all rules
-	TSecurityRuleList   m_Rules;
+	SecurityRuleList   m_lRules;
 
 	// Used to manage newly added rules during sanity check
-	TSecurityRuleList   m_loadedAddressRules;
+	SecurityRuleList   m_lLoadedAddressRules;
 	QQueue<CSecureRule*>      m_newAddressRules;
-	TSecurityRuleList   m_loadedHitRules;
+	SecurityRuleList   m_lLoadedHitRules;
 	QQueue<CSecureRule*>      m_newHitRules;
 
 	// IP rule miss cache
@@ -218,10 +218,10 @@ private:
 	bool            load(QString sPath);
 
 	// this returns the first rule found. Note that there might be others, too.
-	TConstSecurityIterator  getHash(const QList< CHash >& hashes) const;
-	TConstSecurityIterator  getUUID(const QUuid& oUUID) const;
+	ConstSecurityIterator  getHash(const QList< CHash >& hashes) const;
+	ConstSecurityIterator  getUUID(const QUuid& oUUID) const;
 
-	void            remove(TConstSecurityIterator i);
+	void            remove(ConstSecurityIterator i);
 
 	bool            isAgentDenied(const QString& sUserAgent);
 
@@ -237,12 +237,12 @@ private:
 
 	inline void     hit(CSecureRule *pRule);
 
-	inline TSecurityRuleList::iterator getRWIterator(TConstSecurityIterator constIt);
+	inline SecurityRuleList::iterator getRWIterator(ConstSecurityIterator constIt);
 };
 
 quint32 CSecurity::getCount() const
 {
-	return (quint32)m_Rules.size();
+	return (quint32)m_lRules.size();
 }
 
 bool CSecurity::denyPolicy() const
@@ -264,11 +264,11 @@ void CSecurity::hit(CSecureRule* pRule)
 	emit securityHit();
 }
 
-CSecurity::TSecurityRuleList::iterator CSecurity::getRWIterator(TConstSecurityIterator constIt)
+CSecurity::SecurityRuleList::iterator CSecurity::getRWIterator(ConstSecurityIterator constIt)
 {
-	TSecurityRuleList::iterator i = m_Rules.begin();
-	TConstSecurityIterator const_begin = m_Rules.begin();
-	int nDistance = std::distance< TConstSecurityIterator >( const_begin, constIt );
+	SecurityRuleList::iterator i = m_lRules.begin();
+	ConstSecurityIterator const_begin = m_lRules.begin();
+	int nDistance = std::distance< ConstSecurityIterator >( const_begin, constIt );
 	std::advance( i, nDistance );
 	return i;
 }

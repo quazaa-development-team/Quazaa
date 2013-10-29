@@ -95,7 +95,7 @@ void CSecurity::setDenyPolicy(bool bDenyPolicy)
   */
 bool CSecurity::check(const CSecureRule* const pRule) const
 {
-	return pRule != NULL && getUUID( pRule->m_oUUID ) != m_Rules.end();
+	return pRule != NULL && getUUID( pRule->m_oUUID ) != m_lRules.end();
 }
 
 //////////////////////////////////////////////////////////////////////
@@ -252,9 +252,9 @@ void CSecurity::add(CSecureRule* pRule)
 			return;
 		}
 
-		TConstSecurityIterator i = getHash( oHashes );
+		ConstSecurityIterator i = getHash( oHashes );
 
-		if ( i != m_Rules.end() )
+		if ( i != m_lRules.end() )
 		{
 			pExRule = *i;
 			if ( pHashRule->hashEquals( *((CHashRule*)*i) ) )
@@ -403,12 +403,12 @@ void CSecurity::add(CSecureRule* pRule)
 	}
 
 	// Add rule to list of all rules
-	TConstSecurityIterator iExRule = getUUID( pRule->m_oUUID );
-	if ( iExRule != m_Rules.end() ) // we do not allow 2 rules by the same UUID
+	ConstSecurityIterator iExRule = getUUID( pRule->m_oUUID );
+	if ( iExRule != m_lRules.end() ) // we do not allow 2 rules by the same UUID
 	{
 		remove( iExRule );
 	}
-	m_Rules.push_back( pRule );
+	m_lRules.push_back( pRule );
 
 	// If an address rule is added, the miss cache is cleared either in whole or just the relevant
 	// address.
@@ -471,14 +471,14 @@ void CSecurity::clear()
 	m_Contents.clear();
 	m_UserAgents.clear();
 
-	qDeleteAll( m_Rules );
-	m_Rules.clear();
+	qDeleteAll( m_lRules );
+	m_lRules.clear();
 
-	qDeleteAll( m_loadedAddressRules );
-	m_loadedAddressRules.clear();
+	qDeleteAll( m_lLoadedAddressRules );
+	m_lLoadedAddressRules.clear();
 
-	qDeleteAll( m_loadedHitRules );
-	m_loadedHitRules.clear();
+	qDeleteAll( m_lLoadedHitRules );
+	m_lLoadedHitRules.clear();
 
 	CSecureRule* pRule = NULL;
 	while( m_newAddressRules.size() )
@@ -807,12 +807,12 @@ bool CSecurity::isNewlyDenied(const CEndPoint& oAddress)
 	// This should only be called if new rules have been loaded previously.
 	Q_ASSERT( m_bNewRulesLoaded );
 
-	if ( m_loadedAddressRules.empty() )
+	if ( m_lLoadedAddressRules.empty() )
 		return false;
 
-	TConstSecurityIterator i = m_loadedAddressRules.begin();
+	ConstSecurityIterator i = m_lLoadedAddressRules.begin();
 
-	while ( i != m_loadedAddressRules.end() )
+	while ( i != m_lLoadedAddressRules.end() )
 	{
 		pRule = *i;
 
@@ -848,12 +848,12 @@ bool CSecurity::isNewlyDenied(const CQueryHit* pHit, const QList<QString>& lQuer
 	// This should only be called if new rules have been loaded previously.
 	Q_ASSERT( m_bNewRulesLoaded );
 
-	if ( m_loadedHitRules.empty() )
+	if ( m_lLoadedHitRules.empty() )
 		return false;
 
-	TConstSecurityIterator i = m_loadedHitRules.begin();
+	ConstSecurityIterator i = m_lLoadedHitRules.begin();
 
-	while ( i != m_loadedHitRules.end() )
+	while ( i != m_lLoadedHitRules.end() )
 	{
 		pRule = *i;
 
@@ -1421,7 +1421,7 @@ quint32 CSecurity::writeToFile(const void * const pManager, QFile& oFile)
 	oStream << pSManager->m_bDenyPolicy;
 	oStream << pSManager->getCount();
 
-	for ( TConstSecurityIterator i = pSManager->m_Rules.begin(); i != pSManager->m_Rules.end(); ++i )
+	for ( ConstSecurityIterator i = pSManager->m_lRules.begin(); i != pSManager->m_lRules.end(); ++i )
 	{
 		const CSecureRule* pRule = *i;
 		CSecureRule::save( pRule, oStream );
@@ -1480,7 +1480,7 @@ bool CSecurity::toXML(const QString& sPath) const
 	xmlDocument.writeStartElement( xmlns, "security" );
 	xmlDocument.writeAttribute( "version", "2.0" );
 
-	for ( TConstSecurityIterator i = m_Rules.begin(); i != m_Rules.end() ; ++i )
+	for ( ConstSecurityIterator i = m_lRules.begin(); i != m_lRules.end() ; ++i )
 	{
 		(*i)->toXML( xmlDocument );
 	}
@@ -1665,7 +1665,7 @@ int CSecurity::receivers(const char* signal) const
   */
 void CSecurity::requestRuleList()
 {
-	for ( TConstSecurityIterator i = m_Rules.begin() ; i != m_Rules.end(); ++i )
+	for ( ConstSecurityIterator i = m_lRules.begin() ; i != m_lRules.end(); ++i )
 	{
 		emit ruleInfo( *i );
 	}
@@ -1682,7 +1682,7 @@ void CSecurity::requestRuleList()
 void CSecurity::sanityCheck()
 {
 	// This indicates that an error happend previously.
-	Q_ASSERT( !m_bNewRulesLoaded || !m_loadedAddressRules.empty() || !m_loadedHitRules.empty());
+	Q_ASSERT( !m_bNewRulesLoaded || !m_lLoadedAddressRules.empty() || !m_lLoadedHitRules.empty());
 
 	// Check whether there are new rules to deal with.
 	bool bNewRules = m_newAddressRules.size() || m_newHitRules.size();
@@ -1780,8 +1780,8 @@ void CSecurity::expire()
 	const quint32 tNow = common::getTNowUTC();
 	quint16 nCount = 0;
 
-	TConstSecurityIterator j, i = m_Rules.begin();
-	while (  i != m_Rules.end() )
+	ConstSecurityIterator j, i = m_lRules.begin();
+	while (  i != m_lRules.end() )
 	{
 		if ( (*i)->isExpired( tNow ) )
 		{
@@ -1840,7 +1840,7 @@ void CSecurity::settingsChanged()
 void CSecurity::loadNewRules()
 {
 	// should both be empty
-	Q_ASSERT( !( m_loadedAddressRules.size() || m_loadedHitRules.size() ) );
+	Q_ASSERT( !( m_lLoadedAddressRules.size() || m_lLoadedHitRules.size() ) );
 
 	// there should be at least 1 new rule
 	Q_ASSERT( m_newAddressRules.size() || m_newHitRules.size() );
@@ -1854,7 +1854,7 @@ void CSecurity::loadNewRules()
 		// Only IP, IP range and coutry rules are allowed.
 		Q_ASSERT( pRule->type() != 0 && pRule->type() < 4 );
 
-		m_loadedAddressRules.push_back( pRule );
+		m_lLoadedAddressRules.push_back( pRule );
 
 		pRule = NULL;
 	}
@@ -1866,7 +1866,7 @@ void CSecurity::loadNewRules()
 		// Only hit related rules are allowed.
 		Q_ASSERT( pRule->type() > 3 );
 
-		m_loadedHitRules.push_back( pRule );
+		m_lLoadedHitRules.push_back( pRule );
 
 		pRule = NULL;
 	}
@@ -1879,14 +1879,14 @@ void CSecurity::clearNewRules()
 	Q_ASSERT( m_bNewRulesLoaded );
 
 	// There should at least be one rule.
-	Q_ASSERT( m_loadedAddressRules.size() || m_loadedHitRules.size() );
+	Q_ASSERT( m_lLoadedAddressRules.size() || m_lLoadedHitRules.size() );
 
 	CSecureRule* pRule = NULL;
 
-	while ( m_loadedAddressRules.size() )
+	while ( m_lLoadedAddressRules.size() )
 	{
-		pRule = m_loadedAddressRules.front();
-		m_loadedAddressRules.pop_front();
+		pRule = m_lLoadedAddressRules.front();
+		m_lLoadedAddressRules.pop_front();
 
 		// only IP, IP range and coutry rules allowed
 		Q_ASSERT( pRule->type() > 0 && pRule->type() < 4 );
@@ -1895,10 +1895,10 @@ void CSecurity::clearNewRules()
 		pRule = NULL;
 	}
 
-	while ( m_loadedHitRules.size() )
+	while ( m_lLoadedHitRules.size() )
 	{
-		pRule = m_loadedHitRules.front();
-		m_loadedHitRules.pop_front();
+		pRule = m_lLoadedHitRules.front();
+		m_lLoadedHitRules.pop_front();
 
 		// Only hit related rules are allowed
 		Q_ASSERT( pRule->type() > 3 );
@@ -1910,11 +1910,11 @@ void CSecurity::clearNewRules()
 	m_bNewRulesLoaded = false;
 }
 
-CSecurity::TConstSecurityIterator CSecurity::getHash(const QList< CHash >& hashes) const
+CSecurity::ConstSecurityIterator CSecurity::getHash(const QList< CHash >& hashes) const
 {
 	// We are not searching for any hash. :)
 	if ( hashes.isEmpty() )
-		return m_Rules.end();
+		return m_lRules.end();
 
 	QMultiMap<uint, CHashRule*>::const_iterator it;
 
@@ -1934,23 +1934,23 @@ CSecurity::TConstSecurityIterator CSecurity::getHash(const QList< CHash >& hashe
 		}
 	}
 
-	return m_Rules.end();
+	return m_lRules.end();
 }
 
-CSecurity::TConstSecurityIterator CSecurity::getUUID(const QUuid& oUUID) const
+CSecurity::ConstSecurityIterator CSecurity::getUUID(const QUuid& oUUID) const
 {
-	for ( TConstSecurityIterator i = m_Rules.begin() ; i != m_Rules.end(); i++ )
+	for ( ConstSecurityIterator i = m_lRules.begin() ; i != m_lRules.end(); i++ )
 	{
 		if ( (*i)->m_oUUID == oUUID ) return i;
 	}
 
-	return m_Rules.end();
+	return m_lRules.end();
 }
 
 /** Requires locking: yes */
-void CSecurity::remove(TConstSecurityIterator it)
+void CSecurity::remove(ConstSecurityIterator it)
 {
-	if ( it == m_Rules.end() )
+	if ( it == m_lRules.end() )
 		return;
 
 	CSecureRule* pRule = *it;
@@ -2080,7 +2080,7 @@ void CSecurity::remove(TConstSecurityIterator it)
 
 		// Remove rule entry from list of all rules
 		// m_Rules.erase( common::getRWIterator<CSecurityRuleList>( m_Rules, it ) );
-		m_Rules.erase( getRWIterator( it ) );
+		m_lRules.erase( getRWIterator( it ) );
 
 		emit ruleRemoved( QSharedPointer<CSecureRule>( pRule ) );
 	}
@@ -2210,10 +2210,10 @@ bool CSecurity::isDenied(const CQueryHit* const pHit)
 	const quint32 tNow = common::getTNowUTC();
 
 	// Search for a rule matching these hashes
-	TConstSecurityIterator it = getHash( lHashes );
+	ConstSecurityIterator it = getHash( lHashes );
 
 	// If this rule matches the file, return the specified action.
-	if ( it != m_Rules.end() )
+	if ( it != m_lRules.end() )
 	{
 		CHashRule* pRule = ((CHashRule*)*it);
 		if ( pRule->match( lHashes ) && !pRule->isExpired( tNow ) )
