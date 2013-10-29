@@ -269,7 +269,7 @@ void CG2Node::OnTimer(quint32 tNow)
 		// If hub has been connected for more than 5 minutes and it still has less than 2 leaves,
 		// something is very wrong. Ban it for a short while.
 		if(m_nType == G2_HUB && (tNow - m_tConnected > 300) && m_nLeafCount < 2) {
-			close();
+			Close();
 			securityManager.ban(m_oAddress, RuleTime::TwoHours, true, QString("Hub not accepting leaves (%1)").arg(m_oAddress.toString()));
 			return;
 		}
