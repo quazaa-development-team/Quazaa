@@ -30,7 +30,7 @@ void CHashRule::setHashes(const QList< CHash >& hashes)
 	foreach ( CHash oHash, hashes )
 	{
 		m_Hashes.insert( oHash.getAlgorithm(), oHash );
-		m_sContent += oHash.ToURN();
+		m_sContent += oHash.toURN();
 		m_sContent += " ";
 	}
 
@@ -77,9 +77,9 @@ bool CHashRule::parseContent(const QString& sContent)
 				continue;
 			}
 
-			CHash* pHash = CHash::FromURN( sHash );
+			CHash* pHash = CHash::fromURN( sHash );
 			if(pHash)
-				lHashes.append( *CHash::FromURN( sHash ) );
+				lHashes.append( *CHash::fromURN( sHash ) );
 			else
 				qDebug() << "Hash type not recognised.";
 		}

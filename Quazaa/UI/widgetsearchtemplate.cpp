@@ -271,7 +271,7 @@ void CWidgetSearchTemplate::on_actionViewReviews_triggered()
 
 	if( itemSearch != NULL )
 	{
-		QDesktopServices::openUrl( QUrl(QString("http://bitzi.com/lookup/%1?v=detail&ref=quazaa").arg(itemSearch->HitData.lHashes.at(0).ToString()), QUrl::TolerantMode) );
+		QDesktopServices::openUrl( QUrl(QString("http://bitzi.com/lookup/%1?v=detail&ref=quazaa").arg(itemSearch->HitData.lHashes.at(0).toString()), QUrl::TolerantMode) );
 	}
 }
 
@@ -281,7 +281,7 @@ void CWidgetSearchTemplate::on_actionVirusTotalCheck_triggered()
 
 	if( itemSearch != NULL )
 	{
-		QDesktopServices::openUrl( QUrl(QString("www.virustotal.com/latest-report.html?resource=%1").arg(QString(itemSearch->HitData.lHashes.at(0).RawValue().toHex())), QUrl::TolerantMode) );
+		QDesktopServices::openUrl( QUrl(QString("www.virustotal.com/latest-report.html?resource=%1").arg(QString(itemSearch->HitData.lHashes.at(0).rawValue().toHex())), QUrl::TolerantMode) );
 	}
 }
 

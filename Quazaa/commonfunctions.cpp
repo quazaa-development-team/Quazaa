@@ -138,10 +138,10 @@ QString common::fixFileName(QString sName)
 QString common::getTempFileName(QString sName)
 {
 	CHash oHashName(CHash::SHA1);
-	oHashName.AddData(sName.toUtf8());
-	oHashName.AddData(QString().number(qrand() % qrand()).append(getDateTimeUTC().toString(Qt::ISODate)).toLocal8Bit());
-	oHashName.Finalize();
-	return oHashName.ToString();
+	oHashName.addData(sName.toUtf8());
+	oHashName.addData(QString().number(qrand() % qrand()).append(getDateTimeUTC().toString(Qt::ISODate)).toLocal8Bit());
+	oHashName.finalize();
+	return oHashName.toString();
 }
 
 quint32 common::securedSaveFile(QString sPath, QString sFileName,

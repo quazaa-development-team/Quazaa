@@ -167,7 +167,7 @@ void CFileHasher::run()
 
 				for(int i = 0; i < lHashes.size(); i++)
 				{
-					lHashes[i]->AddData(baBuffer);
+					lHashes[i]->addData(baBuffer);
 				}
 
 				if( tTimer.elapsed() >= 1000 )
@@ -195,8 +195,8 @@ void CFileHasher::run()
 		{
 			for(int i = 0; i < lHashes.size(); i++)
 			{
-				lHashes[i]->Finalize();
-				systemLog.postLog(LogSeverity::Debug, QString("%1").arg(lHashes[i]->ToURN()));
+				lHashes[i]->finalize();
+				systemLog.postLog(LogSeverity::Debug, QString("%1").arg(lHashes[i]->toURN()));
 				//qDebug() << pFile->m_lHashes[i]->ToURN();
 			}
 

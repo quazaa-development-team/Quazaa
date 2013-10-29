@@ -125,9 +125,9 @@ void CSharedFile::serialize(QSqlDatabase* pDatabase)
 
 		foreach ( CHash oHash, m_Hashes )
 		{
-			if ( pDatabase->record( "hashes" ).contains( oHash.GetFamilyName() ) )
+			if ( pDatabase->record( "hashes" ).contains( oHash.getFamilyName() ) )
 			{
-				mapValues.insert( oHash.GetFamilyName(), oHash.RawValue() );
+				mapValues.insert( oHash.getFamilyName(), oHash.rawValue() );
 			}
 		}
 

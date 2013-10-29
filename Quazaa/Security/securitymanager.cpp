@@ -283,7 +283,7 @@ void CSecurity::add(CSecureRule* pRule)
 		// similar but not 100% identical content, add hashes to map.
 		foreach ( CHash oHash, oHashes )
 		{
-			m_Hashes.insert( qHash( oHash.RawValue() ), pHashRule );
+			m_Hashes.insert( qHash( oHash.rawValue() ), pHashRule );
 		}
 
 		bNewHit	= true;
@@ -1926,11 +1926,11 @@ CSecurity::TConstSecurityIterator CSecurity::getHash(const QList< CHash >& hashe
 	foreach ( CHash oHash, hashes )
 	{
 		// 1. Check whether a corresponding rule can be found in our lookup container.
-		it = m_Hashes.find( qHash( oHash.RawValue() ) );
+		it = m_Hashes.find( qHash( oHash.rawValue() ) );
 
 		// 2. Iterate threw all rules that include the current hash
 		// (this is important for weaker hashes to deal correctly with hash collisions)
-		while ( it != m_Hashes.end() && it.key() == qHash( oHash.RawValue() ) )
+		while ( it != m_Hashes.end() && it.key() == qHash( oHash.rawValue() ) )
 		{
 			if ( it.value()->match( hashes ) )
 				return getUUID( it.value()->m_oUUID );
@@ -2009,9 +2009,9 @@ void CSecurity::remove(TConstSecurityIterator it)
 			QMultiMap<uint, CHashRule*>::iterator it;
 			foreach ( CHash oHash, oHashes )
 			{
-				it = m_Hashes.find( qHash( oHash.RawValue() ) );
+				it = m_Hashes.find( qHash( oHash.rawValue() ) );
 
-				while ( it != m_Hashes.end() && it.key() == qHash( oHash.RawValue() ) )
+				while ( it != m_Hashes.end() && it.key() == qHash( oHash.rawValue() ) )
 				{
 					if ( it.value()->m_oUUID == pHashRule->m_oUUID )
 					{

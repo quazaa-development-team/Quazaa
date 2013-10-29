@@ -86,8 +86,8 @@ G2Packet* CQuery::ToG2Packet(CEndPoint* pAddr, quint32 nKey)
 
 	foreach(CHash pHash, m_lHashes)
 	{
-		pPacket->WritePacket("URN", pHash.GetFamilyName().size() + CHash::ByteCount(pHash.getAlgorithm()) + 1);
-		pPacket->WriteString(pHash.GetFamilyName() + "\0" + pHash.RawValue(), false);
+		pPacket->WritePacket("URN", pHash.getFamilyName().size() + CHash::byteCount(pHash.getAlgorithm()) + 1);
+		pPacket->WriteString(pHash.getFamilyName() + "\0" + pHash.rawValue(), false);
 	}
 
 	/*if( m_nMinimumSize > 0 && m_nMaximumSize < 0xFFFFFFFFFFFFFFFF )
@@ -304,9 +304,9 @@ bool CQuery::FromG2Packet(G2Packet *pPacket, CEndPoint *pEndpoint)
 
 			if(nLength >= 44u && sURN.compare("bp") == 0)
 			{
-				hashBuff.resize(CHash::ByteCount(CHash::SHA1));
-				pPacket->Read(hashBuff.data(), CHash::ByteCount(CHash::SHA1));
-				CHash* pHash = CHash::FromRaw(hashBuff, CHash::SHA1);
+				hashBuff.resize(CHash::byteCount(CHash::SHA1));
+				pPacket->Read(hashBuff.data(), CHash::byteCount(CHash::SHA1));
+				CHash* pHash = CHash::fromRaw(hashBuff, CHash::SHA1);
 				if(pHash)
 				{
 					m_lHashes.append(*pHash);
@@ -314,11 +314,11 @@ bool CQuery::FromG2Packet(G2Packet *pPacket, CEndPoint *pEndpoint)
 				}
 				// TODO: Tiger
 			}
-			else if(nLength >= CHash::ByteCount(CHash::SHA1) + 5u && sURN.compare("sha1") == 0)
+			else if(nLength >= CHash::byteCount(CHash::SHA1) + 5u && sURN.compare("sha1") == 0)
 			{
-				hashBuff.resize(CHash::ByteCount(CHash::SHA1));
-				pPacket->Read(hashBuff.data(), CHash::ByteCount(CHash::SHA1));
-				CHash* pHash = CHash::FromRaw(hashBuff, CHash::SHA1);
+				hashBuff.resize(CHash::byteCount(CHash::SHA1));
+				pPacket->Read(hashBuff.data(), CHash::byteCount(CHash::SHA1));
+				CHash* pHash = CHash::fromRaw(hashBuff, CHash::SHA1);
 				if(pHash)
 				{
 					m_lHashes.append(*pHash);

@@ -61,7 +61,7 @@ QDataStream& operator<<(QDataStream& s, const CDownload& rhs)
 		s << "eo" << i.nEndOffset;
 		foreach(CHash h, i.lHashes)
 		{
-			s << "hash" << h.ToURN();
+			s << "hash" << h.toURN();
 		}
 		s << "file-end";
 	}
@@ -170,7 +170,7 @@ QDataStream& operator>>(QDataStream& s, CDownload& rhs)
 						{
 							QString sHash;
 							s >> sHash;
-							CHash* pHash = CHash::FromURN(sHash);
+							CHash* pHash = CHash::fromURN(sHash);
 							item.lHashes.append(*pHash);
 							delete pHash;
 						}

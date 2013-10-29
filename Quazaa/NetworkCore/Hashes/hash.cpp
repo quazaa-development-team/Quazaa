@@ -67,7 +67,7 @@ CHash::CHash(Algorithm algo)
 
 CHash::CHash(QByteArray baRaw, CHash::Algorithm algo)
 {
-	if ( baRaw.size() != CHash::ByteCount( algo ) )
+	if ( baRaw.size() != CHash::byteCount( algo ) )
 	{
 		throw invalid_hash_exception();
 	}
@@ -92,7 +92,7 @@ CHash::~CHash()
 }
 
 // Returns raw hash length by hash family
-int CHash::ByteCount(int algo)
+int CHash::byteCount(int algo)
 {
 	switch( algo )
 	{
@@ -108,7 +108,7 @@ int CHash::ByteCount(int algo)
 }
 
 // Parses URN and returns CHash pointer if conversion succeed, 0 otherwise
-CHash* CHash::FromURN(QString sURN)
+CHash* CHash::fromURN(QString sURN)
 {
 	// try to get hash family from URN
 	// urn:tree:tiger:/
@@ -149,7 +149,7 @@ CHash* CHash::FromURN(QString sURN)
 	return 0;
 }
 
-CHash* CHash::FromRaw(QByteArray &baRaw, CHash::Algorithm algo)
+CHash* CHash::fromRaw(QByteArray &baRaw, CHash::Algorithm algo)
 {
 	try
 	{
@@ -183,14 +183,14 @@ int CHash::lengthForUrn(const QString &urn)
 }
 
 // Returns URN as string
-QString CHash::ToURN() const
+QString CHash::toURN() const
 {
 	switch( m_nHashAlgorithm )
 	{
 		case CHash::SHA1:
-			return QString( "urn:sha1:" ) + ToString();
+			return QString( "urn:sha1:" ) + toString();
 		case CHash::MD5:
-			return QString("urn:md5:") + ToString();
+			return QString("urn:md5:") + toString();
 		case CHash::MD4:
 			break;
 	}
@@ -199,7 +199,7 @@ QString CHash::ToURN() const
 }
 
 // Returns hash value as a string in most natural encoding
-QString CHash::ToString() const
+QString CHash::toString() const
 {
 	char pBuff[128];
 	memset( &pBuff, 0, sizeof( pBuff ) );
@@ -207,10 +207,10 @@ QString CHash::ToString() const
 	switch( m_nHashAlgorithm )
 	{
 		case CHash::SHA1:
-			cyoBase32Encode( (char*)&pBuff, RawValue().data(), 20 );
+			cyoBase32Encode( (char*)&pBuff, rawValue().data(), 20 );
 			break;
 		case CHash::MD5:
-			cyoBase16Encode((char*)&pBuff, RawValue().data(), 16);
+			cyoBase16Encode((char*)&pBuff, rawValue().data(), 16);
 			break;
 		case CHash::MD4:
 			break;
@@ -219,7 +219,7 @@ QString CHash::ToString() const
 	return QString( pBuff );
 }
 
-void CHash::Finalize()
+void CHash::finalize()
 {
 	if(!m_bFinalized)
 	{
@@ -238,7 +238,7 @@ void CHash::Finalize()
 	}
 }
 
-void CHash::AddData(const char *pData, quint32 nLength)
+void CHash::addData(const char *pData, quint32 nLength)
 {
 	Q_ASSERT( !m_bFinalized && m_pContext );
 
@@ -250,12 +250,12 @@ void CHash::AddData(const char *pData, quint32 nLength)
 		( (QCryptographicHash*)m_pContext )->addData( pData, nLength );
 	}
 }
-void CHash::AddData(QByteArray baData)
+void CHash::addData(QByteArray baData)
 {
-	AddData( baData.data(), baData.length() );
+	addData( baData.data(), baData.length() );
 }
 
-QString CHash::GetFamilyName()
+QString CHash::getFamilyName()
 {
 	switch( m_nHashAlgorithm )
 	{
@@ -272,7 +272,7 @@ QString CHash::GetFamilyName()
 
 QDataStream& operator<<(QDataStream& s, const CHash& rhs)
 {
-	s << rhs.ToURN();
+	s << rhs.toURN();
 	return s;
 }
 
@@ -280,7 +280,7 @@ QDataStream& operator>>(QDataStream& s, CHash& rhs)
 {
 	QString sTmp;
 	s >> sTmp;
-	CHash* pHash = CHash::FromURN(sTmp);
+	CHash* pHash = CHash::fromURN(sTmp);
 	rhs = *pHash;
 	delete pHash;
 	return s;

@@ -213,9 +213,9 @@ CQueryHit* CQueryHit::ReadPacket(G2Packet* pPacket, QueryHitInfo* pHitInfo)
 
 						if(nLengthX >= 44u && sURN.compare("bp") == 0)
 						{
-							hashBuff.resize(CHash::ByteCount(CHash::SHA1));
-							pPacket->Read(hashBuff.data(), CHash::ByteCount(CHash::SHA1));
-							CHash* pHash = CHash::FromRaw(hashBuff, CHash::SHA1);
+							hashBuff.resize(CHash::byteCount(CHash::SHA1));
+							pPacket->Read(hashBuff.data(), CHash::byteCount(CHash::SHA1));
+							CHash* pHash = CHash::fromRaw(hashBuff, CHash::SHA1);
 							if(pHash)
 							{
 								pHit->m_lHashes.append(*pHash);
@@ -224,11 +224,11 @@ CQueryHit* CQueryHit::ReadPacket(G2Packet* pPacket, QueryHitInfo* pHitInfo)
 							delete pHash;
 							// TODO: Tiger
 						}
-						else if(nLengthX >= CHash::ByteCount(CHash::SHA1) + 5u && sURN.compare("sha1") == 0)
+						else if(nLengthX >= CHash::byteCount(CHash::SHA1) + 5u && sURN.compare("sha1") == 0)
 						{
-							hashBuff.resize(CHash::ByteCount(CHash::SHA1));
-							pPacket->Read(hashBuff.data(), CHash::ByteCount(CHash::SHA1));
-							CHash* pHash = CHash::FromRaw(hashBuff, CHash::SHA1);
+							hashBuff.resize(CHash::byteCount(CHash::SHA1));
+							pPacket->Read(hashBuff.data(), CHash::byteCount(CHash::SHA1));
+							CHash* pHash = CHash::fromRaw(hashBuff, CHash::SHA1);
 							if(pHash)
 							{
 								pHit->m_lHashes.append(*pHash);
@@ -384,7 +384,7 @@ void CQueryHit::ResolveURLs()
 	if( m_lHashes.isEmpty() )
 		return;
 
-	m_sURL = QString("http://%1/uri-res/N2R?%2").arg(m_pHitInfo->m_oNodeAddress.toStringWithPort()).arg(m_lHashes[0].ToURN());
+	m_sURL = QString("http://%1/uri-res/N2R?%2").arg(m_pHitInfo->m_oNodeAddress.toStringWithPort()).arg(m_lHashes[0].toURN());
 }
 bool CQueryHit::IsValid(CQuery* pQuery)
 {

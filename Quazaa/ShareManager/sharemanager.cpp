@@ -726,10 +726,10 @@ void CShareManager::BuildHashTable()
 			while(q.next())
 			{
 				QByteArray m_oHash = q.record().value(0).toByteArray();
-				CHash* pHash = CHash::FromRaw(m_oHash, CHash::SHA1);
+				CHash* pHash = CHash::fromRaw(m_oHash, CHash::SHA1);
 				if(pHash)
 				{
-					m_pTable->AddExactString(pHash->ToURN());
+					m_pTable->AddExactString(pHash->toURN());
 					delete pHash;
 				}
 			}

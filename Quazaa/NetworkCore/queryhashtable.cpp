@@ -890,7 +890,7 @@ bool CQueryHashTable::CheckQuery(CQueryPtr pQuery)
 
 	for(int i = 0; i < pQuery->m_lHashes.size(); ++i)
 	{
-		if(CheckString(pQuery->m_lHashes[i].ToURN()))
+		if(CheckString(pQuery->m_lHashes[i].toURN()))
 			return true;
 	}
 

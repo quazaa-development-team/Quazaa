@@ -115,13 +115,13 @@ void CNeighbour::OnError(QAbstractSocket::SocketError e)
 	{
 		if ( m_nState != nsHandshaking )
 			systemLog.postLog( LogSeverity::Information, Components::Network,
-							   QString("Neighbour %s dropped connection unexpectedly.")
-							   .arg( m_oAddress.toStringWithPort() ) );
+							   QString("Neighbour %1 dropped connection unexpectedly.")
+							   .arg( m_oAddress.toString().toLocal8Bit().constData() ) );
 		else
 		{
 			systemLog.postLog( LogSeverity::Information, Components::Network,
-							   QString("Neighbour %s dropped connection during handshake.")
-							   .arg( m_oAddress.toStringWithPort() ) );
+							   QString("Neighbour %1 dropped connection during handshake.")
+							   .arg( m_oAddress.toString().toLocal8Bit().constData() ) );
 
 			if ( m_bInitiated )
 			{
