@@ -414,7 +414,7 @@ void CSecurity::add(CSecureRule* pRule)
 	// address.
 	if ( type == RuleType::IPAddress )
 	{
-		m_Cache.erase( qHash( ((CIPRule*)pRule)->IP() ) );
+		m_Cache.remove( qHash( ((CIPRule*)pRule)->IP() ) );
 
 		if ( !m_bUseMissCache )
 			evaluateCacheUsage();
@@ -890,13 +890,13 @@ bool CSecurity::isDenied(const CEndPoint &oAddress)
 
 	// First, check the miss cache if the IP is not included in the list of rules.
 	// If the address is in cache, it is a miss and no further lookup is needed.
-	if ( m_bUseMissCache && m_Cache.count( qHash( oAddress ) ) )
+	if ( m_bUseMissCache && m_Cache.contains( qHash( oAddress ) ) )
 	{
 		if ( m_bLogIPCheckHits )
 		{
 			postLog( LogSeverity::Security,
 					 tr( "Skipped repeat IP security check for %s (%i IPs cached"
-						 ).arg( oAddress.toString(), (int)m_Cache.size() )
+						 ).arg( oAddress.toString(), m_Cache.size() )
 //			         + tr( "; Call source: %s" ).arg( source )
 					 + tr( ")" ));
 		}

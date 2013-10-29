@@ -63,8 +63,6 @@ public:
 private:
 	typedef std::list<CSecureRule*> TSecurityRuleList;
 
-	typedef std::set< uint >           TMissCache;
-
 	typedef TSecurityRuleList::const_iterator TConstSecurityIterator;
 
 	// contains all rules
@@ -77,7 +75,7 @@ private:
 	QQueue<CSecureRule*>      m_newHitRules;
 
 	// IP rule miss cache
-	TMissCache          m_Cache;
+	QSet<uint>          m_Cache;
 
 	// single IP blocking rules
 	QList<CIPRule*>     m_lIPs;
