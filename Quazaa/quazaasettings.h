@@ -687,6 +687,8 @@ namespace Settings
 		int			SearchSplitterRestoreRight;				// The width left side of the home splitter should restore to when right clicked
 		bool		SearchTaskVisible;						// The Search task in the Search sidebar
 		QByteArray	SearchToolbar;							// Search Toolbar
+		QByteArray	SecurityAutomaticHeader;				// The header for the automatic security list
+		QByteArray	SecurityManualHeader;					// The header for the manual security list
 		QByteArray	SecurityToolbars;						// Security Toolbars
 		QByteArray	SystemLogToolbar;						// System Log Toolbar
 		QByteArray	TransfersSplitter;						// Transfers splitter position

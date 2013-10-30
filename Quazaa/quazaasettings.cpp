@@ -1323,6 +1323,8 @@ void CQuazaaSettings::saveWindowSettings(QMainWindow* window)
 	m_qSettings.setValue("SearchSplitterRestoreRight", quazaaSettings.WinMain.SearchSplitterRestoreRight);
 	m_qSettings.setValue("SearchTaskVisible", quazaaSettings.WinMain.SearchTaskVisible);
 	m_qSettings.setValue("SearchToolbar", quazaaSettings.WinMain.SearchToolbar);
+	m_qSettings.setValue("SecurityAutomaticHeader", quazaaSettings.WinMain.SecurityAutomaticHeader);
+	m_qSettings.setValue("SecurityManualHeader", quazaaSettings.WinMain.SecurityManualHeader);
 	m_qSettings.setValue("SecurityToolbars", quazaaSettings.WinMain.SecurityToolbars);
 	m_qSettings.setValue("SystemLogToolbar", quazaaSettings.WinMain.SystemLogToolbar);
 	m_qSettings.setValue("TransfersSplitter", quazaaSettings.WinMain.TransfersSplitter);
@@ -1403,6 +1405,8 @@ void CQuazaaSettings::loadWindowSettings(QMainWindow* window)
 	quazaaSettings.WinMain.SearchSplitterRestoreLeft = m_qSettings.value("SearchSplitterRestoreLeft", 0).toInt();
 	quazaaSettings.WinMain.SearchSplitterRestoreRight = m_qSettings.value("SearchSplitterRestoreRight", 0).toInt();
 	quazaaSettings.WinMain.SearchToolbar = m_qSettings.value("SearchToolbar", QByteArray()).toByteArray();
+	quazaaSettings.WinMain.SecurityAutomaticHeader = m_qSettings.value("SecurityAutomaticHeader", QByteArray()).toByteArray();
+	quazaaSettings.WinMain.SecurityManualHeader = m_qSettings.value("SecurityManualHeader", QByteArray()).toByteArray();
 	quazaaSettings.WinMain.SecurityToolbars = m_qSettings.value("SecurityToolbars", QByteArray()).toByteArray();
 	quazaaSettings.WinMain.SystemLogToolbar = m_qSettings.value("SystemLogToolbar", QByteArray()).toByteArray();
 	quazaaSettings.WinMain.TransfersSplitter = m_qSettings.value("TransfersSplitter", QByteArray()).toByteArray();

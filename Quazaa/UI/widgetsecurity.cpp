@@ -80,6 +80,8 @@ CWidgetSecurity::CWidgetSecurity(QWidget* parent) :
 						   tableViewSecurity->horizontalHeader()->sortIndicatorOrder()    );
 	m_lAutomatic->sort( tableViewSecurityAuto->horizontalHeader()->sortIndicatorSection(),
 						   tableViewSecurityAuto->horizontalHeader()->sortIndicatorOrder()    );
+	tableViewSecurity->horizontalHeader()->restoreState(quazaaSettings.WinMain.SecurityManualHeader);
+	tableViewSecurityAuto->horizontalHeader()->restoreState(quazaaSettings.WinMain.SecurityAutomaticHeader);
 	setSkin();
 }
 
@@ -91,6 +93,8 @@ CWidgetSecurity::~CWidgetSecurity()
 void CWidgetSecurity::saveWidget()
 {
 	quazaaSettings.WinMain.SecurityToolbars = saveState();
+	quazaaSettings.WinMain.SecurityManualHeader = tableViewSecurity->horizontalHeader()->saveState();
+	quazaaSettings.WinMain.SecurityAutomaticHeader = tableViewSecurityAuto->horizontalHeader()->saveState();
 }
 
 void CWidgetSecurity::changeEvent(QEvent* e)
