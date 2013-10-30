@@ -85,7 +85,7 @@ private:
 	QMultiMap<uint, CHashRule*>        m_lHashes;
 
 	// all other content rules
-	QList<CContentRule*>    m_Contents;
+	QList<CContentRule*>    m_lContents;
 
 	// RegExp rules
 	QList<CRegularExpressionRule*>     m_lRegularExpressions;

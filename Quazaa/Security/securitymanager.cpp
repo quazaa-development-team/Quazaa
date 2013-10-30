@@ -291,13 +291,12 @@ void CSecurity::add(CSecureRule* pRule)
 
 	case RuleType::RegularExpression:
 	{
-		QList<CRegularExpressionRule*>::iterator i = m_lRegularExpressions.begin();
-		CRegularExpressionRule* pOldRule = NULL;
+		int i = 0;
 
-		while ( i != m_lRegularExpressions.end() )
+		while ( i < m_lRegularExpressions.size() )
 		{
-			pOldRule = *i;
-			if ( (*i)->m_oUUID == pRule->m_oUUID )
+			CRegularExpressionRule* pOldRule = m_lRegularExpressions.at(i);
+			if ( m_lRegularExpressions.at(i)->m_oUUID == pRule->m_oUUID )
 			{
 				if ( pOldRule->m_nAction != pRule->m_nAction ||
 					 pOldRule->isForever() != pRule->isForever() ||
@@ -316,11 +315,10 @@ void CSecurity::add(CSecureRule* pRule)
 					return;
 				}
 			}
-			pOldRule = NULL;
 			++i;
 		}
 
-		m_lRegularExpressions.push_front( (CRegularExpressionRule*)pRule );
+		m_lRegularExpressions.prepend( (CRegularExpressionRule*)pRule );
 
 		bNewHit	= true;
 	}
@@ -328,17 +326,16 @@ void CSecurity::add(CSecureRule* pRule)
 
 	case RuleType::Content:
 	{
-		QList<CContentRule*>::iterator i = m_Contents.begin();
-		CContentRule* pOldRule = NULL;
+		int i = 0;
 
-		while ( i != m_Contents.end() )
+		while ( i < m_lContents.size() )
 		{
-			pOldRule = *i;
-			if ( (*i)->m_oUUID == pRule->m_oUUID )
+			CContentRule* pOldRule = m_lContents.at(i);
+			if ( pOldRule->m_oUUID == pRule->m_oUUID )
 			{
 				if ( pOldRule->m_nAction != pRule->m_nAction ||
-					 pExRule->isForever() != pRule->isForever() ||
-					 pExRule->getExpiryTime() != pRule->getExpiryTime() ||
+					 pOldRule->isForever() != pRule->isForever() ||
+					 pOldRule->getExpiryTime() != pRule->getExpiryTime() ||
 					 pOldRule->getContentString() != ((CRegularExpressionRule*)pRule)->getContentString() )
 				{
 					// remove conflicting rule if one of the important attributes
@@ -353,11 +350,10 @@ void CSecurity::add(CSecureRule* pRule)
 					return;
 				}
 			}
-			pOldRule = NULL;
 			++i;
 		}
 
-		m_Contents.push_front( (CContentRule*)pRule );
+		m_lContents.prepend( (CContentRule*)pRule );
 
 		bNewHit	= true;
 	}
@@ -465,7 +461,7 @@ void CSecurity::clear()
 	m_lIPRanges.clear();
 	m_lHashes.clear();
 	m_lRegularExpressions.clear();
-	m_Contents.clear();
+	m_lContents.clear();
 	m_UserAgents.clear();
 
 	qDeleteAll( m_lRules );
@@ -1996,13 +1992,13 @@ void CSecurity::remove(CSecureRule* pRule)
 
 		case RuleType::Content:
 		{
-			QList<CContentRule*>::iterator i = m_Contents.begin();
+			int i = 0;
 
-			while ( i != m_Contents.end() )
+			while ( i < m_lContents.size() )
 			{
-				if ( (*i)->m_oUUID == pRule->m_oUUID )
+				if ( m_lContents.at(i)->m_oUUID == pRule->m_oUUID )
 				{
-					m_Contents.erase( i );
+					m_lContents.removeAt(i);
 					break;
 				}
 
@@ -2013,13 +2009,13 @@ void CSecurity::remove(CSecureRule* pRule)
 
 		case RuleType::RegularExpression:
 		{
-			QList<CRegularExpressionRule*>::iterator i = m_lRegularExpressions.begin();
+			int i = 0;
 
-			while ( i != m_lRegularExpressions.end() )
+			while ( i < m_lRegularExpressions.size() )
 			{
-				if ( (*i)->m_oUUID == pRule->m_oUUID )
+				if ( m_lRegularExpressions.at(i)->m_oUUID == pRule->m_oUUID )
 				{
-					m_lRegularExpressions.erase( i );
+					m_lRegularExpressions.removeAt( i );
 					break;
 				}
 
@@ -2052,7 +2048,6 @@ void CSecurity::remove(CSecureRule* pRule)
 		m_nUnsaved.fetchAndAddRelaxed( 1 );
 
 		// Remove rule entry from list of all rules
-		// m_Rules.erase( common::getRWIterator<CQList<CSecureRule*>>( m_Rules, it ) );
 		m_lRules.removeOne(pRule);
 
 		emit ruleRemoved( pRule );
@@ -2093,6 +2088,7 @@ void CSecurity::missCacheAdd(const uint &nIP)
 		evaluateCacheUsage();
 	}
 }
+
 void CSecurity::missCacheClear(bool bRefreshInterval)
 {
 	m_Cache.clear();
@@ -2103,6 +2099,7 @@ void CSecurity::missCacheClear(bool bRefreshInterval)
 	if ( bRefreshInterval )
 		signalQueue.setInterval( m_idMissCacheExpiry, m_tMissCacheExpiryInterval );
 }
+
 void CSecurity::evaluateCacheUsage()
 {
 	double nCache		= m_Cache.size();
@@ -2149,10 +2146,10 @@ bool CSecurity::isDenied(const QString& sContent)
 
 	const quint32 tNow = common::getTNowUTC();
 
-	QList<CContentRule*>::iterator i = m_Contents.begin();
-	while ( i != m_Contents.end() )
+	int i = 0;
+	while ( i < m_lContents.size() )
 	{
-		CContentRule* pRule = *i;
+		CContentRule* pRule = m_lContents.at(i);
 		++i;
 
 		if ( pRule->isExpired( tNow ) )
@@ -2173,6 +2170,7 @@ bool CSecurity::isDenied(const QString& sContent)
 
 	return false;
 }
+
 bool CSecurity::isDenied(const CQueryHit* const pHit)
 {
 	if ( !pHit )
@@ -2201,11 +2199,10 @@ bool CSecurity::isDenied(const CQueryHit* const pHit)
 	}
 
 	// Else check other content rules.
-	QList<CContentRule*>::iterator i = m_Contents.begin();
-	CContentRule* pRule;
-	while ( i != m_Contents.end() )
+	int i = 0;
+	while ( i < m_lContents.size() )
 	{
-		pRule = *i;
+		CContentRule* pRule = m_lContents.at(i);
 		++i;
 
 		if ( pRule->isExpired( tNow ) )
@@ -2226,6 +2223,7 @@ bool CSecurity::isDenied(const CQueryHit* const pHit)
 
 	return false;
 }
+
 bool CSecurity::isDenied(const QList<QString>& lQuery, const QString& sContent)
 {
 	if ( lQuery.isEmpty() || sContent.isEmpty() )
@@ -2233,10 +2231,10 @@ bool CSecurity::isDenied(const QList<QString>& lQuery, const QString& sContent)
 
 	const quint32 tNow = common::getTNowUTC();
 
-	QList<CRegularExpressionRule*>::iterator i = m_lRegularExpressions.begin();
-	while ( i != m_lRegularExpressions.end() )
+	int i = 0;
+	while ( i < m_lRegularExpressions.size() )
 	{
-		CRegularExpressionRule* pRule = *i;
+		CRegularExpressionRule* pRule = m_lRegularExpressions.at(i);
 		++i;
 
 		if ( pRule->isExpired( tNow ) )
