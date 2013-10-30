@@ -64,8 +64,10 @@ namespace RuleTime {
 	};
 }
 
-class CSecureRule
+class CSecureRule : public QObject
 {
+	Q_OBJECT
+
 protected:
 	// Type is critical to functionality and may not be changed externally.
 	RuleType::Type m_nType;

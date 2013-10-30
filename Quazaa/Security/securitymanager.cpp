@@ -2051,6 +2051,8 @@ void CSecurity::remove(CSecureRule* pRule)
 		m_lRules.removeOne(pRule);
 
 		emit ruleRemoved( pRule );
+
+		pRule->deleteLater();
 	}
 }
 
