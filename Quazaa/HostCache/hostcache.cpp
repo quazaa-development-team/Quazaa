@@ -70,11 +70,6 @@ CHostCacheHost* CHostCache::add(CEndPoint host, quint32 tTimeStamp)
 	if ( host.isFirewalled() )
 		return NULL;
 
-	// At this point the security check should already have been performed.
-	// Q_ASSERT( !securityManager.isDenied(host) );
-	if ( securityManager.isDenied(host) )
-		return NULL;
-
 	const quint32 tNow = common::getTNowUTC();
 
 	if ( (quint32)m_lHosts.size() > m_nMaxCacheHosts )

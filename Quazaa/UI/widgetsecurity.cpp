@@ -69,6 +69,9 @@ CWidgetSecurity::CWidgetSecurity(QWidget* parent) :
 	connect(tableViewSecurityAuto, SIGNAL(clicked(QModelIndex)), this, SLOT(tableViewSecurity_clicked(QModelIndex)));
 	connect(tableViewSecurityAuto, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(tableViewSecurity_doubleClicked(QModelIndex)));
 
+	tableViewSecurity->horizontalHeader()->restoreState(quazaaSettings.WinMain.SecurityManualHeader);
+	tableViewSecurityAuto->horizontalHeader()->restoreState(quazaaSettings.WinMain.SecurityAutomaticHeader);
+
 	m_lSecurity = new CSecurityTableModel( this );
 
 	m_lManual = new SecurityFilterModel(m_lSecurity, false);
@@ -76,12 +79,10 @@ CWidgetSecurity::CWidgetSecurity(QWidget* parent) :
 
 	tableViewSecurity->setModel( m_lManual );
 	tableViewSecurityAuto->setModel( m_lAutomatic );
-	tableViewSecurity->horizontalHeader()->restoreState(quazaaSettings.WinMain.SecurityManualHeader);
-	tableViewSecurityAuto->horizontalHeader()->restoreState(quazaaSettings.WinMain.SecurityAutomaticHeader);
 	m_lManual->sort( tableViewSecurity->horizontalHeader()->sortIndicatorSection(),
-						   tableViewSecurity->horizontalHeader()->sortIndicatorOrder()    );
+							tableViewSecurity->horizontalHeader()->sortIndicatorOrder()    );
 	m_lAutomatic->sort( tableViewSecurityAuto->horizontalHeader()->sortIndicatorSection(),
-						   tableViewSecurityAuto->horizontalHeader()->sortIndicatorOrder()    );
+							tableViewSecurityAuto->horizontalHeader()->sortIndicatorOrder()    );
 	setSkin();
 }
 
