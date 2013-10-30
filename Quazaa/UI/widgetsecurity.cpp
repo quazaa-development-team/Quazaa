@@ -76,12 +76,12 @@ CWidgetSecurity::CWidgetSecurity(QWidget* parent) :
 
 	tableViewSecurity->setModel( m_lManual );
 	tableViewSecurityAuto->setModel( m_lAutomatic );
+	tableViewSecurity->horizontalHeader()->restoreState(quazaaSettings.WinMain.SecurityManualHeader);
+	tableViewSecurityAuto->horizontalHeader()->restoreState(quazaaSettings.WinMain.SecurityAutomaticHeader);
 	m_lManual->sort( tableViewSecurity->horizontalHeader()->sortIndicatorSection(),
 						   tableViewSecurity->horizontalHeader()->sortIndicatorOrder()    );
 	m_lAutomatic->sort( tableViewSecurityAuto->horizontalHeader()->sortIndicatorSection(),
 						   tableViewSecurityAuto->horizontalHeader()->sortIndicatorOrder()    );
-	tableViewSecurity->horizontalHeader()->restoreState(quazaaSettings.WinMain.SecurityManualHeader);
-	tableViewSecurityAuto->horizontalHeader()->restoreState(quazaaSettings.WinMain.SecurityAutomaticHeader);
 	setSkin();
 }
 
