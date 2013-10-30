@@ -97,19 +97,19 @@ bool CHashRule::parseContent(const QString& sContent)
 	}
 }
 
-bool CHashRule::hashEquals(CHashRule& oRule) const
+bool CHashRule::hashEquals(CHashRule* oRule) const
 {
-	if ( oRule.m_Hashes.size() != m_Hashes.size() )
+	if ( oRule->m_Hashes.size() != m_Hashes.size() )
 		return false;
 
 	QMap< CHash::Algorithm, CHash >::const_iterator i, j;
 
 	i = m_Hashes.begin();
-	j = oRule.m_Hashes.begin();
+	j = oRule->m_Hashes.begin();
 
 	while ( i != m_Hashes.end() )
 	{
-		j = oRule.m_Hashes.find( (*i).getAlgorithm() );
+		j = oRule->m_Hashes.find( (*i).getAlgorithm() );
 		if ( *i != *j )
 			return false;
 

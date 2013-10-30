@@ -61,17 +61,13 @@ public:
 	static const char* ruleInfoSignal;
 
 private:
-	typedef std::list<CSecureRule*> SecurityRuleList;
-
-	typedef SecurityRuleList::const_iterator ConstSecurityIterator;
-
 	// contains all rules
-	SecurityRuleList   m_lRules;
+	QList<CSecureRule*>   m_lRules;
 
 	// Used to manage newly added rules during sanity check
-	SecurityRuleList   m_lLoadedAddressRules;
+	QList<CSecureRule*>   m_lLoadedAddressRules;
 	QQueue<CSecureRule*>      m_newAddressRules;
-	SecurityRuleList   m_lLoadedHitRules;
+	QList<CSecureRule*>   m_lLoadedHitRules;
 	QQueue<CSecureRule*>      m_newHitRules;
 
 	// IP rule miss cache
@@ -86,7 +82,7 @@ private:
 	// hash rules
 	// Note: Using a multimap eliminates eventual problems of hash
 	// collisions caused by weaker hashes like MD5 for example.
-	QMultiMap<uint, CHashRule*>        m_Hashes;
+	QMultiMap<uint, CHashRule*>        m_lHashes;
 
 	// all other content rules
 	QList<CContentRule*>    m_Contents;
@@ -182,7 +178,7 @@ public:
 
 signals:
 	void            ruleAdded(CSecureRule* pRule);
-	void            ruleRemoved(QSharedPointer<CSecureRule> pRule);
+	void            ruleRemoved(CSecureRule* pRule);
 
 	void            ruleInfo(CSecureRule* pRule);
 
@@ -218,10 +214,8 @@ private:
 	bool            load(QString sPath);
 
 	// this returns the first rule found. Note that there might be others, too.
-	ConstSecurityIterator  getHash(const QList< CHash >& hashes) const;
-	ConstSecurityIterator  getUUID(const QUuid& oUUID) const;
-
-	void            remove(ConstSecurityIterator i);
+	CHashRule *getHash(const QList< CHash >& hashes) const;
+	CSecureRule *getUUID(const QUuid& oUUID) const;
 
 	bool            isAgentDenied(const QString& sUserAgent);
 
@@ -236,8 +230,6 @@ private:
 	static void     postLog(LogSeverity::Severity severity, QString message, bool bDebug = false);
 
 	inline void     hit(CSecureRule *pRule);
-
-	inline SecurityRuleList::iterator getRWIterator(ConstSecurityIterator constIt);
 };
 
 quint32 CSecurity::getCount() const
@@ -250,27 +242,12 @@ bool CSecurity::denyPolicy() const
 	return m_bDenyPolicy;
 }
 
-void CSecurity::remove(CSecureRule* pRule)
-{
-	if ( !pRule )
-		return;
-
-	remove( getUUID( pRule->m_oUUID ) );
-}
-
 void CSecurity::hit(CSecureRule* pRule)
 {
-	pRule->count();
-	emit securityHit();
-}
-
-CSecurity::SecurityRuleList::iterator CSecurity::getRWIterator(ConstSecurityIterator constIt)
-{
-	SecurityRuleList::iterator i = m_lRules.begin();
-	ConstSecurityIterator const_begin = m_lRules.begin();
-	int nDistance = std::distance< ConstSecurityIterator >( const_begin, constIt );
-	std::advance( i, nDistance );
-	return i;
+	if(!pRule->isBeingRemoved()) {
+		pRule->count();
+		emit securityHit();
+	}
 }
 
 extern CSecurity securityManager;

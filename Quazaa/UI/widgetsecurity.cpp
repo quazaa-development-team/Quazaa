@@ -158,7 +158,7 @@ void CWidgetSecurity::on_actionSecurityRemoveRule_triggered()
 			if ( i.isValid() )
 			{
 				CSecureRule* pRule = m_lSecurity->ruleFromIndex( m_lAutomatic->mapToSource(i) );
-				securityManager.remove( pRule );
+				m_lSecurity->removeRule( pRule );
 			}
 		}
 	} else {
@@ -169,7 +169,7 @@ void CWidgetSecurity::on_actionSecurityRemoveRule_triggered()
 			if ( i.isValid() )
 			{
 				CSecureRule* pRule = m_lSecurity->ruleFromIndex( m_lManual->mapToSource(i) );
-				securityManager.remove( pRule );
+				m_lSecurity->removeRule( pRule );
 			}
 		}
 	}

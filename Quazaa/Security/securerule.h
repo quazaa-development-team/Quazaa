@@ -81,6 +81,7 @@ private:
 	quint32		m_tExpire;
 	bool		m_bForever;
 	bool		m_bModifyLock;
+	bool		m_bRemoving;
 
 public:
 	RuleAction::Action     m_nAction;
@@ -114,6 +115,8 @@ public:
 	// Modify locking to avoid deleting pointers to files being modified.
 	void	setLockForModify(bool lock);
 	bool	isLockedForModify();
+	void	beingRemoved(bool remove);
+	bool	isBeingRemoved();
 
 	// Hit count control
 	void     count();

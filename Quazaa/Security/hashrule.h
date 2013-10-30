@@ -18,7 +18,7 @@ public:
 
 	inline CSecureRule*	getCopy() const;
 
-	bool				hashEquals(CHashRule& oRule) const;
+	bool				hashEquals(CHashRule *oRule) const;
 
 	bool				match(const CQueryHit* const pHit) const;
 	bool				match(const QList<CHash>& lHashes) const;

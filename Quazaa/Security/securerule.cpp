@@ -518,6 +518,16 @@ bool CSecureRule::isLockedForModify()
 	return m_bModifyLock;
 }
 
+void CSecureRule::beingRemoved(bool remove)
+{
+	m_bRemoving = remove;
+}
+
+bool CSecureRule::isBeingRemoved()
+{
+	return m_bRemoving;
+}
+
 /**
  * @brief CSecureRule::count increases the total and today hit counters by one each.
  * Requires Locking: /

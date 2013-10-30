@@ -64,9 +64,7 @@ CSecurityTableModel::Rule::Rule(CSecureRule* pRule, CSecurityTableModel* model) 
 
 CSecurityTableModel::Rule::~Rule()
 {
-	// This is important to avoid memory access errors within the Security Manager.
-	if ( m_pRule )
-		securityManager.remove(m_pRule);
+
 }
 
 /** Requires an existing security manager read lock **/
@@ -284,8 +282,8 @@ CSecurityTableModel::CSecurityTableModel(QObject* parent, QWidget* container) :
 	connect( &securityManager, SIGNAL( ruleAdded( CSecureRule* ) ), this,
 			 SLOT( addRule( CSecureRule* ) ), Qt::QueuedConnection );
 
-	connect( &securityManager, SIGNAL( ruleRemoved( QSharedPointer<CSecureRule> ) ), this,
-			 SLOT( removeRule( QSharedPointer<CSecureRule> ) ), Qt::QueuedConnection );
+	connect( &securityManager, SIGNAL( ruleRemoved( CSecureRule* ) ), this,
+			 SLOT( removeRule( CSecureRule* ) ), Qt::QueuedConnection );
 
 	// This handles GUI updates on rule statistics changes.
 	connect( &securityManager, SIGNAL( securityHit() ), this,
@@ -570,17 +568,19 @@ void CSecurityTableModel::addRule(CSecureRule* pRule)
 	}
 }
 
-void CSecurityTableModel::removeRule(const QSharedPointer<CSecureRule> pRule)
+void CSecurityTableModel::removeRule(CSecureRule* pRule)
 {
-	for ( quint32 i = 0, nMax = m_lNodes.size(); i < nMax; i++ )
+	for ( int i = 0; i < m_lNodes.size(); i++ )
 	{
-		if ( *(m_lNodes[i]->m_pRule) == *pRule )
+		if ( m_lNodes[i]->m_pRule == pRule )
 		{
 			beginRemoveRows( QModelIndex(), i, i );
 			delete m_lNodes[i];
-			m_lNodes.remove( i, 1 );
+			m_lNodes.removeAt( i );
 			endRemoveRows();
 			m_bNeedSorting = true;
+			if(!pRule->isBeingRemoved())
+				securityManager.remove(pRule);
 			break;
 		}
 	}

@@ -59,7 +59,7 @@ public:
 	};
 
 protected:
-	QVector<Rule*>   m_lNodes;
+	QList<Rule*>	m_lNodes;
 
 public:
 	explicit CSecurityTableModel(QObject* parent = 0, QWidget* container = 0);
@@ -79,7 +79,7 @@ public:
 
 public slots:
 	void addRule(CSecureRule* pRule);
-	void removeRule(const QSharedPointer<CSecureRule> pRule);
+	void removeRule(CSecureRule *pRule);
 	void updateAll();
 };
 
