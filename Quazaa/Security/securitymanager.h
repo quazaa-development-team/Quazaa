@@ -54,61 +54,38 @@ class CSecurity : public QObject
 	Q_OBJECT
 
 public:
-	static const QString xmlns;
-	static const char* ruleInfoSignal;
+	static const QString			xmlns;
+	static const char*				ruleInfoSignal;
 
 private:
-	// contains all rules
-	QList<CSecureRule*>   m_lRules;
-
+	QList<CSecureRule*>				m_lRules;			// contains all rules
 	// Used to manage newly added rules during sanity check
-	QList<CSecureRule*>   m_lLoadedAddressRules;
-	QQueue<CSecureRule*>      m_newAddressRules;
-	QList<CSecureRule*>   m_lLoadedHitRules;
-	QQueue<CSecureRule*>      m_newHitRules;
-
-	// IP rule miss cache
-	QSet<uint>          m_Cache;
-
-	// single IP blocking rules
-	QList<CIPRule*>     m_lIPs;
-
-	// multiple IP blocking rules
-	QList<CIPRangeRule*>    m_lIPRanges;
-
-	// hash rules
+	QList<CSecureRule*>				m_lLoadedAddressRules;
+	QQueue<CSecureRule*>			m_newAddressRules;
+	QList<CSecureRule*>				m_lLoadedHitRules;
+	QQueue<CSecureRule*>			m_newHitRules;
+	QSet<uint>						m_Cache;				// IP rule miss cache
+	QList<CIPRule*>					m_lIPs;					// single IP blocking rules
+	QList<CIPRangeRule*>			m_lIPRanges;			// multiple IP blocking rules
+	QMultiMap<uint, CHashRule*>		m_lHashes;				// hash rules
 	// Note: Using a multimap eliminates eventual problems of hash
 	// collisions caused by weaker hashes like MD5 for example.
-	QMultiMap<uint, CHashRule*>        m_lHashes;
-
-	// all other content rules
-	QList<CContentRule*>    m_lContents;
-
-	// RegExp rules
-	QList<CRegularExpressionRule*>     m_lRegularExpressions;
-
-	// User agent rules
-	QMap<QString, CUserAgentRule*>   m_UserAgents;
-
+	QList<CContentRule*>			m_lContents;			// all other content rules
+	QList<CRegularExpressionRule*>	m_lRegularExpressions;	// RegExp rules
+	QMap<QString, CUserAgentRule*>	m_UserAgents;			// User agent rules
 	// Security manager settings
-	bool                m_bLogIPCheckHits;          // Post log message on IsDenied( QHostAdress ) call
-
-	QTimer* m_tMaintenance;
-
+	bool							m_bLogIPCheckHits;		// Post log message on IsDenied( QHostAdress ) call
+	QTimer*							m_tMaintenance;			// This timer runs the maintenance tasks every second
 #ifdef _DEBUG // use failsafe to abort sanity check only in debug version
-	QUuid               m_idForceEoSC;        // The signalQueue ID (force end of sanity check)
+	QUuid							m_idForceEoSC;			// The signalQueue ID (force end of sanity check)
 #endif
-
-	// Other
-	bool                m_bUseMissCache;
-	bool                m_bIsLoading;         // true during import operations. Used to avoid unnecessary GUI updates.
-	bool                m_bNewRulesLoaded;    // true if new rules for sanity check have been loaded.
-	unsigned short      m_nPendingOperations; // Counts the number of program modules that still need to call back after having finished a requested sanity check operation.
-
-	quint16             m_nMaxUnsavedRules;   // maximal number of unsaved rules to tolerate before forcing save
-	mutable QAtomicInt  m_nUnsaved;           // count of unsaved rules
-
-	bool                m_bDenyPolicy;
+	bool							m_bUseMissCache;
+	bool							m_bIsLoading;			// true during import operations. Used to avoid unnecessary GUI updates.
+	bool							m_bNewRulesLoaded;		// true if new rules for sanity check have been loaded.
+	unsigned short					m_nPendingOperations;	// Counts the number of program modules that still need to call back after having finished a requested sanity check operation.
+	quint16							m_nMaxUnsavedRules;		// maximal number of unsaved rules to tolerate before forcing save
+	mutable QAtomicInt				m_nUnsaved;				// count of unsaved rules
+	bool							m_bDenyPolicy;
 	// m_bDenyPolicy == false : everything but specifically blocked IPs is allowed (default)
 	// m_bDenyPolicy == true  : everything but specifically allowed IPs is rejected
 	// Note that the default policy is only applied to IP related rules, as everything
@@ -119,108 +96,72 @@ public:
 	~CSecurity();
 
 	inline quint32  getCount() const;
-
 	inline bool     denyPolicy() const;
-	void            setDenyPolicy(bool bDenyPolicy);
-
-	bool            check(const CSecureRule* const pRule) const;
-	void            add(CSecureRule* pRule);
-	// Use bLockRequired to enable/disable locking inside function.
-	inline void     remove(CSecureRule* pRule);
-	void            clear();
-
-	void            ban(const CEndPoint &oAddress, RuleTime::Time nRuleTime, bool bMessage = true, const QString& sComment = "", bool bAutomatic = true, bool bForever = false);
-//	void            ban(const CFile& oFile, BanLength nRuleTime, bool bMessage = true, const QString& sComment = "");
-
+	void			setDenyPolicy(bool bDenyPolicy);
+	bool			check(const CSecureRule* const pRule) const;
+	void			add(CSecureRule* pRule);
+	inline void		remove(CSecureRule* pRule);
+	void			clear();
+	void			ban(const CEndPoint &oAddress, RuleTime::Time nRuleTime, bool bMessage = true, const QString& sComment = "", bool bAutomatic = true, bool bForever = false);
 	// Methods used during sanity check
-	bool            isNewlyDenied(const CEndPoint& oAddress);
-	bool            isNewlyDenied(const CQueryHit* pHit, const QList<QString>& lQuery);
-
-	bool            isDenied(const CEndPoint& oAddress);
-	// This does not check for the hit IP to avoid double checking.
-	bool            isDenied(const CQueryHit* const pHit, const QList<QString>& lQuery);
-	bool isPrivate(const CEndPoint &oAddress);
-	CIPRule *isInAddressRules(const CEndPoint nIp);
-	CIPRangeRule *isInAddressRangeRules(const CEndPoint nIp);
-
+	bool			isNewlyDenied(const CEndPoint& oAddress);
+	bool			isNewlyDenied(const CQueryHit* pHit, const QList<QString>& lQuery);
+	bool			isDenied(const CEndPoint& oAddress);
+	bool			isDenied(const CQueryHit* const pHit, const QList<QString>& lQuery);	// This does not check for the hit IP to avoid double checking.
+	bool			isPrivate(const CEndPoint &oAddress);
+	CIPRule			*isInAddressRules(const CEndPoint nIp);
+	CIPRangeRule	*isInAddressRangeRules(const CEndPoint nIp);
 	// Checks the user agent to see if it's a GPL breaker, or other trouble-maker
 	// We don't ban them, but also don't offer leaf slots to them.
-	bool            isClientBad(const QString& sUserAgent) const;
-
+	bool			isClientBad(const QString& sUserAgent) const;
 	// Checks the user agent to see if it's a leecher client, or other banned client
 	// Test new releases, and remove block if/when they are fixed.
 	// Includes check of agent blocklist & agent security rules.
-	bool            isAgentBlocked(const QString& sUserAgent);
-
-	// Check the evil's G1/G2 vendor code
-	bool            isVendorBlocked(const QString& sVendor) const;
-
+	bool			isAgentBlocked(const QString& sUserAgent);
+	bool			isVendorBlocked(const QString& sVendor) const;							// Check the evil's G1/G2 vendor code
 	// Export/Import/Load/Save handlers
-	bool            start(); // connects signals etc.
-	bool            stop(); // makes the Security Manager ready for destruction
-	bool            load();
-	bool            save(bool bForceSaving = false) const;
-	static quint32  writeToFile(const void* const pManager, QFile& oFile); // used by save()
-	bool            import(const QString& sPath);
-	bool            toXML(const QString& sPath) const;
-	bool            fromXML(const QString& sPath);
+	bool			start();																// connects signals etc.
+	bool			stop();																	// makes the Security Manager ready for destruction
+	bool			load();
+	bool			save(bool bForceSaving = false) const;
+	static quint32	writeToFile(const void* const pManager, QFile& oFile); // used by save()
+	bool			import(const QString& sPath);
+	bool			toXML(const QString& sPath) const;
+	bool			fromXML(const QString& sPath);
 	bool			fromP2P(const QString& sFile);
-
-	// Allows for external callers to find out about how many listeners there
-	// are to the Security Manager Signals.
-	int             receivers(const char* signal) const;
+	int				receivers(const char* signal) const;	// Allows for external callers to find out about how many listeners there are to the Security Manager Signals.
 
 signals:
-	void            ruleAdded(CSecureRule* pRule);
-	void            ruleRemoved(CSecureRule* pRule);
-
-	void            ruleInfo(CSecureRule* pRule);
-
-	void            securityHit();
-
-	// This is used to inform other modules that a system wide sanity check has become necessary.
-	void            performSanityCheck();
+	void			ruleAdded(CSecureRule* pRule);
+	void			ruleRemoved(CSecureRule* pRule);
+	void			ruleInfo(CSecureRule* pRule);
+	void			securityHit();
+	void			performSanityCheck();	// This is used to inform other modules that a system wide sanity check has become necessary.
 	void			updateLoadMax(int max);
 	void			updateLoadProgress(int progress);
 
 public slots:
-	// Trigger this to let the Security Manager emit all rules
-	void            requestRuleList();
+	void            requestRuleList();			// Trigger this to let the Security Manager emit all rules
+	void			sanityCheck();				// Start system wide sanity check
+	void			sanityCheckPerformed();		// This slot must be triggered by all listeners to performSanityCheck() once they have completed their work.
+	void			forceEndOfSanityCheck();	// Aborts all currently running sanity checks by clearing their rule lists.
+	void			expire();
+	void			missCacheClear();
+	void			settingsChanged();			// Trigger this slot to inform the security manager about changes in the security settings.
 
-	// Start system wide sanity check
-	void            sanityCheck();
-	// This slot must be triggered by all listeners to performSanityCheck() once they have completed their work.
-	void            sanityCheckPerformed();
-	// Aborts all currently running sanity checks by clearing their rule lists.
-	void            forceEndOfSanityCheck();
-
-	void            expire();
-	void            missCacheClear();
-
-	// Trigger this slot to inform the security manager about changes in the security settings.
-	void            settingsChanged();
-
-private:
-	// Sanity check helper methods
-	void            loadNewRules();
-	void            clearNewRules();
-
-	bool            load(QString sPath);
-
-	// this returns the first rule found. Note that there might be others, too.
-	CHashRule *getHash(const QList< CHash >& hashes) const;
-	CSecureRule *getUUID(const QUuid& oUUID) const;
-
-	bool            isAgentDenied(const QString& sUserAgent);
-
-	void            missCacheAdd(const uint& nIP);
-	void            evaluateCacheUsage();				// determines whether it is logical to use the cache or not
-
-	bool            isDenied(const QString& sContent);
-	bool            isDenied(const CQueryHit* const pHit);
-	bool            isDenied(const QList<QString>& lQuery, const QString& sContent);
-
-	inline void     hit(CSecureRule *pRule);
+private:	// Sanity check helper methods
+	void			loadNewRules();
+	void			clearNewRules();
+	bool			load(QString sPath);
+	CHashRule		*getHash(const QList< CHash >& hashes) const;	// this returns the first rule found. Note that there might be others, too.
+	CSecureRule		*getUUID(const QUuid& oUUID) const;
+	bool			isAgentDenied(const QString& sUserAgent);
+	void			missCacheAdd(const uint& nIP);
+	void			evaluateCacheUsage();				// determines whether it is logical to use the cache or not
+	bool			isDenied(const QString& sContent);
+	bool			isDenied(const CQueryHit* const pHit);
+	bool			isDenied(const QList<QString>& lQuery, const QString& sContent);
+	inline void		hit(CSecureRule *pRule);
 };
 
 quint32 CSecurity::getCount() const
