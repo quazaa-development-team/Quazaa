@@ -498,7 +498,7 @@ void CSecurity::clear()
 void CSecurity::ban(const CEndPoint& oAddress, RuleTime::Time nRuleTime, bool bMessage,
 					const QString& sComment, bool bAutomatic, bool bForever)
 {
-	if ( oAddress.isNull() )
+	if ( oAddress.isNull() || !oAddress.isValid() )
 	{
 		Q_ASSERT( false ); // if this happens, make sure to fix the caller... :)
 		return;
@@ -878,7 +878,7 @@ bool CSecurity::isNewlyDenied(const CQueryHit* pHit, const QList<QString>& lQuer
   */
 bool CSecurity::isDenied(const CEndPoint &oAddress)
 {
-	if ( oAddress.isNull() )
+	if ( oAddress.isNull() || !oAddress.isValid() )
 		return false;
 
 	const quint32 tNow = common::getTNowUTC();
@@ -1072,7 +1072,7 @@ CIPRule *CSecurity::isInAddressRules(const CEndPoint nIp)
 
 CIPRangeRule* CSecurity::isInAddressRangeRules(const CEndPoint nIp)
 {
-	if ( m_lIPRanges.isEmpty() )
+	if ( m_lIPRanges.isEmpty() || !nIp.isValid() )
 	{
 		return NULL;
 	}
