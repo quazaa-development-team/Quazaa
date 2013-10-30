@@ -75,6 +75,9 @@ bool CSecurityTableModel::Rule::update(int row, int col, QModelIndexList &to_upd
 
 	bool bReturn = false;
 
+	if(m_pRule->isBeingRemoved())
+		return bReturn;
+
 	if ( m_sContent != m_pRule->getContentString() )
 	{
 		to_update.append( model->index( row, CONTENT ) );
