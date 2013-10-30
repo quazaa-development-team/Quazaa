@@ -27,10 +27,7 @@
 
 #include <QList>
 #include <QQueue>
-#include <list>
-#include <map>
-#include <queue>
-#include <set>
+#include <QTimer>
 
 // Increment this if there have been made changes to the way of storing security rules.
 #define SECURITY_CODE_VERSION 1
@@ -95,12 +92,9 @@ private:
 
 	// Security manager settings
 	bool                m_bLogIPCheckHits;          // Post log message on IsDenied( QHostAdress ) call
-	quint64             m_tRuleExpiryInterval;      // Check the security manager for expired hosts each x milliseconds
-	quint64             m_tMissCacheExpiryInterval; // Clear the miss cache each x ms
 
-	// Timer IDs
-	QUuid               m_idRuleExpiry;       // The ID of the signalQueue object.
-	QUuid               m_idMissCacheExpiry;  // The ID of the signalQueue object.
+	QTimer* m_tMaintenance;
+
 #ifdef _DEBUG // use failsafe to abort sanity check only in debug version
 	QUuid               m_idForceEoSC;        // The signalQueue ID (force end of sanity check)
 #endif
@@ -220,14 +214,11 @@ private:
 	bool            isAgentDenied(const QString& sUserAgent);
 
 	void            missCacheAdd(const uint& nIP);
-	void            missCacheClear(bool bRefreshInterval);
 	void            evaluateCacheUsage();				// determines whether it is logical to use the cache or not
 
 	bool            isDenied(const QString& sContent);
 	bool            isDenied(const CQueryHit* const pHit);
 	bool            isDenied(const QList<QString>& lQuery, const QString& sContent);
-
-	static void     postLog(LogSeverity::Severity severity, QString message, bool bDebug = false);
 
 	inline void     hit(CSecureRule *pRule);
 };

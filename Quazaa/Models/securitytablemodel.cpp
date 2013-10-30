@@ -581,6 +581,8 @@ void CSecurityTableModel::removeRule(CSecureRule* pRule)
 			m_bNeedSorting = true;
 			if(!pRule->isBeingRemoved())
 				securityManager.remove(pRule);
+			else
+				pRule->deleteLater();
 			break;
 		}
 	}

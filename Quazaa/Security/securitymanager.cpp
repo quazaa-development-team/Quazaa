@@ -60,8 +60,6 @@ bool IPLessThan(CIPRule *rule1, CIPRule *rule2)
 // See initialize() for that kind of initializations.
 CSecurity::CSecurity() :
 	m_bLogIPCheckHits( false ),
-	m_tRuleExpiryInterval( 0 ),
-	m_tMissCacheExpiryInterval( 0 ),
 	m_bUseMissCache( false ),
 	m_bIsLoading( false ),
 	m_bNewRulesLoaded( false ),
@@ -414,7 +412,7 @@ void CSecurity::add(CSecureRule* pRule)
 	}
 	else if ( type == RuleType::IPAddressRange )
 	{
-		missCacheClear( true );
+		missCacheClear();
 
 		if ( !m_bUseMissCache )
 			evaluateCacheUsage();
@@ -485,9 +483,7 @@ void CSecurity::clear()
 		pRule = m_newHitRules.dequeue();
 		delete pRule;
 	}
-
-	signalQueue.setInterval( m_idRuleExpiry, m_tRuleExpiryInterval );
-	missCacheClear( true );
+	missCacheClear();
 
 	m_nUnsaved.fetchAndStoreRelaxed( 0 );
 }
@@ -567,16 +563,19 @@ void CSecurity::ban(const CEndPoint& oAddress, RuleTime::Time nRuleTime, bool bM
 			{
 				if( nRuleTime == RuleTime::Special ) {
 					if( bForever ) {
-						postLog( LogSeverity::Security,
+						systemLog.postLog( LogSeverity::Security,
+								 Components::Security,
 								 tr( "Adjusted ban expiry time of %1 to forever."
 									 ).arg( oAddress.toString() ) );
 					} else {
-						postLog( LogSeverity::Security,
+						systemLog.postLog( LogSeverity::Security,
+								 Components::Security,
 								 tr( "Adjusted ban expiry time of %1 to end of session."
 									 ).arg( oAddress.toString() ) );
 					}
 				} else {
-					postLog( LogSeverity::Security,
+					systemLog.postLog( LogSeverity::Security,
+							 Components::Security,
 							 tr( "Adjusted ban expiry time of %1 to %2."
 								 ).arg( oAddress.toString(),
 										QDateTime::fromTime_t( pIPRule->getExpiryTime() ).toString() ) );
@@ -659,16 +658,19 @@ void CSecurity::ban(const CEndPoint& oAddress, RuleTime::Time nRuleTime, bool bM
 	{
 		if( nRuleTime == RuleTime::Special ) {
 			if( bForever ) {
-				postLog( LogSeverity::Security,
+				systemLog.postLog( LogSeverity::Security,
+						 Components::Security,
 						 tr( "Banned %1 forever."
 							 ).arg( oAddress.toString() ) );
 			} else {
-				postLog( LogSeverity::Security,
+				systemLog.postLog( LogSeverity::Security,
+						 Components::Security,
 						 tr( "Banned %1 until the end of the session."
 							 ).arg( oAddress.toString() ) );
 			}
 		} else {
-			postLog( LogSeverity::Security,
+			systemLog.postLog( LogSeverity::Security,
+					 Components::Security,
 					 tr( "Banned %1 until %2."
 						 ).arg( oAddress.toString(),
 								QDateTime::fromTime_t( pIPRule->getExpiryTime() ).toString() ) );
@@ -887,7 +889,8 @@ bool CSecurity::isDenied(const CEndPoint &oAddress)
 	{
 		if ( m_bLogIPCheckHits )
 		{
-			postLog( LogSeverity::Security,
+			systemLog.postLog( LogSeverity::Security,
+					 Components::Security,
 					 tr( "Skipped repeat IP security check for %s (%i IPs cached"
 						 ).arg( oAddress.toString(), m_Cache.size() )
 //			         + tr( "; Call source: %s" ).arg( source )
@@ -898,7 +901,8 @@ bool CSecurity::isDenied(const CEndPoint &oAddress)
 	}
 	else if ( m_bLogIPCheckHits )
 	{
-		postLog( LogSeverity::Security,
+		systemLog.postLog( LogSeverity::Security,
+				 Components::Security,
 				 tr( "Called first-time IP security check for %s"
 					 ).arg( oAddress.toString() )
 //					+ tr( " ( Call source: %s)" ).arg( source )
@@ -910,7 +914,9 @@ bool CSecurity::isDenied(const CEndPoint &oAddress)
 	{
 		if(isPrivate( oAddress ))
 		{
-			postLog( LogSeverity::Security, tr( "Local/Private IP denied: %s" ).arg( oAddress.toString() ) );
+			systemLog.postLog( LogSeverity::Security,
+					 Components::Security,
+					 tr( "Local/Private IP denied: %s" ).arg( oAddress.toString() ) );
 			return true;
 		}
 	}
@@ -1267,18 +1273,18 @@ bool CSecurity::start()
 {
 	// Register QSharedPointer<CSecureRule> to allow using this type with queued signal/slot
 	// connections.
-	qRegisterMetaType< QSharedPointer< CSecureRule > >( "QSharedPointer<CSecureRule>" );
+	qRegisterMetaType<CSecureRule>( "CSecureRule" );
 
-	connect( &quazaaSettings, SIGNAL( securitySettingsChanged() ), SLOT( settingsChanged() ),
-			 Qt::QueuedConnection );
+	// Set up interval timed cleanup operations.
+	m_tMaintenance = new QTimer(this);
+	connect(m_tMaintenance, SIGNAL(timeout()), SLOT(expire()));
+	connect(m_tMaintenance, SIGNAL(timeout()), SLOT(missCacheClear()));
+	m_tMaintenance->start(1000);
+
+	connect( &quazaaSettings, SIGNAL( securitySettingsChanged() ), SLOT( settingsChanged() ) );
 
 	// Pull settings from global database to local copy.
 	settingsChanged();
-
-	// Set up interval timed cleanup operations.
-	m_idRuleExpiry = signalQueue.push( this, "expire", m_tRuleExpiryInterval, true );
-	m_idMissCacheExpiry = signalQueue.push( this, "missCacheClear",
-											m_tMissCacheExpiryInterval, true );
 
 	return load(); // Load security rules from HDD.
 }
@@ -1500,7 +1506,8 @@ bool CSecurity::fromXML(const QString& sPath)
 		 xmlDocument.name().toString().compare( "security", Qt::CaseInsensitive ) )
 		return false;
 
-	postLog( LogSeverity::Information, tr( "Importing security rules from file: " ) + sPath );
+	systemLog.postLog( LogSeverity::Security,
+			 Components::Security, tr( "Importing security rules from file: " ) + sPath );
 
 	float nVersion;
 
@@ -1515,7 +1522,8 @@ bool CSecurity::fromXML(const QString& sPath)
 		nVersion = sVersion.toFloat( &bOK );
 		if ( !bOK )
 		{
-			postLog( LogSeverity::Error,
+			systemLog.postLog( LogSeverity::Security,
+					 Components::Security,
 					 tr( "Failed to read the Security XML version number from file." ) );
 			nVersion = 1.0;
 		}
@@ -1555,12 +1563,14 @@ bool CSecurity::fromXML(const QString& sPath)
 			}
 			else
 			{
-				postLog( LogSeverity::Error, tr( "Failed to read a Security Rule from XML." ) );
+				systemLog.postLog( LogSeverity::Security,
+						 Components::Security, tr( "Failed to read a Security Rule from XML." ) );
 			}
 		}
 		else
 		{
-			postLog( LogSeverity::Error,
+			systemLog.postLog( LogSeverity::Security,
+					 Components::Security,
 					 tr( "Unrecognized entry in XML file with name: " ) +
 					 xmlDocument.name().toString() );
 		}
@@ -1574,7 +1584,8 @@ bool CSecurity::fromXML(const QString& sPath)
 	sanityCheck();
 	save();
 
-	postLog( LogSeverity::Information, QString::number( nRuleCount ) + tr( " Rules imported." ) );
+	systemLog.postLog( LogSeverity::Security,
+			 Components::Security, QString::number( nRuleCount ) + tr( " Rules imported." ) );
 
 	return nRuleCount != 0;
 }
@@ -1729,16 +1740,18 @@ void CSecurity::sanityCheckPerformed()
 
 	if ( --m_nPendingOperations == 0 )
 	{
-		postLog( LogSeverity::Debug, QString( "Sanity Check finished successfully. " ) +
-				 QString( "Starting cleanup now." ), true );
+		systemLog.postLog( LogSeverity::Security,
+				 Components::Security, QString( "Sanity Check finished successfully. " ) +
+				 QString( "Starting cleanup now." ) );
 
 		clearNewRules();
 	}
 	else
 	{
-		postLog( LogSeverity::Debug, QString( "A component finished with sanity checking. " ) +
+		systemLog.postLog( LogSeverity::Security,
+				 Components::Security, QString( "A component finished with sanity checking. " ) +
 				 QString( "Still waiting for %s other components to finish."
-						  ).arg( m_nPendingOperations ), true );
+						  ).arg( m_nPendingOperations ) );
 	}
 }
 
@@ -1754,7 +1767,8 @@ void CSecurity::forceEndOfSanityCheck()
 		QString sTmp = QString( "Sanity check aborted. Most probable reason: It took some " ) +
 					   QString( "component longer than 2min to call sanityCheckPerformed() " ) +
 					   QString( "after having recieved the signal performSanityCheck()." );
-		postLog( LogSeverity::Error, sTmp, true );
+		systemLog.postLog( LogSeverity::Security,
+				 Components::Security, sTmp );
 		Q_ASSERT( false );
 	}
 #endif //_DEBUG
@@ -1768,8 +1782,6 @@ void CSecurity::forceEndOfSanityCheck()
   */
 void CSecurity::expire()
 {
-	postLog( LogSeverity::Debug, QString( "Expiring old rules now!" ), true );
-
 	const quint32 tNow = common::getTNowUTC();
 	quint16 nCount = 0;
 
@@ -1790,7 +1802,9 @@ void CSecurity::expire()
 		}
 	}
 
-	postLog( LogSeverity::Debug, QString::number( nCount ) + " Rules expired.", true );
+	if(nCount > 0)
+		systemLog.postLog( LogSeverity::Security,
+				 Components::Security, QString::number( nCount ) + " rules expired." );
 }
 
 /**
@@ -1799,7 +1813,10 @@ void CSecurity::expire()
   */
 void CSecurity::missCacheClear()
 {
-	missCacheClear( false );
+	m_Cache.clear();
+
+	if ( !m_bUseMissCache )
+		evaluateCacheUsage();
 }
 
 /**
@@ -1810,18 +1827,6 @@ void CSecurity::missCacheClear()
 void CSecurity::settingsChanged()
 {
 	m_bLogIPCheckHits			= quazaaSettings.Security.LogIPCheckHits;
-
-	if ( m_tRuleExpiryInterval != quazaaSettings.Security.RuleExpiryInterval * 1000 )
-	{
-		m_tRuleExpiryInterval = quazaaSettings.Security.RuleExpiryInterval * 1000;
-		signalQueue.setInterval( m_idRuleExpiry, m_tRuleExpiryInterval );
-	}
-
-	if ( m_tMissCacheExpiryInterval != quazaaSettings.Security.MissCacheExpiryInterval * 1000 )
-	{
-		m_tMissCacheExpiryInterval = quazaaSettings.Security.MissCacheExpiryInterval * 1000;
-		signalQueue.setInterval( m_idMissCacheExpiry, m_tMissCacheExpiryInterval );
-	}
 
 	// TODO: load from settings.
 	m_nMaxUnsavedRules = 100;
@@ -2051,8 +2056,6 @@ void CSecurity::remove(CSecureRule* pRule)
 		m_lRules.removeOne(pRule);
 
 		emit ruleRemoved( pRule );
-
-		pRule->deleteLater();
 	}
 }
 
@@ -2089,17 +2092,6 @@ void CSecurity::missCacheAdd(const uint &nIP)
 		m_Cache.insert( nIP );
 		evaluateCacheUsage();
 	}
-}
-
-void CSecurity::missCacheClear(bool bRefreshInterval)
-{
-	m_Cache.clear();
-
-	if ( !m_bUseMissCache )
-		evaluateCacheUsage();
-
-	if ( bRefreshInterval )
-		signalQueue.setInterval( m_idMissCacheExpiry, m_tMissCacheExpiryInterval );
 }
 
 void CSecurity::evaluateCacheUsage()
@@ -2258,45 +2250,3 @@ bool CSecurity::isDenied(const QList<QString>& lQuery, const QString& sContent)
 	return false;
 }
 
-/**
- * @brief postLog writes a message to the system log or to the debug output.
- * Requires locking: /
- * @param severity
- * @param message
- * @param bDebug Defaults to false. If set to true, the message is send  to qDebug() instead of
- * to the system log.
- */
-void CSecurity::postLog(LogSeverity::Severity severity, QString message, bool bDebug)
-{
-	QString sMessage = "[Security] ";
-
-	switch ( severity )
-	{
-
-		case LogSeverity::Warning:
-			sMessage += tr ( "Warning: " );
-			break;
-
-		case LogSeverity::Error:
-			sMessage += tr ( "Error: " );
-			break;
-
-		case LogSeverity::Critical:
-			sMessage += tr ( "Critical Error: " );
-			break;
-
-		default:
-			break; // do nothing
-	}
-
-	sMessage += message;
-
-	if ( bDebug )
-	{
-		qDebug() << sMessage.toLocal8Bit().constData();
-	}
-	else
-	{
-		systemLog.postLog( severity, sMessage );
-	}
-}
