@@ -1033,7 +1033,7 @@ bool CSecurity::isPrivate(const CEndPoint &oAddress)
 
 CIPRule *CSecurity::isInAddressRules(const CEndPoint nIp)
 {
-	if ( m_lIPs.isEmpty() )
+	if ( m_lIPs.isEmpty() || !nIp.isValid() )
 	{
 		return NULL;
 	}
