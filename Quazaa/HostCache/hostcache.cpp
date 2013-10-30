@@ -58,6 +58,7 @@ CHostCacheHost* CHostCache::add(CEndPoint host, const QDateTime& ts)
 	Q_ASSERT( ts.timeSpec() == Qt::UTC );
 	return add( host, ts.toTime_t() );
 }
+
 CHostCacheHost* CHostCache::add(CEndPoint host, quint32 tTimeStamp)
 {
 	ASSUME_LOCK(hostCache.m_pSection);

@@ -1360,6 +1360,7 @@ bool CSecurity::load( QString sPath )
 
 		m_bDenyPolicy = bDenyPolicy;
 		m_bIsLoading = true; // Prevent sanity check from being executed at each add() operation.
+		int nSuccessCount = 0;
 
 		while ( nCount > 0 )
 		{
@@ -1372,6 +1373,7 @@ bool CSecurity::load( QString sPath )
 			else
 			{
 				add( pRule );
+				++nSuccessCount;
 			}
 
 			pRule = NULL;
@@ -1380,13 +1382,17 @@ bool CSecurity::load( QString sPath )
 			qApp->processEvents(QEventLoop::AllEvents, 50);
 		}
 
+		if(nSuccessCount > 0) {
+			systemLog.postLog(LogSeverity::Debug, Components::Security, tr("Loaded security rules from file: %1").arg(sPath));
+			systemLog.postLog(LogSeverity::Debug, Components::Security, tr("Loaded %1 rules.").arg(nSuccessCount));
+		}
+
 		m_bIsLoading = false;
 
 		// If necessary perform sanity check after loading.
 		qSort(m_lIPs.begin(), m_lIPs.end(), IPLessThan);
 		qSort(m_lIPRanges.begin(), m_lIPRanges.end(), IPRangeLessThan);
 		sanityCheck();
-		save();
 	}
 	catch ( ... )
 	{
