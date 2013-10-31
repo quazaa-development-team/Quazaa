@@ -969,7 +969,7 @@ void CG2Node::OnLNI(G2Packet* pPacket)
 			if(hostAddr.isValid())
 			{
 				if(securityManager.isDenied(hostAddr)) {
-					Send_ConnectError("403 Attempting to switch to a blocked ip address");
+					Close();
 				} else {
 					hasNA = true;
 
