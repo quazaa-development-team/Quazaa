@@ -41,14 +41,14 @@
 
 CSecurity securityManager;
 
-bool IPRangeLessThan(CIPRangeRule *rule1, CIPRangeRule *rule2)
+bool IPRangeLessThan(const CIPRangeRule *rule1, const CIPRangeRule *rule2)
 {
-	return rule1->startIP() < rule2->startIP();
+	return rule1 < rule2;
 }
 
-bool IPLessThan(CIPRule *rule1, CIPRule *rule2)
+bool IPLessThan(const CIPRule *rule1, const CIPRule *rule2)
 {
-	return rule1->IP() < rule2->IP();
+	return rule1 < rule2;
 }
 
 /**
