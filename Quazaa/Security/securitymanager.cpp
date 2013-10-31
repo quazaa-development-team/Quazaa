@@ -688,7 +688,6 @@ void CSecurity::ban(const CEndPoint& oAddress, RuleTime::Time nRuleTime, bool bM
 	if(result) {
 		qSort(m_lIPs.begin(), m_lIPs.end(), IPLessThan);
 		sanityCheck();
-		save();
 	}
 }
 
