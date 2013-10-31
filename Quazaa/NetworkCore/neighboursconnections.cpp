@@ -280,7 +280,7 @@ void CNeighboursConnections::Maintain()
 				QString sCountry;
 				sCountry = bCountry ? ( quazaaSettings.Connection.PreferredCountries.size() ?
 										quazaaSettings.Connection.PreferredCountries.at(nCountry) :
-										Network.m_oAddress.country() ) : "ZZ";
+										geoIP.findCountryCode(Network.m_oAddress) ) : "ZZ";
 				pHost = hostCache.getConnectable( tNow, oExcept, sCountry );
 
 				if ( pHost )

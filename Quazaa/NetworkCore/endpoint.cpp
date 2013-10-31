@@ -26,7 +26,6 @@
 
 #include <QStringList>
 #include <QtEndian>
-#include "geoiplist.h"
 
 #include "debug_new.h"
 
@@ -122,8 +121,8 @@ CEndPoint::CEndPoint(const QString& address)
 }
 
 CEndPoint::CEndPoint(const CEndPoint& copy) :
-	QHostAddress( copy ),
-	m_nPort( copy.m_nPort )
+	QHostAddress(copy),
+	m_nPort(copy.m_nPort)
 {
 }
 
@@ -136,7 +135,6 @@ CEndPoint::CEndPoint(SpecialAddress address, quint16 nPort) :
 void CEndPoint::clear()
 {
 	m_nPort = 0;
-	m_sCountry.clear();
 	QHostAddress::clear();
 }
 
@@ -150,6 +148,16 @@ QString CEndPoint::toStringWithPort() const
 	{
 		return QString( "[%1]:%2" ).arg( toString() ).arg( m_nPort );
 	}
+}
+
+quint16 CEndPoint::port() const
+{
+	return m_nPort;
+}
+
+void CEndPoint::setPort(const quint16 nPort)
+{
+	m_nPort = nPort;
 }
 
 void CEndPoint::setAddressWithPort(const QString& address)
@@ -220,18 +228,16 @@ bool CEndPoint::isFirewalled() const
 	return false;
 }
 
-QString CEndPoint::country() const
+bool CEndPoint::isValid() const
 {
-	if ( m_sCountry.isEmpty() )
-		m_sCountry = geoIP.findCountryCode( *this );
-
-	return m_sCountry;
+	return ( !isNull() && m_nPort  &&
+			 QHostAddress::operator !=( QHostAddress::Any ) &&
+			QHostAddress::operator !=( QHostAddress::AnyIPv6 ) );
 }
 
 CEndPoint & CEndPoint::operator =(const CEndPoint &rhs)
 {
 	QHostAddress::operator =( rhs );
-	m_sCountry = rhs.m_sCountry;
 	m_nPort = rhs.m_nPort;
 	return *this;
 }
@@ -239,7 +245,6 @@ CEndPoint & CEndPoint::operator =(const CEndPoint &rhs)
 QDataStream &operator<<(QDataStream &s, const CEndPoint &rhs)
 {
 	s << *static_cast<const QHostAddress*>( &rhs );
-	s << rhs.m_sCountry;
 	s << rhs.m_nPort;
 
 	return s;
@@ -249,7 +254,6 @@ QDataStream &operator>>(QDataStream &s, CEndPoint &rhs)
 {
 	QHostAddress* pHa = static_cast<QHostAddress*>(&rhs);
 	s >> *pHa;
-	s >> rhs.m_sCountry;
 	s >> rhs.m_nPort;
 
 	return s;

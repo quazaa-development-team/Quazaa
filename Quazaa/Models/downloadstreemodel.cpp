@@ -94,7 +94,7 @@ QVariant CDownloadsTreeModel::data(const QModelIndex &index, int role) const
 				CDownloadSourceItem *item = static_cast<CDownloadSourceItem*>(index.internalPointer());
 				if(item->m_nProtocol != tpNull)
 				{
-                    return QIcon(":/Resource/Flags/" + item->getCountryCode().toLower() + ".png");
+					return QIcon(":/Resource/Flags/" + item->getCountryCode().toLower() + ".png");
 				}
 			}
 		}
@@ -275,8 +275,8 @@ CDownloadItem::CDownloadItem(CDownload *download, CDownloadsItemBase *parent, CD
 	: CDownloadsItemBase(parentQObject),
 	  m_pDownload(download),
 	  m_oCompletedFrags(0),
-      m_oVerifiedFrags(0),
-      m_pModel(model)
+	  m_oVerifiedFrags(0),
+	  m_pModel(model)
 {
 	parentItem = parent;
 
@@ -418,8 +418,8 @@ void CDownloadItem::onStateChanged(int state)
 
 void CDownloadItem::onBytesReceived(quint64 offset, quint64 length, CDownloadSourceItem *source)
 {
-    Q_UNUSED(source);
-    //TODO: Make use of CDownloadSourceItem *source
+	Q_UNUSED(source);
+	//TODO: Make use of CDownloadSourceItem *source
 
 	qDebug() << "CDownloadItem::onBytesReceived()" << offset << length;
 	m_oCompletedFrags.insert(Fragments::Fragment(offset, offset + length));
@@ -444,8 +444,8 @@ CDownloadSourceItem::CDownloadSourceItem(CDownloadSource *downloadSource, CDownl
 	m_sClient = "";
 	m_nDownloaded = 0;
 
-    m_sCountryCode = downloadSource->m_oAddress.country();
-    m_sCountry = geoIP.countryNameFromCode(m_sCountryCode);
+	m_sCountryCode = geoIP.findCountryCode(downloadSource->m_oAddress.toIPv4Address());
+	m_sCountry = geoIP.countryNameFromCode(m_sCountryCode);
 
 	m_nProtocol = downloadSource->m_nProtocol;
 
@@ -496,8 +496,8 @@ QVariant CDownloadSourceItem::data(int column) const
 	case CDownloadsTreeModel::COMPLETED:
 			return formatBytes(m_nDownloaded);
 		break;
-    case CDownloadsTreeModel::COUNTRY:
-            return m_sCountry;
+	case CDownloadsTreeModel::COUNTRY:
+			return m_sCountry;
 		break;
 	default:
 			return QVariant();
@@ -508,12 +508,12 @@ QVariant CDownloadSourceItem::data(int column) const
 
 QString CDownloadSourceItem::getCountryCode()
 {
-    return m_sCountryCode;
+	return m_sCountryCode;
 }
 
 QString CDownloadSourceItem::getCountry()
 {
-    return m_sCountry;
+	return m_sCountry;
 }
 
 void CDownloadSourceItem::onBytesReceived(quint64 offset, quint64 length)

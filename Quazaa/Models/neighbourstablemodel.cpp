@@ -60,7 +60,7 @@ CNeighboursTableModel::Neighbour::Neighbour(CNeighbour* pNeighbour) : pNode( pNe
 	nState          = pNode->m_nState;
 	nType           = G2_UNKNOWN;
 	sUserAgent      = pNode->m_sUserAgent;
-	sCountryCode    = oAddress.country();
+	sCountryCode    = geoIP.findCountryCode(oAddress);
 	sCountry        = geoIP.countryNameFromCode( sCountryCode );
 	iCountry        = QIcon(":/Resource/Flags/" + sCountryCode.toLower() + ".png");
 

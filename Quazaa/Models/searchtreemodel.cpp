@@ -321,7 +321,7 @@ void SearchTreeModel::addQueryHit(QueryHitSharedPtr pHitPtr)
 		{
 			QFileInfo fileInfo( pHit->m_sDescriptiveName );
 
-			QString sCountry = pHit->m_pHitInfo.data()->m_oNodeAddress.country();
+			QString sCountry = geoIP.findCountryCode(pHit->m_pHitInfo.data()->m_oNodeAddress.toIPv4Address());
 
 			// Create SearchTreeItem representing the new file
 			QList<QVariant> lParentData;
@@ -375,7 +375,7 @@ void SearchTreeModel::addQueryHit(QueryHitSharedPtr pHitPtr)
 			QModelIndex idxParent = index( existingFileEntry, 0, QModelIndex() );
 			QFileInfo fileInfo( pHit->m_sDescriptiveName );
 
-			QString sCountry = pHit->m_pHitInfo.data()->m_oNodeAddress.country();
+			QString sCountry = geoIP.findCountryCode(pHit->m_pHitInfo.data()->m_oNodeAddress.toIPv4Address());
 
 			QList<QVariant> lChildData;
 			lChildData << fileInfo.completeBaseName()

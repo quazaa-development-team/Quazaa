@@ -308,7 +308,7 @@ CHostCacheHost* CHostCache::getConnectable(const quint32 tNow, QList<CHostCacheH
 			if ( nFailures != pHost->m_nFailures )
 				continue;
 
-			if ( bCountry && pHost->m_oAddress.country() != sCountry )
+			if ( bCountry && geoIP.findCountryCode(pHost->m_oAddress.toIPv4Address()) != sCountry )
 			{
 				continue;
 			}
