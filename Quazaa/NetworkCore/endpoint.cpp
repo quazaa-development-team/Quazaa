@@ -123,7 +123,7 @@ CEndPoint::CEndPoint(const QString& address)
 
 CEndPoint::CEndPoint(const CEndPoint& copy) :
 	QHostAddress( copy ),
-	m_nPort( nPort )
+	m_nPort( copy.m_nPort )
 {
 }
 
