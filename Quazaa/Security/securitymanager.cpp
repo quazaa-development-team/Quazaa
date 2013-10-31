@@ -507,7 +507,7 @@ void CSecurity::ban(const CEndPoint& oAddress, RuleTime::Time nRuleTime, bool bM
 	const quint32 tNow = common::getTNowUTC();
 
 	CIPRule* pIPRule = isInAddressRules(oAddress);
-	if ( pIPRule )
+	if ( pIPRule ) // If rule exists, add time on to ban
 	{
 		pIPRule->m_bAutomatic = bAutomatic;
 
@@ -592,89 +592,91 @@ void CSecurity::ban(const CEndPoint& oAddress, RuleTime::Time nRuleTime, bool bM
 
 	pIPRule = new CIPRule();
 
-	pIPRule->m_bAutomatic = bAutomatic;
+	if(pIPRule->parseContent( oAddress.toString() )) {
+		pIPRule->m_bAutomatic = bAutomatic;
 
-	switch( nRuleTime )
-	{
-	case RuleTime::Special:
-		pIPRule->setForever(bForever);
-		pIPRule->setExpiryTime(RuleTime::Special);
-		break;
+		switch( nRuleTime )
+		{
+		case RuleTime::Special:
+			pIPRule->setForever(bForever);
+			pIPRule->setExpiryTime(RuleTime::Special);
+			break;
 
-	case RuleTime::FiveMinutes:
-		pIPRule->setExpiryTime(tNow + RuleTime::FiveMinutes);
-		pIPRule->m_sComment = tr( "Temp Ignore (5 min)" );
-		break;
+		case RuleTime::FiveMinutes:
+			pIPRule->setExpiryTime(tNow + RuleTime::FiveMinutes);
+			pIPRule->m_sComment = tr( "Temp Ignore (5 min)" );
+			break;
 
-	case RuleTime::ThirtyMinutes:
-		pIPRule->setExpiryTime(tNow + RuleTime::ThirtyMinutes);
-		pIPRule->m_sComment = tr( "Temp Ignore (30 min)" );
-		break;
+		case RuleTime::ThirtyMinutes:
+			pIPRule->setExpiryTime(tNow + RuleTime::ThirtyMinutes);
+			pIPRule->m_sComment = tr( "Temp Ignore (30 min)" );
+			break;
 
-	case RuleTime::TwoHours:
-		pIPRule->setExpiryTime(tNow + RuleTime::TwoHours);
-		pIPRule->m_sComment = tr( "Temp Ignore (2 h)" );
-		break;
+		case RuleTime::TwoHours:
+			pIPRule->setExpiryTime(tNow + RuleTime::TwoHours);
+			pIPRule->m_sComment = tr( "Temp Ignore (2 h)" );
+			break;
 
-	case RuleTime::SixHours:
-		pIPRule->setExpiryTime(tNow + RuleTime::SixHours);
-		pIPRule->m_sComment = tr( "Temp Ignore (2 h)" );
-		break;
+		case RuleTime::SixHours:
+			pIPRule->setExpiryTime(tNow + RuleTime::SixHours);
+			pIPRule->m_sComment = tr( "Temp Ignore (2 h)" );
+			break;
 
-	case RuleTime::TwelveHours:
-		pIPRule->setExpiryTime(tNow + RuleTime::TwelveHours);
-		pIPRule->m_sComment = tr( "Temp Ignore (2 h)" );
-		break;
+		case RuleTime::TwelveHours:
+			pIPRule->setExpiryTime(tNow + RuleTime::TwelveHours);
+			pIPRule->m_sComment = tr( "Temp Ignore (2 h)" );
+			break;
 
-	case RuleTime::Day:
-		pIPRule->setExpiryTime(tNow + RuleTime::Day);
-		pIPRule->m_sComment = tr( "Temp Ignore (1 d)" );
-		break;
+		case RuleTime::Day:
+			pIPRule->setExpiryTime(tNow + RuleTime::Day);
+			pIPRule->m_sComment = tr( "Temp Ignore (1 d)" );
+			break;
 
-	case RuleTime::Week:
-		pIPRule->setExpiryTime(tNow + RuleTime::Week);
-		pIPRule->m_sComment = tr( "Client Block (1 week)" );
-		break;
+		case RuleTime::Week:
+			pIPRule->setExpiryTime(tNow + RuleTime::Week);
+			pIPRule->m_sComment = tr( "Client Block (1 week)" );
+			break;
 
-	case RuleTime::Month:
-		pIPRule->setExpiryTime(tNow + RuleTime::Month);
-		pIPRule->m_sComment = tr( "Quick IP Block (1 month)" );
-		break;
+		case RuleTime::Month:
+			pIPRule->setExpiryTime(tNow + RuleTime::Month);
+			pIPRule->m_sComment = tr( "Quick IP Block (1 month)" );
+			break;
 
-	default:
-		pIPRule->setForever(false);
-		pIPRule->m_sComment = tr( "Session Ban" );
-		Q_ASSERT( false ); // this should never happen
-	}
+		default:
+			pIPRule->setForever(false);
+			pIPRule->m_sComment = tr( "Session Ban" );
+			Q_ASSERT( false ); // this should never happen
+		}
 
-	if ( !( sComment.isEmpty() ) )
-		pIPRule->m_sComment = sComment;
+		if ( !( sComment.isEmpty() ) )
+			pIPRule->m_sComment = sComment;
 
-	pIPRule->setIP( oAddress );
+		add( pIPRule );
 
-	add( pIPRule );
-
-	if ( bMessage )
-	{
-		if( nRuleTime == RuleTime::Special ) {
-			if( bForever ) {
-				systemLog.postLog( LogSeverity::Security,
-						 Components::Security,
-						 tr( "Banned %1 forever."
-							 ).arg( oAddress.toString() ) );
+		if ( bMessage )
+		{
+			if( nRuleTime == RuleTime::Special ) {
+				if( bForever ) {
+					systemLog.postLog( LogSeverity::Security,
+							 Components::Security,
+							 tr( "Banned %1 forever."
+								 ).arg( oAddress.toString() ) );
+				} else {
+					systemLog.postLog( LogSeverity::Security,
+							 Components::Security,
+							 tr( "Banned %1 until the end of the session."
+								 ).arg( oAddress.toString() ) );
+				}
 			} else {
 				systemLog.postLog( LogSeverity::Security,
 						 Components::Security,
-						 tr( "Banned %1 until the end of the session."
-							 ).arg( oAddress.toString() ) );
+						 tr( "Banned %1 until %2."
+							 ).arg( oAddress.toString(),
+									QDateTime::fromTime_t( pIPRule->getExpiryTime() ).toString() ) );
 			}
-		} else {
-			systemLog.postLog( LogSeverity::Security,
-					 Components::Security,
-					 tr( "Banned %1 until %2."
-						 ).arg( oAddress.toString(),
-								QDateTime::fromTime_t( pIPRule->getExpiryTime() ).toString() ) );
 		}
+	} else {
+		pIPRule->deleteLater();
 	}
 }
 
@@ -1387,12 +1389,12 @@ bool CSecurity::load( QString sPath )
 			systemLog.postLog(LogSeverity::Debug, Components::Security, tr("Loaded %1 rules.").arg(nSuccessCount));
 		}
 
-		m_bIsLoading = false;
-
 		// If necessary perform sanity check after loading.
 		qSort(m_lIPs.begin(), m_lIPs.end(), IPLessThan);
 		qSort(m_lIPRanges.begin(), m_lIPRanges.end(), IPRangeLessThan);
 		sanityCheck();
+
+		m_bIsLoading = false;
 	}
 	catch ( ... )
 	{
