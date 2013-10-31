@@ -651,8 +651,6 @@ void CSecurity::ban(const CEndPoint& oAddress, RuleTime::Time nRuleTime, bool bM
 		if ( !( sComment.isEmpty() ) )
 			pIPRule->m_sComment = sComment;
 
-		add( pIPRule );
-
 		if ( bMessage )
 		{
 			if( nRuleTime == RuleTime::Special ) {
@@ -675,6 +673,8 @@ void CSecurity::ban(const CEndPoint& oAddress, RuleTime::Time nRuleTime, bool bM
 									QDateTime::fromTime_t( pIPRule->getExpiryTime() ).toString() ) );
 			}
 		}
+
+		add( pIPRule );
 	} else {
 		pIPRule->deleteLater();
 	}
