@@ -103,9 +103,9 @@ bool CSecurity::check(const CSecureRule* const pRule) const
   * adding.
   * Locking: RW
   */
-void CSecurity::add(CSecureRule* pRule)
+bool CSecurity::add(CSecureRule* pRule)
 {
-	if ( !pRule ) return;
+	if ( !pRule ) return false;
 
 	// check for invalid rules
 	Q_ASSERT( pRule->type() > 0 && pRule->type() < 8 && pRule->m_nAction < 3 );
@@ -141,7 +141,7 @@ void CSecurity::add(CSecureRule* pRule)
 				// the rule does not need to be added.
 				delete pRule;
 				pRule = NULL;
-				return;
+				return false;
 			}
 		}
 
@@ -175,7 +175,7 @@ void CSecurity::add(CSecureRule* pRule)
 
 					delete pRule;
 					pRule = NULL;
-					return;
+					return false;
 				}
 				else if( pOldRule->startIP() < pNewRule->startIP() && pOldRule->endIP() > pNewRule->endIP()  )
 				{
@@ -187,7 +187,7 @@ void CSecurity::add(CSecureRule* pRule)
 
 					delete pRule;
 					pRule = NULL;
-					return;
+					return false;
 				}
 				else if( pNewRule->startIP() < pOldRule->startIP() && pNewRule->endIP() > pOldRule->endIP()  )
 				{
@@ -247,7 +247,7 @@ void CSecurity::add(CSecureRule* pRule)
 			// There is no point in adding an invalid rule...
 			delete pRule;
 			pRule = NULL;
-			return;
+			return false;
 		}
 
 		CHashRule* pExHashRule = getHash( oHashes );
@@ -271,7 +271,7 @@ void CSecurity::add(CSecureRule* pRule)
 					// as that content is already blocked.
 					delete pRule;
 					pRule = NULL;
-					return;
+					return false;
 				}
 			}
 		}
@@ -310,7 +310,7 @@ void CSecurity::add(CSecureRule* pRule)
 					// the rule does not need to be added.
 					delete pRule;
 					pRule = NULL;
-					return;
+					return false;
 				}
 			}
 			++i;
@@ -345,7 +345,7 @@ void CSecurity::add(CSecureRule* pRule)
 					// the rule does not need to be added.
 					delete pRule;
 					pRule = NULL;
-					return;
+					return false;
 				}
 			}
 			++i;
@@ -379,7 +379,7 @@ void CSecurity::add(CSecureRule* pRule)
 				// the rule does not need to be added.
 				delete pRule;
 				pRule = NULL;
-				return;
+				return false;
 			}
 
 			pExRule = NULL;
@@ -447,6 +447,8 @@ void CSecurity::add(CSecureRule* pRule)
 		sanityCheck();
 		save();
 	}
+
+	return true;
 }
 
 /**
@@ -498,12 +500,13 @@ void CSecurity::clear()
 void CSecurity::ban(const CEndPoint& oAddress, RuleTime::Time nRuleTime, bool bMessage,
 					const QString& sComment, bool bAutomatic, bool bForever)
 {
-	if ( oAddress.isNull() || !oAddress.isValid() )
+	if ( oAddress.isNull() )
 	{
 		Q_ASSERT( false ); // if this happens, make sure to fix the caller... :)
 		return;
 	}
 
+	m_bIsLoading = true;
 	const quint32 tNow = common::getTNowUTC();
 
 	CIPRule* pIPRule = isInAddressRules(oAddress);
@@ -582,6 +585,8 @@ void CSecurity::ban(const CEndPoint& oAddress, RuleTime::Time nRuleTime, bool bM
 				}
 			}
 
+			pIPRule->count();
+
 			return;
 		}
 		else
@@ -592,201 +597,100 @@ void CSecurity::ban(const CEndPoint& oAddress, RuleTime::Time nRuleTime, bool bM
 
 	pIPRule = new CIPRule();
 
-	if(pIPRule->parseContent( oAddress.toString() )) {
-		pIPRule->m_bAutomatic = bAutomatic;
+	pIPRule->setIP( oAddress );
 
-		switch( nRuleTime )
-		{
-		case RuleTime::Special:
-			pIPRule->setForever(bForever);
-			pIPRule->setExpiryTime(RuleTime::Special);
-			break;
+	pIPRule->m_bAutomatic = bAutomatic;
 
-		case RuleTime::FiveMinutes:
-			pIPRule->setExpiryTime(tNow + RuleTime::FiveMinutes);
-			pIPRule->m_sComment = tr( "Temp Ignore (5 min)" );
-			break;
+	switch( nRuleTime )
+	{
+	case RuleTime::Special:
+		pIPRule->setForever(bForever);
+		pIPRule->setExpiryTime(RuleTime::Special);
+		break;
 
-		case RuleTime::ThirtyMinutes:
-			pIPRule->setExpiryTime(tNow + RuleTime::ThirtyMinutes);
-			pIPRule->m_sComment = tr( "Temp Ignore (30 min)" );
-			break;
+	case RuleTime::FiveMinutes:
+		pIPRule->setExpiryTime(tNow + RuleTime::FiveMinutes);
+		pIPRule->m_sComment = tr( "Temp Ignore (5 min)" );
+		break;
 
-		case RuleTime::TwoHours:
-			pIPRule->setExpiryTime(tNow + RuleTime::TwoHours);
-			pIPRule->m_sComment = tr( "Temp Ignore (2 h)" );
-			break;
+	case RuleTime::ThirtyMinutes:
+		pIPRule->setExpiryTime(tNow + RuleTime::ThirtyMinutes);
+		pIPRule->m_sComment = tr( "Temp Ignore (30 min)" );
+		break;
 
-		case RuleTime::SixHours:
-			pIPRule->setExpiryTime(tNow + RuleTime::SixHours);
-			pIPRule->m_sComment = tr( "Temp Ignore (2 h)" );
-			break;
+	case RuleTime::TwoHours:
+		pIPRule->setExpiryTime(tNow + RuleTime::TwoHours);
+		pIPRule->m_sComment = tr( "Temp Ignore (2 h)" );
+		break;
 
-		case RuleTime::TwelveHours:
-			pIPRule->setExpiryTime(tNow + RuleTime::TwelveHours);
-			pIPRule->m_sComment = tr( "Temp Ignore (2 h)" );
-			break;
+	case RuleTime::SixHours:
+		pIPRule->setExpiryTime(tNow + RuleTime::SixHours);
+		pIPRule->m_sComment = tr( "Temp Ignore (2 h)" );
+		break;
 
-		case RuleTime::Day:
-			pIPRule->setExpiryTime(tNow + RuleTime::Day);
-			pIPRule->m_sComment = tr( "Temp Ignore (1 d)" );
-			break;
+	case RuleTime::TwelveHours:
+		pIPRule->setExpiryTime(tNow + RuleTime::TwelveHours);
+		pIPRule->m_sComment = tr( "Temp Ignore (2 h)" );
+		break;
 
-		case RuleTime::Week:
-			pIPRule->setExpiryTime(tNow + RuleTime::Week);
-			pIPRule->m_sComment = tr( "Client Block (1 week)" );
-			break;
+	case RuleTime::Day:
+		pIPRule->setExpiryTime(tNow + RuleTime::Day);
+		pIPRule->m_sComment = tr( "Temp Ignore (1 d)" );
+		break;
 
-		case RuleTime::Month:
-			pIPRule->setExpiryTime(tNow + RuleTime::Month);
-			pIPRule->m_sComment = tr( "Quick IP Block (1 month)" );
-			break;
+	case RuleTime::Week:
+		pIPRule->setExpiryTime(tNow + RuleTime::Week);
+		pIPRule->m_sComment = tr( "Client Block (1 week)" );
+		break;
 
-		default:
-			pIPRule->setForever(false);
-			pIPRule->m_sComment = tr( "Session Ban" );
-			Q_ASSERT( false ); // this should never happen
-		}
+	case RuleTime::Month:
+		pIPRule->setExpiryTime(tNow + RuleTime::Month);
+		pIPRule->m_sComment = tr( "Quick IP Block (1 month)" );
+		break;
 
-		if ( !( sComment.isEmpty() ) )
-			pIPRule->m_sComment = sComment;
+	default:
+		pIPRule->setForever(false);
+		pIPRule->m_sComment = tr( "Session Ban" );
+		Q_ASSERT( false ); // this should never happen
+	}
 
-		if ( bMessage )
-		{
-			if( nRuleTime == RuleTime::Special ) {
-				if( bForever ) {
-					systemLog.postLog( LogSeverity::Security,
-							 Components::Security,
-							 tr( "Banned %1 forever."
-								 ).arg( oAddress.toString() ) );
-				} else {
-					systemLog.postLog( LogSeverity::Security,
-							 Components::Security,
-							 tr( "Banned %1 until the end of the session."
-								 ).arg( oAddress.toString() ) );
-				}
+	if ( !( sComment.isEmpty() ) )
+		pIPRule->m_sComment = sComment;
+
+	if ( bMessage )
+	{
+		if( nRuleTime == RuleTime::Special ) {
+			if( bForever ) {
+				systemLog.postLog( LogSeverity::Security,
+						 Components::Security,
+						 tr( "Banned %1 forever."
+							 ).arg( oAddress.toString() ) );
 			} else {
 				systemLog.postLog( LogSeverity::Security,
 						 Components::Security,
-						 tr( "Banned %1 until %2."
-							 ).arg( oAddress.toString(),
-									QDateTime::fromTime_t( pIPRule->getExpiryTime() ).toString() ) );
+						 tr( "Banned %1 until the end of the session."
+							 ).arg( oAddress.toString() ) );
 			}
+		} else {
+			systemLog.postLog( LogSeverity::Security,
+					 Components::Security,
+					 tr( "Banned %1 until %2."
+						 ).arg( oAddress.toString(),
+								QDateTime::fromTime_t( pIPRule->getExpiryTime() ).toString() ) );
 		}
+	}
 
-		add( pIPRule );
-	} else {
-		pIPRule->deleteLater();
+	pIPRule->count();
+
+	bool result = add( pIPRule );
+	m_bIsLoading = false;
+
+	if(result) {
+		qSort(m_lIPs.begin(), m_lIPs.end(), IPLessThan);
+		sanityCheck();
+		save();
 	}
 }
-
-/**
-  * Bans a given file for a specified amount of time and adds strComment as comment to the security
-  * rule. If bMessage is set to true, a notification is send to the system log.
-  * Locking: R + RW while adding
-  */
-// TODO: Implement priorization of hashes to not to ban too many hashes per file.
-/*void CSecurity::ban(const CFile& oFile, Time nRuleTime, bool bMessage, const QString& sComment)
-{
-	if ( oFile.isNull() )
-	{
-		postLog( LogSeverity::Security, tr( "Error: Could not ban invalid file." ) );
-		return;
-	}
-
-	QReadLocker mutex( &m_pRWLock );
-
-	quint32 tNow = getTNowUTC();
-
-	CIterator i = getHash( oFile.getHashes() );
-	bool bAlreadyBlocked = ( i != m_Rules.end() );
-
-	mutex.unlock();
-
-	if ( bAlreadyBlocked )
-	{
-		if ( bMessage )
-		{
-			postLog( LogSeverity::Security, tr( "Error: Could not ban already banned file." ) );
-		}
-	}
-	else
-	{
-		CHashRule* pRule = new CHashRule();
-
-		switch ( nRuleTime )
-		{
-		case banSession:
-			pIPRule->m_tExpire  = RuleAction::Session;
-			pIPRule->m_sComment = tr( "Session Ban" );
-			break;
-
-		case ban5Mins:
-			pIPRule->m_tExpire  = tNow + 300;
-			pIPRule->m_sComment = tr( "Temp Ignore (5 min)" );
-			break;
-
-		case ban30Mins:
-			pIPRule->m_tExpire  = tNow + 1800;
-			pIPRule->m_sComment = tr( "Temp Ignore (30 min)" );
-			break;
-
-		case ban2Hours:
-			pIPRule->m_tExpire  = tNow + 7200;
-			pIPRule->m_sComment = tr( "Temp Ignore (2 h)" );
-			break;
-
-		case ban1Day:
-			pIPRule->m_tExpire  = tNow + 86400;
-			pIPRule->m_sComment = tr( "Temp Ignore (1 d)" );
-			break;
-
-		case banWeek:
-			pIPRule->m_tExpire  = tNow + 604800;  // 60*60*24 = 1 day
-			pIPRule->m_sComment = tr( "Client Block (1 week)" );
-			break;
-
-		case banMonth:
-			pIPRule->m_tExpire  = tNow + 2592000; // 60*60*24*30 = 30 days
-			pIPRule->m_sComment = tr( "Quick IP Block (1 month)" );
-			break;
-
-		case banForever:
-			pIPRule->m_tExpire  = RuleAction::Indefinite;
-			pIPRule->m_sComment = tr( "Indefinite Ban" );
-			break;
-
-		default:
-			pIPRule->m_tExpire  = RuleAction::Session;
-			pIPRule->m_sComment = tr( "Session Ban" );
-			Q_ASSERT( false ); // this should never happen
-		}
-
-		if ( !( sComment.isEmpty() ) )
-			pRule->m_sComment = sComment;
-
-		QList<CHash> hashes = oFile.getHashes();
-
-		if ( hashes.isEmpty() )
-		{
-			// We got no valid hashes from that file.
-			QString str = " (File: " + oFile.fileName() + ")";
-			postLog( LogSeverity::Security, tr( "Error: Could not ban file:" ) + str );
-			return;
-		}
-		else
-		{
-			pRule->setHashes( hashes );
-		}
-
-		add( pRule );
-
-		if ( bMessage )
-		{
-			postLog( LogSeverity::Security, tr( "Banned file: " ) + pFile->m_sName );
-		}
-	}
-}*/
 
 //////////////////////////////////////////////////////////////////////
 // public CSecurity access checks
@@ -880,8 +784,8 @@ bool CSecurity::isNewlyDenied(const CQueryHit* pHit, const QList<QString>& lQuer
   */
 bool CSecurity::isDenied(const CEndPoint &oAddress)
 {
-	if ( oAddress.isNull() || !oAddress.isValid() )
-		return false;
+	if ( oAddress.isNull() )
+		return true;
 
 	const quint32 tNow = common::getTNowUTC();
 
@@ -1035,7 +939,7 @@ bool CSecurity::isPrivate(const CEndPoint &oAddress)
 
 CIPRule *CSecurity::isInAddressRules(const CEndPoint nIp)
 {
-	if ( m_lIPs.isEmpty() || !nIp.isValid() )
+	if ( m_lIPs.isEmpty() )
 	{
 		return NULL;
 	}
@@ -1074,7 +978,7 @@ CIPRule *CSecurity::isInAddressRules(const CEndPoint nIp)
 
 CIPRangeRule* CSecurity::isInAddressRangeRules(const CEndPoint nIp)
 {
-	if ( m_lIPRanges.isEmpty() || !nIp.isValid() )
+	if ( m_lIPRanges.isEmpty() )
 	{
 		return NULL;
 	}
