@@ -39,7 +39,7 @@
       <property name="currentIndex">
        <number>0</number>
       </property>
-      <widget class="QWidget" name="tabWidgetManual" native="true">
+      <widget class="QWidget" name="tabWidgetManual">
        <attribute name="title">
         <string>Manual</string>
        </attribute>
@@ -61,7 +61,7 @@
         </property>
        </layout>
       </widget>
-      <widget class="QWidget" name="tabWidgetAuto" native="true">
+      <widget class="QWidget" name="tabWidgetAuto">
        <attribute name="title">
         <string>Auto</string>
        </attribute>
