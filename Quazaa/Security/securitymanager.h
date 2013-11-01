@@ -99,7 +99,7 @@ public:
 	inline bool     denyPolicy() const;
 	void			setDenyPolicy(bool bDenyPolicy);
 	bool			check(const CSecureRule* const pRule) const;
-	bool add(CSecureRule* pRule);
+	bool			add(CSecureRule* pRule);
 	inline void		remove(CSecureRule* pRule);
 	void			clear();
 	void			ban(const CEndPoint &oAddress, RuleTime::Time nRuleTime, bool bMessage = true, const QString& sComment = "", bool bAutomatic = true, bool bForever = false);

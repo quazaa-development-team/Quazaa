@@ -796,10 +796,8 @@ bool CSecurity::isDenied(const CEndPoint &oAddress)
 		{
 			systemLog.postLog( LogSeverity::Security,
 					 Components::Security,
-					 tr( "Skipped repeat IP security check for %s (%i IPs cached"
-						 ).arg( oAddress.toString(), m_Cache.size() )
-//			         + tr( "; Call source: %s" ).arg( source )
-					 + tr( ")" ));
+					 tr( "Skipped repeat IP security check for %s (%i IPs cached)")
+					 .arg( oAddress.toString(), m_Cache.size() ) );
 		}
 
 		return m_bDenyPolicy;
@@ -953,6 +951,12 @@ CIPRule *CSecurity::isInAddressRules(const CEndPoint nIp)
 
 	while (n > 0)
 	{
+		if(nEnd != m_lIPs.size()) { // If the size changed, reset.
+			nBegin = 0;
+			nEnd = m_lIPs.size();
+			n = nEnd - nBegin;
+		}
+
 		nHalf = n >> 1;
 
 		nMiddle = nBegin + nHalf;
@@ -992,6 +996,12 @@ CIPRangeRule* CSecurity::isInAddressRangeRules(const CEndPoint nIp)
 
 	while (n > 0)
 	{
+		if(nEnd != m_lIPRanges.size()) { // If the size changed, reset.
+			nBegin = 0;
+			nEnd = m_lIPRanges.size();
+			n = nEnd - nBegin;
+		}
+
 		nHalf = n >> 1;
 
 		nMiddle = nBegin + nHalf;
@@ -1998,7 +2008,7 @@ bool CSecurity::isAgentDenied(const QString& sUserAgent)
 
 void CSecurity::missCacheAdd(const uint &nIP)
 {
-	if ( m_bUseMissCache )
+	if ( m_bUseMissCache && !m_bIsLoading )
 	{
 		m_Cache.insert( nIP );
 		evaluateCacheUsage();
