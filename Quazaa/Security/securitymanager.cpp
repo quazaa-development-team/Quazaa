@@ -790,17 +790,20 @@ bool CSecurity::isDenied(const CEndPoint &oAddress)
 
 	// First, check the miss cache if the IP is not included in the list of rules.
 	// If the address is in cache, it is a miss and no further lookup is needed.
-	if ( m_bUseMissCache && m_Cache.contains( qHash( oAddress ) ) )
+	if ( m_bUseMissCache )
 	{
-		if ( m_bLogIPCheckHits )
+		if(m_Cache.contains( qHash( oAddress ) ))
 		{
-			systemLog.postLog( LogSeverity::Security,
-					 Components::Security,
-					 tr( "Skipped repeat IP security check for %s (%i IPs cached)")
-					 .arg( oAddress.toString(), m_Cache.size() ) );
-		}
+			if ( m_bLogIPCheckHits )
+			{
+				systemLog.postLog( LogSeverity::Security,
+						 Components::Security,
+						 tr( "Skipped repeat IP security check for %s (%i IPs cached)")
+						.arg( oAddress.toString(), m_Cache.size() ) );
+			}
 
-		return m_bDenyPolicy;
+			return m_bDenyPolicy;
+		}
 	}
 	else if ( m_bLogIPCheckHits )
 	{
