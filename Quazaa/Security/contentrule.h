@@ -7,7 +7,7 @@ class CContentRule : public CSecureRule
 {
 private:
 	bool				m_bAll;
-	QList< QString >	m_lContent;
+	QList<QString>		m_lContent;
 
 	typedef QList< QString >::const_iterator CListIterator;
 
@@ -16,12 +16,12 @@ public:
 
 	bool				operator==(const CSecureRule& pRule) const;
 
-	void			setAll(bool all = true);
-	bool			getAll() const;
+	void				setAll(bool all = true);
+	bool				getAll() const;
 
 	bool				parseContent(const QString& sContent);
 
-	CSecureRule*	getCopy() const;
+	CSecureRule*		getCopy() const;
 
 	bool				match(const QString& sFileName) const;
 	bool				match(const CQueryHit* const pHit) const;

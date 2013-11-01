@@ -48,7 +48,7 @@ bool IPRangeLessThan(const CIPRangeRule *rule1, const CIPRangeRule *rule2)
 
 bool IPLessThan(const CIPRule *rule1, const CIPRule *rule2)
 {
-	return rule1 < rule2;
+	return rule1->IP() < rule2->IP();
 }
 
 /**
@@ -280,7 +280,7 @@ bool CSecurity::add(CSecureRule* pRule)
 		// similar but not 100% identical content, add hashes to map.
 		foreach ( CHash oHash, oHashes )
 		{
-			m_lHashes.insert( qHash( oHash.rawValue() ), pHashRule );
+			m_lmmHashes.insert( qHash( oHash.rawValue() ), pHashRule );
 		}
 
 		bNewHit	= true;
@@ -360,9 +360,9 @@ bool CSecurity::add(CSecureRule* pRule)
 	case RuleType::UserAgent:
 	{
 		QString agent = ((CUserAgentRule*)pRule)->getContentString();
-		QMap<QString, CUserAgentRule*>::iterator it = m_UserAgents.find( agent );
+		QMap<QString, CUserAgentRule*>::iterator it = m_lmUserAgents.find( agent );
 
-		if ( it != m_UserAgents.end() ) // there is a conflicting rule in our map
+		if ( it != m_lmUserAgents.end() ) // there is a conflicting rule in our map
 		{
 			pExRule = it.value();
 			if ( pExRule->m_oUUID   != pRule->m_oUUID   ||
@@ -385,7 +385,7 @@ bool CSecurity::add(CSecureRule* pRule)
 			pExRule = NULL;
 		}
 
-		m_UserAgents[ agent ] = (CUserAgentRule*)pRule;
+		m_lmUserAgents[ agent ] = (CUserAgentRule*)pRule;
 
 		bNewHit	= true;
 	}
@@ -405,7 +405,7 @@ bool CSecurity::add(CSecureRule* pRule)
 	// address.
 	if ( type == RuleType::IPAddress )
 	{
-		m_Cache.remove( qHash( ((CIPRule*)pRule)->IP() ) );
+		m_lsCache.remove( qHash( ((CIPRule*)pRule)->IP() ) );
 
 		if ( !m_bUseMissCache )
 			evaluateCacheUsage();
@@ -420,11 +420,11 @@ bool CSecurity::add(CSecureRule* pRule)
 
 	if ( bNewAddress )	// only add IP, IP range and country rules to the queue
 	{
-		m_newAddressRules.enqueue( pRule->getCopy() );
+		m_lqNewAddressRules.enqueue( pRule->getCopy() );
 	}
 	else if ( bNewHit )		// only add rules related to hit filtering to the queue
 	{
-		m_newHitRules.enqueue( pRule->getCopy() );
+		m_lqNewHitRules.enqueue( pRule->getCopy() );
 	}
 
 	const quint32 tNow = common::getTNowUTC();
@@ -459,10 +459,10 @@ void CSecurity::clear()
 {
 	m_lIPs.clear();
 	m_lIPRanges.clear();
-	m_lHashes.clear();
+	m_lmmHashes.clear();
 	m_lRegularExpressions.clear();
 	m_lContents.clear();
-	m_UserAgents.clear();
+	m_lmUserAgents.clear();
 
 	qDeleteAll( m_lRules );
 	m_lRules.clear();
@@ -474,15 +474,15 @@ void CSecurity::clear()
 	m_lLoadedHitRules.clear();
 
 	CSecureRule* pRule = NULL;
-	while( m_newAddressRules.size() )
+	while( m_lqNewAddressRules.size() )
 	{
-		pRule = m_newAddressRules.dequeue();
+		pRule = m_lqNewAddressRules.dequeue();
 		delete pRule;
 	}
 
-	while ( m_newHitRules.size() )
+	while ( m_lqNewHitRules.size() )
 	{
-		pRule = m_newHitRules.dequeue();
+		pRule = m_lqNewHitRules.dequeue();
 		delete pRule;
 	}
 	missCacheClear();
@@ -505,57 +505,56 @@ void CSecurity::ban(const CEndPoint& oAddress, RuleTime::Time nRuleTime, bool bM
 		Q_ASSERT( false ); // if this happens, make sure to fix the caller... :)
 		return;
 	}
-
-	m_bIsLoading = true;
 	const quint32 tNow = common::getTNowUTC();
 
-	CIPRule* pIPRule = isInAddressRules(oAddress);
-	if ( pIPRule ) // If rule exists, add time on to ban
+	CIPRule* pRule = isInAddressRules(oAddress);
+	if ( pRule ) // If rule exists, add time on to ban
 	{
-		pIPRule->m_bAutomatic = bAutomatic;
+		qDebug() << "Extending already existing ban: " << oAddress.toString();
+		pRule->m_bAutomatic = bAutomatic;
 
-		if ( pIPRule->m_nAction == RuleAction::Deny )
+		if ( pRule->m_nAction == RuleAction::Deny )
 		{
 			if ( !( sComment.isEmpty() ) )
-				pIPRule->m_sComment = sComment;
+				pRule->m_sComment = sComment;
 
 			switch( nRuleTime )
 			{
 			case RuleTime::Special:
-				pIPRule->setForever(bForever);
-				pIPRule->setExpiryTime(RuleTime::Special);
+				pRule->setForever(bForever);
+				pRule->setExpiryTime(RuleTime::Special);
 				break;
 
 			case RuleTime::FiveMinutes:
-				pIPRule->setExpiryTime(tNow + RuleTime::FiveMinutes);
+				pRule->setExpiryTime(tNow + RuleTime::FiveMinutes);
 				break;
 
 			case RuleTime::ThirtyMinutes:
-				pIPRule->setExpiryTime(tNow + RuleTime::ThirtyMinutes);
+				pRule->setExpiryTime(tNow + RuleTime::ThirtyMinutes);
 				break;
 
 			case RuleTime::TwoHours:
-				pIPRule->setExpiryTime(tNow + RuleTime::TwoHours);
+				pRule->setExpiryTime(tNow + RuleTime::TwoHours);
 				break;
 
 			case RuleTime::SixHours:
-				pIPRule->setExpiryTime(tNow + RuleTime::SixHours);
+				pRule->setExpiryTime(tNow + RuleTime::SixHours);
 				break;
 
 			case RuleTime::TwelveHours:
-				pIPRule->setExpiryTime(tNow + RuleTime::TwelveHours);
+				pRule->setExpiryTime(tNow + RuleTime::TwelveHours);
 				break;
 
 			case RuleTime::Day:
-				pIPRule->setExpiryTime(tNow + RuleTime::Day);
+				pRule->setExpiryTime(tNow + RuleTime::Day);
 				break;
 
 			case RuleTime::Week:
-				pIPRule->setExpiryTime(tNow + RuleTime::Week);
+				pRule->setExpiryTime(tNow + RuleTime::Week);
 				break;
 
 			case RuleTime::Month:
-				pIPRule->setExpiryTime(tNow + RuleTime::Month);
+				pRule->setExpiryTime(tNow + RuleTime::Month);
 				break;
 
 			default:
@@ -581,81 +580,83 @@ void CSecurity::ban(const CEndPoint& oAddress, RuleTime::Time nRuleTime, bool bM
 							 Components::Security,
 							 tr( "Adjusted ban expiry time of %1 to %2."
 								 ).arg( oAddress.toString(),
-										QDateTime::fromTime_t( pIPRule->getExpiryTime() ).toString() ) );
+										QDateTime::fromTime_t( pRule->getExpiryTime() ).toString() ) );
 				}
 			}
 
-			hit(pIPRule);
+			hit(pRule);
 
 			return;
 		}
 		else
 		{
-			remove( pIPRule );
+			remove( pRule );
 		}
 	}
 
-	pIPRule = new CIPRule();
+	m_bIsLoading = true;
 
-	pIPRule->setIP( oAddress );
+	pRule = new CIPRule();
 
-	pIPRule->m_bAutomatic = bAutomatic;
+	pRule->setIP( oAddress );
+
+	pRule->m_bAutomatic = bAutomatic;
 
 	switch( nRuleTime )
 	{
 	case RuleTime::Special:
-		pIPRule->setForever(bForever);
-		pIPRule->setExpiryTime(RuleTime::Special);
+		pRule->setForever(bForever);
+		pRule->setExpiryTime(RuleTime::Special);
 		break;
 
 	case RuleTime::FiveMinutes:
-		pIPRule->setExpiryTime(tNow + RuleTime::FiveMinutes);
-		pIPRule->m_sComment = tr( "Temp Ignore (5 min)" );
+		pRule->setExpiryTime(tNow + RuleTime::FiveMinutes);
+		pRule->m_sComment = tr( "Temp Ignore (5 min)" );
 		break;
 
 	case RuleTime::ThirtyMinutes:
-		pIPRule->setExpiryTime(tNow + RuleTime::ThirtyMinutes);
-		pIPRule->m_sComment = tr( "Temp Ignore (30 min)" );
+		pRule->setExpiryTime(tNow + RuleTime::ThirtyMinutes);
+		pRule->m_sComment = tr( "Temp Ignore (30 min)" );
 		break;
 
 	case RuleTime::TwoHours:
-		pIPRule->setExpiryTime(tNow + RuleTime::TwoHours);
-		pIPRule->m_sComment = tr( "Temp Ignore (2 h)" );
+		pRule->setExpiryTime(tNow + RuleTime::TwoHours);
+		pRule->m_sComment = tr( "Temp Ignore (2 h)" );
 		break;
 
 	case RuleTime::SixHours:
-		pIPRule->setExpiryTime(tNow + RuleTime::SixHours);
-		pIPRule->m_sComment = tr( "Temp Ignore (2 h)" );
+		pRule->setExpiryTime(tNow + RuleTime::SixHours);
+		pRule->m_sComment = tr( "Temp Ignore (2 h)" );
 		break;
 
 	case RuleTime::TwelveHours:
-		pIPRule->setExpiryTime(tNow + RuleTime::TwelveHours);
-		pIPRule->m_sComment = tr( "Temp Ignore (2 h)" );
+		pRule->setExpiryTime(tNow + RuleTime::TwelveHours);
+		pRule->m_sComment = tr( "Temp Ignore (2 h)" );
 		break;
 
 	case RuleTime::Day:
-		pIPRule->setExpiryTime(tNow + RuleTime::Day);
-		pIPRule->m_sComment = tr( "Temp Ignore (1 d)" );
+		pRule->setExpiryTime(tNow + RuleTime::Day);
+		pRule->m_sComment = tr( "Temp Ignore (1 d)" );
 		break;
 
 	case RuleTime::Week:
-		pIPRule->setExpiryTime(tNow + RuleTime::Week);
-		pIPRule->m_sComment = tr( "Client Block (1 week)" );
+		pRule->setExpiryTime(tNow + RuleTime::Week);
+		pRule->m_sComment = tr( "Client Block (1 week)" );
 		break;
 
 	case RuleTime::Month:
-		pIPRule->setExpiryTime(tNow + RuleTime::Month);
-		pIPRule->m_sComment = tr( "Quick IP Block (1 month)" );
+		pRule->setExpiryTime(tNow + RuleTime::Month);
+		pRule->m_sComment = tr( "Quick IP Block (1 month)" );
 		break;
 
 	default:
-		pIPRule->setForever(false);
-		pIPRule->m_sComment = tr( "Session Ban" );
+		pRule->setForever(false);
+		pRule->m_sComment = tr( "Session Ban" );
 		Q_ASSERT( false ); // this should never happen
 	}
 
 	if ( !( sComment.isEmpty() ) )
-		pIPRule->m_sComment = sComment;
+		pRule->m_sComment = sComment;
 
 	if ( bMessage )
 	{
@@ -676,13 +677,13 @@ void CSecurity::ban(const CEndPoint& oAddress, RuleTime::Time nRuleTime, bool bM
 					 Components::Security,
 					 tr( "Banned %1 until %2."
 						 ).arg( oAddress.toString(),
-								QDateTime::fromTime_t( pIPRule->getExpiryTime() ).toString() ) );
+								QDateTime::fromTime_t( pRule->getExpiryTime() ).toString() ) );
 		}
 	}
 
-	hit(pIPRule);
+	hit(pRule);
 
-	bool result = add( pIPRule );
+	bool result = add( pRule );
 	m_bIsLoading = false;
 
 	if(result) {
@@ -792,14 +793,14 @@ bool CSecurity::isDenied(const CEndPoint &oAddress)
 	// If the address is in cache, it is a miss and no further lookup is needed.
 	if ( m_bUseMissCache )
 	{
-		if(m_Cache.contains( qHash( oAddress ) ))
+		if(m_lsCache.contains( qHash( oAddress ) ))
 		{
 			if ( m_bLogIPCheckHits )
 			{
 				systemLog.postLog( LogSeverity::Security,
 						 Components::Security,
 						 tr( "Skipped repeat IP security check for %s (%i IPs cached)")
-						.arg( oAddress.toString(), m_Cache.size() ) );
+						.arg( oAddress.toString(), m_lsCache.size() ) );
 			}
 
 			return m_bDenyPolicy;
@@ -954,12 +955,6 @@ CIPRule *CSecurity::isInAddressRules(const CEndPoint nIp)
 
 	while (n > 0)
 	{
-		if(nEnd != m_lIPs.size()) { // If the size changed, reset.
-			nBegin = 0;
-			nEnd = m_lIPs.size();
-			n = nEnd - nBegin;
-		}
-
 		nHalf = n >> 1;
 
 		nMiddle = nBegin + nHalf;
@@ -970,7 +965,7 @@ CIPRule *CSecurity::isInAddressRules(const CEndPoint nIp)
 		}
 		else
 		{
-			if( nIp == m_lIPs.at(nMiddle)->IP() )
+			if( nIp <= m_lIPs.at(nMiddle)->IP() )
 			{
 				return m_lIPs.at(nMiddle);
 			}
@@ -1613,7 +1608,7 @@ void CSecurity::sanityCheck()
 	Q_ASSERT( !m_bNewRulesLoaded || !m_lLoadedAddressRules.empty() || !m_lLoadedHitRules.empty());
 
 	// Check whether there are new rules to deal with.
-	bool bNewRules = m_newAddressRules.size() || m_newHitRules.size();
+	bool bNewRules = m_lqNewAddressRules.size() || m_lqNewHitRules.size();
 
 	if ( bNewRules )
 	{
@@ -1737,7 +1732,7 @@ void CSecurity::expire()
   */
 void CSecurity::missCacheClear()
 {
-	m_Cache.clear();
+	m_lsCache.clear();
 
 	if ( !m_bUseMissCache )
 		evaluateCacheUsage();
@@ -1765,13 +1760,13 @@ void CSecurity::loadNewRules()
 	Q_ASSERT( !( m_lLoadedAddressRules.size() || m_lLoadedHitRules.size() ) );
 
 	// there should be at least 1 new rule
-	Q_ASSERT( m_newAddressRules.size() || m_newHitRules.size() );
+	Q_ASSERT( m_lqNewAddressRules.size() || m_lqNewHitRules.size() );
 
 	CSecureRule* pRule = NULL;
 
-	while ( m_newAddressRules.size() )
+	while ( m_lqNewAddressRules.size() )
 	{
-		pRule = m_newAddressRules.dequeue();
+		pRule = m_lqNewAddressRules.dequeue();
 
 		// Only IP, IP range and coutry rules are allowed.
 		Q_ASSERT( pRule->type() != 0 && pRule->type() < 4 );
@@ -1781,9 +1776,9 @@ void CSecurity::loadNewRules()
 		pRule = NULL;
 	}
 
-	while ( m_newHitRules.size() )
+	while ( m_lqNewHitRules.size() )
 	{
-		pRule = m_newHitRules.dequeue();
+		pRule = m_lqNewHitRules.dequeue();
 
 		// Only hit related rules are allowed.
 		Q_ASSERT( pRule->type() > 3 );
@@ -1843,7 +1838,7 @@ CHashRule* CSecurity::getHash(const QList<CHash>& hashes) const
 	foreach ( CHash oHash, hashes )
 	{
 		uint iHash = qHash( oHash.rawValue() );
-		lHashesCheck = m_lHashes.values( iHash );
+		lHashesCheck = m_lmmHashes.values( iHash );
 
 		foreach( CHashRule* pHashRuleCheck, lHashesCheck )
 		{
@@ -1906,13 +1901,13 @@ void CSecurity::remove(CSecureRule* pRule)
 			foreach ( CHash oHash, lHashes )
 			{
 				uint iHash = qHash( oHash.rawValue() );
-				lHashesCheck = m_lHashes.values( iHash );
+				lHashesCheck = m_lmmHashes.values( iHash );
 
 				foreach( CHashRule* pHashRuleCheck, lHashesCheck )
 				{
 					if ( pHashRuleCheck->m_oUUID == pHashRule->m_oUUID )
 					{
-						m_lHashes.remove( iHash, pHashRule );
+						m_lmmHashes.remove( iHash, pHashRule );
 					}
 				}
 			}
@@ -1955,13 +1950,13 @@ void CSecurity::remove(CSecureRule* pRule)
 
 		case RuleType::UserAgent:
 		{
-			QMap<QString, CUserAgentRule*>::iterator it = m_UserAgents.begin();
+			QMap<QString, CUserAgentRule*>::iterator it = m_lmUserAgents.begin();
 
-			while ( it != m_UserAgents.end() )
+			while ( it != m_lmUserAgents.end() )
 			{
 				if ( it.value()->m_oUUID == pRule->m_oUUID )
 				{
-					m_UserAgents.erase( it );
+					m_lmUserAgents.erase( it );
 					break;
 				}
 
@@ -1990,8 +1985,8 @@ bool CSecurity::isAgentDenied(const QString& sUserAgent)
 
 	const quint32 tNow = common::getTNowUTC();
 
-	QMap<QString, CUserAgentRule*>::iterator it = m_UserAgents.find( sUserAgent );
-	if ( it != m_UserAgents.end() )
+	QMap<QString, CUserAgentRule*>::iterator it = m_lmUserAgents.find( sUserAgent );
+	if ( it != m_lmUserAgents.end() )
 	{
 		CUserAgentRule* pRule = it.value();
 
@@ -2013,14 +2008,14 @@ void CSecurity::missCacheAdd(const uint &nIP)
 {
 	if ( m_bUseMissCache && !m_bIsLoading )
 	{
-		m_Cache.insert( nIP );
+		m_lsCache.insert( nIP );
 		evaluateCacheUsage();
 	}
 }
 
 void CSecurity::evaluateCacheUsage()
 {
-	double nCache		= m_Cache.size();
+	double nCache		= m_lsCache.size();
 	double nIPMap		= m_lIPs.size();
 
 	static const double log2	= log( 2.0 );

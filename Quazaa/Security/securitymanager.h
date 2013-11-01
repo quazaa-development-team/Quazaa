@@ -61,18 +61,18 @@ private:
 	QList<CSecureRule*>				m_lRules;			// contains all rules
 	// Used to manage newly added rules during sanity check
 	QList<CSecureRule*>				m_lLoadedAddressRules;
-	QQueue<CSecureRule*>			m_newAddressRules;
+	QQueue<CSecureRule*>			m_lqNewAddressRules;
 	QList<CSecureRule*>				m_lLoadedHitRules;
-	QQueue<CSecureRule*>			m_newHitRules;
-	QSet<uint>						m_Cache;				// IP rule miss cache
+	QQueue<CSecureRule*>			m_lqNewHitRules;
+	QSet<uint>						m_lsCache;				// IP rule miss cache
 	QList<CIPRule*>					m_lIPs;					// single IP blocking rules
 	QList<CIPRangeRule*>			m_lIPRanges;			// multiple IP blocking rules
-	QMultiMap<uint, CHashRule*>		m_lHashes;				// hash rules
+	QMultiMap<uint, CHashRule*>		m_lmmHashes;				// hash rules
 	// Note: Using a multimap eliminates eventual problems of hash
 	// collisions caused by weaker hashes like MD5 for example.
 	QList<CContentRule*>			m_lContents;			// all other content rules
 	QList<CRegularExpressionRule*>	m_lRegularExpressions;	// RegExp rules
-	QMap<QString, CUserAgentRule*>	m_UserAgents;			// User agent rules
+	QMap<QString, CUserAgentRule*>	m_lmUserAgents;			// User agent rules
 	// Security manager settings
 	bool							m_bLogIPCheckHits;		// Post log message on IsDenied( QHostAdress ) call
 	QTimer*							m_tMaintenance;			// This timer runs the maintenance tasks every second
