@@ -46,19 +46,19 @@ CSystemLog::~CSystemLog()
 void CSystemLog::start()
 {
 	m_pComponents[Components::None]       = QString();
-	m_pComponents[Components::Chat]       = tr( "[Chat] "       );
-	m_pComponents[Components::IRC]        = tr( "[IRC] "        );
-	m_pComponents[Components::Discovery]  = tr( "[Discovery] "  );
-	m_pComponents[Components::Network]    = tr( "[Network] "    );
-	m_pComponents[Components::Ares]       = tr( "[Ares] "       );
+	m_pComponents[Components::Chat]       = tr( "[Chat] " );
+	m_pComponents[Components::IRC]        = tr( "[IRC] " );
+	m_pComponents[Components::Discovery]  = tr( "[Discovery] " );
+	m_pComponents[Components::Network]    = tr( "[Network] " );
+	m_pComponents[Components::Ares]       = tr( "[Ares] " );
 	m_pComponents[Components::BitTorrent] = tr( "[BitTorrent] " );
-	m_pComponents[Components::eD2k]       = tr( "[eD2k] "       );
-	m_pComponents[Components::G2]         = tr( "[G2] "         );
-	m_pComponents[Components::Security]   = tr( "[Security] "   );
-	m_pComponents[Components::Library]    = tr( "[Library] "    );
-	m_pComponents[Components::Downloads]  = tr( "[Downloads] "  );
-	m_pComponents[Components::Uploads]    = tr( "[Uploads] "    );
-	m_pComponents[Components::GUI]        = tr( "[GUI] "        );
+	m_pComponents[Components::eD2k]       = tr( "[eD2k] " );
+	m_pComponents[Components::G2]         = tr( "[G2] " );
+	m_pComponents[Components::Security]   = tr( "[Security] " );
+	m_pComponents[Components::Library]    = tr( "[Library] " );
+	m_pComponents[Components::Downloads]  = tr( "[Downloads] " );
+	m_pComponents[Components::Uploads]    = tr( "[Uploads] " );
+	m_pComponents[Components::GUI]        = tr( "[GUI] " );
 }
 
 QString CSystemLog::msgFromComponent(Components::Component eComponent)
@@ -66,13 +66,13 @@ QString CSystemLog::msgFromComponent(Components::Component eComponent)
 	return m_pComponents[eComponent];
 }
 
-void CSystemLog::postLog(LogSeverity::Severity severity, QString message)
+void CSystemLog::postLog(const LogSeverity::Severity &severity, const QString &message)
 {
 	postLog( severity, Components::None, message );
 }
 
-void CSystemLog::postLog(LogSeverity::Severity severity, Components::Component component,
-						 QString message)
+void CSystemLog::postLog(const LogSeverity::Severity &severity, const Components::Component &component,
+						 const QString &message)
 {
 	static LogSeverity::Severity lastSeverity  = LogSeverity::Information;
 	static Components::Component lastComponent = Components::None;
@@ -103,7 +103,7 @@ void CSystemLog::postLog(LogSeverity::Severity severity, Components::Component c
 		}
 	}
 
-	message = msgFromComponent( component ) + message;
+	const QString sComponentMessage = msgFromComponent( component ) + message;
 
 	switch ( severity )
 	{
@@ -111,16 +111,16 @@ void CSystemLog::postLog(LogSeverity::Severity severity, Components::Component c
 		case LogSeverity::Warning:
 		case LogSeverity::Critical:
 		case LogSeverity::Error:
-			qCritical() << qPrintable(message);
+			qDebug() << qPrintable(sComponentMessage);
 			break;
 		default:
 			break;
 	}
 
-	emit logPosted( message, severity );
+	emit logPosted( sComponentMessage, severity );
 }
 
-void CSystemLog::postLog(LogSeverity::Severity severity, Components::Component component,
+void CSystemLog::postLog(const LogSeverity::Severity &severity, const Components::Component &component,
 						 const char* format, ...)
 {
 	va_list argList;
