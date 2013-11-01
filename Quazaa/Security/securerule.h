@@ -70,26 +70,26 @@ class CSecureRule : public QObject
 
 protected:
 	// Type is critical to functionality and may not be changed externally.
-	RuleType::Type m_nType;
+	RuleType::Type	m_nType;
 
 	// Contains a string representation of the rule content for faster GUI accesses.
 	// Can be accessed via getContentString().
-	QString     m_sContent;
+	QString			m_sContent;
 
 private:
 	// Hit counters
-	QAtomicInt  m_nToday;
-	QAtomicInt  m_nTotal;
+	QAtomicInt	m_nToday;
+	QAtomicInt	m_nTotal;
 	quint32		m_tExpire;
 	bool		m_bForever;
 	bool		m_bModifyLock;
 	bool		m_bRemoving;
 
 public:
-	RuleAction::Action     m_nAction;
-	QUuid       m_oUUID;
-	QString     m_sComment;
-	bool        m_bAutomatic;
+	RuleAction::Action	m_nAction;
+	QUuid				m_oUUID;
+	QString				m_sComment;
+	bool				m_bAutomatic;
 
 public:
 	// Construction / Destruction

@@ -102,7 +102,7 @@ public:
 	bool			add(CSecureRule* pRule);
 	inline void		remove(CSecureRule* pRule);
 	void			clear();
-	void			ban(const CEndPoint &oAddress, RuleTime::Time nRuleTime, bool bMessage = true, const QString& sComment = "", bool bAutomatic = true, bool bForever = false);
+	void			ban(const CEndPoint &oAddress, quint32 nRuleTime, bool bMessage = true, const QString& sComment = "", bool bAutomatic = true, bool bForever = false);
 	// Methods used during sanity check
 	bool			isNewlyDenied(const CEndPoint& oAddress);
 	bool			isNewlyDenied(const CQueryHit* pHit, const QList<QString>& lQuery);

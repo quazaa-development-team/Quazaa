@@ -497,7 +497,7 @@ void CSecurity::clear()
   * rule. If bMessage is set to true, a notification is send to the system log.
   * Locking: RW
   */
-void CSecurity::ban(const CEndPoint& oAddress, RuleTime::Time nRuleTime, bool bMessage,
+void CSecurity::ban(const CEndPoint& oAddress, quint32 nRuleTime, bool bMessage,
 					const QString& sComment, bool bAutomatic, bool bForever)
 {
 	if ( oAddress.isNull() )
@@ -510,7 +510,6 @@ void CSecurity::ban(const CEndPoint& oAddress, RuleTime::Time nRuleTime, bool bM
 	CIPRule* pRule = isInAddressRules(oAddress);
 	if ( pRule ) // If rule exists, add time on to ban
 	{
-		qDebug() << "Extending already existing ban: " << oAddress.toString();
 		pRule->m_bAutomatic = bAutomatic;
 
 		if ( pRule->m_nAction == RuleAction::Deny )
@@ -558,7 +557,8 @@ void CSecurity::ban(const CEndPoint& oAddress, RuleTime::Time nRuleTime, bool bM
 				break;
 
 			default:
-				Q_ASSERT( false );
+				pRule->setExpiryTime(pRule->getExpiryTime() + nRuleTime);
+				break;
 			}
 
 			if ( bMessage )
@@ -650,9 +650,8 @@ void CSecurity::ban(const CEndPoint& oAddress, RuleTime::Time nRuleTime, bool bM
 		break;
 
 	default:
-		pRule->setForever(false);
-		pRule->m_sComment = tr( "Session Ban" );
-		Q_ASSERT( false ); // this should never happen
+		pRule->setExpiryTime(tNow + nRuleTime);
+		break;
 	}
 
 	if ( !( sComment.isEmpty() ) )
@@ -829,7 +828,7 @@ bool CSecurity::isDenied(const CEndPoint &oAddress)
 	}
 
 	// Third, check whether the IP is contained within one of the IP range rules
-	CSecureRule* pIPRangeRule = isInAddressRangeRules( oAddress );
+	CIPRangeRule* pIPRangeRule = isInAddressRangeRules( oAddress );
 
 	if(pIPRangeRule)
 	{
@@ -844,20 +843,25 @@ bool CSecurity::isDenied(const CEndPoint &oAddress)
 	}
 
 	// Fourth, check whether the IP is contained within one of the single IP rules
-	CSecureRule* pIPRule = isInAddressRules( oAddress );
+	CIPRule* pIPRule = isInAddressRules( oAddress );
 
 	if ( pIPRule )
 	{
-		if ( !pIPRule->isExpired( tNow ) && pIPRule->match( oAddress ) )
-		{
-			hit( pIPRule );
+		if(pIPRule->m_bAutomatic) {
+			if(pIPRule->getExpiryTime() != RuleTime::Special) // If rule isn't forever or session
+				ban(pIPRule->IP(), 10, true, pIPRule->m_sComment, true); // Add 30 seconds to the rule time for every hit.
+		} else {
+			if ( !pIPRule->isExpired( tNow ) && pIPRule->match( oAddress ) )
+			{
+				hit( pIPRule );
 
-			if ( pIPRule->m_nAction == RuleAction::Accept )
-				return false;
-			else if ( pIPRule->m_nAction == RuleAction::Deny )
-				return true;
-			else
-				Q_ASSERT( pIPRule->m_nAction == RuleAction::None );
+				if ( pIPRule->m_nAction == RuleAction::Accept )
+					return false;
+				else if ( pIPRule->m_nAction == RuleAction::Deny )
+					return true;
+				else
+					Q_ASSERT( pIPRule->m_nAction == RuleAction::None );
+			}
 		}
 	}
 
@@ -994,12 +998,6 @@ CIPRangeRule* CSecurity::isInAddressRangeRules(const CEndPoint nIp)
 
 	while (n > 0)
 	{
-		if(nEnd != m_lIPRanges.size()) { // If the size changed, reset.
-			nBegin = 0;
-			nEnd = m_lIPRanges.size();
-			n = nEnd - nBegin;
-		}
-
 		nHalf = n >> 1;
 
 		nMiddle = nBegin + nHalf;
