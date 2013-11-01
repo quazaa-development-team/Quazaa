@@ -585,7 +585,7 @@ void CSecurity::ban(const CEndPoint& oAddress, RuleTime::Time nRuleTime, bool bM
 				}
 			}
 
-			pIPRule->count();
+			hit(pIPRule);
 
 			return;
 		}
@@ -680,7 +680,7 @@ void CSecurity::ban(const CEndPoint& oAddress, RuleTime::Time nRuleTime, bool bM
 		}
 	}
 
-	pIPRule->count();
+	hit(pIPRule);
 
 	bool result = add( pIPRule );
 	m_bIsLoading = false;
