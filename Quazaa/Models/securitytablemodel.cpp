@@ -231,7 +231,10 @@ bool CSecurityTableModel::Rule::lessThan(int col,
 		return m_tExpire  < pOther->m_tExpire;
 
 	case HITS:
-		return m_nTotal   < pOther->m_nTotal;
+		if(m_nTotal == pOther->m_nTotal)
+			return m_nToday   < pOther->m_nToday;
+		else
+			return m_nTotal   < pOther->m_nTotal;
 
 	case COMMENT:
 		return m_sComment < pOther->m_sComment;
