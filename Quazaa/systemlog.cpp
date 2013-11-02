@@ -30,9 +30,11 @@
 
 CSystemLog systemLog;
 
-CSystemLog::CSystemLog()
+CSystemLog::CSystemLog() :
+m_pSection(QMutex::Recursive)
 {
 	m_pComponents = new QString[Components::NoComponents];
+	m_bProcessingMessage = false;
 
 	qRegisterMetaType<LogSeverity::Severity>( "LogSeverity::Severity" );
 	qRegisterMetaType<Components::Component>( "Components::Component" );
@@ -74,6 +76,12 @@ void CSystemLog::postLog(const LogSeverity::Severity &severity, const QString &m
 void CSystemLog::postLog(const LogSeverity::Severity &severity, const Components::Component &component,
 						 const QString &message)
 {
+	m_pSection.lock();
+	if (m_bProcessingMessage)
+		processingMessages.wait(&m_pSection);
+	m_pSection.unlock();
+
+	m_bProcessingMessage = true;
 	static LogSeverity::Severity lastSeverity  = LogSeverity::Information;
 	static Components::Component lastComponent = Components::None;
 	static QString lastMessage;
@@ -85,6 +93,11 @@ void CSystemLog::postLog(const LogSeverity::Severity &severity, const Components
 		if ( severity == lastSeverity && component == lastComponent && message == lastMessage )
 		{
 			++suppressed;
+			m_pSection.lock();
+			m_bProcessingMessage = false;
+			processingMessages.wakeOne();
+			m_pSection.unlock();
+
 			return;
 		}
 		else
@@ -116,6 +129,11 @@ void CSystemLog::postLog(const LogSeverity::Severity &severity, const Components
 		default:
 			break;
 	}
+
+	m_pSection.lock();
+	m_bProcessingMessage = false;
+	processingMessages.wakeOne();
+	m_pSection.unlock();
 
 	emit logPosted( sComponentMessage, severity );
 }

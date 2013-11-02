@@ -26,6 +26,9 @@
 #define SYSTEMLOG_H
 
 #include <QObject>
+#include <QMutex>
+#include <QWaitCondition>
+#include <QThread>
 
 namespace LogSeverity
 {
@@ -61,7 +64,10 @@ class CSystemLog : public QObject
 {
 	Q_OBJECT
 private:
+	QMutex m_pSection;
 	QString* m_pComponents;
+	QWaitCondition processingMessages;
+	bool m_bProcessingMessage;
 
 public:
 	CSystemLog();
@@ -76,11 +82,10 @@ signals:
 
 public slots:
 	void postLog(const LogSeverity::Severity& severity, const QString& message);
+	void postLog(const LogSeverity::Severity& severity, const Components::Component& component, const QString& message);
 
 public:
-	void postLog(const LogSeverity::Severity& severity, const Components::Component& component, const QString& message);
-	void postLog(const LogSeverity::Severity& severity, const Components::Component& component,
-				 const char* format, ...);
+	void postLog(const LogSeverity::Severity& severity, const Components::Component& component, const char* format, ...);
 };
 
 extern CSystemLog systemLog;
