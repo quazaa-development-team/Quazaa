@@ -849,7 +849,7 @@ bool CSecurity::isDenied(const CEndPoint &oAddress)
 	{
 		if(pIPRule->m_bAutomatic) {
 			if(pIPRule->getExpiryTime() != RuleTime::Special) // If rule isn't forever or session
-				ban(pIPRule->IP(), 10, true, pIPRule->m_sComment, true); // Add 30 seconds to the rule time for every hit.
+				ban(pIPRule->IP(), 10, false, pIPRule->m_sComment); // Add 30 seconds to the rule time for every hit.
 		} else {
 			if ( !pIPRule->isExpired( tNow ) && pIPRule->match( oAddress ) )
 			{
