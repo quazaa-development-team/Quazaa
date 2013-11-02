@@ -109,6 +109,7 @@ void CHandshakes::OnTimer()
 		pHs->OnTimer(tNow);
 	}
 }
+
 void CHandshakes::RemoveHandshake(CHandshake* pHs)
 {
 	ASSUME_LOCK(Handshakes.m_pSection);
