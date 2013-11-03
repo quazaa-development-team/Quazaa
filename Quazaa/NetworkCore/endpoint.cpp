@@ -235,11 +235,95 @@ bool CEndPoint::isValid() const
 			QHostAddress::operator !=( QHostAddress::AnyIPv6 ) );
 }
 
-CEndPoint & CEndPoint::operator =(const CEndPoint &rhs)
+CEndPoint & CEndPoint::operator=(const CEndPoint &rhs)
 {
 	QHostAddress::operator =( rhs );
 	m_nPort = rhs.m_nPort;
 	return *this;
+}
+
+CEndPoint & CEndPoint::operator+=(const CEndPoint &rhs)
+{
+	if( protocol() == QAbstractSocket::IPv4Protocol )
+	{
+		quint32 result = toIPv4Address() + rhs.toIPv4Address();
+		setAddress(result);
+		return *this;
+	}
+	else
+	{
+		return *this;
+	}
+}
+
+CEndPoint & CEndPoint::operator-=(const CEndPoint &rhs)
+{
+	if( protocol() == QAbstractSocket::IPv4Protocol )
+	{
+		quint32 result = toIPv4Address() - rhs.toIPv4Address();
+		setAddress(result);
+		return *this;
+	}
+	else
+	{
+		return *this;
+	}
+}
+
+CEndPoint & CEndPoint::operator++()
+{
+	if( protocol() == QAbstractSocket::IPv4Protocol )
+	{
+		quint32 result = toIPv4Address();
+		setAddress(++result);
+		return *this;
+	}
+	else
+	{
+		return *this;
+	}
+}
+
+CEndPoint & CEndPoint::operator--()
+{
+	if( protocol() == QAbstractSocket::IPv4Protocol )
+	{
+		quint32 result = toIPv4Address();
+		setAddress(--result);
+		return *this;
+	}
+	else
+	{
+		return *this;
+	}
+}
+
+CEndPoint CEndPoint::operator++(int)
+{
+	CEndPoint result = *this;
+	++result;
+	return result;
+}
+
+CEndPoint CEndPoint::operator--(int)
+{
+	CEndPoint result = *this;
+	--result;
+	return result;
+}
+
+const CEndPoint CEndPoint::operator+(const CEndPoint &rhs) const
+{
+	CEndPoint result = *this;
+	result += rhs;
+	return result;
+}
+
+const CEndPoint CEndPoint::operator-(const CEndPoint &rhs) const
+{
+	CEndPoint result = *this;
+	result -= rhs;
+	return result;
 }
 
 QDataStream &operator<<(QDataStream &s, const CEndPoint &rhs)

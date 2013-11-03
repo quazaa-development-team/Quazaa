@@ -46,14 +46,22 @@ public:
 	void setAddressWithPort(const QString& address);
 
 	CEndPoint& operator=(const CEndPoint& rhs);
-	inline bool operator ==(const CEndPoint& rhs) const;
-	inline bool operator !=(const CEndPoint& rhs) const;
+	CEndPoint& operator+=(const CEndPoint& rhs);
+	CEndPoint& operator-=(const CEndPoint& rhs);
+	CEndPoint& operator++();
+	CEndPoint& operator--();
+	CEndPoint operator++(int);
+	CEndPoint operator--(int);
+	const CEndPoint operator+(const CEndPoint& rhs) const;
+	const CEndPoint operator-(const CEndPoint& rhs) const;
+	inline bool operator==(const CEndPoint& rhs) const;
+	inline bool operator!=(const CEndPoint& rhs) const;
 	inline bool operator<(const CEndPoint& rhs) const;
 	inline bool operator>(const CEndPoint& rhs) const;
 	inline bool operator<=(const CEndPoint& rhs) const;
 	inline bool operator>=(const CEndPoint& rhs) const;
-	inline bool operator ==(const QHostAddress& rhs) const;
-	inline bool operator !=(const QHostAddress& rhs) const;
+	inline bool operator==(const QHostAddress& rhs) const;
+	inline bool operator!=(const QHostAddress& rhs) const;
 
 public:
 	void clear();
@@ -73,17 +81,10 @@ bool CEndPoint::operator ==(const CEndPoint& rhs) const
 {
 	return ( QHostAddress::operator ==( rhs ) && m_nPort == rhs.m_nPort );
 }
+
 bool CEndPoint::operator !=(const CEndPoint& rhs) const
 {
 	return !operator==( rhs );
-}
-bool CEndPoint::operator ==(const QHostAddress& rhs) const
-{
-	return QHostAddress::operator ==( rhs );
-}
-bool CEndPoint::operator !=(const QHostAddress& rhs) const
-{
-	return QHostAddress::operator !=( rhs );
 }
 
 bool CEndPoint::operator<(const CEndPoint &rhs) const
@@ -148,6 +149,15 @@ bool CEndPoint::operator>=(const CEndPoint &rhs) const
 		int n = memcmp(&thisAddr, &thatAddr, sizeof(Q_IPV6ADDR));
 		return n >= 0;
 	}
+}
+
+bool CEndPoint::operator ==(const QHostAddress& rhs) const
+{
+	return QHostAddress::operator ==( rhs );
+}
+bool CEndPoint::operator !=(const QHostAddress& rhs) const
+{
+	return QHostAddress::operator !=( rhs );
 }
 
 QDataStream &operator<<(QDataStream &s, const CEndPoint &rhs);
