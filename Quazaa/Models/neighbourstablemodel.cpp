@@ -300,7 +300,10 @@ bool CNeighboursTableModel::Neighbour::lessThan( int col,
 		return TypeToString( nType ) < TypeToString( pOther->nType );
 
 	case LEAVES:
-		return nLeafCount + nLeafMax < pOther->nLeafCount + pOther->nLeafMax;
+		if(nLeafCount == pOther->nLeafCount)
+			return nLeafMax < pOther->nLeafMax;
+
+		return nLeafCount < pOther->nLeafCount;
 
 	case PING:
 		if ( nState < nsConnected )
