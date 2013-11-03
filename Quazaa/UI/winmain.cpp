@@ -455,7 +455,8 @@ void CWinMain::quazaaShutdown()
 
 	dlgSplash->updateProgress(30, tr("Removing Tray Icon..."));
 	qApp->processEvents();
-	delete trayIcon;
+	trayIcon->hide();
+	trayIcon->deleteLater();
 
 	dlgSplash->updateProgress(15, tr("Stopping transfers..."));
 	qApp->processEvents();

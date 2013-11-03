@@ -18,7 +18,6 @@
 
 #include <QMainWindow>
 #include <QPointer>
-#include "trayicon.h"
 
 class SessionStackView;
 class SessionTreeWidget;
