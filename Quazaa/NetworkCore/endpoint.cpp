@@ -252,6 +252,21 @@ CEndPoint & CEndPoint::operator++()
 	}
 	else
 	{
+		Q_IPV6ADDR result = toIPv6Address();
+		quint8 carry = 1, i = 8;
+		while (carry && i)
+		{
+			result[i-1] += carry;
+			if (result[i-1] > 0xffff || !result[i-1])
+			{
+				carry = 1;
+				result[i-1] &= 0xffff;
+			} else {
+				carry = 0;
+			}
+			i--;
+		}
+		setAddress(result);
 		return *this;
 	}
 }
@@ -266,6 +281,21 @@ CEndPoint & CEndPoint::operator--()
 	}
 	else
 	{
+		Q_IPV6ADDR result = toIPv6Address();
+		quint8 carry = 1, i = 8;
+		while (carry && i)
+		{
+			result[i-1] -= carry;
+			if (result[i-1] < 0x0000 || !result[i-1])
+			{
+				carry = 1;
+				result[i-1] &= 0x0000;
+			} else {
+				carry = 0;
+			}
+			i--;
+		}
+		setAddress(result);
 		return *this;
 	}
 }
