@@ -114,9 +114,10 @@ G2Packet* DatagramIn::ToG2Packet()
 	{
 		for(qint32 i = 1; i < m_nCount; i++)
 		{
-			m_pBuffer[0]->append(*m_pBuffer[i]);
+			m_pBuffer[0]->append(m_pBuffer[i]);
 		}
 	}
+
 
 	if(m_bCompressed && !ZLibUtils::Uncompress(*m_pBuffer[0]))
 	{

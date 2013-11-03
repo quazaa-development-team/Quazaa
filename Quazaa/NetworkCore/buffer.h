@@ -74,6 +74,7 @@ public:
 	CBuffer& append(const char* pStr);
 	CBuffer& append(QByteArray& baData);
 	CBuffer& append(CBuffer& pOther);
+	CBuffer& append(CBuffer* pOther);
 
 	CBuffer& prepend(const void* pData, const quint32 nLength);
 	CBuffer& prepend(const char* pStr);

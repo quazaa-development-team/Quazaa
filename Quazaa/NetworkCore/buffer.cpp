@@ -72,6 +72,11 @@ CBuffer& CBuffer::append(CBuffer& pOther)
 	return append(pOther.data(), pOther.size());
 }
 
+CBuffer &CBuffer::append(CBuffer *pOther)
+{
+	return append(pOther->data(), pOther->size());
+}
+
 CBuffer& CBuffer::prepend(const void* pData, const quint32 nLength)
 {
 	return insert(0, pData, nLength);
