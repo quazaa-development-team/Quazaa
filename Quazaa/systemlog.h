@@ -66,7 +66,6 @@ class CSystemLog : public QObject
 private:
 	QMutex m_pSection;
 	QString* m_pComponents;
-	QWaitCondition processingMessages;
 	bool m_bProcessingMessage;
 
 public:
