@@ -46,14 +46,10 @@ public:
 	void setAddressWithPort(const QString& address);
 
 	CEndPoint& operator=(const CEndPoint& rhs);
-	CEndPoint& operator+=(const CEndPoint& rhs);
-	CEndPoint& operator-=(const CEndPoint& rhs);
 	CEndPoint& operator++();
 	CEndPoint& operator--();
 	CEndPoint operator++(int);
 	CEndPoint operator--(int);
-	const CEndPoint operator+(const CEndPoint& rhs) const;
-	const CEndPoint operator-(const CEndPoint& rhs) const;
 	inline bool operator==(const CEndPoint& rhs) const;
 	inline bool operator!=(const CEndPoint& rhs) const;
 	inline bool operator<(const CEndPoint& rhs) const;

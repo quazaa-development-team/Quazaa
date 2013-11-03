@@ -242,34 +242,6 @@ CEndPoint & CEndPoint::operator=(const CEndPoint &rhs)
 	return *this;
 }
 
-CEndPoint & CEndPoint::operator+=(const CEndPoint &rhs)
-{
-	if( protocol() == QAbstractSocket::IPv4Protocol )
-	{
-		quint32 result = toIPv4Address() + rhs.toIPv4Address();
-		setAddress(result);
-		return *this;
-	}
-	else
-	{
-		return *this;
-	}
-}
-
-CEndPoint & CEndPoint::operator-=(const CEndPoint &rhs)
-{
-	if( protocol() == QAbstractSocket::IPv4Protocol )
-	{
-		quint32 result = toIPv4Address() - rhs.toIPv4Address();
-		setAddress(result);
-		return *this;
-	}
-	else
-	{
-		return *this;
-	}
-}
-
 CEndPoint & CEndPoint::operator++()
 {
 	if( protocol() == QAbstractSocket::IPv4Protocol )
@@ -309,20 +281,6 @@ CEndPoint CEndPoint::operator--(int)
 {
 	CEndPoint result = *this;
 	--result;
-	return result;
-}
-
-const CEndPoint CEndPoint::operator+(const CEndPoint &rhs) const
-{
-	CEndPoint result = *this;
-	result += rhs;
-	return result;
-}
-
-const CEndPoint CEndPoint::operator-(const CEndPoint &rhs) const
-{
-	CEndPoint result = *this;
-	result -= rhs;
 	return result;
 }
 
