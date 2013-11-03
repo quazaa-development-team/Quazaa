@@ -59,6 +59,7 @@ bool IPLessThan(const CIPRule *rule1, const CIPRule *rule2)
 // no qt specific calls (for example connect() or emit signal) may be used over here.
 // See initialize() for that kind of initializations.
 CSecurity::CSecurity() :
+	m_pSection(QMutex::Recursive),
 	m_bLogIPCheckHits( false ),
 	m_bUseMissCache( false ),
 	m_bIsLoading( false ),
@@ -105,6 +106,7 @@ bool CSecurity::check(const CSecureRule* const pRule) const
   */
 bool CSecurity::add(CSecureRule* pRule)
 {
+	QMutexLocker locker(&m_pSection);
 	if ( !pRule ) return false;
 
 	// check for invalid rules
@@ -783,6 +785,7 @@ bool CSecurity::isNewlyDenied(const CQueryHit* pHit, const QList<QString>& lQuer
   */
 bool CSecurity::isDenied(const CEndPoint &oAddress)
 {
+	QMutexLocker locker(&m_pSection);
 	if ( oAddress.isNull() )
 		return true;
 
@@ -1858,6 +1861,7 @@ CSecureRule* CSecurity::getUUID(const QUuid& oUUID) const
 
 void CSecurity::remove(CSecureRule* pRule)
 {
+	QMutexLocker locker(&m_pSection);
 	if(!pRule->isLockedForModify()) {
 		pRule->beingRemoved(true);
 
@@ -2004,7 +2008,8 @@ bool CSecurity::isAgentDenied(const QString& sUserAgent)
 
 void CSecurity::missCacheAdd(const uint &nIP)
 {
-	if ( m_bUseMissCache && !m_bIsLoading )
+	QMutexLocker locker(&m_pSection);
+	if ( m_bUseMissCache )
 	{
 		m_lsCache.insert( nIP );
 		evaluateCacheUsage();

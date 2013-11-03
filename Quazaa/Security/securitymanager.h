@@ -58,6 +58,9 @@ public:
 	static const char*				ruleInfoSignal;
 
 private:
+	QMutex							m_pSection;				// Used to lock operations while lists are being modified, added to or checked
+	bool							m_bIsLoading;			// true during import operations. Used to avoid unnecessary GUI updates.
+
 	QList<CSecureRule*>				m_lRules;			// contains all rules
 	// Used to manage newly added rules during sanity check
 	QList<CSecureRule*>				m_lLoadedAddressRules;
@@ -80,7 +83,6 @@ private:
 	QUuid							m_idForceEoSC;			// The signalQueue ID (force end of sanity check)
 #endif
 	bool							m_bUseMissCache;
-	bool							m_bIsLoading;			// true during import operations. Used to avoid unnecessary GUI updates.
 	bool							m_bNewRulesLoaded;		// true if new rules for sanity check have been loaded.
 	unsigned short					m_nPendingOperations;	// Counts the number of program modules that still need to call back after having finished a requested sanity check operation.
 	quint16							m_nMaxUnsavedRules;		// maximal number of unsaved rules to tolerate before forcing save

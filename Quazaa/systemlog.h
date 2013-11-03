@@ -81,9 +81,9 @@ signals:
 
 public slots:
 	void postLog(const LogSeverity::Severity& severity, const QString& message);
-	void postLog(const LogSeverity::Severity& severity, const Components::Component& component, const QString& message);
 
 public:
+	void postLog(const LogSeverity::Severity& severity, const Components::Component& component, const QString& message);
 	void postLog(const LogSeverity::Severity& severity, const Components::Component& component, const char* format, ...);
 };
 
