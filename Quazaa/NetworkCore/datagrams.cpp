@@ -375,7 +375,7 @@ void CDatagrams::OnAcknowledgeGND()
 
 void CDatagrams::Remove(DatagramIn* pDatagram, bool bReclaim)
 {
-	ASSUME_LOCK(m_pSection)
+	ASSUME_LOCK(m_pSection);
 	for(int i = 0; i < pDatagram->m_nCount; i++)
 	{
 		if(pDatagram->m_pBuffer[i])
@@ -444,7 +444,7 @@ void CDatagrams::RemoveOldIn(bool bForce)
 
 void CDatagrams::Remove(DatagramOut* pDatagram)
 {
-	ASSUME_LOCK(m_pSection)
+	ASSUME_LOCK(m_pSection);
 
 	m_SendCacheMap.remove(pDatagram->m_nSequence);
 
