@@ -502,6 +502,7 @@ void CSecurity::clear()
 void CSecurity::ban(const CEndPoint& oAddress, quint32 nRuleTime, bool bMessage,
 					const QString& sComment, bool bAutomatic, bool bForever)
 {
+	QMutexLocker locker(&m_pSection);
 	if ( oAddress.isNull() )
 	{
 		Q_ASSERT( false ); // if this happens, make sure to fix the caller... :)
@@ -884,6 +885,7 @@ bool CSecurity::isDenied(const CEndPoint &oAddress)
   */
 bool CSecurity::isDenied(const CQueryHit* const pHit, const QList<QString> &lQuery)
 {
+	QMutexLocker locker(&m_pSection);
 	return ( isDenied( pHit ) ||                             // test hashes, file size and extension
 			 isDenied( pHit->m_sDescriptiveName ) ||         // test file name
 			 isDenied( lQuery, pHit->m_sDescriptiveName ) ); // test regex
@@ -1702,6 +1704,7 @@ void CSecurity::forceEndOfSanityCheck()
   */
 void CSecurity::expire()
 {
+	QMutexLocker locker(&m_pSection);
 	const quint32 tNow = common::getTNowUTC();
 	quint16 nCount = 0;
 
@@ -1733,6 +1736,7 @@ void CSecurity::expire()
   */
 void CSecurity::missCacheClear()
 {
+	QMutexLocker locker(&m_pSection);
 	m_lsCache.clear();
 
 	if ( !m_bUseMissCache )
