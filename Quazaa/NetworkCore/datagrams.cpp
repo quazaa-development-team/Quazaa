@@ -120,12 +120,12 @@ void CDatagrams::Listen()
 
 		for(int i = 0; i < quazaaSettings.Gnutella2.UdpInFrames; i++)
 		{
-			m_FreeDGIn.append(new DatagramIn);
+			m_FreeDatagramIn.append(new DatagramIn);
 		}
 
 		for(int i = 0; i < quazaaSettings.Gnutella2.UdpOutFrames; i++)
 		{
-			m_FreeDGOut.append(new DatagramOut);
+			m_FreeDatagramOut.append(new DatagramOut);
 		}
 
 		connect(this, SIGNAL(SendQueueUpdated()), this, SLOT(FlushSendCache()), Qt::QueuedConnection);
@@ -174,14 +174,14 @@ void CDatagrams::Disconnect()
 		Remove(m_RecvCacheTime.first());
 	}
 
-	while(!m_FreeDGIn.isEmpty())
+	while(!m_FreeDatagramIn.isEmpty())
 	{
-		delete m_FreeDGIn.takeFirst();
+		delete m_FreeDatagramIn.takeFirst();
 	}
 
-	while(!m_FreeDGOut.isEmpty())
+	while(!m_FreeDatagramOut.isEmpty())
 	{
-		delete m_FreeDGOut.takeFirst();
+		delete m_FreeDatagramOut.takeFirst();
 	}
 
 	while(!m_FreeBuffer.isEmpty())
@@ -241,32 +241,32 @@ void CDatagrams::OnReceiveGND()
 	systemLog.postLog(LogSeverity::Debug, "Received GND from %s:%u nSequence = %u nPart = %u nCount = %u", m_pHostAddress->toString().toLocal8Bit().constData(), m_nPort, pHeader->nSequence, pHeader->nPart, pHeader->nCount);
 #endif
 
-	DatagramIn* pDatagram = 0;
+	DatagramIn* pDatagramIn = 0;
 
 	if(m_RecvCache.contains(nIp) && m_RecvCache[nIp].contains(nSeq))
 	{
-		pDatagram = m_RecvCache[nIp][nSeq];
+		pDatagramIn = m_RecvCache[nIp][nSeq];
 
 		// To give a chance for bigger packages ;)
-		if(pDatagram->m_nLeft)
+		if(pDatagramIn->m_nLeft)
 		{
-			pDatagram->m_tStarted = time(0);
+			pDatagramIn->m_tStarted = time(0);
 		}
 	}
 	else
 	{
 		QMutexLocker l(&m_pSection);
 
-		if(!m_FreeDGIn.isEmpty())
+		if(!m_FreeDatagramIn.isEmpty())
 		{
-			pDatagram = m_FreeDGIn.takeFirst();
+			pDatagramIn = m_FreeDatagramIn.takeFirst();
 		}
 		else
 		{
-			if(m_FreeDGIn.isEmpty())
+			if(m_FreeDatagramIn.isEmpty())
 			{
 				RemoveOldIn(true);
-				if(m_FreeDGIn.isEmpty())
+				if(m_FreeDatagramIn.isEmpty())
 				{
 #ifdef DEBUG_UDP
 					systemLog.postLog(LogSeverity::Debug, QString("UDP in frames exhausted"));
@@ -276,27 +276,27 @@ void CDatagrams::OnReceiveGND()
 				}
 			}
 
-			pDatagram = m_FreeDGIn.takeFirst();
+			pDatagramIn = m_FreeDatagramIn.takeFirst();
 		}
 
 		if(m_FreeBuffer.size() < pHeader->nCount)
 		{
 			m_nDiscarded++;
-			m_FreeDGIn.append(pDatagram);
+			m_FreeDatagramIn.append(pDatagramIn);
 			RemoveOldIn(false);
 			return;
 		}
 
-		pDatagram->Create(CEndPoint(*m_pHostAddress, m_nPort), pHeader->nFlags, pHeader->nSequence, pHeader->nCount);
+		pDatagramIn->Create(CEndPoint(*m_pHostAddress, m_nPort), pHeader->nFlags, pHeader->nSequence, pHeader->nCount);
 
 		for(int i = 0; i < pHeader->nCount; i++)
 		{
-			Q_ASSERT(pDatagram->m_pBuffer[i] == 0);
-			pDatagram->m_pBuffer[i] = m_FreeBuffer.takeFirst();
+			Q_ASSERT(pDatagramIn->m_pBuffer[i] == 0);
+			pDatagramIn->m_pBuffer[i] = m_FreeBuffer.takeFirst();
 		}
 
-		m_RecvCache[nIp][nSeq] = pDatagram;
-		m_RecvCacheTime.prepend(pDatagram);
+		m_RecvCache[nIp][nSeq] = pDatagramIn;
+		m_RecvCacheTime.prepend(pDatagramIn);
 	}
 
 	// It is here, in case if we did not have free datagrams
@@ -320,14 +320,14 @@ void CDatagrams::OnReceiveGND()
 			QMetaObject::invokeMethod(this, "FlushSendCache", Qt::QueuedConnection);
 	}
 
-	if(pDatagram->Add(pHeader->nPart, m_pRecvBuffer->data() + sizeof(GND_HEADER), m_pRecvBuffer->size() - sizeof(GND_HEADER)))
+	if(pDatagramIn->Add(pHeader->nPart, m_pRecvBuffer->data() + sizeof(GND_HEADER), m_pRecvBuffer->size() - sizeof(GND_HEADER)))
 	{
 
 		G2Packet* pPacket = 0;
 		try
 		{
 			CEndPoint addr(*m_pHostAddress, m_nPort);
-			pPacket = pDatagram->ToG2Packet();
+			pPacket = pDatagramIn->ToG2Packet();
 			if(pPacket)
 			{
 				OnPacket(addr, pPacket);
@@ -344,7 +344,7 @@ void CDatagrams::OnReceiveGND()
 		}
 
 		m_pSection.lock();
-		Remove(pDatagram, true);
+		Remove(pDatagramIn, true);
 		m_pSection.unlock();
 	}
 
@@ -363,26 +363,26 @@ void CDatagrams::OnAcknowledgeGND()
 		return;
 	}
 
-	DatagramOut* pDatagram = m_SendCacheMap.value(pHeader->nSequence);
+	DatagramOut* pDatagramOut = m_SendCacheMap.value(pHeader->nSequence);
 
-	if(pDatagram->Acknowledge(pHeader->nPart))
+	if(pDatagramOut->Acknowledge(pHeader->nPart))
 	{
 		m_pSection.lock();
-		Remove(pDatagram);
+		Remove(pDatagramOut);
 		m_pSection.unlock();
 	}
 }
 
-void CDatagrams::Remove(DatagramIn* pDatagram, bool bReclaim)
+void CDatagrams::Remove(DatagramIn* pDatagramIn, bool bReclaim)
 {
 	ASSUME_LOCK(m_pSection);
-	for(int i = 0; i < pDatagram->m_nCount; i++)
+	for(int i = 0; i < pDatagramIn->m_nCount; i++)
 	{
-		if(pDatagram->m_pBuffer[i])
+		if(pDatagramIn->m_pBuffer[i])
 		{
-			m_FreeBuffer.append(pDatagram->m_pBuffer[i]);
-			pDatagram->m_pBuffer[i]->clear();
-			pDatagram->m_pBuffer[i] = 0;
+			m_FreeBuffer.append(pDatagramIn->m_pBuffer[i]);
+			pDatagramIn->m_pBuffer[i]->clear();
+			pDatagramIn->m_pBuffer[i] = 0;
 		}
 	}
 
@@ -391,14 +391,14 @@ void CDatagrams::Remove(DatagramIn* pDatagram, bool bReclaim)
 		return;
 	}
 
-	if(m_RecvCache.contains(pDatagram->m_oAddress))
+	if(m_RecvCache.contains(pDatagramIn->m_oAddress))
 	{
-		quint32 nSeq = ((pDatagram->m_nSequence << 16) & 0xFFFF0000) + (pDatagram->m_oAddress.port() & 0x0000FFFF);
-		Q_ASSERT(pDatagram == m_RecvCache[pDatagram->m_oAddress][nSeq]);
-		m_RecvCache[pDatagram->m_oAddress].remove(nSeq);
-		if(m_RecvCache[pDatagram->m_oAddress].isEmpty())
+		quint32 nSeq = ((pDatagramIn->m_nSequence << 16) & 0xFFFF0000) + (pDatagramIn->m_oAddress.port() & 0x0000FFFF);
+		Q_ASSERT(pDatagramIn == m_RecvCache[pDatagramIn->m_oAddress][nSeq]);
+		m_RecvCache[pDatagramIn->m_oAddress].remove(nSeq);
+		if(m_RecvCache[pDatagramIn->m_oAddress].isEmpty())
 		{
-			m_RecvCache.remove(pDatagram->m_oAddress);
+			m_RecvCache.remove(pDatagramIn->m_oAddress);
 		}
 
 		QLinkedList<DatagramIn*>::iterator itFrame = m_RecvCacheTime.end();
@@ -406,14 +406,14 @@ void CDatagrams::Remove(DatagramIn* pDatagram, bool bReclaim)
 		{
 			--itFrame;
 
-			if( *itFrame == pDatagram )
+			if( *itFrame == pDatagramIn )
 			{
 				m_RecvCacheTime.erase(itFrame);
 				break;
 			}
 		}
 
-		m_FreeDGIn.append(pDatagram);
+		m_FreeDatagramIn.append(pDatagramIn);
 	}
 }
 
@@ -442,31 +442,31 @@ void CDatagrams::RemoveOldIn(bool bForce)
 	}
 }
 
-void CDatagrams::Remove(DatagramOut* pDatagram)
+void CDatagrams::Remove(DatagramOut* pDatagramOut)
 {
 	ASSUME_LOCK(m_pSection);
 
-	m_SendCacheMap.remove(pDatagram->m_nSequence);
+	m_SendCacheMap.remove(pDatagramOut->m_nSequence);
 
 	QLinkedList<DatagramOut*>::iterator itFrame = m_SendCache.end();
 	while( itFrame != m_SendCache.begin() )
 	{
 		--itFrame;
 
-		if( *itFrame == pDatagram )
+		if( *itFrame == pDatagramOut )
 		{
 			m_SendCache.erase(itFrame);
 			break;
 		}
 	}
 
-	m_FreeDGOut.append(pDatagram);
+	m_FreeDatagramOut.append(pDatagramOut);
 
-	if(pDatagram->m_pBuffer)
+	if(pDatagramOut->m_pBuffer)
 	{
-		m_FreeBuffer.append(pDatagram->m_pBuffer);
-		pDatagram->m_pBuffer->clear();
-		pDatagram->m_pBuffer = 0;
+		m_FreeBuffer.append(pDatagramOut->m_pBuffer);
+		pDatagramOut->m_pBuffer->clear();
+		pDatagramOut->m_pBuffer = 0;
 	}
 }
 
@@ -527,24 +527,24 @@ void CDatagrams::__FlushSendCache()
 
 		for(QLinkedList<DatagramOut*>::iterator itPacket = m_SendCache.begin(); itPacket != m_SendCache.end(); ++itPacket)
 		{
-			DatagramOut* pDatagram = *itPacket;
+			DatagramOut* pDatagramOut = *itPacket;
 
-			if(pDatagram->m_oAddress == nLastHost)
+			if(pDatagramOut->m_oAddress == nLastHost)
 			{
 				continue;
 			}
 
 			// TODO: Check the firewall's UDP state. Could do 3 UDP states.
-			if(pDatagram->GetPacket(tNow, &pPacket, &nPacket, pDatagram->m_bAck && m_nInFrags > 0))
+			if(pDatagramOut->GetPacket(tNow, &pPacket, &nPacket, pDatagramOut->m_bAck && m_nInFrags > 0))
 			{
 #ifdef DEBUG_UDP
-				systemLog.postLog(LogSeverity::Debug, "UDP sending to %s seq %u part %u count %u", pDatagram->m_oAddress.toString().toLocal8Bit().constData(), pDatagram->m_nSequence, ((GND_HEADER*)pPacket)->nPart, pDatagram->m_nCount);
+				systemLog.postLog(LogSeverity::Debug, "UDP sending to %s seq %u part %u count %u", pDatagramOut->m_oAddress.toString().toLocal8Bit().constData(), pDatagramOut->m_nSequence, ((GND_HEADER*)pPacket)->nPart, pDatagramOut->m_nCount);
 #endif
 
-				m_pSocket->writeDatagram(pPacket, nPacket, pDatagram->m_oAddress, pDatagram->m_oAddress.port());
+				m_pSocket->writeDatagram(pPacket, nPacket, pDatagramOut->m_oAddress, pDatagramOut->m_oAddress.port());
 				m_nOutFrags++;
 
-				nLastHost = pDatagram->m_oAddress;
+				nLastHost = pDatagramOut->m_oAddress;
 
 				if(nToWrite >= nPacket)
 				{
@@ -557,9 +557,9 @@ void CDatagrams::__FlushSendCache()
 
 				m_mOutput.Add(nPacket);
 
-				if(!pDatagram->m_bAck)
+				if(!pDatagramOut->m_bAck)
 				{
-					Remove(pDatagram);
+					Remove(pDatagramOut);
 				}
 
 				nMaxPPS--;
@@ -596,7 +596,7 @@ void CDatagrams::SendPacket(CEndPoint& oAddr, G2Packet* pPacket, bool bAck, Data
 	Q_UNUSED(pWatcher);
 	Q_UNUSED(pParam);
 
-	if(m_FreeDGOut.isEmpty())
+	if(m_FreeDatagramOut.isEmpty())
 	{
 		systemLog.postLog(LogSeverity::Debug, QString("UDP out frames exhausted"));
 
@@ -618,16 +618,16 @@ void CDatagrams::SendPacket(CEndPoint& oAddr, G2Packet* pPacket, bool bAck, Data
 		}
 	}
 
-	DatagramOut* pDatagram = m_FreeDGOut.takeFirst();
-	pDatagram->Create(oAddr, pPacket, m_nSequence++, m_FreeBuffer.takeFirst(), (bAck && (m_nInFrags > 0))); // to prevent net spam when unable to receive datagrams
+	DatagramOut* pDatagramOut = m_FreeDatagramOut.takeFirst();
+	pDatagramOut->Create(oAddr, pPacket, m_nSequence++, m_FreeBuffer.takeFirst(), (bAck && (m_nInFrags > 0))); // to prevent net spam when unable to receive datagrams
 
-	m_SendCache.prepend(pDatagram);
-	m_SendCacheMap[pDatagram->m_nSequence] = pDatagram;
+	m_SendCache.prepend(pDatagramOut);
+	m_SendCacheMap[pDatagramOut->m_nSequence] = pDatagramOut;
 
 	// TODO: Notify the listener if we have one.
 
 #ifdef DEBUG_UDP
-	systemLog.postLog(LogSeverity::Debug, "UDP queued for %s seq %u parts %u", oAddr.toString().toLocal8Bit().constData(), pDatagram->m_nSequence, pDatagram->m_nCount);
+	systemLog.postLog(LogSeverity::Debug, "UDP queued for %s seq %u parts %u", oAddr.toString().toLocal8Bit().constData(), pDatagramOut->m_nSequence, pDatagramOut->m_nCount);
 #endif
 
 	//emit SendQueueUpdated();
