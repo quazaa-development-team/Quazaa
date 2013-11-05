@@ -13,12 +13,12 @@
 ** but WITHOUT ANY WARRANTY; without even the implied warranty of
 ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 **
-** Please review the following information to ensure the GNU General Public 
-** License version 3.0 requirements will be met: 
+** Please review the following information to ensure the GNU General Public
+** License version 3.0 requirements will be met:
 ** http://www.gnu.org/copyleft/gpl.html.
 **
-** You should have received a copy of the GNU General Public License version 
-** 3.0 along with Quazaa; if not, write to the Free Software Foundation, 
+** You should have received a copy of the GNU General Public License version
+** 3.0 along with Quazaa; if not, write to the Free Software Foundation,
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
@@ -52,14 +52,14 @@ CCompressedConnection::CCompressedConnection(QObject* parent) :
 }
 CCompressedConnection::~CCompressedConnection()
 {
-	CleanupInputStream();
-	CleanupOutputStream();
+	cleanupInputStream();
+	cleanupOutputStream();
 }
-bool CCompressedConnection::EnableInputCompression(bool bEnable)
+bool CCompressedConnection::enableInputCompression(bool bEnable)
 {
 	if(bEnable && !m_bCompressedInput)
 	{
-		bool bRet = SetupInputStream();
+		bool bRet = setupInputStream();
 		if(bRet)
 		{
 			m_bCompressedInput = true;
@@ -73,11 +73,11 @@ bool CCompressedConnection::EnableInputCompression(bool bEnable)
 
 	return true;
 }
-bool CCompressedConnection::EnableOutputCompression(bool bEnable)
+bool CCompressedConnection::enableOutputCompression(bool bEnable)
 {
 	if(bEnable && !m_bCompressedOutput)
 	{
-		bool bRet = SetupOutputStream();
+		bool bRet = setupOutputStream();
 		if(bRet)
 		{
 			m_bCompressedOutput = true;
@@ -91,7 +91,7 @@ bool CCompressedConnection::EnableOutputCompression(bool bEnable)
 
 	return true;
 }
-bool CCompressedConnection::SetupInputStream()
+bool CCompressedConnection::setupInputStream()
 {
 	m_pZInput = new CBuffer(8192);
 
@@ -108,7 +108,7 @@ bool CCompressedConnection::SetupInputStream()
 	}
 	return true;
 }
-bool CCompressedConnection::SetupOutputStream()
+bool CCompressedConnection::setupOutputStream()
 {
 	m_pZOutput = new CBuffer(8192);
 	if(m_pZOutput == 0)
@@ -127,7 +127,7 @@ bool CCompressedConnection::SetupOutputStream()
 
 	return true;
 }
-void CCompressedConnection::CleanupInputStream()
+void CCompressedConnection::cleanupInputStream()
 {
 	if(m_pZInput)
 	{
@@ -138,7 +138,7 @@ void CCompressedConnection::CleanupInputStream()
 
 	inflateEnd(&m_sInput);
 }
-void CCompressedConnection::CleanupOutputStream()
+void CCompressedConnection::cleanupOutputStream()
 {
 	if(m_pZOutput)
 	{
@@ -155,7 +155,7 @@ qint64 CCompressedConnection::readFromNetwork(qint64 nBytes)
 
 	if(m_bCompressedInput)
 	{
-		Inflate();
+		inflateInput();
 		if(m_pZInput->size())
 		{
 			emit readyRead();
@@ -170,14 +170,14 @@ qint64 CCompressedConnection::writeToNetwork(qint64 nBytes)
 	{
 		if(m_pOutput->size() == 0)
 		{
-			Deflate();
+			deflateOutput();
 		}
 	}
 
 	return CNetworkConnection::writeToNetwork(nBytes);
 }
 
-void CCompressedConnection::Inflate()
+void CCompressedConnection::inflateInput()
 {
 	if(m_pInput->size() == 0)
 	{
@@ -229,13 +229,13 @@ void CCompressedConnection::Inflate()
 
 	if(nRet != Z_OK)
 	{
-        systemLog.postLog(LogSeverity::Debug, QString("Error in decompressor! ").arg(nRet));
+		systemLog.postLog(LogSeverity::Debug, QString("Error in decompressor! ").arg(nRet));
 
 		close();
 	}
 }
 
-void CCompressedConnection::Deflate()
+void CCompressedConnection::deflateOutput()
 {
 	qint32 nFlushMode = Z_NO_FLUSH;
 
@@ -279,7 +279,7 @@ void CCompressedConnection::Deflate()
 		}
 		else
 		{
-            systemLog.postLog(LogSeverity::Debug, QString("Error in compressor! %1").arg(nRet));
+			systemLog.postLog(LogSeverity::Debug, QString("Error in compressor! %1").arg(nRet));
 			close();
 			break;
 		}

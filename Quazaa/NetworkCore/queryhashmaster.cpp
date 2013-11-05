@@ -120,7 +120,7 @@ void CQueryHashMaster::build()
 
 	ShareManager.m_oSection.lock();
 
-	const CQueryHashTable* pLocalTable = ShareManager.GetHashTable();
+	const CQueryHashTable* pLocalTable = ShareManager.getHashTable();
 
 	if(!pLocalTable)
 	{

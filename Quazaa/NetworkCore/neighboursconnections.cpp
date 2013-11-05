@@ -56,8 +56,8 @@ void CNeighboursConnections::connectNode()
 	Q_ASSERT(m_pController == 0);
 
 	m_pController = new CRateController(&m_pSection);
-	m_pController->SetDownloadLimit(quazaaSettings.Connection.InSpeed);
-	m_pController->SetUploadLimit(quazaaSettings.Connection.OutSpeed);
+	m_pController->setDownloadLimit(quazaaSettings.Connection.InSpeed);
+	m_pController->setUploadLimit(quazaaSettings.Connection.OutSpeed);
 	m_pController->moveToThread(&NetworkThread);
 
 	m_nHubsConnectedG2 = m_nLeavesConnectedG2 = 0;
@@ -84,7 +84,7 @@ void CNeighboursConnections::addNode(CNeighbour* pNode)
 {
 	ASSUME_LOCK(m_pSection);
 
-	m_pController->AddSocket(pNode);
+	m_pController->addSocket(pNode);
 
 	CNeighboursRouting::addNode(pNode);
 }
@@ -93,7 +93,7 @@ void CNeighboursConnections::removeNode(CNeighbour* pNode)
 {
 	ASSUME_LOCK(m_pSection);
 
-	m_pController->RemoveSocket(pNode);
+	m_pController->removeSocket(pNode);
 
 	CNeighboursRouting::removeNode(pNode);
 }
@@ -392,19 +392,19 @@ void CNeighboursConnections::maintain()
 
 quint32 CNeighboursConnections::downloadSpeed()
 {
-	return m_pController ? m_pController->DownloadSpeed() : 0;
+	return m_pController ? m_pController->downloadSpeed() : 0;
 }
 
 quint32 CNeighboursConnections::uploadSpeed()
 {
-	return m_pController ? m_pController->UploadSpeed() : 0;
+	return m_pController ? m_pController->uploadSpeed() : 0;
 }
 
 CNeighbour* CNeighboursConnections::onAccept(CNetworkConnection* pConn)
 {
 	// TODO: Make new CNeighbour deriviate for handshaking with Gnutella clients
 
-	systemLog.postLog(LogSeverity::Debug, "CNeighboursConnections::OnAccept");
+	systemLog.postLog(LogSeverity::Debug, "CNeighboursConnections::onAccept");
 	//qDebug() << "CNeighbours::OnAccept";
 
 	if(!m_bActive)

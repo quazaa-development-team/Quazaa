@@ -80,7 +80,7 @@ void CNetwork::start()
 
 	Handshakes.listen();
 
-	m_oRoutingTable.Clear();
+	m_oRoutingTable.clear();
 
 	connect(&ShareManager, SIGNAL(sharesReady()), this, SLOT(onSharesReady()), Qt::UniqueConnection);
 
@@ -115,7 +115,7 @@ void CNetwork::setupThread()
 	Datagrams.listen();
 	Handshakes.listen();
 
-	m_bSharesReady = ShareManager.SharesReady();
+	m_bSharesReady = ShareManager.sharesAreReady();
 }
 void CNetwork::cleanupThread()
 {
@@ -157,7 +157,7 @@ void CNetwork::onSecondTimer()
 	else
 	{
 		//m_oRoutingTable.Dump();
-		m_oRoutingTable.ExpireOldRoutes();
+		m_oRoutingTable.expireOldRoutes();
 		m_tCleanRoutesNext = 60;
 	}
 
@@ -209,7 +209,7 @@ bool CNetwork::routePacket(QUuid& pTargetGUID, G2Packet* pPacket, bool bLockNeig
 	CG2Node* pNode = 0;
 	CEndPoint pAddr;
 
-	if(m_oRoutingTable.Find(pTargetGUID, &pNode, &pAddr))
+	if(m_oRoutingTable.find(pTargetGUID, &pNode, &pAddr))
 	{
 		if(pNode)
 		{
@@ -251,7 +251,7 @@ bool CNetwork::routePacket(G2Packet* pPacket, CG2Node* pNbr)
 		CG2Node* pNode = 0;
 		CEndPoint pAddr;
 
-		if(m_oRoutingTable.Find(pGUID, &pNode, &pAddr))
+		if(m_oRoutingTable.find(pGUID, &pNode, &pAddr))
 		{
 			bool bForwardTCP = false;
 			bool bForwardUDP = false;

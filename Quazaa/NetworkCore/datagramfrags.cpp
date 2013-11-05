@@ -119,7 +119,7 @@ G2Packet* DatagramIn::toG2Packet()
 	}
 
 
-	if(m_bCompressed && !ZLibUtils::Uncompress(*m_pBuffer[0]))
+	if(m_bCompressed && !ZLibUtils::uncompressBuffer(*m_pBuffer[0]))
 	{
 		throw std::logic_error("Unable to uncompress compressed packet.");
 	}
@@ -151,7 +151,7 @@ void DatagramOut::create(CEndPoint oAddr, G2Packet* pPacket, quint16 nSequence, 
 
 	pPacket->toBuffer(m_pBuffer);
 
-	m_bCompressed = ZLibUtils::Compress(*m_pBuffer, true);
+	m_bCompressed = ZLibUtils::compressBuffer(*m_pBuffer, true);
 
 	m_nPacket = quazaaSettings.Gnutella2.UdpMTU;
 	m_nCount = quint8((m_pBuffer->size() + m_nPacket - 1) / m_nPacket);

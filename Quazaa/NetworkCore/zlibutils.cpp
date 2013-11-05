@@ -30,7 +30,7 @@
 QMutex ZLibUtils::m_oMutex;
 CBuffer ZLibUtils::m_oCompressBuffer(262144); // 256KB
 
-bool ZLibUtils::Compress(CBuffer& pSrc, bool bIfSmaller)
+bool ZLibUtils::compressBuffer(CBuffer& pSrc, bool bIfSmaller)
 {
 	QMutexLocker l(&ZLibUtils::m_oMutex);
 
@@ -64,7 +64,7 @@ bool ZLibUtils::Compress(CBuffer& pSrc, bool bIfSmaller)
 	return true;
 }
 
-bool ZLibUtils::Uncompress(CBuffer& pSrc)
+bool ZLibUtils::uncompressBuffer(CBuffer& pSrc)
 {
 	QMutexLocker l(&ZLibUtils::m_oMutex);
 

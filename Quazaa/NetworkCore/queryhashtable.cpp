@@ -416,7 +416,7 @@ bool CQueryHashTable::patchTo(const CQueryHashTable* pTarget,
 
 	baBuffer.resize(m_nHash / 8);
 
-	if(!ZLibUtils::Compress(baBuffer))
+	if(!ZLibUtils::compressBuffer(baBuffer))
 	{
 		systemLog.postLog(LogSeverity::Debug, "QHT compress error");
 		//qDebug() << "QHT compress error";
@@ -600,7 +600,7 @@ bool CQueryHashTable::onPatch(G2Packet* pPacket)
 
 	if(nCompression == 1)
 	{
-		ZLibUtils::Uncompress(*m_pBuffer);
+		ZLibUtils::uncompressBuffer(*m_pBuffer);
 	}
 
 	if(m_pBuffer->size() != m_nHash / (8 / nBits))

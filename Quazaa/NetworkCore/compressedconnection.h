@@ -54,20 +54,20 @@ public:
 	CCompressedConnection(QObject* parent = 0);
 	virtual ~CCompressedConnection();
 
-	bool EnableInputCompression(bool bEnable = true);
-	bool EnableOutputCompression(bool bEnable = true);
+	bool enableInputCompression(bool bEnable = true);
+	bool enableOutputCompression(bool bEnable = true);
 
 	virtual qint64 readFromNetwork(qint64 nBytes);
 	virtual qint64 writeToNetwork(qint64 nBytes);
 
 protected:
-	bool SetupInputStream();
-	bool SetupOutputStream();
-	void CleanupInputStream();
-	void CleanupOutputStream();
+	bool setupInputStream();
+	bool setupOutputStream();
+	void cleanupInputStream();
+	void cleanupOutputStream();
 
-	void Inflate();
-	void Deflate();
+	void inflateInput();
+	void deflateOutput();
 
 public:
 	inline CBuffer* getInputBuffer()
@@ -97,7 +97,7 @@ public:
 		return CNetworkConnection::hasData();
 	}
 
-	float GetTotalInDecompressed()
+	float getTotalInDecompressed()
 	{
 		if(m_nTotalInput == 0)
 		{
@@ -107,7 +107,7 @@ public:
 		float ret = 1.0f - (float)m_nTotalInputDec / (float)m_nTotalInput;
 		return ret;
 	}
-	float GetTotalOutCompressed()
+	float getTotalOutCompressed()
 	{
 		if(m_nTotalOutputCom == 0)
 		{

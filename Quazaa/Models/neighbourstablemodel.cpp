@@ -50,8 +50,8 @@ CNeighboursTableModel::Neighbour::Neighbour(CNeighbour* pNeighbour) : pNode( pNe
 	nBandwidthOut   = pNode->m_mOutput.Usage();
 	nBytesReceived  = pNode->m_mInput.m_nTotal;
 	nBytesSent      = pNode->m_mOutput.m_nTotal;
-	nCompressionIn  = pNode->GetTotalInDecompressed();
-	nCompressionOut = pNode->GetTotalOutCompressed();
+	nCompressionIn  = pNode->getTotalInDecompressed();
+	nCompressionOut = pNode->getTotalOutCompressed();
 	nLeafCount      = 0;
 	nLeafMax        = 0;
 	nPacketsIn      = pNode->m_nPacketsIn;
@@ -137,8 +137,8 @@ bool CNeighboursTableModel::Neighbour::update(int row, int col, QModelIndexList&
 
 	nBytesReceived  = pNode->m_mInput.m_nTotal;
 	nBytesSent      = pNode->m_mOutput.m_nTotal;
-	nCompressionIn  = pNode->GetTotalInDecompressed();
-	nCompressionOut = pNode->GetTotalOutCompressed();
+	nCompressionIn  = pNode->getTotalInDecompressed();
+	nCompressionOut = pNode->getTotalOutCompressed();
 	to_update.append( model->index(row, BYTES));
 
 	if ( col == BYTES )

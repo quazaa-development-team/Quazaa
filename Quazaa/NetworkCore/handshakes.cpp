@@ -88,7 +88,7 @@ void CHandshakes::incomingConnection(qintptr handle)
 	m_lHandshakes.insert(pNew);
 	pNew->acceptFrom(handle);
 	pNew->moveToThread(&HandshakesThread);
-	m_pController->AddSocket(pNew);
+	m_pController->addSocket(pNew);
 	m_nAccepted++;
 
 	if( securityManager.isDenied(pNew->m_oAddress) )
@@ -117,7 +117,7 @@ void CHandshakes::removeHandshake(CHandshake* pHs)
 	m_lHandshakes.remove(pHs);
 	if(m_pController)
 	{
-		m_pController->RemoveSocket(pHs);
+		m_pController->removeSocket(pHs);
 	}
 }
 
@@ -133,8 +133,8 @@ void CHandshakes::setupThread()
 
 	m_pController->moveToThread(&HandshakesThread); // should not be necesarry
 
-	m_pController->SetDownloadLimit(4096);
-	m_pController->SetUploadLimit(4096);
+	m_pController->setDownloadLimit(4096);
+	m_pController->setUploadLimit(4096);
 
 	bool bOK = QTcpServer::listen(QHostAddress::Any, Network.getLocalAddress().port());
 
@@ -166,7 +166,7 @@ void CHandshakes::cleanupThread()
 
 			pHs->close();
 
-			m_pController->RemoveSocket(pHs);
+			m_pController->removeSocket(pHs);
 			itHs = m_lHandshakes.erase(itHs);
 
 			delete pHs;

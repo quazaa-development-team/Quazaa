@@ -867,7 +867,7 @@ void CDatagrams::onQKR(CEndPoint& addr, G2Packet* pPacket)
 	}
 
 	G2Packet* pAns = G2Packet::newPacket("QKA", true);
-	quint32 nKey = QueryKeys.Create(oRequestedAddress);
+	quint32 nKey = QueryKeys.create(oRequestedAddress);
 	pAns->writePacket("QK", 4);
 	pAns->writeIntLE<quint32>(nKey);
 	G2Packet* pSNA = G2Packet::newPacket("SNA");
@@ -1010,13 +1010,13 @@ void CDatagrams::onQH2(CEndPoint& addr, G2Packet* pPacket)
 				if(pInfo->m_oNodeAddress == pInfo->m_oSenderAddress)
 				{
 					// hits node address matches sender address
-					Network.m_oRoutingTable.Add(pInfo->m_oNodeGUID, pInfo->m_oSenderAddress);
+					Network.m_oRoutingTable.add(pInfo->m_oNodeGUID, pInfo->m_oSenderAddress);
 				}
 				else if(!pInfo->m_lNeighbouringHubs.isEmpty())
 				{
 					// hits address does not match sender address (probably forwarded by a hub)
 					// and there are neighbouring hubs available, use them instead (sender address can be used instead...)
-					Network.m_oRoutingTable.Add(pInfo->m_oNodeGUID, pInfo->m_lNeighbouringHubs[0], false);
+					Network.m_oRoutingTable.add(pInfo->m_oNodeGUID, pInfo->m_lNeighbouringHubs[0], false);
 				}
 
 				Network.routePacket(pInfo->m_oGUID, pPacket, true);
@@ -1063,14 +1063,14 @@ void CDatagrams::onQuery(CEndPoint &addr, G2Packet *pPacket)
 		return;
 	}
 
-	if(!QueryKeys.Check(pQuery->m_oEndpoint, pQuery->m_nQueryKey))
+	if(!QueryKeys.check(pQuery->m_oEndpoint, pQuery->m_nQueryKey))
 	{
 #if LOG_QUERY_HANDLING
 		systemLog.postLog(LogSeverity::Debug, "Issuing query key correction for %s.", qPrintable(addr.toStringWithPort()));
 #endif // LOG_QUERY_HANDLING
 
 		G2Packet* pQKA = G2Packet::newPacket("QKA", true);
-		pQKA->writePacket("QK", 4)->writeIntLE<quint32>(QueryKeys.Create(pQuery->m_oEndpoint));
+		pQKA->writePacket("QK", 4)->writeIntLE<quint32>(QueryKeys.create(pQuery->m_oEndpoint));
 
 		if( addr != pQuery->m_oEndpoint )
 		{
@@ -1082,7 +1082,7 @@ void CDatagrams::onQuery(CEndPoint &addr, G2Packet *pPacket)
 		return;
 	}
 
-	if( !Network.m_oRoutingTable.Add(pQuery->m_oGUID, pQuery->m_oEndpoint) )
+	if( !Network.m_oRoutingTable.add(pQuery->m_oGUID, pQuery->m_oEndpoint) )
 	{
 #if LOG_QUERY_HANDLING
 		qDebug() << "Query already processed, ignoring";

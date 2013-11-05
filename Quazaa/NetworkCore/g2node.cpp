@@ -70,7 +70,7 @@ CG2Node::CG2Node(QObject* parent) :
 
 CG2Node::~CG2Node()
 {
-	Network.m_oRoutingTable.Remove(this);
+	Network.m_oRoutingTable.remove(this);
 
 	while(m_lSendQueue.size())
 	{
@@ -311,7 +311,7 @@ void CG2Node::parseIncomingHandshake()
 
 	if(m_sUserAgent.isEmpty())
 	{
-		m_sUserAgent = Parser::GetHeaderValue(sHs, "User-Agent");
+		m_sUserAgent = Parser::getHeaderValue(sHs, "User-Agent");
 	}
 
 	if(m_sUserAgent.isEmpty())
@@ -329,7 +329,7 @@ void CG2Node::parseIncomingHandshake()
 
 	if(sHs.startsWith("GNUTELLA CONNECT/0.6"))
 	{
-		QString sAccept = Parser::GetHeaderValue(sHs, "Accept");
+		QString sAccept = Parser::getHeaderValue(sHs, "Accept");
 		bool bAcceptG2 = sAccept.contains("application/x-gnutella2");
 
 		if(!bAcceptG2)
@@ -340,18 +340,18 @@ void CG2Node::parseIncomingHandshake()
 
 #ifndef _DISABLE_COMPRESSION
 		m_bAcceptDeflate = false;
-		QString sAcceptEnc = Parser::GetHeaderValue(sHs, "Accept-Encoding");
+		QString sAcceptEnc = Parser::getHeaderValue(sHs, "Accept-Encoding");
 		if(sAcceptEnc.contains("deflate") && Neighbours.isG2Hub())
 		{
 			m_bAcceptDeflate = true;
 		}
 #endif
 
-		QString sUltra = Parser::GetHeaderValue(sHs, "X-Ultrapeer").toLower();
-		//QString sUltraNeeded = Parser::GetHeaderValue(sHs, "X-Ultrapeer-Needed").toLower();
+		QString sUltra = Parser::getHeaderValue(sHs, "X-Ultrapeer").toLower();
+		//QString sUltraNeeded = Parser::getHeaderValue(sHs, "X-Ultrapeer-Needed").toLower();
 		if(sUltra.isEmpty())
 		{
-			sUltra = Parser::GetHeaderValue(sHs, "X-Hub").toLower();
+			sUltra = Parser::getHeaderValue(sHs, "X-Hub").toLower();
 
 			if( sUltra.isEmpty() )
 			{
@@ -360,7 +360,7 @@ void CG2Node::parseIncomingHandshake()
 			}
 		}
 
-		QString sRemoteIP = Parser::GetHeaderValue(sHs, "Remote-IP");
+		QString sRemoteIP = Parser::getHeaderValue(sHs, "Remote-IP");
 		if(!sRemoteIP.isEmpty())
 		{
 			Network.acquireLocalAddress(sRemoteIP);
@@ -403,7 +403,7 @@ void CG2Node::parseIncomingHandshake()
 	}
 	else if(sHs.contains(" 200 OK"))
 	{
-		QString sContentType = Parser::GetHeaderValue(sHs, "Content-Type");
+		QString sContentType = Parser::getHeaderValue(sHs, "Content-Type");
 		bool bG2Provided = sContentType.contains("application/x-gnutella2");
 
 		if(!bG2Provided)
@@ -413,10 +413,10 @@ void CG2Node::parseIncomingHandshake()
 		}
 
 #ifndef _DISABLE_COMPRESSION
-		QString sContentEnc = Parser::GetHeaderValue(sHs, "Content-Encoding");
+		QString sContentEnc = Parser::getHeaderValue(sHs, "Content-Encoding");
 		if(sContentEnc.contains("deflate"))
 		{
-			if(!EnableInputCompression())
+			if(!enableInputCompression())
 			{
 				systemLog.postLog(LogSeverity::Debug, QString("Inflate init error!"));
 				//qDebug() << "Inflate init error!";
@@ -427,7 +427,7 @@ void CG2Node::parseIncomingHandshake()
 
 		if(m_bAcceptDeflate)
 		{
-			if(!EnableOutputCompression())
+			if(!enableOutputCompression())
 			{
 				systemLog.postLog(LogSeverity::Debug, QString("Deflate init error!"));
 				//qDebug() << "Deflate init error!";
@@ -467,7 +467,7 @@ void CG2Node::parseOutgoingHandshake()
 
 	m_sHandshake += "Handshake in:\n" + sHs;
 
-	QString sAccept = Parser::GetHeaderValue(sHs, "Accept");
+	QString sAccept = Parser::getHeaderValue(sHs, "Accept");
 	bool bAcceptG2 = sAccept.contains("application/x-gnutella2");
 
 	if(!bAcceptG2)
@@ -476,7 +476,7 @@ void CG2Node::parseOutgoingHandshake()
 		return;
 	}
 
-	QString sContentType = Parser::GetHeaderValue(sHs, "Content-Type");
+	QString sContentType = Parser::getHeaderValue(sHs, "Content-Type");
 	bool bG2Provided = sContentType.contains("application/x-gnutella2");
 
 	if(!bG2Provided)
@@ -485,7 +485,7 @@ void CG2Node::parseOutgoingHandshake()
 		return;
 	}
 
-	m_sUserAgent = Parser::GetHeaderValue(sHs, "User-Agent");
+	m_sUserAgent = Parser::getHeaderValue(sHs, "User-Agent");
 
 	if(m_sUserAgent.isEmpty())
 	{
@@ -500,7 +500,7 @@ void CG2Node::parseOutgoingHandshake()
 		return;
 	}
 
-	QString sTry = Parser::GetHeaderValue(sHs, "X-Try-Hubs");
+	QString sTry = Parser::getHeaderValue(sHs, "X-Try-Hubs");
 	if(bAcceptG2 && bG2Provided && sTry.size())
 	{
 		hostCache.m_pSection.lock();
@@ -521,7 +521,7 @@ void CG2Node::parseOutgoingHandshake()
 		return;
 	}
 
-	QString sRemoteIP = Parser::GetHeaderValue(sHs, "Remote-IP");
+	QString sRemoteIP = Parser::getHeaderValue(sHs, "Remote-IP");
 	if(!sRemoteIP.isEmpty())
 	{
 		Network.acquireLocalAddress(sRemoteIP);
@@ -532,23 +532,23 @@ void CG2Node::parseOutgoingHandshake()
 		return;
 	}
 
-	QString sUltra = Parser::GetHeaderValue(sHs, "X-Ultrapeer").toLower();
+	QString sUltra = Parser::getHeaderValue(sHs, "X-Ultrapeer").toLower();
 
 	if( sUltra.isEmpty() )
 	{
-		sUltra = Parser::GetHeaderValue(sHs, "X-Hub").toLower();
+		sUltra = Parser::getHeaderValue(sHs, "X-Hub").toLower();
 	}
 
-	//QString sUltraNeeded = Parser::GetHeaderValue(sHs, "X-Ultrapeer-Needed").toLower();
+	//QString sUltraNeeded = Parser::getHeaderValue(sHs, "X-Ultrapeer-Needed").toLower();
 
 	bool bUltra = (sUltra == "true");
 	//bool bUltraNeeded = (sUltraNeeded == "true");
 
 #ifndef _DISABLE_COMPRESSION
-	QString sContentEnc = Parser::GetHeaderValue(sHs, "Content-Encoding");
+	QString sContentEnc = Parser::getHeaderValue(sHs, "Content-Encoding");
 	if(sContentEnc.contains("deflate"))
 	{
-		if(!EnableInputCompression())
+		if(!enableInputCompression())
 		{
 			systemLog.postLog(LogSeverity::Debug, "Inflate init error!");
 			//qDebug() << "Inflate init error!";
@@ -560,7 +560,7 @@ void CG2Node::parseOutgoingHandshake()
 
 	bool bAcceptDeflate = false;
 #ifndef _DISABLE_COMPRESSION
-	QString sAcceptEnc = Parser::GetHeaderValue(sHs, "Accept-Encoding");
+	QString sAcceptEnc = Parser::getHeaderValue(sHs, "Accept-Encoding");
 	if(sAcceptEnc.contains("deflate") && Neighbours.isG2Hub())
 	{
 		bAcceptDeflate = true;
@@ -603,7 +603,7 @@ void CG2Node::parseOutgoingHandshake()
 #ifndef _DISABLE_COMPRESSION
 	if(bAcceptDeflate)
 	{
-		if(!EnableOutputCompression())
+		if(!enableOutputCompression())
 		{
 			systemLog.postLog(LogSeverity::Debug, "Deflate init error!");
 			//qDebug() << "Deflate init error!";
@@ -1008,7 +1008,7 @@ void CG2Node::onLNI(G2Packet* pPacket)
 	if(hasNA && hasGUID)
 	{
 		QMutexLocker l(&Network.m_pSection);
-		Network.m_oRoutingTable.Add(pGUID, this, true);
+		Network.m_oRoutingTable.add(pGUID, this, true);
 	}
 
 }
@@ -1076,7 +1076,7 @@ void CG2Node::onKHL(G2Packet* pPacket)
 				{
 					QMutexLocker l(&Network.m_pSection);
 
-					Network.m_oRoutingTable.Add(pGUID, this, &pAddr, false);
+					Network.m_oRoutingTable.add(pGUID, this, &pAddr, false);
 				}
 			}
 		}
@@ -1377,7 +1377,7 @@ void CG2Node::onQH2(G2Packet* pPacket)
 
 			if(Neighbours.isG2Hub() && pInfo->m_nHops < 7)
 			{
-				Network.m_oRoutingTable.Add(pInfo->m_oNodeGUID, this, false);
+				Network.m_oRoutingTable.add(pInfo->m_oNodeGUID, this, false);
 				pPacket->m_pBuffer[pPacket->m_nLength - 17]++;
 				Network.routePacket(pInfo->m_oGUID, pPacket);
 			}
@@ -1428,7 +1428,7 @@ void CG2Node::onQuery(G2Packet* pPacket)
 		qDebug() << "Banning return address" << oReturnAddr.toString() << "on hub " << m_oAddress.toString() << " num banned: " << m_lRABan.size();
 	}*/
 
-	if(Network.m_oRoutingTable.Add(pQuery->m_oGUID, this, false))
+	if(Network.m_oRoutingTable.add(pQuery->m_oGUID, this, false))
 	{
 		if( m_nType == G2_LEAF )
 		{

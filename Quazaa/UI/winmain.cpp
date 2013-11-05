@@ -437,7 +437,7 @@ void CWinMain::quazaaShutdown()
 	delete neighboursRefresher;
 	neighboursRefresher = 0;
 	Network.stop();
-	ShareManager.Stop();
+	ShareManager.stop();
 
 	dlgSplash->updateProgress(65, tr("Saving Security Manager..."));
 	qApp->processEvents();

@@ -148,7 +148,7 @@ void CChatSessionG2::parseOutgoingHandshake()
 
 	if( sHs.left(12) == "CHAT/0.2 200" )
 	{
-		QString sAccept = Parser::GetHeaderValue(sHs, "Accept");
+		QString sAccept = Parser::getHeaderValue(sHs, "Accept");
 		if( !sAccept.contains("application/x-gnutella2") )
 		{
 			send_ChatError("503 Required protocol not accepted");
@@ -157,7 +157,7 @@ void CChatSessionG2::parseOutgoingHandshake()
 			return;
 		}
 
-		QString sContentType = Parser::GetHeaderValue(sHs, "Content-Type");
+		QString sContentType = Parser::getHeaderValue(sHs, "Content-Type");
 		if( !sContentType.contains("application/x-gnutella2") )
 		{
 			send_ChatError("503 Required protocol not provided");
@@ -166,7 +166,7 @@ void CChatSessionG2::parseOutgoingHandshake()
 			return;
 		}
 
-		QString sUA = Parser::GetHeaderValue(sHs, "User-Agent");
+		QString sUA = Parser::getHeaderValue(sHs, "User-Agent");
 		if( sUA.indexOf("shareaza", 0, Qt::CaseInsensitive) != -1 )
 			m_bShareaza = true;
 

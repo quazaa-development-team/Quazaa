@@ -55,7 +55,7 @@ CShareManager::CShareManager(QObject* parent) :
 	m_nRemainingFiles = 0;
 }
 
-void CShareManager::Start()
+void CShareManager::start()
 {
 	QMutexLocker l(&m_oSection);
 	systemLog.postLog(LogSeverity::Debug, QString("Starting share manager..."));
@@ -134,12 +134,12 @@ void CShareManager::setupThread()
 
 	m_bActive = true;
 
-	QTimer::singleShot(30000, this, SLOT(SyncShares()));
+	QTimer::singleShot(30000, this, SLOT(syncShares()));
 
 	connect(this, SIGNAL(executeQuery(const QString&)), this, SLOT(execQuery(const QString&)), Qt::QueuedConnection);
 }
 
-void CShareManager::Stop()
+void CShareManager::stop()
 {
 	QMutexLocker l(&m_oSection);
 	m_bActive = false;
@@ -166,13 +166,13 @@ void CShareManager::cleanupThread()
 	}
 }
 
-void CShareManager::AddDir(QString sPath)
+void CShareManager::addDir(QString sPath)
 {
 	Q_UNUSED(sPath);
 
 }
 
-void CShareManager::RemoveDir(QString sPath)
+void CShareManager::removeDir(QString sPath)
 {
 	Q_UNUSED(sPath);
 
@@ -184,18 +184,18 @@ void CShareManager::RemoveDir(QString sPath)
 
 	while(query.next())
 	{
-		RemoveDir(query.record().value(0).toUInt());
+		removeDir(query.record().value(0).toUInt());
 	}
 }
 
-void CShareManager::RemoveDir(quint64 nId)
+void CShareManager::removeDir(quint64 nId)
 {
 	QSqlQuery delq(m_oDatabase);
 
 	delq.exec(QString("SELECT id FROM dirs WHERE parent = %1").arg(nId));
 	while(delq.next())
 	{
-		RemoveDir(delq.record().value(0).toUInt());
+		removeDir(delq.record().value(0).toUInt());
 	}
 
 	delq.exec(QString("DELETE FROM hashes WHERE file_id IN (SELECT dir_id FROM files WHERE dir_id = %1)").arg(nId));
@@ -203,20 +203,20 @@ void CShareManager::RemoveDir(quint64 nId)
 	delq.exec(QString("DELETE FROM dirs WHERE id = %1").arg(nId));
 }
 
-void CShareManager::RemoveFile(QString sPath)
+void CShareManager::removeFile(QString sPath)
 {
 	Q_UNUSED(sPath);
 
 }
 
-void CShareManager::RemoveFile(quint64 nFileId)
+void CShareManager::removeFile(quint64 nFileId)
 {
 	QSqlQuery delq(m_oDatabase);
 	delq.exec(QString("DELETE FROM hashes WHERE file_id = %1").arg(nFileId));
 	delq.exec(QString("DELETE FROM files WHERE file_id = %1").arg(nFileId));
 }
 
-void CShareManager::SyncShares()
+void CShareManager::syncShares()
 {
 	QMutexLocker l(&m_oSection);
 
@@ -245,7 +245,7 @@ void CShareManager::SyncShares()
 		{
 			// delete all file entries that refer to the missing dir
 			systemLog.postLog(LogSeverity::Debug, QString("Directory %1 does not exist").arg(d.path()));
-			RemoveDir(query.record().value(0).toInt());
+			removeDir(query.record().value(0).toInt());
 			nMissingDirs++;
 		}
 	}
@@ -274,7 +274,7 @@ void CShareManager::SyncShares()
 				if(!fi.exists())
 				{
 					systemLog.postLog(LogSeverity::Debug, QString("File: %1 is missing").arg(sPath));
-					RemoveFile(fquery.record().value(0).toInt());
+					removeFile(fquery.record().value(0).toInt());
 					nMissingFiles++;
 				}
 				else
@@ -297,7 +297,7 @@ void CShareManager::SyncShares()
 					if(bModified)
 					{
 						systemLog.postLog(LogSeverity::Debug, QString("File: %1 is midified, rehashing").arg(sPath));
-						RemoveFile(fquery.record().value(0).toInt());
+						removeFile(fquery.record().value(0).toInt());
 						nModifiedFiles++;
 					}
 				}
@@ -356,7 +356,7 @@ void CShareManager::SyncShares()
 			while(query.next())
 			{
 				nOrphaned++;
-				RemoveDir(query.record().value(0).toLongLong());
+				removeDir(query.record().value(0).toLongLong());
 			}
 
 			systemLog.postLog(LogSeverity::Debug, QString("Found %1 orphaned dirs").arg(nOrphaned));
@@ -416,7 +416,7 @@ void CShareManager::SyncShares()
 		}
 
 		l.unlock();
-		ScanFolder(sPath);
+		scanFolder(sPath);
 		l.relock();
 	}
 
@@ -426,12 +426,12 @@ void CShareManager::SyncShares()
 	{
 		emit sharesReady();
 		l.unlock();
-		RunHashing();
+		runHashing();
 	}
 }
 
 // Recursively scan sPath for new files (modified files are already handled)
-void CShareManager::ScanFolder(QString sPath, qint64 nParentID)
+void CShareManager::scanFolder(QString sPath, qint64 nParentID)
 {
 	QMutexLocker l(&m_oSection);
 
@@ -574,13 +574,13 @@ void CShareManager::ScanFolder(QString sPath, qint64 nParentID)
 
 	foreach(QString sDir, lSubdirs)
 	{
-		ScanFolder(d.absolutePath() + "/" + sDir, nDirID);
+		scanFolder(d.absolutePath() + "/" + sDir, nDirID);
 	}
 }
 
 // meant to be called from other threads
 // Don't call it from ShareManager thread or it will deadlock
-QList<QSqlRecord> CShareManager::Query(const QString sQuery)
+QList<QSqlRecord> CShareManager::query(const QString sQuery)
 {
 	QMutexLocker l(&m_oSection);
 
@@ -615,7 +615,7 @@ void CShareManager::execQuery(const QString& sQuery)
 	m_oSection.unlock();
 }
 
-void CShareManager::RunHashing()
+void CShareManager::runHashing()
 {
 	QMutexLocker l(&m_oSection);
 
@@ -642,7 +642,7 @@ void CShareManager::RunHashing()
 		CSharedFilePtr pFile( new CSharedFile( query.record().value(3).toString() + '/' + query.record().value(1).toString() ) );
 		pFile->setDirectoryID( query.record().value(2).toLongLong() );
 
-		CFileHasher::HashFile(pFile);
+		CFileHasher::hashFile(pFile);
 
 		bFinished = false;
 	}
@@ -653,12 +653,12 @@ void CShareManager::RunHashing()
 
 	if(bFinished)
 	{
-		BuildHashTable();
+		buildHashTable();
 		emit sharesReady();
 	}
 }
 
-void CShareManager::OnFileHashed(CSharedFilePtr pFile)
+void CShareManager::onFileHashed(CSharedFilePtr pFile)
 {
 	QMutexLocker l( &m_oSection );
 
@@ -673,7 +673,7 @@ void CShareManager::OnFileHashed(CSharedFilePtr pFile)
 	emit remainingFilesChanged(m_nRemainingFiles);
 }
 
-CQueryHashTable* CShareManager::GetHashTable()
+CQueryHashTable* CShareManager::getHashTable()
 {
 	ASSUME_LOCK(m_oSection);
 	if(!m_bReady || !m_bTableReady)
@@ -684,7 +684,7 @@ CQueryHashTable* CShareManager::GetHashTable()
 	return m_pTable;
 }
 
-void CShareManager::BuildHashTable()
+void CShareManager::buildHashTable()
 {
 	ASSUME_LOCK(m_oSection);
 	if(m_pTable == 0)
