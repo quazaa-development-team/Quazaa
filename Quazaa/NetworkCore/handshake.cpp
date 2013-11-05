@@ -55,7 +55,7 @@ void CHandshake::OnTimer(quint32 tNow)
 		Close();
 	}
 }
-void CHandshake::OnRead()
+void CHandshake::onRead()
 {
 	QMutexLocker l(&Handshakes.m_pSection);
 
@@ -106,7 +106,7 @@ void CHandshake::onDisconnectNode()
 	delete this;
 	Handshakes.m_pSection.unlock();
 }
-void CHandshake::OnError(QAbstractSocket::SocketError e)
+void CHandshake::onError(QAbstractSocket::SocketError e)
 {
 	Q_UNUSED(e);
 	Handshakes.m_pSection.lock();
@@ -114,7 +114,7 @@ void CHandshake::OnError(QAbstractSocket::SocketError e)
 	Handshakes.m_pSection.unlock();
 }
 
-void CHandshake::OnStateChange(QAbstractSocket::SocketState s)
+void CHandshake::onStateChange(QAbstractSocket::SocketState s)
 {
 	Q_UNUSED(s);
 }

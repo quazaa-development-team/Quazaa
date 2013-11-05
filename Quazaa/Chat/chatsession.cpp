@@ -57,7 +57,7 @@ void CChatSession::connectNode()
 		moveToThread(&ChatThread);
 }
 
-void CChatSession::OnTimer(quint32 tNow)
+void CChatSession::onTimer(quint32 tNow)
 {
 	if( m_nState < csConnected )
 	{
@@ -83,21 +83,21 @@ void CChatSession::onDisconnectNode()
 	m_nState = csClosed;
 	emit systemMessage("Connection lost");
 }
-void CChatSession::OnRead()
+void CChatSession::onRead()
 {
 
 }
-void CChatSession::OnError(QAbstractSocket::SocketError e)
+void CChatSession::onError(QAbstractSocket::SocketError e)
 {
 	Q_UNUSED(e);
 }
 
-void CChatSession::OnStateChange(QAbstractSocket::SocketState s)
+void CChatSession::onStateChange(QAbstractSocket::SocketState s)
 {
 	Q_UNUSED(s);
 }
 
-void CChatSession::SetupWidget(CWidgetPrivateMessage *pWg)
+void CChatSession::setupWidget(CWidgetPrivateMessage *pWg)
 {
 	m_pWidget = pWg;
 
@@ -105,8 +105,8 @@ void CChatSession::SetupWidget(CWidgetPrivateMessage *pWg)
 	connect(this, SIGNAL(nickChanged(QString)), m_pWidget, SLOT(OnNickChanged(QString)));
 	connect(this, SIGNAL(incomingMessage(QString,bool)), m_pWidget, SLOT(OnIncomingMessage(QString,bool)));
 	connect(this, SIGNAL(systemMessage(QString)), m_pWidget, SLOT(OnSystemMessage(QString)));
-	connect(m_pWidget, SIGNAL(SendMessageS(QString,bool)), this, SLOT(SendMessage(QString,bool)));
-	connect(m_pWidget, SIGNAL(SendMessageS(QTextDocument*,bool)), this, SLOT(SendMessage(QTextDocument*,bool)));
+	connect(m_pWidget, SIGNAL(SendMessageS(QString,bool)), this, SLOT(sendMessage(QString,bool)));
+	connect(m_pWidget, SIGNAL(SendMessageS(QTextDocument*,bool)), this, SLOT(sendMessage(QTextDocument*,bool)));
 	connect(m_pWidget, SIGNAL(destroyed()), this, SLOT(deleteLater()));
 }
 

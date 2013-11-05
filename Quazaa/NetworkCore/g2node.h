@@ -90,7 +90,7 @@ signals:
 	void NodeStateChanged();
 public slots:
 	void onConnectNode();
-	void OnRead();
+	void onRead();
 
 public:
 	void SendLNI();

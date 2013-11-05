@@ -98,7 +98,7 @@ void CChatSessionG2::onDisconnectNode()
 {
 	CChatSession::onDisconnectNode();
 }
-void CChatSessionG2::OnRead()
+void CChatSessionG2::onRead()
 {
 	if( m_nState == csHandshaking )
 	{
@@ -456,7 +456,7 @@ void CChatSessionG2::OnCMSG(G2Packet *pPacket)
 	}
 }
 
-void CChatSessionG2::SendMessage(QString sMessage, bool bAction)
+void CChatSessionG2::sendMessage(QString sMessage, bool bAction)
 {
 	qDebug() << "Send message:" << sMessage << bAction;
 
@@ -471,11 +471,11 @@ void CChatSessionG2::SendMessage(QString sMessage, bool bAction)
 
 	SendPacket(pPacket);
 }
-void CChatSessionG2::SendMessage(QTextDocument *pMessage, bool bAction)
+void CChatSessionG2::sendMessage(QTextDocument *pMessage, bool bAction)
 {
 	CChatConverter oConv(pMessage);
 
-	SendMessage(oConv.toBBCode(), bAction);
+	sendMessage(oConv.toBBCode(), bAction);
 
 	delete pMessage;
 }

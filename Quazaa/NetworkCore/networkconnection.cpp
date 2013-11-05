@@ -208,9 +208,9 @@ void CNetworkConnection::initializeSocket()
 
 	connect(this, SIGNAL(connected()), this, SLOT(onConnectNode()), Qt::QueuedConnection);
 	connect(this, SIGNAL(disconnected()), this, SLOT(onDisconnectNode()), Qt::QueuedConnection);
-	connect(this, SIGNAL(readyRead()), this, SLOT(OnRead()), Qt::QueuedConnection);
-	connect(this, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(OnError(QAbstractSocket::SocketError)), Qt::QueuedConnection);
-	connect(this, SIGNAL(stateChanged(QAbstractSocket::SocketState)), this, SLOT(OnStateChange(QAbstractSocket::SocketState)), Qt::QueuedConnection);
+	connect(this, SIGNAL(readyRead()), this, SLOT(onRead()), Qt::QueuedConnection);
+	connect(this, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(onError(QAbstractSocket::SocketError)), Qt::QueuedConnection);
+	connect(this, SIGNAL(stateChanged(QAbstractSocket::SocketState)), this, SLOT(onStateChange(QAbstractSocket::SocketState)), Qt::QueuedConnection);
 
 }
 
@@ -439,7 +439,7 @@ void CNetworkConnection::OnErrorInt(QAbstractSocket::SocketError e)
 	emit error(e);
 }
 
-void CNetworkConnection::OnStateChange(QAbstractSocket::SocketState s)
+void CNetworkConnection::onStateChange(QAbstractSocket::SocketState s)
 {
 	Q_UNUSED(s)
 }

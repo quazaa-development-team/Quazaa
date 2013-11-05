@@ -60,9 +60,9 @@ public:
 
 	virtual void connectNode();
 
-	virtual void OnTimer(quint32 tNow);
+	virtual void onTimer(quint32 tNow);
 
-	void SetupWidget(CWidgetPrivateMessage* pWg);
+	void setupWidget(CWidgetPrivateMessage* pWg);
 
 signals:
 	void incomingMessage(QString, bool = false);
@@ -73,12 +73,12 @@ signals:
 public slots:
 	void onConnectNode();
 	void onDisconnectNode();
-	void OnRead();
-	void OnError(QAbstractSocket::SocketError e);
-	void OnStateChange(QAbstractSocket::SocketState s);
+	void onRead();
+	void onError(QAbstractSocket::SocketError e);
+	void onStateChange(QAbstractSocket::SocketState s);
 
-	virtual void SendMessage(QString sMessage, bool bAction = false) = 0;
-	virtual void SendMessage(QTextDocument* pMessage, bool bAction = false) = 0;
+	virtual void sendMessage(QString sMessage, bool bAction = false) = 0;
+	virtual void sendMessage(QTextDocument* pMessage, bool bAction = false) = 0;
 
 };
 

@@ -182,9 +182,9 @@ public slots:
 public slots:
 	virtual void onConnectNode() = 0;
 	virtual void onDisconnectNode() = 0;
-	virtual void OnRead() = 0;
-	virtual void OnError(QAbstractSocket::SocketError e) = 0;
-	virtual void OnStateChange(QAbstractSocket::SocketState s);
+	virtual void onRead() = 0;
+	virtual void onError(QAbstractSocket::SocketError e) = 0;
+	virtual void onStateChange(QAbstractSocket::SocketState s);
 
 public:
 	TCPBandwidthMeter m_mInput;

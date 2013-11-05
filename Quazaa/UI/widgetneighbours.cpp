@@ -160,7 +160,7 @@ void CWidgetNeighbours::updateEDonkey()
 
 void CWidgetNeighbours::onTimer()
 {
-	neighboursList->UpdateAll();
+	neighboursList->updateAll();
 	updateG2();
 }
 
@@ -193,7 +193,7 @@ void CWidgetNeighbours::on_actionNeighbourConnectTo_triggered()
 void CWidgetNeighbours::on_actionNeighbourDisconnect_triggered()
 {
 	QModelIndex idx = ui->tableViewNeighbours->currentIndex();
-	CNeighbour* pNode = neighboursList->NodeFromIndex(idx);
+	CNeighbour* pNode = neighboursList->nodeFromIndex(idx);
 
 	if( pNode == 0 )
 		return;
@@ -225,7 +225,7 @@ void CWidgetNeighbours::on_actionNetworkChatWith_triggered()
 	if (ui->tableViewNeighbours->currentIndex().isValid())
 	{
 		QModelIndex idx = ui->tableViewNeighbours->currentIndex();
-		CNeighbour* pNode = neighboursList->NodeFromIndex(idx);
+		CNeighbour* pNode = neighboursList->nodeFromIndex(idx);
 
 		if( pNode == 0 )
 			return;

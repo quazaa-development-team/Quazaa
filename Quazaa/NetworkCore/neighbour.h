@@ -79,7 +79,7 @@ signals:
 
 public slots:
 	void onDisconnectNode();
-	void OnError(QAbstractSocket::SocketError e);
+	void onError(QAbstractSocket::SocketError e);
 
 };
 

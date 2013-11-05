@@ -160,7 +160,7 @@ void CG2Node::onConnectNode()
 	Write(sHs);
 }
 
-void CG2Node::OnRead()
+void CG2Node::onRead()
 {
 
 	QMutexLocker l(&Neighbours.m_pSection);

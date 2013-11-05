@@ -57,10 +57,10 @@ signals:
 public slots:
 	void onConnectNode();
 	void onDisconnectNode();
-	void OnRead();
+	void onRead();
 
-	void SendMessage(QString sMessage, bool bAction = false);
-	void SendMessage(QTextDocument* pMessage, bool bAction = false);
+	void sendMessage(QString sMessage, bool bAction = false);
+	void sendMessage(QTextDocument* pMessage, bool bAction = false);
 
 };
 

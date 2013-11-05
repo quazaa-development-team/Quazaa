@@ -225,7 +225,7 @@ QVariant CNeighboursTableModel::Neighbour::data(int col) const
 				return QString().sprintf( "%.2u:%.2u:%.2u", tConnected / 3600,
 										  tConnected % 3600 / 60, ( tConnected % 3600 ) % 60 );
 			else
-				return StateToString(nState);
+				return stateToString(nState);
 
 		case BANDWIDTH:
 			return QString().sprintf( "%1.3f / %1.3f", nBandwidthIn / 1024.0f,
@@ -241,7 +241,7 @@ QVariant CNeighboursTableModel::Neighbour::data(int col) const
 			return QString().sprintf( "%u - %u", nPacketsIn, nPacketsOut );
 
 		case MODE:
-			return TypeToString( nType );
+			return typeToString( nType );
 
 		case LEAVES:
 			if ( nType == G2_HUB )
@@ -297,7 +297,7 @@ bool CNeighboursTableModel::Neighbour::lessThan( int col,
 		return ( nPacketsIn + nPacketsOut ) < ( pOther->nPacketsIn + pOther->nPacketsOut );
 
 	case MODE:
-		return TypeToString( nType ) < TypeToString( pOther->nType );
+		return typeToString( nType ) < typeToString( pOther->nType );
 
 	case LEAVES:
 		if(nLeafCount == pOther->nLeafCount)
@@ -328,7 +328,7 @@ bool CNeighboursTableModel::Neighbour::lessThan( int col,
 	}
 
 }
-QString CNeighboursTableModel::Neighbour::StateToString(int s) const
+QString CNeighboursTableModel::Neighbour::stateToString(int s) const
 {
 	switch ( s )
 	{
@@ -348,7 +348,7 @@ QString CNeighboursTableModel::Neighbour::StateToString(int s) const
 		return QString();
 	}
 }
-QString CNeighboursTableModel::Neighbour::TypeToString(G2NodeType t) const
+QString CNeighboursTableModel::Neighbour::typeToString(G2NodeType t) const
 {
 	if ( t == G2_HUB )
 	{
@@ -372,9 +372,9 @@ CNeighboursTableModel::CNeighboursTableModel(QObject* parent, QWidget* container
 	m_bNeedSorting = false;
 
 	connect( &Neighbours, SIGNAL( NeighbourAdded(CNeighbour*) ),
-			 this, SLOT( AddNode(CNeighbour*) ), Qt::QueuedConnection );
+			 this, SLOT( addNode(CNeighbour*) ), Qt::QueuedConnection );
 	connect( &Neighbours, SIGNAL(NeighbourRemoved(CNeighbour*) ),
-			 this, SLOT( RemoveNode(CNeighbour*) ), Qt::QueuedConnection );
+			 this, SLOT( removeNode(CNeighbour*) ), Qt::QueuedConnection );
 }
 
 CNeighboursTableModel::~CNeighboursTableModel()
@@ -617,7 +617,7 @@ void CNeighboursTableModel::sort(int column, Qt::SortOrder order)
 	emit layoutChanged();
 }
 
-CNeighbour* CNeighboursTableModel::NodeFromIndex(const QModelIndex& index)
+CNeighbour* CNeighboursTableModel::nodeFromIndex(const QModelIndex& index)
 {
 	if ( index.isValid() && index.row() < m_lNodes.count() && index.row() >= 0 )
 	{
@@ -629,7 +629,7 @@ CNeighbour* CNeighboursTableModel::NodeFromIndex(const QModelIndex& index)
 	}
 }
 
-void CNeighboursTableModel::AddNode(CNeighbour* pNode)
+void CNeighboursTableModel::addNode(CNeighbour* pNode)
 {
 	Neighbours.m_pSection.lock();
 	if ( Neighbours.NeighbourExists( pNode ) )
@@ -642,7 +642,7 @@ void CNeighboursTableModel::AddNode(CNeighbour* pNode)
 	Neighbours.m_pSection.unlock();
 }
 
-void CNeighboursTableModel::RemoveNode(CNeighbour* pNode)
+void CNeighboursTableModel::removeNode(CNeighbour* pNode)
 {
 	for ( int i = 0, nMax = m_lNodes.size(); i < nMax; i++ )
 	{
@@ -678,7 +678,7 @@ void CNeighboursTableModel::RemoveNode(CNeighbour* pNode)
 	}
 }
 
-void CNeighboursTableModel::UpdateAll()
+void CNeighboursTableModel::updateAll()
 {
 	QModelIndexList uplist;
 	bool bSort = m_bNeedSorting;

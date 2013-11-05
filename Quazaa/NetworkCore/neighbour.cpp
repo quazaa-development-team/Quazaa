@@ -110,7 +110,7 @@ void CNeighbour::onDisconnectNode()
 	Neighbours.m_pSection.unlock();
 }
 
-void CNeighbour::OnError(QAbstractSocket::SocketError e)
+void CNeighbour::onError(QAbstractSocket::SocketError e)
 {
 	if ( e == QAbstractSocket::RemoteHostClosedError )
 	{

@@ -39,11 +39,11 @@ public:
 	void OnTimer(quint32 tNow);
 
 public slots:
-	void OnRead();
+	void onRead();
 	void onConnectNode();
 	void onDisconnectNode() ;
-	void OnError(QAbstractSocket::SocketError e);
-	void OnStateChange(QAbstractSocket::SocketState s);
+	void onError(QAbstractSocket::SocketError e);
+	void onStateChange(QAbstractSocket::SocketState s);
 
 private:
 	void OnWebRequest();
