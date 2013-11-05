@@ -66,16 +66,16 @@ void CHandshake::onRead()
 		return;
 	}
 
-	if(Peek(8).startsWith("GNUTELLA"))
+	if(peek(8).startsWith("GNUTELLA"))
 	{
 		systemLog.postLog(LogSeverity::Debug, QString("Incoming connection from %1 is Gnutella Neighbour connection").arg(m_pSocket->peerAddress().toString().toLocal8Bit().constData()));
 		//qDebug("Incoming connection from %s is Gnutella Neighbour connection", m_pSocket->peerAddress().toString().toLocal8Bit().constData());
 		Handshakes.processNeighbour(this);
 		delete this;
 	}
-	else if(Peek(5).startsWith("GET /"))
+	else if(peek(5).startsWith("GET /"))
 	{
-		if( Peek(bytesAvailable()).indexOf("\r\n\r\n") != -1 )
+		if( peek(bytesAvailable()).indexOf("\r\n\r\n") != -1 )
 		{
 			systemLog.postLog(LogSeverity::Debug, QString("Incoming connection from %1 is a Web request").arg(m_pSocket->peerAddress().toString().toLocal8Bit().constData()));
 			onWebRequest();
@@ -91,7 +91,7 @@ void CHandshake::onRead()
 		baResp += "Server: " + CQuazaaGlobals::USER_AGENT_STRING() + "\r\n";
 		baResp += "\r\n";
 
-		Write(baResp);
+		write(baResp);
 		close(true);
 	}
 }
@@ -123,7 +123,7 @@ void CHandshake::onWebRequest()
 {
 	QString sRequest;
 
-	sRequest = Read(bytesAvailable());
+	sRequest = read(bytesAvailable());
 	sRequest = sRequest.left(sRequest.indexOf("\r\n\r\n"));
 
 	QStringList arrLines = sRequest.split("\r\n");
@@ -204,8 +204,8 @@ void CHandshake::onWebRequest()
 		baResp += "Content-length: " + QString(baHtml.length()) + "\r\n";
 		baResp += "\r\n";
 
-		Write(baResp);
-		Write(baHtml);
+		write(baResp);
+		write(baHtml);
 	}
 	else
 	{
@@ -236,7 +236,7 @@ void CHandshake::onWebRequest()
 					baResp += f.readAll();
 					f.close();
 
-					Write(baResp);
+					write(baResp);
 				}
 			}
 		}
@@ -254,7 +254,7 @@ void CHandshake::onWebRequest()
 #ifdef _DEBUG
 			baResp += sPath;
 #endif
-			Write(baResp);
+			write(baResp);
 		}
 	}
 	close(true);

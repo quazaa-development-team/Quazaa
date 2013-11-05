@@ -81,7 +81,7 @@ public:
 #if QT_VERSION < QT_VERSION_CHECK(5,0,0)
 	virtual void AcceptFrom(int nHandle);
 #else
-	virtual void AcceptFrom(qintptr nHandle);
+	virtual void acceptFrom(qintptr nHandle);
 #endif
 	virtual void close(bool bDelayed = false);
 
@@ -89,23 +89,23 @@ private:
 	Q_INVOKABLE void closeImplementation(bool bDelayed);
 
 public:
-	void Write(QByteArray& baData)
+	void write(QByteArray& baData)
 	{
-		Write(baData.constData(), baData.size());
+		write(baData.constData(), baData.size());
 	}
 
-	inline void Write(const char* szData, quint32 nLength)
+	inline void write(const char* szData, quint32 nLength)
 	{
 		writeData(szData, nLength);
 	}
 
-	inline qint64 Read(char* pData, qint64 nMaxSize = 0)
+	inline qint64 read(char* pData, qint64 nMaxSize = 0)
 	{
 		return readData(pData, nMaxSize);
 	}
 
-	QByteArray Read(qint64 nMaxSize = 0);
-	QByteArray Peek(qint64 nMaxLength = 0);
+	QByteArray read(qint64 nMaxSize = 0);
+	QByteArray peek(qint64 nMaxLength = 0);
 
 protected:
 	virtual qint64 readFromNetwork(qint64 nBytes);
@@ -153,13 +153,13 @@ public:
 		return false;
 	}
 
-	inline virtual CBuffer* GetInputBuffer()
+	inline virtual CBuffer* getInputBuffer()
 	{
 		Q_ASSERT(m_pInput != 0);
 
 		return m_pInput;
 	}
-	inline virtual CBuffer* GetOutputBuffer()
+	inline virtual CBuffer* getOutputBuffer()
 	{
 		Q_ASSERT(m_pOutput != 0);
 
@@ -177,7 +177,7 @@ signals:
 
 public slots:
 	void onDisconnectInt();
-	void OnErrorInt(QAbstractSocket::SocketError e);
+	void onErrorInt(QAbstractSocket::SocketError e);
 
 public slots:
 	virtual void onConnectNode() = 0;

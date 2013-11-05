@@ -82,7 +82,7 @@ void CNetwork::start()
 
 	m_oRoutingTable.Clear();
 
-	connect(&ShareManager, SIGNAL(sharesReady()), this, SLOT(OnSharesReady()), Qt::UniqueConnection);
+	connect(&ShareManager, SIGNAL(sharesReady()), this, SLOT(onSharesReady()), Qt::UniqueConnection);
 
 	NetworkThread.start("Network", &m_pSection, this);
 
@@ -109,7 +109,7 @@ void CNetwork::setupThread()
 	Q_ASSERT(m_pSecondTimer == 0);
 
 	m_pSecondTimer = new QTimer();
-	connect(m_pSecondTimer, SIGNAL(timeout()), this, SLOT(OnSecondTimer()));
+	connect(m_pSecondTimer, SIGNAL(timeout()), this, SLOT(onSecondTimer()));
 	m_pSecondTimer->start(1000);
 
 	Datagrams.listen();
@@ -136,7 +136,7 @@ void CNetwork::cleanupThread()
 	qDebug() << "Cleanup complete.";
 }
 
-void CNetwork::OnSecondTimer()
+void CNetwork::onSecondTimer()
 {
 	if(!m_pSection.tryLock(150))
 	{
@@ -175,17 +175,17 @@ void CNetwork::OnSecondTimer()
 	emit Datagrams.sendQueueUpdated();
 }
 
-bool CNetwork::IsListening()
+bool CNetwork::isListening()
 {
 	return Handshakes.isListening() && Datagrams.isListening();
 }
 
-bool CNetwork::IsFirewalled()
+bool CNetwork::isFirewalled()
 {
 	return Datagrams.isFirewalled() || Handshakes.isFirewalled();
 }
 
-void CNetwork::AcquireLocalAddress(QString& sHeader)
+void CNetwork::acquireLocalAddress(QString& sHeader)
 {
 	CEndPoint hostAddr(sHeader, m_oAddress.port());
 
@@ -194,7 +194,7 @@ void CNetwork::AcquireLocalAddress(QString& sHeader)
 		if( hostAddr != m_oAddress )
 		{
 			m_oAddress = hostAddr;
-			emit LocalAddressChanged();
+			emit localAddressChanged();
 		}
 	}
 }
@@ -204,7 +204,7 @@ bool CNetwork::isConnectedTo(CEndPoint /*addr*/)
 	return false;
 }
 
-bool CNetwork::RoutePacket(QUuid& pTargetGUID, G2Packet* pPacket, bool bLockNeighbours, bool bBuffered)
+bool CNetwork::routePacket(QUuid& pTargetGUID, G2Packet* pPacket, bool bLockNeighbours, bool bBuffered)
 {
 	CG2Node* pNode = 0;
 	CEndPoint pAddr;
@@ -242,7 +242,7 @@ bool CNetwork::RoutePacket(QUuid& pTargetGUID, G2Packet* pPacket, bool bLockNeig
 	systemLog.postLog(LogSeverity::Debug, QString("CNetwork::RoutePacket %1 Packet: %2 DROPPED!").arg(pTargetGUID.toString()).arg(pPacket->getType()));
 	return false;
 }
-bool CNetwork::RoutePacket(G2Packet* pPacket, CG2Node* pNbr)
+bool CNetwork::routePacket(G2Packet* pPacket, CG2Node* pNbr)
 {
 	QUuid pGUID;
 
@@ -303,7 +303,7 @@ void CNetwork::connectToNode(CEndPoint& /*addr*/)
 	}*/
 }
 
-void CNetwork::OnSharesReady()
+void CNetwork::onSharesReady()
 {
 	m_bSharesReady = true;
 }

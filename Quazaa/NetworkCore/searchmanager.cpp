@@ -301,7 +301,7 @@ bool CSearchManager::OnQueryAcknowledge(G2Packet* pPacket, CEndPoint& addr, QUui
 		{
 			CEndPoint oBanned = addr;
 
-			if( Network.IsFirewalled() && !lDone.isEmpty() )
+			if( Network.isFirewalled() && !lDone.isEmpty() )
 			{
 				oBanned = lDone[0]; // 1st done hub, Shareaza does not include /FR child packet
 			}

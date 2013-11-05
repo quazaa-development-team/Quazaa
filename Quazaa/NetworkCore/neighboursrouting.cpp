@@ -40,7 +40,7 @@ CNeighboursRouting::~CNeighboursRouting()
 {
 }
 
-void CNeighboursRouting::RouteQuery(CQueryPtr pQuery, G2Packet *pPacket, CNeighbour* pFrom, bool bToHubs)
+void CNeighboursRouting::routeQuery(CQueryPtr pQuery, G2Packet *pPacket, CNeighbour* pFrom, bool bToHubs)
 {
 	quint32 tNow = time(0);
 	quint32 nCount = 0, nHubs = 0, nLeaves = 0;

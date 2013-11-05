@@ -201,7 +201,7 @@ void CManagedSearch::searchNeighbours(const QDateTime& tNowDT)
 			 ( tNow - pNode->m_tLastQuery > quazaaSettings.Gnutella2.QueryHostThrottle &&
 			   !m_lSearchedNodes.contains( pNode->m_oAddress ) ) )
 		{
-			G2Packet* pQuery = m_pQuery->ToG2Packet( Network.IsFirewalled() ?
+			G2Packet* pQuery = m_pQuery->ToG2Packet( Network.isFirewalled() ?
 														 NULL : &Network.m_oAddress );
 			if ( pQuery )
 			{
@@ -270,7 +270,7 @@ void CManagedSearch::searchG2(const QDateTime& tNowDT, quint32* pnMaxPackets)
 				pHost->m_nQueryKey = 0;
 				bRefreshKey = true;
 			}
-			else if ( !Network.IsFirewalled() )
+			else if ( !Network.isFirewalled() )
 			{
 				if ( pHost->m_nKeyHost == Network.m_oAddress )
 				{
@@ -336,7 +336,7 @@ void CManagedSearch::searchG2(const QDateTime& tNowDT, quint32* pnMaxPackets)
 
 			bool bKeyRequested = false;
 
-			if ( !Network.IsFirewalled() )
+			if ( !Network.isFirewalled() )
 			{
 				// request a key for our address
 				G2Packet* pQKR = G2Packet::newPacket( "QKR", false );

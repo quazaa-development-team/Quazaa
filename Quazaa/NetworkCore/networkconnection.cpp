@@ -121,7 +121,7 @@ void CNetworkConnection::attachTo(CNetworkConnection* pOther)
 #if QT_VERSION < QT_VERSION_CHECK(5,0,0)
 void CNetworkConnection::AcceptFrom(int nHandle)
 #else
-void CNetworkConnection::AcceptFrom(qintptr nHandle)
+void CNetworkConnection::acceptFrom(qintptr nHandle)
 #endif
 {
 	Q_ASSERT(m_pSocket == 0);
@@ -165,9 +165,9 @@ void CNetworkConnection::closeImplementation(bool bDelayed)
 {
 	if( bDelayed )
 	{
-		if(!GetOutputBuffer()->isEmpty() || !m_pOutput->isEmpty())
+		if(!getOutputBuffer()->isEmpty() || !m_pOutput->isEmpty())
 		{
-			writeToNetwork(m_pOutput->size() + GetOutputBuffer()->size());
+			writeToNetwork(m_pOutput->size() + getOutputBuffer()->size());
 			m_pSocket->disconnectFromHost();
 			return;
 		}
@@ -198,7 +198,7 @@ void CNetworkConnection::initializeSocket()
 	connect(m_pSocket, SIGNAL(disconnected()),
 			this, SLOT(onDisconnectInt()));
 	connect(m_pSocket, SIGNAL(error(QAbstractSocket::SocketError)),
-			this, SLOT(OnErrorInt(QAbstractSocket::SocketError)));
+			this, SLOT(onErrorInt(QAbstractSocket::SocketError)));
 	connect(m_pSocket, SIGNAL(bytesWritten(qint64)),
 			this, SIGNAL(bytesWritten(qint64)));
 	connect(m_pSocket, SIGNAL(stateChanged(QAbstractSocket::SocketState)),
@@ -337,18 +337,18 @@ void CNetworkConnection::setReadBufferSize(qint64 nSize)
 	m_pSocket->setReadBufferSize(nSize);
 }
 
-QByteArray CNetworkConnection::Read(qint64 nMaxSize)
+QByteArray CNetworkConnection::read(qint64 nMaxSize)
 {
 	QByteArray baRet;
 
-	baRet.resize(qMin<qint64>(nMaxSize, GetInputBuffer()->size()));
+	baRet.resize(qMin<qint64>(nMaxSize, getInputBuffer()->size()));
 	readData(baRet.data(), baRet.size());
 	return baRet;
 }
 
-QByteArray CNetworkConnection::Peek(qint64 nMaxLength)
+QByteArray CNetworkConnection::peek(qint64 nMaxLength)
 {
-	CBuffer* pBuffer = GetInputBuffer();
+	CBuffer* pBuffer = getInputBuffer();
 
 	return QByteArray::fromRawData(pBuffer->data(), qMin<qint64>(nMaxLength > 0 ? nMaxLength : pBuffer->size(), pBuffer->size()));
 }
@@ -433,7 +433,7 @@ void CNetworkConnection::onDisconnectInt()
 	emit disconnected();
 }
 
-void CNetworkConnection::OnErrorInt(QAbstractSocket::SocketError e)
+void CNetworkConnection::onErrorInt(QAbstractSocket::SocketError e)
 {
 	//qDebug() << m_pSocket << e;
 	emit error(e);

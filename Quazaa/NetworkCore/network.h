@@ -62,14 +62,14 @@ public:
 	void start();
 	void stop();
 
-	void AcquireLocalAddress(QString& sHeader);
-	bool IsListening();
-	bool IsFirewalled();
+	void acquireLocalAddress(QString& sHeader);
+	bool isListening();
+	bool isFirewalled();
 
-	bool RoutePacket(QUuid& pTargetGUID, G2Packet* pPacket, bool bLockNeighbours = false, bool bBuffered = true);
-	bool RoutePacket(G2Packet* pPacket, CG2Node* pNbr = 0);
+	bool routePacket(QUuid& pTargetGUID, G2Packet* pPacket, bool bLockNeighbours = false, bool bBuffered = true);
+	bool routePacket(G2Packet* pPacket, CG2Node* pNbr = 0);
 
-	inline CEndPoint GetLocalAddress()
+	inline CEndPoint getLocalAddress()
 	{
 		return m_oAddress;
 	}
@@ -78,17 +78,17 @@ public:
 	bool isConnectedTo(CEndPoint addr);
 
 public slots:
-	void OnSecondTimer();
+	void onSecondTimer();
 
 	void setupThread();
 	void cleanupThread();
 
 	void connectToNode(CEndPoint& addr);
 
-	void OnSharesReady();
+	void onSharesReady();
 
 signals:
-	void LocalAddressChanged();
+	void localAddressChanged();
 };
 
 extern CNetwork Network;

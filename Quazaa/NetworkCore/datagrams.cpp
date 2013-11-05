@@ -107,7 +107,7 @@ void CDatagrams::listen()
 
 	m_pSocket = new QUdpSocket(this);
 
-	CEndPoint addr = Network.GetLocalAddress();
+	CEndPoint addr = Network.getLocalAddress();
 	if(m_pSocket->bind(addr.port()))
 	{
 		systemLog.postLog(LogSeverity::Debug, QString("Datagrams listening on %1").arg(m_pSocket->localPort()));
@@ -980,7 +980,7 @@ void CDatagrams::onQA(CEndPoint& addr, G2Packet* pPacket)
 		pPacket->addOrReplaceChild( "FR", pFR );
 
 		Network.m_pSection.lock();
-		Network.RoutePacket( oGuid, pPacket, true, false );
+		Network.routePacket( oGuid, pPacket, true, false );
 		Network.m_pSection.unlock();
 	}
 }
@@ -1019,7 +1019,7 @@ void CDatagrams::onQH2(CEndPoint& addr, G2Packet* pPacket)
 					Network.m_oRoutingTable.Add(pInfo->m_oNodeGUID, pInfo->m_lNeighbouringHubs[0], false);
 				}
 
-				Network.RoutePacket(pInfo->m_oGUID, pPacket, true);
+				Network.routePacket(pInfo->m_oGUID, pPacket, true);
 
 				Network.m_pSection.unlock();
 			}
@@ -1114,7 +1114,7 @@ void CDatagrams::onQuery(CEndPoint &addr, G2Packet *pPacket)
 	sendPacket(pQuery->m_oEndpoint, pQA, true);
 	pQA->release();
 
-	Neighbours.RouteQuery(pQuery, pPacket);
+	Neighbours.routeQuery(pQuery, pPacket);
 	Neighbours.m_pSection.unlock();
 
 	// local search

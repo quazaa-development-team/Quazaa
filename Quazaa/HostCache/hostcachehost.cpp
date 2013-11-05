@@ -87,5 +87,5 @@ void CHostCacheHost::setKey(quint32 nKey, const quint32 tNow, CEndPoint* pHost)
 	m_nFailures = 0;
 	m_nQueryKey = nKey;
 	m_nKeyTime  = tNow;
-	m_nKeyHost  = pHost ? *pHost : Network.GetLocalAddress();
+	m_nKeyHost  = pHost ? *pHost : Network.getLocalAddress();
 }

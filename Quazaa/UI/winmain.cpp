@@ -911,7 +911,7 @@ void CWinMain::on_actionChatWith_triggered()
 void CWinMain::localAddressChanged()
 {
 	Network.m_pSection.lock();
-	labelCurrentIPAddress->setText(Network.GetLocalAddress().toStringWithPort());
+	labelCurrentIPAddress->setText(Network.getLocalAddress().toStringWithPort());
 	Network.m_pSection.unlock();
 }
 

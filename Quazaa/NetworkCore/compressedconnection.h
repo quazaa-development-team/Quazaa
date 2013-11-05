@@ -70,11 +70,11 @@ protected:
 	void Deflate();
 
 public:
-	inline CBuffer* GetInputBuffer()
+	inline CBuffer* getInputBuffer()
 	{
 		return (m_bCompressedInput ? m_pZInput : m_pInput);
 	}
-	inline CBuffer* GetOutputBuffer()
+	inline CBuffer* getOutputBuffer()
 	{
 		return (m_bCompressedOutput ? m_pZOutput : m_pOutput);
 	}

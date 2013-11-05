@@ -88,9 +88,9 @@ void CChatSessionG2::onConnectNode()
 	baHs = "CHAT CONNECT/0.2\r\n";
 	baHs+= "Accept: application/x-gnutella2\r\n";
 		baHs+= "User-Agent: " + CQuazaaGlobals::USER_AGENT_STRING() + "\r\n";
-	baHs+= "Listen-IP: " + Network.GetLocalAddress().toStringWithPort() + "\r\n\r\n";
+	baHs+= "Listen-IP: " + Network.getLocalAddress().toStringWithPort() + "\r\n\r\n";
 
-	Write(baHs);
+	write(baHs);
 
 	qDebug() << "Chat send:\n" << baHs;
 }
@@ -102,7 +102,7 @@ void CChatSessionG2::onRead()
 {
 	if( m_nState == csHandshaking )
 	{
-		if(Peek(bytesAvailable()).indexOf("\r\n\r\n") != -1)
+		if(peek(bytesAvailable()).indexOf("\r\n\r\n") != -1)
 		{
 			if(m_bInitiated)
 			{
@@ -119,7 +119,7 @@ void CChatSessionG2::onRead()
 		G2Packet* pPacket = 0;
 		try
 		{
-			while((pPacket = G2Packet::readBuffer(GetInputBuffer())))
+			while((pPacket = G2Packet::readBuffer(getInputBuffer())))
 			{
 				onPacket(pPacket);
 
@@ -142,7 +142,7 @@ void CChatSessionG2::onRead()
 
 void CChatSessionG2::parseOutgoingHandshake()
 {
-	QString sHs = Read(Peek(bytesAvailable()).indexOf("\r\n\r\n") + 4);
+	QString sHs = read(peek(bytesAvailable()).indexOf("\r\n\r\n") + 4);
 
 	qDebug() << "Chat received:\n" << sHs;
 
@@ -192,11 +192,11 @@ void CChatSessionG2::send_ChatOK(bool bReply)
 		// 2nd header
 		sHs+= "Accept: application/x-gnutella2\r\n";
 				sHs+= "User-Agent: " + CQuazaaGlobals::USER_AGENT_STRING() + "\r\n";
-		sHs+= "Listen-IP: " + Network.GetLocalAddress().toStringWithPort() + "\r\n";
+		sHs+= "Listen-IP: " + Network.getLocalAddress().toStringWithPort() + "\r\n";
 	}
 	sHs+= "Content-Type: application/x-gnutella2\r\n\r\n";
 
-	Write(sHs);
+	write(sHs);
 
 	qDebug() << "Chat send:\n" << sHs;
 
@@ -209,7 +209,7 @@ void CChatSessionG2::send_ChatError(QString sReason)
 	sHs = "CHAT/0.2 " + sReason.toLocal8Bit() + "\r\n";
 		sHs+= "User-Agent: " + CQuazaaGlobals::USER_AGENT_STRING() + "\r\n\r\n";
 
-	Write(sHs);
+	write(sHs);
 }
 
 void CChatSessionG2::sendStartups()
@@ -227,7 +227,7 @@ void CChatSessionG2::sendStartups()
 void CChatSessionG2::sendPacket(G2Packet *pPacket, bool bRelease)
 {
 	qDebug() << "Sending packet" << pPacket->getType();
-	pPacket->toBuffer(GetOutputBuffer());
+	pPacket->toBuffer(getOutputBuffer());
 	if(bRelease)
 		pPacket->release();
 	emit readyToTransfer();

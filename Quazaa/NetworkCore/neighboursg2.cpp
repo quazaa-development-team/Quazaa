@@ -173,7 +173,7 @@ void CNeighboursG2::maintain()
 		}
 	}
 
-	if ( isG2Hub() && Network.GetLocalAddress().isValid()
+	if ( isG2Hub() && Network.getLocalAddress().isValid()
 		 && !discoveryManager.isActive( Discovery::stGWC )
 		 && m_nUpdateWait-- == 0 )
 	{
@@ -335,7 +335,7 @@ void CNeighboursG2::hubBalancing()
 		// we're a leaf
 		// TODO: Check capabilities
 
-		if( Network.IsFirewalled() )
+		if( Network.isFirewalled() )
 			return;
 
 		quint32 nLeaves = 0, nCapacity = 0;

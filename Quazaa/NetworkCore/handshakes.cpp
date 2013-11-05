@@ -86,7 +86,7 @@ void CHandshakes::incomingConnection(qintptr handle)
 
 	CHandshake* pNew = new CHandshake();
 	m_lHandshakes.insert(pNew);
-	pNew->AcceptFrom(handle);
+	pNew->acceptFrom(handle);
 	pNew->moveToThread(&HandshakesThread);
 	m_pController->AddSocket(pNew);
 	m_nAccepted++;
@@ -136,18 +136,18 @@ void CHandshakes::setupThread()
 	m_pController->SetDownloadLimit(4096);
 	m_pController->SetUploadLimit(4096);
 
-	bool bOK = QTcpServer::listen(QHostAddress::Any, Network.GetLocalAddress().port());
+	bool bOK = QTcpServer::listen(QHostAddress::Any, Network.getLocalAddress().port());
 
 	if ( bOK )
 	{
 		systemLog.postLog( LogSeverity::Notice, Components::G2,
-						   "Handshakes: listening on port %d.", Network.GetLocalAddress().port() );
+						   "Handshakes: listening on port %d.", Network.getLocalAddress().port() );
 	}
 	else
 	{
 		systemLog.postLog( LogSeverity::Error, Components::G2,
 						   "Handshakes: cannot listen on port %d, incoming connections will be unavailable.",
-						   Network.GetLocalAddress().port() );
+						   Network.getLocalAddress().port() );
 	}
 
 	m_pTimer = new QTimer(this);

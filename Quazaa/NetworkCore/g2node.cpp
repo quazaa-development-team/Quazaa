@@ -108,7 +108,7 @@ void CG2Node::sendPacket(G2Packet* pPacket, bool bBuffered, bool bRelease)
 	}
 	else
 	{
-		pPacket->toBuffer(GetOutputBuffer());
+		pPacket->toBuffer(getOutputBuffer());
 	}
 
 	if(bRelease)
@@ -136,7 +136,7 @@ void CG2Node::onConnectNode()
 	sHs += "Accept: application/x-gnutella2\r\n";
 	sHs += "User-Agent: " + CQuazaaGlobals::USER_AGENT_STRING() + "\r\n";
 	sHs += "Remote-IP: " + m_oAddress.toString() + "\r\n";
-	sHs += "Listen-IP: " + Network.GetLocalAddress().toStringWithPort() + "\r\n";
+	sHs += "Listen-IP: " + Network.getLocalAddress().toStringWithPort() + "\r\n";
 	if(Neighbours.isG2Hub())
 	{
 		sHs += "X-Ultrapeer: True\r\n";
@@ -157,7 +157,7 @@ void CG2Node::onConnectNode()
 
 	m_sHandshake += "Handshake out:\n" + sHs;
 
-	Write(sHs);
+	write(sHs);
 }
 
 void CG2Node::onRead()
@@ -168,7 +168,7 @@ void CG2Node::onRead()
 	//qDebug() << "CG2Node::OnRead";
 	if(m_nState == nsHandshaking)
 	{
-		if(Peek(bytesAvailable()).indexOf("\r\n\r\n") != -1)
+		if(peek(bytesAvailable()).indexOf("\r\n\r\n") != -1)
 		{
 			if(m_bInitiated)
 			{
@@ -186,7 +186,7 @@ void CG2Node::onRead()
 		G2Packet* pPacket = 0;
 		try
 		{
-			while((pPacket = G2Packet::readBuffer(GetInputBuffer())))
+			while((pPacket = G2Packet::readBuffer(getInputBuffer())))
 			{
 				m_tLastPacketIn = time(0);
 				m_nPacketsIn++;
@@ -302,8 +302,8 @@ void CG2Node::parseIncomingHandshake()
 {
 	//QMutexLocker l(&Neighbours.m_pSection);
 
-	qint32 nIndex = Peek(bytesAvailable()).indexOf("\r\n\r\n");
-	QString sHs = Read(nIndex + 4);
+	qint32 nIndex = peek(bytesAvailable()).indexOf("\r\n\r\n");
+	QString sHs = read(nIndex + 4);
 
 	//qDebug() << "Handshake receive:\n" << sHs;
 
@@ -363,7 +363,7 @@ void CG2Node::parseIncomingHandshake()
 		QString sRemoteIP = Parser::GetHeaderValue(sHs, "Remote-IP");
 		if(!sRemoteIP.isEmpty())
 		{
-			Network.AcquireLocalAddress(sRemoteIP);
+			Network.acquireLocalAddress(sRemoteIP);
 		}
 		else
 		{
@@ -461,7 +461,7 @@ void CG2Node::parseIncomingHandshake()
 void CG2Node::parseOutgoingHandshake()
 {
 	//QMutexLocker l(&Neighbours.m_pSection);
-	QString sHs = Read(Peek(bytesAvailable()).indexOf("\r\n\r\n") + 4);
+	QString sHs = read(peek(bytesAvailable()).indexOf("\r\n\r\n") + 4);
 
 	//qDebug() << "Handshake receive:\n" << sHs;
 
@@ -524,7 +524,7 @@ void CG2Node::parseOutgoingHandshake()
 	QString sRemoteIP = Parser::GetHeaderValue(sHs, "Remote-IP");
 	if(!sRemoteIP.isEmpty())
 	{
-		Network.AcquireLocalAddress(sRemoteIP);
+		Network.acquireLocalAddress(sRemoteIP);
 	}
 	else
 	{
@@ -658,7 +658,7 @@ void CG2Node::send_ConnectError(QString sReason)
 
 	m_sHandshake += "Handshake out:\n" + sHs;
 
-	Write(sHs);
+	write(sHs);
 
 	close(true);
 }
@@ -698,7 +698,7 @@ void CG2Node::send_ConnectOK(bool bReply, bool bDeflated)
 		sHs += "Remote-IP: ";
 		sHs += m_oAddress.toString();
 		sHs += "\r\n";
-		sHs += "Listen-IP: " + Network.GetLocalAddress().toStringWithPort() + "\r\n";
+		sHs += "Listen-IP: " + Network.getLocalAddress().toStringWithPort() + "\r\n";
 	}
 	else
 	{
@@ -716,15 +716,15 @@ void CG2Node::send_ConnectOK(bool bReply, bool bDeflated)
 
 	m_sHandshake += "Handshake out:\n" + sHs;
 
-	Write(sHs);
+	write(sHs);
 
 }
 
 void CG2Node::sendStartups()
 {
-	if(Network.IsListening())
+	if(Network.isListening())
 	{
-		CEndPoint addr = Network.GetLocalAddress();
+		CEndPoint addr = Network.getLocalAddress();
 		G2Packet* pPacket = G2Packet::newPacket("PI", true);
 		pPacket->writePacket("UDP", 6);
 		pPacket->writeHostAddress(&addr);
@@ -770,7 +770,7 @@ void CG2Node::onPacket(G2Packet* pPacket)
 
 	//try
 	//{
-	if(!Network.RoutePacket(pPacket))
+	if(!Network.routePacket(pPacket))
 	{
 
 		if(pPacket->isType("PI"))
@@ -1379,7 +1379,7 @@ void CG2Node::onQH2(G2Packet* pPacket)
 			{
 				Network.m_oRoutingTable.Add(pInfo->m_oNodeGUID, this, false);
 				pPacket->m_pBuffer[pPacket->m_nLength - 17]++;
-				Network.RoutePacket(pInfo->m_oGUID, pPacket);
+				Network.routePacket(pInfo->m_oGUID, pPacket);
 			}
 
 			Network.m_pSection.unlock();
@@ -1437,7 +1437,7 @@ void CG2Node::onQuery(G2Packet* pPacket)
 
 		if( Neighbours.isG2Hub() )
 		{
-			Neighbours.RouteQuery(pQuery, pPacket, this, (m_nType != G2_HUB));
+			Neighbours.routeQuery(pQuery, pPacket, this, (m_nType != G2_HUB));
 		}
 	}
 }
@@ -1448,10 +1448,10 @@ qint64 CG2Node::writeToNetwork(qint64 nBytes)
 
 	do
 	{
-		if(GetOutputBuffer()->isEmpty() && !m_lSendQueue.isEmpty())
+		if(getOutputBuffer()->isEmpty() && !m_lSendQueue.isEmpty())
 		{
 			G2Packet* pPacket = m_lSendQueue.dequeue();
-			pPacket->toBuffer(GetOutputBuffer());
+			pPacket->toBuffer(getOutputBuffer());
 			pPacket->release();
 		}
 
