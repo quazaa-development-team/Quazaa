@@ -52,7 +52,7 @@ CNeighbour::~CNeighbour()
 	Neighbours.RemoveNode(this);
 }
 
-void CNeighbour::OnTimer(quint32 tNow)
+void CNeighbour::onTimer(quint32 tNow)
 {
 	if ( m_nState < nsConnected )
 	{

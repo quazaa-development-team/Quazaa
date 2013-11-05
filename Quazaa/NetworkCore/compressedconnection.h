@@ -78,7 +78,7 @@ public:
 	{
 		return (m_bCompressedOutput ? m_pZOutput : m_pOutput);
 	}
-	inline virtual bool HasData()
+	inline virtual bool hasData()
 	{
 		if(m_bOutputPending)
 		{
@@ -94,7 +94,7 @@ public:
 			return true;
 		}
 
-		return CNetworkConnection::HasData();
+		return CNetworkConnection::hasData();
 	}
 
 	float GetTotalInDecompressed()

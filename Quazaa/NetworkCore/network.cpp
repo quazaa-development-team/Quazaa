@@ -112,7 +112,7 @@ void CNetwork::SetupThread()
 	connect(m_pSecondTimer, SIGNAL(timeout()), this, SLOT(OnSecondTimer()));
 	m_pSecondTimer->start(1000);
 
-	Datagrams.Listen();
+	Datagrams.listen();
 	Handshakes.Listen();
 
 	m_bSharesReady = ShareManager.SharesReady();
@@ -172,7 +172,7 @@ void CNetwork::OnSecondTimer()
 
 	m_pSection.unlock();
 
-	emit Datagrams.SendQueueUpdated();
+	emit Datagrams.sendQueueUpdated();
 }
 
 bool CNetwork::IsListening()
@@ -182,7 +182,7 @@ bool CNetwork::IsListening()
 
 bool CNetwork::IsFirewalled()
 {
-	return Datagrams.IsFirewalled() || Handshakes.IsFirewalled();
+	return Datagrams.isFirewalled() || Handshakes.IsFirewalled();
 }
 
 void CNetwork::AcquireLocalAddress(QString& sHeader)
@@ -220,7 +220,7 @@ bool CNetwork::RoutePacket(QUuid& pTargetGUID, G2Packet* pPacket, bool bLockNeig
 
 			if( Neighbours.NeighbourExists(pNode) )
 			{
-				pNode->SendPacket(pPacket, bBuffered, false);
+				pNode->sendPacket(pPacket, bBuffered, false);
 				systemLog.postLog(LogSeverity::Debug, QString("CNetwork::RoutePacket %1 Packet: %2 routed to neighbour: %3").arg(pTargetGUID.toString()).arg(pPacket->GetType()).arg(pNode->m_oAddress.toString().toLocal8Bit().constData()));
 			}
 
@@ -232,7 +232,7 @@ bool CNetwork::RoutePacket(QUuid& pTargetGUID, G2Packet* pPacket, bool bLockNeig
 		}
 		else if(pAddr.isValid())
 		{
-			Datagrams.SendPacket(pAddr, pPacket, true);
+			Datagrams.sendPacket(pAddr, pPacket, true);
 			systemLog.postLog(LogSeverity::Debug, QString("CNetwork::RoutePacket %1 Packet: %2 routed to remote node: %3").arg(pTargetGUID.toString()).arg(pPacket->GetType()).arg(pAddr.toString().toLocal8Bit().constData()));
 			return true;
 		}
@@ -277,12 +277,12 @@ bool CNetwork::RoutePacket(G2Packet* pPacket, CG2Node* pNbr)
 
 			if(pNode && bForwardTCP)
 			{
-				pNode->SendPacket(pPacket, true, false);
+				pNode->sendPacket(pPacket, true, false);
 				return true;
 			}
 			else if(pAddr.isValid() && bForwardUDP)
 			{
-				Datagrams.SendPacket(pAddr, pPacket, true);
+				Datagrams.sendPacket(pAddr, pPacket, true);
 				return true;
 			}
 			// drop

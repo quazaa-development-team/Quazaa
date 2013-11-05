@@ -77,7 +77,7 @@ public:
 
 public:
 	virtual void connectTo(CEndPoint oAddress);
-	virtual void AttachTo(CNetworkConnection* pOther);
+	virtual void attachTo(CNetworkConnection* pOther);
 #if QT_VERSION < QT_VERSION_CHECK(5,0,0)
 	virtual void AcceptFrom(int nHandle);
 #else
@@ -130,7 +130,7 @@ public:
 		return m_oAddress;
 	}
 
-	inline virtual bool HasData()
+	inline virtual bool hasData()
 	{
 		if(!m_pSocket)
 		{

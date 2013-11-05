@@ -127,7 +127,7 @@ void CNeighboursG2::Maintain()
 			{
 				if(pNode->m_nProtocol == dpG2 && pNode->m_nState == nsConnected)
 				{
-					((CG2Node*)pNode)->SendLNI();
+					((CG2Node*)pNode)->sendLNI();
 				}
 			}
 		}
@@ -250,7 +250,7 @@ void CNeighboursG2::DispatchKHL()
 	{
 		if ( pNode->m_nState == nsConnected && pNode->m_nProtocol == dpG2 )
 		{
-			((CG2Node*)pNode)->SendPacket( pKHL, false, false );
+			((CG2Node*)pNode)->sendPacket( pKHL, false, false );
 		}
 	}
 

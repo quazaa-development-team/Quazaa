@@ -104,7 +104,7 @@ void CNeighboursBase::Maintain()
 
 	foreach(CNeighbour * pNode, m_lNodes)
 	{
-		pNode->OnTimer(tNow);
+		pNode->onTimer(tNow);
 	}
 }
 

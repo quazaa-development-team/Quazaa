@@ -206,7 +206,7 @@ void CManagedSearch::SearchNeighbours(const QDateTime& tNowDT)
 			if ( pQuery )
 			{
 				m_lSearchedNodes[pNode->m_oAddress] = tNowDT;
-				pNode->SendPacket( pQuery, true, true );
+				pNode->sendPacket( pQuery, true, true );
 				pNode->m_tLastQuery = tNow;
 			}
 		}
@@ -323,7 +323,7 @@ void CManagedSearch::SearchG2(const QDateTime& tNowDT, quint32* pnMaxPackets)
 				                   QString( "Querying %1" ).arg( pHost->m_oAddress.toString() ) );
 #endif // LOG_QUERY_HANDLING
 				*pnMaxPackets -= 1;
-				Datagrams.SendPacket( pHost->m_oAddress, pQuery, true );
+				Datagrams.sendPacket( pHost->m_oAddress, pQuery, true );
 				pQuery->Release();
 				++m_nQueryCount;
 			}
@@ -342,7 +342,7 @@ void CManagedSearch::SearchG2(const QDateTime& tNowDT, quint32* pnMaxPackets)
 				G2Packet* pQKR = G2Packet::newPacket( "QKR", false );
 				pQKR->WritePacket( "RNA", (Network.m_oAddress.protocol() ? 18 : 6)
 				                   )->WriteHostAddress( &Network.m_oAddress );
-				Datagrams.SendPacket( pHost->m_oAddress, pQKR, false );
+				Datagrams.sendPacket( pHost->m_oAddress, pQKR, false );
 				pQKR->Release();
 
 #if LOG_QUERY_HANDLING
@@ -418,14 +418,14 @@ void CManagedSearch::SearchG2(const QDateTime& tNowDT, quint32* pnMaxPackets)
 						                            ).arg( pHost->m_oAddress.toString()
 						                                   ).arg( pHub->m_oAddress.toString() ) );
 #endif // LOG_QUERY_HANDLING
-						pHub->SendPacket( pQKR, true, true );
+						pHub->sendPacket( pQKR, true, true );
 					}
 					else
 					{
 						G2Packet* pQKR = G2Packet::newPacket( "QKR", true );
 						pQKR->WritePacket( "RNA", (pHub->m_oAddress.protocol() ? 18 : 6)
 						                   )->WriteHostAddress( &pHub->m_oAddress );
-						Datagrams.SendPacket( pHost->m_oAddress, pQKR, false );
+						Datagrams.sendPacket( pHost->m_oAddress, pQKR, false );
 						pQKR->Release();
 
 #if LOG_QUERY_HANDLING

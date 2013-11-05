@@ -40,17 +40,17 @@ public:
 	void connectNode();
 
 protected:
-	void ParseOutgoingHandshake();
+	void parseOutgoingHandshake();
 
-	void Send_ChatOK(bool bReply);
-	void Send_ChatError(QString sReason);
-	void SendStartups();
-	void SendPacket(G2Packet* pPacket, bool bRelease = true);
-	void OnPacket(G2Packet* pPacket);
-	void OnUPROC(G2Packet* pPacket);
-	void OnUPROD(G2Packet* pPacket);
-	void OnCHATANS(G2Packet* pPacket);
-	void OnCMSG(G2Packet* pPacket);
+	void send_ChatOK(bool bReply);
+	void send_ChatError(QString sReason);
+	void sendStartups();
+	void sendPacket(G2Packet* pPacket, bool bRelease = true);
+	void onPacket(G2Packet* pPacket);
+	void onUPROC(G2Packet* pPacket);
+	void onUPROD(G2Packet* pPacket);
+	void onCHATANS(G2Packet* pPacket);
+	void onCMSG(G2Packet* pPacket);
 
 signals:
 

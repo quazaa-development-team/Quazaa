@@ -136,8 +136,8 @@ void CWidgetNeighbours::updateG2()
 
 		if(Network.m_pSection.tryLock(50))
 		{
-			nUDPInSpeed = Datagrams.DownloadSpeed();
-			nUDPOutSpeed = Datagrams.UploadSpeed();
+			nUDPInSpeed = Datagrams.downloadSpeed();
+			nUDPOutSpeed = Datagrams.uploadSpeed();
 
 			Network.m_pSection.unlock();
 		}

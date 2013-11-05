@@ -87,7 +87,7 @@ void CNetworkConnection::connectTo(CEndPoint oAddress)
 
 }
 
-void CNetworkConnection::AttachTo(CNetworkConnection* pOther)
+void CNetworkConnection::attachTo(CNetworkConnection* pOther)
 {
 	Q_ASSERT(m_pSocket == 0);
 	m_pSocket = pOther->m_pSocket;

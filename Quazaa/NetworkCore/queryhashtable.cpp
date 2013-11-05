@@ -382,7 +382,7 @@ bool CQueryHashTable::PatchTo(const CQueryHashTable* pTarget,
 		pReset->WriteIntLE(m_nHash);
 		pReset->WriteByte(1);
 
-		pNeighbour->SendPacket(pReset, false, true);
+		pNeighbour->sendPacket(pReset, false, true);
 
 		bChanged = true;
 	}
@@ -451,7 +451,7 @@ bool CQueryHashTable::PatchTo(const CQueryHashTable* pTarget,
 
 		nOffset += nFs;
 		nToWrite -= nFs;
-		pNeighbour->SendPacket(pPatch, false, true);
+		pNeighbour->sendPacket(pPatch, false, true);
 	}
 
 	m_bLive = true;

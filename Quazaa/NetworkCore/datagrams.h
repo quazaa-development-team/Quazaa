@@ -42,8 +42,8 @@ class DatagramWatcher
 {
 public:
 	virtual      ~DatagramWatcher();
-	virtual void OnSuccess(void* pParam) = 0;
-	virtual void OnFailure(void* pParam) = 0;
+	virtual void onSuccess(void* pParam) = 0;
+	virtual void onFailure(void* pParam) = 0;
 };
 
 class DatagramOut;
@@ -100,39 +100,39 @@ public:
 	CDatagrams();
 	~CDatagrams();
 
-	void Listen();
+	void listen();
 	void disconnectNode();
 
-	void SendPacket(CEndPoint& oAddr, G2Packet* pPacket, bool bAck = false, DatagramWatcher* pWatcher = 0, void* pParam = 0);
+	void sendPacket(CEndPoint& oAddr, G2Packet* pPacket, bool bAck = false, DatagramWatcher* pWatcher = 0, void* pParam = 0);
 
-	void RemoveOldIn(bool bForce = false);
-	void Remove(DatagramIn* pDatagramIn, bool bReclaim = false);
-	void Remove(DatagramOut* pDatagramOut);
-	void OnReceiveGND();
-	void OnAcknowledgeGND();
+	void removeOldIn(bool bForce = false);
+	void remove(DatagramIn* pDatagramIn, bool bReclaim = false);
+	void remove(DatagramOut* pDatagramOut);
+	void onReceiveGND();
+	void onAcknowledgeGND();
 
-	void OnPacket(CEndPoint addr, G2Packet* pPacket);
-	void OnPing(CEndPoint& addr, G2Packet* pPacket);
-	void OnPong(CEndPoint& addr, G2Packet* pPacket);
-	void OnCRAWLR(CEndPoint& addr, G2Packet* pPacket);
-	void OnQKR(CEndPoint& addr, G2Packet* pPacket);
-	void OnQKA(CEndPoint& addr, G2Packet* pPacket);
-	void OnQA(CEndPoint& addr, G2Packet* pPacket);
-	void OnQH2(CEndPoint& addr, G2Packet* pPacket);
-	void OnQuery(CEndPoint& addr, G2Packet* pPacket);
+	void onPacket(CEndPoint addr, G2Packet* pPacket);
+	void onPing(CEndPoint& addr, G2Packet* pPacket);
+	void onPong(CEndPoint& addr, G2Packet* pPacket);
+	void onCRAWLR(CEndPoint& addr, G2Packet* pPacket);
+	void onQKR(CEndPoint& addr, G2Packet* pPacket);
+	void onQKA(CEndPoint& addr, G2Packet* pPacket);
+	void onQA(CEndPoint& addr, G2Packet* pPacket);
+	void onQH2(CEndPoint& addr, G2Packet* pPacket);
+	void onQuery(CEndPoint& addr, G2Packet* pPacket);
 
-	inline quint32 DownloadSpeed();
-	inline quint32 UploadSpeed();
-	inline bool IsFirewalled();
+	inline quint32 downloadSpeed();
+	inline quint32 uploadSpeed();
+	inline bool isFirewalled();
 	inline bool isListening();
 
 public slots:
-	void OnDatagram();
-	void FlushSendCache();
+	void onDatagram();
+	void flushSendCache();
 	void __FlushSendCache();
 
 signals:
-	void SendQueueUpdated();
+	void sendQueueUpdated();
 
 	friend class CNetwork;
 };
@@ -149,15 +149,15 @@ typedef struct
 
 #pragma pack(pop)
 
-quint32 CDatagrams::DownloadSpeed()
+quint32 CDatagrams::downloadSpeed()
 {
 	return m_mInput.AvgUsage();
 }
-quint32 CDatagrams::UploadSpeed()
+quint32 CDatagrams::uploadSpeed()
 {
 	return m_mOutput.AvgUsage();
 }
-bool CDatagrams::IsFirewalled()
+bool CDatagrams::isFirewalled()
 {
 	return m_bFirewalled;
 }

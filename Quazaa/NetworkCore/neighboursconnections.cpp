@@ -421,7 +421,7 @@ CNeighbour* CNeighboursConnections::OnAccept(CNetworkConnection* pConn)
 	}
 
 	CG2Node* pNew = new CG2Node();
-	pNew->AttachTo(pConn);
+	pNew->attachTo(pConn);
 	AddNode(pNew);
 	pNew->moveToThread(&NetworkThread);
 

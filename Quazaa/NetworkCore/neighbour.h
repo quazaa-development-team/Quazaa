@@ -66,13 +66,13 @@ public:
 		m_nState = nsConnecting;
 		CNetworkConnection::connectTo( oAddress );
 	}
-	void AttachTo(CNetworkConnection* pOther)
+	void attachTo(CNetworkConnection* pOther)
 	{
 		m_nState = nsHandshaking;
-		CCompressedConnection::AttachTo( pOther );
+		CCompressedConnection::attachTo( pOther );
 	}
 
-	virtual void OnTimer(quint32 tNow);
+	virtual void onTimer(quint32 tNow);
 	void Close(bool bDelayed = false);
 
 signals:

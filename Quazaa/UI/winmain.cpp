@@ -824,7 +824,7 @@ void CWinMain::updateStatusBar()
 
 	if(Datagrams.m_pSection.tryLock(50))
 	{
-		if(!Datagrams.IsFirewalled())
+		if(!Datagrams.isFirewalled())
 		{
 			udpFirewalled = ":/Resource/Network/CheckedShieldGreen.png";
 		}
@@ -833,8 +833,8 @@ void CWinMain::updateStatusBar()
 			udpFirewalled = ":/Resource/Network/ShieldRed.png";
 		}
 
-		nUDPInSpeed = Datagrams.DownloadSpeed();
-		nUDPOutSpeed = Datagrams.UploadSpeed();
+		nUDPInSpeed = Datagrams.downloadSpeed();
+		nUDPOutSpeed = Datagrams.uploadSpeed();
 
 		Datagrams.m_pSection.unlock();
 	}

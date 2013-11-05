@@ -99,7 +99,7 @@ void CRateController::transfer()
 	for(QSet<CNetworkConnection*>::const_iterator itSocket = m_lSockets.constBegin(); itSocket != m_lSockets.constEnd(); ++itSocket)
 	{
 		CNetworkConnection* pSock = *itSocket;
-		if(pSock->HasData())
+		if(pSock->hasData())
 		{
 			lSockets.insert(pSock);
 		}
@@ -162,7 +162,7 @@ void CRateController::transfer()
 				}
 			}
 
-			if(bDataTransferred && pConn->HasData())
+			if(bDataTransferred && pConn->hasData())
 			{
 				bCanTransferMore = true;
 			}
