@@ -131,8 +131,8 @@ void CWidgetNeighbours::updateG2()
 		nHubsConnected = Neighbours.m_nHubsConnectedG2;
 		nLeavesConnected = Neighbours.m_nLeavesConnectedG2;
 
-		nTCPInSpeed = Neighbours.DownloadSpeed();
-		nTCPOutSpeed = Neighbours.UploadSpeed();
+		nTCPInSpeed = Neighbours.downloadSpeed();
+		nTCPOutSpeed = Neighbours.uploadSpeed();
 
 		if(Network.m_pSection.tryLock(50))
 		{
@@ -199,12 +199,12 @@ void CWidgetNeighbours::on_actionNeighbourDisconnect_triggered()
 		return;
 
 	Neighbours.m_pSection.lock();
-	if ( Neighbours.NeighbourExists(pNode) )
+	if ( Neighbours.neighbourExists(pNode) )
 	{
 		systemLog.postLog( LogSeverity::Information, Components::Network,
 						   qPrintable( tr( "Closing connection to neighbour %s" ) ),
 						   qPrintable( pNode->m_oAddress.toStringWithPort() ) );
-		pNode->Close();
+		pNode->close();
 	}
 	Neighbours.m_pSection.unlock();
 }

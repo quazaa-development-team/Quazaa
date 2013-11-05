@@ -83,7 +83,7 @@ CNeighboursTableModel::Neighbour::Neighbour(CNeighbour* pNeighbour) : pNode( pNe
 bool CNeighboursTableModel::Neighbour::update(int row, int col, QModelIndexList& to_update,
 											  CNeighboursTableModel* model)
 {
-	if ( !Neighbours.NeighbourExists( pNode ) )
+	if ( !Neighbours.neighbourExists( pNode ) )
 	{
 		return false;
 	}
@@ -371,9 +371,9 @@ CNeighboursTableModel::CNeighboursTableModel(QObject* parent, QWidget* container
 	m_nSortColumn  = -1;
 	m_bNeedSorting = false;
 
-	connect( &Neighbours, SIGNAL( NeighbourAdded(CNeighbour*) ),
+	connect( &Neighbours, SIGNAL( neighbourAdded(CNeighbour*) ),
 			 this, SLOT( addNode(CNeighbour*) ), Qt::QueuedConnection );
-	connect( &Neighbours, SIGNAL(NeighbourRemoved(CNeighbour*) ),
+	connect( &Neighbours, SIGNAL(neighbourRemoved(CNeighbour*) ),
 			 this, SLOT( removeNode(CNeighbour*) ), Qt::QueuedConnection );
 }
 
@@ -632,7 +632,7 @@ CNeighbour* CNeighboursTableModel::nodeFromIndex(const QModelIndex& index)
 void CNeighboursTableModel::addNode(CNeighbour* pNode)
 {
 	Neighbours.m_pSection.lock();
-	if ( Neighbours.NeighbourExists( pNode ) )
+	if ( Neighbours.neighbourExists( pNode ) )
 	{
 		beginInsertRows( QModelIndex(), m_lNodes.size(), m_lNodes.size() );
 		m_lNodes.append( new Neighbour( pNode ) );

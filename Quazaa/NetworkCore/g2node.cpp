@@ -137,7 +137,7 @@ void CG2Node::onConnectNode()
 	sHs += "User-Agent: " + CQuazaaGlobals::USER_AGENT_STRING() + "\r\n";
 	sHs += "Remote-IP: " + m_oAddress.toString() + "\r\n";
 	sHs += "Listen-IP: " + Network.GetLocalAddress().toStringWithPort() + "\r\n";
-	if(Neighbours.IsG2Hub())
+	if(Neighbours.isG2Hub())
 	{
 		sHs += "X-Ultrapeer: True\r\n";
 		sHs += "X-Hub: True\r\n";
@@ -205,7 +205,7 @@ void CG2Node::onRead()
 			}
 
 			systemLog.postLog(LogSeverity::Debug, QString("Packet error - %1").arg(m_oAddress.toString()));
-			Close();
+			close();
 		}
 	}
 
@@ -253,7 +253,7 @@ void CG2Node::onTimer(quint32 tNow)
 			}
 		}
 
-		if(m_nType == G2_HUB && Neighbours.IsG2Hub())
+		if(m_nType == G2_HUB && Neighbours.isG2Hub())
 		{
 			if(m_nHAWWait == 0)
 			{
@@ -269,7 +269,7 @@ void CG2Node::onTimer(quint32 tNow)
 		// If hub has been connected for more than 5 minutes and it still has less than 2 leaves,
 		// something is very wrong. Ban it for a short while.
 		if(m_nType == G2_HUB && (tNow - m_tConnected > 300) && m_nLeafCount < 2) {
-			Close();
+			close();
 			securityManager.ban(m_oAddress, RuleTime::TwoHours, true, QString("Hub not accepting leaves (%1)").arg(m_oAddress.toString()));
 			return;
 		}
@@ -341,7 +341,7 @@ void CG2Node::parseIncomingHandshake()
 #ifndef _DISABLE_COMPRESSION
 		m_bAcceptDeflate = false;
 		QString sAcceptEnc = Parser::GetHeaderValue(sHs, "Accept-Encoding");
-		if(sAcceptEnc.contains("deflate") && Neighbours.IsG2Hub())
+		if(sAcceptEnc.contains("deflate") && Neighbours.isG2Hub())
 		{
 			m_bAcceptDeflate = true;
 		}
@@ -375,7 +375,7 @@ void CG2Node::parseIncomingHandshake()
 
 		if(bUltra)
 		{
-			if(!Neighbours.NeedMoreG2(G2_HUB))
+			if(!Neighbours.needMoreG2(G2_HUB))
 			{
 				send_ConnectError("503 Maximum hub connections reached");
 				return;
@@ -390,7 +390,7 @@ void CG2Node::parseIncomingHandshake()
 				return;
 			}
 
-			if(!Neighbours.NeedMoreG2(G2_LEAF))
+			if(!Neighbours.needMoreG2(G2_LEAF))
 			{
 				send_ConnectError("503 Maximum leaf connections reached");
 				return;
@@ -420,7 +420,7 @@ void CG2Node::parseIncomingHandshake()
 			{
 				systemLog.postLog(LogSeverity::Debug, QString("Inflate init error!"));
 				//qDebug() << "Inflate init error!";
-				Close();
+				close();
 				return;
 			}
 		}
@@ -431,7 +431,7 @@ void CG2Node::parseIncomingHandshake()
 			{
 				systemLog.postLog(LogSeverity::Debug, QString("Deflate init error!"));
 				//qDebug() << "Deflate init error!";
-				Close();
+				close();
 				return;
 			}
 		}
@@ -454,7 +454,7 @@ void CG2Node::parseIncomingHandshake()
 		//qDebug() << "Connection rejected: " << sHs.left(sHs.indexOf("\r\n"));
 		m_nState = nsClosing;
 		emit nodeStateChanged();
-		Close();
+		close();
 	}
 }
 
@@ -517,7 +517,7 @@ void CG2Node::parseOutgoingHandshake()
 		hostCache.onFailure(m_oAddress);
 		hostCache.m_pSection.unlock();
 
-		Close();
+		close();
 		return;
 	}
 
@@ -552,7 +552,7 @@ void CG2Node::parseOutgoingHandshake()
 		{
 			systemLog.postLog(LogSeverity::Debug, "Inflate init error!");
 			//qDebug() << "Inflate init error!";
-			Close();
+			close();
 			return;
 		}
 	}
@@ -561,7 +561,7 @@ void CG2Node::parseOutgoingHandshake()
 	bool bAcceptDeflate = false;
 #ifndef _DISABLE_COMPRESSION
 	QString sAcceptEnc = Parser::GetHeaderValue(sHs, "Accept-Encoding");
-	if(sAcceptEnc.contains("deflate") && Neighbours.IsG2Hub())
+	if(sAcceptEnc.contains("deflate") && Neighbours.isG2Hub())
 	{
 		bAcceptDeflate = true;
 	}
@@ -569,7 +569,7 @@ void CG2Node::parseOutgoingHandshake()
 
 	if(bUltra)
 	{
-		if(!Neighbours.NeedMoreG2(G2_HUB))
+		if(!Neighbours.needMoreG2(G2_HUB))
 		{
 			send_ConnectError("503 Maximum hub connections reached");
 			return;
@@ -584,7 +584,7 @@ void CG2Node::parseOutgoingHandshake()
 			return;
 		}
 
-		if(!Neighbours.NeedMoreG2(G2_LEAF))
+		if(!Neighbours.needMoreG2(G2_LEAF))
 		{
 			send_ConnectError("503 Maximum leaf connections reached");
 			return;
@@ -607,7 +607,7 @@ void CG2Node::parseOutgoingHandshake()
 		{
 			systemLog.postLog(LogSeverity::Debug, "Deflate init error!");
 			//qDebug() << "Deflate init error!";
-			Close();
+			close();
 			return;
 		}
 	}
@@ -660,7 +660,7 @@ void CG2Node::send_ConnectError(QString sReason)
 
 	Write(sHs);
 
-	Close(true);
+	close(true);
 }
 void CG2Node::send_ConnectOK(bool bReply, bool bDeflated)
 {
@@ -668,7 +668,7 @@ void CG2Node::send_ConnectOK(bool bReply, bool bDeflated)
 
 	sHs += "GNUTELLA/0.6 200 OK\r\n";
 	sHs += "User-Agent: " + CQuazaaGlobals::USER_AGENT_STRING() + "\r\n";
-	if(Neighbours.IsG2Hub())
+	if(Neighbours.isG2Hub())
 	{
 		sHs += "X-Ultrapeer: True\r\n";
 		sHs += "X-Hub: True\r\n";
@@ -684,7 +684,7 @@ void CG2Node::send_ConnectOK(bool bReply, bool bDeflated)
 	{
 		// 2-handshake
 #ifndef _DISABLE_COMPRESSION
-		if(Neighbours.IsG2Hub() && m_nType == G2_HUB)
+		if(Neighbours.isG2Hub() && m_nType == G2_HUB)
 		{
 			sHs += "Accept-Encoding: deflate\r\n";
 		}
@@ -749,7 +749,7 @@ void CG2Node::sendLNI()
 	pLNI->writePacket("GU", 16)->writeGUID(quazaaSettings.Profile.GUID);
 	pLNI->writePacket("V", 4)->writeString(CQuazaaGlobals::VENDOR_CODE(), false);
 
-	if(Neighbours.IsG2Hub())
+	if(Neighbours.isG2Hub())
 	{
 		quint16 nLeavesMax = quazaaSettings.Gnutella2.NumLeafs;
 		quint16 nLeaves = Neighbours.m_nLeavesConnectedG2;
@@ -882,12 +882,12 @@ void CG2Node::onPing(G2Packet* pPacket)
 	{
 		// /PI/UDP
 
-		if(Neighbours.IsG2Hub()) // If we are a hub.
+		if(Neighbours.isG2Hub()) // If we are a hub.
 		{
 			G2Packet* pRelay = G2Packet::newPacket("RELAY");
 			pPacket->prependPacket(pRelay);
 
-			int nRelayed = 0, nCount = Neighbours.GetCount();
+			int nRelayed = 0, nCount = Neighbours.getCount();
 			QList<int> lToRelayIndex;
 
 			for(int i = 0; i < nCount && nRelayed < quazaaSettings.Gnutella2.PingRelayLimit; ++i)
@@ -895,7 +895,7 @@ void CG2Node::onPing(G2Packet* pPacket)
 				int nIndex = qrand() % nCount;
 				if(!lToRelayIndex.contains(nIndex))
 				{
-					CNeighbour* pNode = Neighbours.GetAt(nIndex);
+					CNeighbour* pNode = Neighbours.getAt(nIndex);
 					if(pNode != this
 							&& pNode->m_nProtocol == dpG2
 							&& pNode->m_nState == nsConnected
@@ -969,7 +969,7 @@ void CG2Node::onLNI(G2Packet* pPacket)
 			if(hostAddr.isValid())
 			{
 				if(securityManager.isDenied(hostAddr)) {
-					Close();
+					close();
 				} else {
 					hasNA = true;
 
@@ -1150,7 +1150,7 @@ void CG2Node::onQHT(G2Packet* pPacket)
 {
 	if(m_pRemoteTable == 0)
 	{
-		if(!Neighbours.IsG2Hub())
+		if(!Neighbours.isG2Hub())
 		{
 			systemLog.postLog(LogSeverity::Debug, QString("Recieved unexpected Query Routing Table, ignoring"));
 			//qDebug() << "Received unexpected Query Routing Table, ignoring";
@@ -1165,7 +1165,7 @@ void CG2Node::onQHT(G2Packet* pPacket)
 	if(!m_pRemoteTable->OnPacket(pPacket))
 	{
 		systemLog.postLog(LogSeverity::Error, tr("Neighbour %1 sent bad query hash table update. Closing connection.").arg(m_oAddress.toString().toLocal8Bit().constData()));
-		Close();
+		close();
 		return;
 	}
 
@@ -1177,7 +1177,7 @@ void CG2Node::onQHT(G2Packet* pPacket)
 	if(m_nType == G2_LEAF && m_pRemoteTable && m_pRemoteTable->GetPercent() > 90)
 	{
 		systemLog.postLog(LogSeverity::Error, tr("Dropping neighbour %1 - hash table fill percentage too high.").arg(m_oAddress.toString().toLocal8Bit().constData()));
-		Close();
+		close();
 		return;
 	}
 
@@ -1375,7 +1375,7 @@ void CG2Node::onQH2(G2Packet* pPacket)
 		{
 			Network.m_pSection.lock();
 
-			if(Neighbours.IsG2Hub() && pInfo->m_nHops < 7)
+			if(Neighbours.isG2Hub() && pInfo->m_nHops < 7)
 			{
 				Network.m_oRoutingTable.Add(pInfo->m_oNodeGUID, this, false);
 				pPacket->m_pBuffer[pPacket->m_nLength - 17]++;
@@ -1432,10 +1432,10 @@ void CG2Node::onQuery(G2Packet* pPacket)
 	{
 		if( m_nType == G2_LEAF )
 		{
-			sendPacket(Neighbours.CreateQueryAck(pQuery->m_oGUID, true, this, true), false, true);
+			sendPacket(Neighbours.createQueryAck(pQuery->m_oGUID, true, this, true), false, true);
 		}
 
-		if( Neighbours.IsG2Hub() )
+		if( Neighbours.isG2Hub() )
 		{
 			Neighbours.RouteQuery(pQuery, pPacket, this, (m_nType != G2_HUB));
 		}
@@ -1556,7 +1556,7 @@ void CG2Node::onHaw(G2Packet *pPacket)
 		pPtr[0] = nTTL  - 1;
 		pPtr[1] = nHops + 1;
 
-		if ( CG2Node* pNeighbour = (CG2Node*)Neighbours.RandomNode( dpG2, G2_HUB,  this ) )
+		if ( CG2Node* pNeighbour = (CG2Node*)Neighbours.randomNode( dpG2, G2_HUB,  this ) )
 		{
 			pNeighbour->sendPacket( pPacket, false, false );
 		}

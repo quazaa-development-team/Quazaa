@@ -119,7 +119,7 @@ void CWidgetSearchTemplate::StartSearch(CQuery* pQuery)
 	}
 
 	m_searchState = SearchState::Searching;
-	m_pSearch->Start();
+	m_pSearch->start();
 	m_sSearchString = m_pSearch->m_pQuery->DescriptiveName();
 }
 
@@ -128,7 +128,7 @@ void CWidgetSearchTemplate::StopSearch()
 	Q_ASSERT(m_pSearch != 0);
 
 	m_searchState = SearchState::Stopped;
-	m_pSearch->Stop();
+	m_pSearch->stop();
 	delete m_pSearch;
 	m_pSearch = 0;
 }
@@ -138,7 +138,7 @@ void CWidgetSearchTemplate::PauseSearch()
 	Q_ASSERT(m_pSearch != 0);
 
 	m_searchState = SearchState::Paused;
-	m_pSearch->Pause();
+	m_pSearch->pause();
 }
 
 void CWidgetSearchTemplate::ClearSearch()

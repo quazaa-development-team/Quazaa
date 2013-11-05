@@ -817,8 +817,8 @@ void CWinMain::updateStatusBar()
 
 	if(Neighbours.m_pSection.tryLock(50))
 	{
-		nTCPInSpeed = Neighbours.DownloadSpeed();
-		nTCPOutSpeed = Neighbours.UploadSpeed();
+		nTCPInSpeed = Neighbours.downloadSpeed();
+		nTCPOutSpeed = Neighbours.uploadSpeed();
 		Neighbours.m_pSection.unlock();
 	}
 

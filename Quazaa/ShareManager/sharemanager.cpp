@@ -154,7 +154,7 @@ void CShareManager::Stop()
 	ShareManagerThread.exit(0);
 }
 
-void CShareManager::CleanupThread()
+void CShareManager::cleanupThread()
 {
 	systemLog.postLog(LogSeverity::Debug, QString("ShareManager: cleaning up."));
 

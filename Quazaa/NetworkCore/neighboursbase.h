@@ -53,18 +53,18 @@ public:
 	virtual void connectNode();
 	virtual void disconnectNode();
 
-	virtual void AddNode(CNeighbour* pNode);
-	virtual void RemoveNode(CNeighbour* pNode);
+	virtual void addNode(CNeighbour* pNode);
+	virtual void removeNode(CNeighbour* pNode);
 
-	CNeighbour* Find(QHostAddress& oAddress, DiscoveryProtocol nProtocol = dpNull);
-	bool NeighbourExists(const CNeighbour* pNode);
+	CNeighbour* find(QHostAddress& oAddress, DiscoveryProtocol nProtocol = dpNull);
+	bool neighbourExists(const CNeighbour* pNode);
 
-	virtual quint32 DownloadSpeed()
+	virtual quint32 downloadSpeed()
 	{
 		return 0;
 	}
 
-	virtual quint32 UploadSpeed()
+	virtual quint32 uploadSpeed()
 	{
 		return 0;
 	}
@@ -79,21 +79,21 @@ public:
 		return m_lNodes.end();
 	}
 
-	inline int GetCount()
+	inline int getCount()
 	{
 		return m_lNodes.size();
 	}
-	inline CNeighbour* GetAt(int nIndex)
+	inline CNeighbour* getAt(int nIndex)
 	{
 		Q_ASSERT(nIndex >= 0 && nIndex < m_lNodes.size());
 
 		return m_lNodes.at(nIndex);
 	}
 signals:
-	void NeighbourAdded(CNeighbour*);
-	void NeighbourRemoved(CNeighbour*);
+	void neighbourAdded(CNeighbour*);
+	void neighbourRemoved(CNeighbour*);
 public slots:
-	virtual void Maintain();
+	virtual void maintain();
 };
 
 #endif // NEIGHBOURSBASE_H

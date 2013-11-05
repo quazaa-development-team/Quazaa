@@ -83,7 +83,7 @@ void CSearchManager::OnTimer()
 
 	foreach ( CManagedSearch* pSearch, m_lSearches )
 	{
-		pSearch->SendHits();
+		pSearch->sendHits();
 		if ( pSearch->m_bPaused )
 			--nSearches;
 	}
@@ -113,7 +113,7 @@ void CSearchManager::OnTimer()
 		if ( pSearch->m_nCookie != m_nCookie )
 		{
 			quint32 nPacket = qMin( nPacketsPerSearch, nPacketsLeft );
-			pSearch->Execute( tNowDT, &nPacket );
+			pSearch->execute( tNowDT, &nPacket );
 			pSearch->m_nCookie = m_nCookie;
 			nPacketsLeft -= ( (nPacketsLeft < nPacketsPerSearch) ?
 							  (nPacketsLeft - nPacket) : (nPacketsPerSearch - nPacket) );
@@ -320,14 +320,14 @@ bool CSearchManager::OnQueryAcknowledge(G2Packet* pPacket, CEndPoint& addr, QUui
 		pSearch->m_nLeaves += nLeaves;
 
 		const QDateTime tNowDT = common::getDateTimeUTC();
-		pSearch->OnHostAcknowledge( oFromIp, tNowDT );
+		pSearch->onHostAcknowledge( oFromIp, tNowDT );
 
 		for ( int i = 0; i < lDone.size(); ++i )
 		{
-			pSearch->OnHostAcknowledge( lDone[i], tNowDT );
+			pSearch->onHostAcknowledge( lDone[i], tNowDT );
 		}
 
-		emit pSearch->StatsUpdated();
+		emit pSearch->statsUpdated();
 
 		return false;
 	}
@@ -349,7 +349,7 @@ bool CSearchManager::OnQueryHit(G2Packet* pPacket, QueryHitInfo* pHitInfo)
 
 		if(pHit)
 		{
-			pSearch->OnQueryHit(pHit);
+			pSearch->onQueryHit(pHit);
 		}
 
 		return false;

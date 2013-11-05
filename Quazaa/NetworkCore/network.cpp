@@ -117,7 +117,7 @@ void CNetwork::setupThread()
 
 	m_bSharesReady = ShareManager.SharesReady();
 }
-void CNetwork::CleanupThread()
+void CNetwork::cleanupThread()
 {
 	m_pSecondTimer->stop();
 	delete m_pSecondTimer;
@@ -166,7 +166,7 @@ void CNetwork::OnSecondTimer()
 		QueryHashMaster.Build();
 	}
 
-	Neighbours.Maintain();
+	Neighbours.maintain();
 
 	SearchManager.OnTimer();
 
@@ -218,7 +218,7 @@ bool CNetwork::RoutePacket(QUuid& pTargetGUID, G2Packet* pPacket, bool bLockNeig
 				Neighbours.m_pSection.lock();
 			}
 
-			if( Neighbours.NeighbourExists(pNode) )
+			if( Neighbours.neighbourExists(pNode) )
 			{
 				pNode->sendPacket(pPacket, bBuffered, false);
 				systemLog.postLog(LogSeverity::Debug, QString("CNetwork::RoutePacket %1 Packet: %2 routed to neighbour: %3").arg(pTargetGUID.toString()).arg(pPacket->getType()).arg(pNode->m_oAddress.toString().toLocal8Bit().constData()));

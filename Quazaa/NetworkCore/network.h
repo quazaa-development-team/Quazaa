@@ -81,7 +81,7 @@ public slots:
 	void OnSecondTimer();
 
 	void setupThread();
-	void CleanupThread();
+	void cleanupThread();
 
 	void connectToNode(CEndPoint& addr);
 

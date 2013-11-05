@@ -80,25 +80,25 @@ void CNeighboursConnections::disconnectNode()
 	CNeighboursRouting::disconnectNode();
 }
 
-void CNeighboursConnections::AddNode(CNeighbour* pNode)
+void CNeighboursConnections::addNode(CNeighbour* pNode)
 {
 	ASSUME_LOCK(m_pSection);
 
 	m_pController->AddSocket(pNode);
 
-	CNeighboursRouting::AddNode(pNode);
+	CNeighboursRouting::addNode(pNode);
 }
 
-void CNeighboursConnections::RemoveNode(CNeighbour* pNode)
+void CNeighboursConnections::removeNode(CNeighbour* pNode)
 {
 	ASSUME_LOCK(m_pSection);
 
 	m_pController->RemoveSocket(pNode);
 
-	CNeighboursRouting::RemoveNode(pNode);
+	CNeighboursRouting::removeNode(pNode);
 }
 
-CNeighbour* CNeighboursConnections::RandomNode(DiscoveryProtocol nProtocol, int nType, CNeighbour* pNodeExcept)
+CNeighbour* CNeighboursConnections::randomNode(DiscoveryProtocol nProtocol, int nType, CNeighbour* pNodeExcept)
 {
 	QList<CNeighbour*> lNodeList;
 
@@ -166,7 +166,7 @@ void CNeighboursConnections::disconnectYoungest(DiscoveryProtocol nProtocol, int
 		if(pNode)
 		{
 			// we found a node to disconnect
-			pNode->Close();
+			pNode->close();
 			break;
 		}
 		else if(bKeepManual)
@@ -182,11 +182,11 @@ void CNeighboursConnections::disconnectYoungest(DiscoveryProtocol nProtocol, int
 	}
 }
 
-void CNeighboursConnections::Maintain()
+void CNeighboursConnections::maintain()
 {
 	ASSUME_LOCK(m_pSection);
 
-	CNeighboursRouting::Maintain();
+	CNeighboursRouting::maintain();
 
 	quint32 nHubsG2 = 0, nLeavesG2 = 0;
 	quint32 nCoreHubsG2 = 0, nCoreLeavesG2 = 0;
@@ -250,7 +250,7 @@ void CNeighboursConnections::Maintain()
 	m_nHubsConnectedG2 = nHubsG2;
 	m_nLeavesConnectedG2 = nLeavesG2;
 
-	if(!Neighbours.IsG2Hub())
+	if(!Neighbours.isG2Hub())
 	{
 		if(nHubsG2 > quazaaSettings.Gnutella2.NumHubs)
 		{
@@ -285,7 +285,7 @@ void CNeighboursConnections::Maintain()
 
 				if ( pHost )
 				{
-					if ( !Neighbours.Find( pHost->m_oAddress ) )
+					if ( !Neighbours.find( pHost->m_oAddress ) )
 					{
 						if ( securityManager.isDenied( pHost->m_oAddress ) )
 						{
@@ -354,7 +354,7 @@ void CNeighboursConnections::Maintain()
 
 				if ( pHost )
 				{
-					if( !Neighbours.Find( pHost->m_oAddress ) )
+					if( !Neighbours.find( pHost->m_oAddress ) )
 					{
 						if ( securityManager.isDenied( pHost->m_oAddress ) )
 						{
@@ -390,17 +390,17 @@ void CNeighboursConnections::Maintain()
 	}
 }
 
-quint32 CNeighboursConnections::DownloadSpeed()
+quint32 CNeighboursConnections::downloadSpeed()
 {
 	return m_pController ? m_pController->DownloadSpeed() : 0;
 }
 
-quint32 CNeighboursConnections::UploadSpeed()
+quint32 CNeighboursConnections::uploadSpeed()
 {
 	return m_pController ? m_pController->UploadSpeed() : 0;
 }
 
-CNeighbour* CNeighboursConnections::OnAccept(CNetworkConnection* pConn)
+CNeighbour* CNeighboursConnections::onAccept(CNetworkConnection* pConn)
 {
 	// TODO: Make new CNeighbour deriviate for handshaking with Gnutella clients
 
@@ -409,20 +409,20 @@ CNeighbour* CNeighboursConnections::OnAccept(CNetworkConnection* pConn)
 
 	if(!m_bActive)
 	{
-		pConn->Close();
+		pConn->close();
 		return 0;
 	}
 
 	if(!m_pSection.tryLock(50))
 	{
 		systemLog.postLog(LogSeverity::Debug, "Not accepting incoming connection. Neighbours overloaded");
-		pConn->Close();
+		pConn->close();
 		return 0;
 	}
 
 	CG2Node* pNew = new CG2Node();
 	pNew->attachTo(pConn);
-	AddNode(pNew);
+	addNode(pNew);
 	pNew->moveToThread(&NetworkThread);
 
 	m_pSection.unlock();
@@ -448,7 +448,7 @@ CNeighbour* CNeighboursConnections::connectTo(CEndPoint& oAddress, DiscoveryProt
 	pNode->m_bAutomatic = bAutomatic;
 	pNode->connectTo(oAddress);
 	pNode->moveToThread(&NetworkThread);
-	AddNode(pNode);
+	addNode(pNode);
 	return pNode;
 }
 

@@ -52,7 +52,7 @@ void CHandshake::onTimer(quint32 tNow)
 	if(tNow - m_tConnected > 15)
 	{
 		systemLog.postLog(LogSeverity::Debug, QString("Timed out handshaking with  %1").arg(m_pSocket->peerAddress().toString().toLocal8Bit().constData()));
-		Close();
+		close();
 	}
 }
 void CHandshake::onRead()
@@ -92,7 +92,7 @@ void CHandshake::onRead()
 		baResp += "\r\n";
 
 		Write(baResp);
-		Close(true);
+		close(true);
 	}
 }
 
@@ -257,6 +257,6 @@ void CHandshake::onWebRequest()
 			Write(baResp);
 		}
 	}
-	Close(true);
+	close(true);
 
 }

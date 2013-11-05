@@ -92,7 +92,7 @@ signals:
 
 public slots:
 	void setupThread();
-	void CleanupThread();
+	void cleanupThread();
 
 	void RunHashing();
 	void OnFileHashed(CSharedFilePtr pFile);

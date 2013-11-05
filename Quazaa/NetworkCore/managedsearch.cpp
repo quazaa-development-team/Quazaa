@@ -67,7 +67,7 @@ CManagedSearch::~CManagedSearch()
 {
 	if(m_bActive || m_bPaused)
 	{
-		Stop();
+		stop();
 	}
 
 	if(m_pQuery)
@@ -83,7 +83,7 @@ CManagedSearch::~CManagedSearch()
 	}
 }
 
-void CManagedSearch::Start()
+void CManagedSearch::start()
 {
 	if(!m_bPaused)
 	{
@@ -96,26 +96,26 @@ void CManagedSearch::Start()
 	m_nQueryCount = 0;
 	m_nQueryHitLimit = m_nHits + quazaaSettings.Gnutella.MaxResults;
 
-	emit StateChanged();
+	emit stateChanged();
 }
-void CManagedSearch::Pause()
+void CManagedSearch::pause()
 {
 	m_bPaused = true;
 	m_bActive = false;
 
-	emit StateChanged();
+	emit stateChanged();
 }
-void CManagedSearch::Stop()
+void CManagedSearch::stop()
 {
 	m_bActive = false;
 	m_bPaused = false;
 
 	SearchManager.Remove(this);
 
-	emit StateChanged();
+	emit stateChanged();
 }
 
-void CManagedSearch::Execute(const QDateTime& tNowDT, quint32* pnMaxPackets)
+void CManagedSearch::execute(const QDateTime& tNowDT, quint32* pnMaxPackets)
 {
 	if ( !m_bActive )
 	{
@@ -125,7 +125,7 @@ void CManagedSearch::Execute(const QDateTime& tNowDT, quint32* pnMaxPackets)
 	if ( m_nQueryCount > quazaaSettings.Gnutella2.QueryLimit )
 	{
 		systemLog.postLog( LogSeverity::Debug, "Pausing search: query limit reached" );
-		Pause();
+		pause();
 		return;
 	}
 
@@ -138,8 +138,8 @@ void CManagedSearch::Execute(const QDateTime& tNowDT, quint32* pnMaxPackets)
 
 	*pnMaxPackets -= nMaxPackets;
 
-	SearchNeighbours( tNowDT );
-	SearchG2( tNowDT, &nMaxPackets );
+	searchNeighbours( tNowDT );
+	searchG2( tNowDT, &nMaxPackets );
 
 	*pnMaxPackets += nMaxPackets;
 
@@ -180,7 +180,7 @@ void CManagedSearch::Execute(const QDateTime& tNowDT, quint32* pnMaxPackets)
 	}
 }
 
-void CManagedSearch::SearchNeighbours(const QDateTime& tNowDT)
+void CManagedSearch::searchNeighbours(const QDateTime& tNowDT)
 {
 	QMutexLocker l( &Neighbours.m_pSection );
 
@@ -213,7 +213,7 @@ void CManagedSearch::SearchNeighbours(const QDateTime& tNowDT)
 	}
 }
 
-void CManagedSearch::SearchG2(const QDateTime& tNowDT, quint32* pnMaxPackets)
+void CManagedSearch::searchG2(const QDateTime& tNowDT, quint32* pnMaxPackets)
 {
 	Q_ASSERT( tNowDT.timeSpec() == Qt::UTC );
 	const quint32 tNow      = tNowDT.toTime_t();
@@ -246,7 +246,7 @@ void CManagedSearch::SearchG2(const QDateTime& tNowDT, quint32* pnMaxPackets)
 		}
 
 		Neighbours.m_pSection.lock();
-		if ( Neighbours.Find(pHost->m_oAddress ) )
+		if ( Neighbours.find(pHost->m_oAddress ) )
 		{
 			// don't udp to neighbours
 			Neighbours.m_pSection.unlock();
@@ -286,7 +286,7 @@ void CManagedSearch::SearchG2(const QDateTime& tNowDT, quint32* pnMaxPackets)
 				// we are firewalled, so key must be for one of our connected neighbours
 				Neighbours.m_pSection.lock();
 
-				CNeighbour* pNode = Neighbours.Find( pHost->m_nKeyHost, dpG2 );
+				CNeighbour* pNode = Neighbours.find( pHost->m_nKeyHost, dpG2 );
 
 				if( pNode && static_cast<CG2Node*>(pNode)->m_nState == nsConnected )
 				{
@@ -464,12 +464,12 @@ void CManagedSearch::SearchG2(const QDateTime& tNowDT, quint32* pnMaxPackets)
 	pHost = NULL;
 }
 
-void CManagedSearch::OnHostAcknowledge(QHostAddress nHost, const QDateTime& tNow)
+void CManagedSearch::onHostAcknowledge(QHostAddress nHost, const QDateTime& tNow)
 {
 	m_lSearchedNodes[nHost] = tNow;
 }
 
-void CManagedSearch::OnQueryHit(CQueryHit* pHits)
+void CManagedSearch::onQueryHit(CQueryHit* pHits)
 {
 	CQueryHit* pHit = pHits;
 	CQueryHit* pLast = 0;
@@ -493,16 +493,16 @@ void CManagedSearch::OnQueryHit(CQueryHit* pHits)
 
 	if ( m_nCachedHits > 100 )
 	{
-		SendHits();
+		sendHits();
 	}
 
 	if ( m_nHits > m_nQueryHitLimit && !m_bPaused )
 	{
 		systemLog.postLog(LogSeverity::Debug, tr("Pausing search: query hit limit reached"));
-		Pause();
+		pause();
 	}
 }
-void CManagedSearch::SendHits()
+void CManagedSearch::sendHits()
 {
 	if ( !m_pCachedHit )
 	{
@@ -512,7 +512,7 @@ void CManagedSearch::SendHits()
 	systemLog.postLog(LogSeverity::Debug, QString("Sending hits... %1").arg(m_nCachedHits));
 	//qDebug() << "Sending hits..." << m_nCachedHits;
 	QueryHitSharedPtr pSHits(m_pCachedHit);
-	emit OnHit(pSHits);
+	emit onHit(pSHits);
 	m_pCachedHit = 0;
 	m_nCachedHits = 0;
 }

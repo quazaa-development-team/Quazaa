@@ -64,7 +64,7 @@ void CChatSession::onTimer(quint32 tNow)
 		if( tNow - m_tConnected > quazaaSettings.Connection.TimeoutConnect )
 		{
 			m_nState = csClosed;
-			CNetworkConnection::Close();
+			CNetworkConnection::close();
 			emit systemMessage("Timed out connecting to remote host");
 		}
 	}

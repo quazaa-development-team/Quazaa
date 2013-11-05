@@ -37,15 +37,15 @@ public:
 	CNeighboursG2(QObject* parent = 0);
 	virtual ~CNeighboursG2();
 
-	void DispatchKHL();
-	bool SwitchG2ClientMode(G2NodeType nRequestedMode);
-	bool NeedMoreG2(G2NodeType nType);
+	void dispatchKHL();
+	bool switchG2ClientMode(G2NodeType nRequestedMode);
+	bool needMoreG2(G2NodeType nType);
 
 	virtual void connectNode();
 
-	G2Packet* CreateQueryAck(QUuid oGUID, bool bWithHubs = true, CNeighbour* pExcept = 0, bool bDone = true);
+	G2Packet* createQueryAck(QUuid oGUID, bool bWithHubs = true, CNeighbour* pExcept = 0, bool bDone = true);
 
-	void HubBalancing();
+	void hubBalancing();
 
 protected:
 	quint32 m_nNextKHL;
@@ -64,10 +64,10 @@ protected:
 signals:
 
 public slots:
-	virtual void Maintain();
+	virtual void maintain();
 
 public:
-	inline bool IsG2Hub()
+	inline bool isG2Hub()
 	{
 		return (m_nClientMode == G2_HUB);
 	}

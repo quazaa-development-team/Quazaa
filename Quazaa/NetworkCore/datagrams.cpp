@@ -760,7 +760,7 @@ void CDatagrams::onCRAWLR(CEndPoint& addr, G2Packet* pPacket)
 	G2Packet* pCA = G2Packet::newPacket("CRAWLA", true);
 
 	G2Packet* pTmp = G2Packet::newPacket("SELF", true);
-	if(Neighbours.IsG2Hub())
+	if(Neighbours.isG2Hub())
 	{
 		pTmp->writePacket("HUB", 0);
 	}
@@ -815,7 +815,7 @@ void CDatagrams::onCRAWLR(CEndPoint& addr, G2Packet* pPacket)
 }
 void CDatagrams::onQKR(CEndPoint& addr, G2Packet* pPacket)
 {
-	if(!Neighbours.IsG2Hub())
+	if(!Neighbours.isG2Hub())
 	{
 		return;
 	}
@@ -941,14 +941,14 @@ void CDatagrams::onQKA(CEndPoint& addr, G2Packet* pPacket)
 	//qDebug("Got a query key for %s = 0x%x", addr.toString().toLocal8Bit().constData(), nKey);
 #endif // LOG_QUERY_HANDLING
 
-	if(Neighbours.IsG2Hub() && !nKeyHost.isNull() && nKeyHost != ((QHostAddress)Network.m_oAddress))
+	if(Neighbours.isG2Hub() && !nKeyHost.isNull() && nKeyHost != ((QHostAddress)Network.m_oAddress))
 	{
 		G2Packet* pQNA = G2Packet::newPacket("QNA");
 		pQNA->writeHostAddress(&addr);
 		pPacket->prependPacket(pQNA);
 
 		Neighbours.m_pSection.lock();
-		CNeighbour* pNode = Neighbours.Find(nKeyHost, dpG2);
+		CNeighbour* pNode = Neighbours.find(nKeyHost, dpG2);
 		if( pNode )
 		{
 			((CG2Node*)pNode)->sendPacket(pPacket, true, false);
@@ -972,7 +972,7 @@ void CDatagrams::onQA(CEndPoint& addr, G2Packet* pPacket)
 	QUuid oGuid;
 
 	// Hubs are only supposed to route UDP /QA - we'll drop it if we're in leaf mode
-	if ( SearchManager.OnQueryAcknowledge( pPacket, addr, oGuid ) && Neighbours.IsG2Hub() )
+	if ( SearchManager.OnQueryAcknowledge( pPacket, addr, oGuid ) && Neighbours.isG2Hub() )
 	{
 		// Add from address
 		G2Packet* pFR = G2Packet::newPacket( "FR" );
@@ -1001,7 +1001,7 @@ void CDatagrams::onQH2(CEndPoint& addr, G2Packet* pPacket)
 			securityManager.ban( pInfo->m_oNodeAddress, RuleTime::SixHours, true,
 								 QString( "Vendor blocked (%1)" ).arg( pInfo->m_sVendor ));
 		} else {
-			if(SearchManager.OnQueryHit(pPacket, pInfo) && Neighbours.IsG2Hub() && pInfo->m_nHops < 7)
+			if(SearchManager.OnQueryHit(pPacket, pInfo) && Neighbours.isG2Hub() && pInfo->m_nHops < 7)
 			{
 				pPacket->m_pBuffer[pPacket->m_nLength - 17]++;
 
@@ -1039,7 +1039,7 @@ void CDatagrams::onQuery(CEndPoint &addr, G2Packet *pPacket)
 		return;
 	}
 
-	if( !Neighbours.IsG2Hub() )
+	if( !Neighbours.isG2Hub() )
 	{
 		// Stop receiving queries from others
 		// We are here because we just downgraded to leaf mode
@@ -1087,7 +1087,7 @@ void CDatagrams::onQuery(CEndPoint &addr, G2Packet *pPacket)
 #if LOG_QUERY_HANDLING
 		qDebug() << "Query already processed, ignoring";
 #endif // LOG_QUERY_HANDLING
-		G2Packet* pQA = Neighbours.CreateQueryAck(pQuery->m_oGUID, false, 0, false);
+		G2Packet* pQA = Neighbours.createQueryAck(pQuery->m_oGUID, false, 0, false);
 		sendPacket(pQuery->m_oEndpoint, pQA, true);
 		pQA->release();
 		return;
@@ -1110,7 +1110,7 @@ void CDatagrams::onQuery(CEndPoint &addr, G2Packet *pPacket)
 	}
 
 	Neighbours.m_pSection.lock();
-	G2Packet* pQA = Neighbours.CreateQueryAck(pQuery->m_oGUID);
+	G2Packet* pQA = Neighbours.createQueryAck(pQuery->m_oGUID);
 	sendPacket(pQuery->m_oEndpoint, pQA, true);
 	pQA->release();
 

@@ -49,7 +49,7 @@ CNeighbour::CNeighbour(QObject* parent) :
 CNeighbour::~CNeighbour()
 {
 	ASSUME_LOCK(Neighbours.m_pSection);
-	Neighbours.RemoveNode(this);
+	Neighbours.removeNode(this);
 }
 
 void CNeighbour::onTimer(quint32 tNow)
@@ -74,7 +74,7 @@ void CNeighbour::onTimer(quint32 tNow)
 								   qPrintable( tr( "Timed out handshaking with %s." ) ),
 								   qPrintable( m_oAddress.toStringWithPort() ) );
 
-			Close();
+			close();
 			return;
 		}
 	}
@@ -84,23 +84,23 @@ void CNeighbour::onTimer(quint32 tNow)
 		{
 			systemLog.postLog(LogSeverity::Error, tr("Closing connection to %1 due to lack of traffic.").arg(m_oAddress.toString()));
 			systemLog.postLog(LogSeverity::Debug, QString("Conn %1, Packet %2, bytes avail %3, net bytes avail %4, ping %5").arg(tNow - m_tConnected).arg(tNow - m_tLastPacketIn).arg(bytesAvailable()).arg(networkBytesAvailable()).arg(tNow - m_tLastPingOut));
-			Close();
+			close();
 			return;
 		}
 
 		if(m_nPingsWaiting > 0 && tNow - m_tLastPingOut > quazaaSettings.Gnutella2.PingTimeout && tNow - m_tLastPacketIn > quazaaSettings.Connection.TimeoutTraffic)
 		{
 			systemLog.postLog(LogSeverity::Debug, QString("Closing connection with %1 ping timed out").arg(m_oAddress.toString()));
-			Close();
+			close();
 			return;
 		}
 	}
 }
 
-void CNeighbour::Close(bool bDelayed)
+void CNeighbour::close(bool bDelayed)
 {
 	m_nState = nsClosing;
-	CCompressedConnection::Close(bDelayed);
+	CCompressedConnection::close(bDelayed);
 }
 
 void CNeighbour::onDisconnectNode()

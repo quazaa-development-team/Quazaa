@@ -93,7 +93,7 @@ void CHandshakes::incomingConnection(qintptr handle)
 
 	if( securityManager.isDenied(pNew->m_oAddress) )
 	{
-		pNew->Close();
+		pNew->close();
 		pNew->deleteLater();
 	}
 }
@@ -124,7 +124,7 @@ void CHandshakes::removeHandshake(CHandshake* pHs)
 void CHandshakes::processNeighbour(CHandshake* pHs)
 {
 	removeHandshake(pHs);
-	Neighbours.OnAccept(pHs);
+	Neighbours.onAccept(pHs);
 }
 
 void CHandshakes::setupThread()
@@ -164,7 +164,7 @@ void CHandshakes::cleanupThread()
 		{
 			CHandshake* pHs = *itHs;
 
-			pHs->Close();
+			pHs->close();
 
 			m_pController->RemoveSocket(pHs);
 			itHs = m_lHandshakes.erase(itHs);

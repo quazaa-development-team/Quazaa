@@ -73,7 +73,7 @@ public:
 	}
 
 	virtual void onTimer(quint32 tNow);
-	void Close(bool bDelayed = false);
+	void close(bool bDelayed = false);
 
 signals:
 

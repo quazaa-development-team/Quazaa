@@ -83,7 +83,7 @@ public:
 #else
 	virtual void AcceptFrom(qintptr nHandle);
 #endif
-	virtual void Close(bool bDelayed = false);
+	virtual void close(bool bDelayed = false);
 
 private:
 	Q_INVOKABLE void closeImplementation(bool bDelayed);
