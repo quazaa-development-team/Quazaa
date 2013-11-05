@@ -119,18 +119,18 @@ void CChatSessionG2::onRead()
 		G2Packet* pPacket = 0;
 		try
 		{
-			while((pPacket = G2Packet::ReadBuffer(GetInputBuffer())))
+			while((pPacket = G2Packet::readBuffer(GetInputBuffer())))
 			{
 				onPacket(pPacket);
 
-				pPacket->Release();
+				pPacket->release();
 			}
 		}
 		catch(...)
 		{
 			if(pPacket)
 			{
-				pPacket->Release();
+				pPacket->release();
 			}
 
 			emit systemMessage("Received corrupted G2 packet, connection lost.");
@@ -219,43 +219,43 @@ void CChatSessionG2::sendStartups()
 
 	// A dirty workaround for Shareaza bug...
 	if( m_bShareaza )
-		pPacket->WriteString("dupa");
+		pPacket->writeString("dupa");
 
 	sendPacket(pPacket);
 }
 
 void CChatSessionG2::sendPacket(G2Packet *pPacket, bool bRelease)
 {
-	qDebug() << "Sending packet" << pPacket->GetType();
-	pPacket->ToBuffer(GetOutputBuffer());
+	qDebug() << "Sending packet" << pPacket->getType();
+	pPacket->toBuffer(GetOutputBuffer());
 	if(bRelease)
-		pPacket->Release();
+		pPacket->release();
 	emit readyToTransfer();
 }
 
 void CChatSessionG2::onPacket(G2Packet *pPacket)
 {
-	qDebug() << "Received chat packet: " << pPacket->GetType();
+	qDebug() << "Received chat packet: " << pPacket->getType();
 
-	if( pPacket->IsType("UPROC") )
+	if( pPacket->isType("UPROC") )
 	{
 		onUPROC(pPacket);
 	}
-	else if( pPacket->IsType("UPROD") )
+	else if( pPacket->isType("UPROD") )
 	{
 		onUPROD(pPacket);
 	}
-	else if( pPacket->IsType("CHATANS") )
+	else if( pPacket->isType("CHATANS") )
 	{
 		onCHATANS(pPacket);
 	}
-	else if( pPacket->IsType("CMSG") )
+	else if( pPacket->isType("CMSG") )
 	{
 		onCMSG(pPacket);
 	}
 	else
 	{
-		qDebug() << "Received unknown chat packet: " << pPacket->GetType();
+		qDebug() << "Received unknown chat packet: " << pPacket->getType();
 	}
 
 }
@@ -270,8 +270,8 @@ void CChatSessionG2::onUPROC(G2Packet *pPacket)
 	sXML = sXML.arg(quazaaSettings.Profile.GUID.toString().toUpper().replace("{", "").replace("}", "")).arg(quazaaSettings.Profile.GnutellaScreenName);
 
 	G2Packet* pD = G2Packet::newPacket("UPROD", true);
-	pD->WritePacket("XML", sXML.toUtf8().size());
-	pD->WriteString(sXML);
+	pD->writePacket("XML", sXML.toUtf8().size());
+	pD->writeString(sXML);
 
 	sendPacket(pD);
 }
@@ -289,7 +289,7 @@ void CChatSessionG2::onUPROD(G2Packet *pPacket)
 	char szType[9];
 	quint32 nLength = 0, nNext = 0;
 
-	while(pPacket->ReadPacket(&szType[0], nLength))
+	while(pPacket->readPacket(&szType[0], nLength))
 	{
 		nNext = pPacket->m_nPosition + nLength;
 
@@ -301,7 +301,7 @@ void CChatSessionG2::onUPROD(G2Packet *pPacket)
 			bool hasGUID = false;
 			bool hasIdentity = false;
 			bool hasNick = false;
-			oXML.addData(pPacket->ReadString(nLength));
+			oXML.addData(pPacket->readString(nLength));
 
 			while(!oXML.atEnd() && !oXML.hasError())
 			{
@@ -368,8 +368,8 @@ void CChatSessionG2::onUPROD(G2Packet *pPacket)
 	if( m_bInitiated ) // TODO PUSH handling
 	{
 		G2Packet* pReq = G2Packet::newPacket("CHATREQ", true);
-		pReq->WritePacket("USERGUID", 16);
-		pReq->WriteGUID(m_oGUID);
+		pReq->writePacket("USERGUID", 16);
+		pReq->writeGUID(m_oGUID);
 
 		sendPacket(pReq);
 	}
@@ -382,14 +382,14 @@ void CChatSessionG2::onCHATANS(G2Packet *pPacket)
 
 	bool bAccepted = false;
 
-	while(pPacket->ReadPacket(&szType[0], nLength))
+	while(pPacket->readPacket(&szType[0], nLength))
 	{
 		nNext = pPacket->m_nPosition + nLength;
 
 		if(strcmp("USERGUID", szType) == 0 && nLength >= 16)
 		{
 			QUuid oGUID;
-			oGUID = pPacket->ReadGUID();
+			oGUID = pPacket->readGUID();
 			if( !oGUID.isNull() )
 			{
 				m_oGUID = oGUID;
@@ -434,13 +434,13 @@ void CChatSessionG2::onCMSG(G2Packet *pPacket)
 	QString sMessage;
 	bool bAction = false;
 
-	while(pPacket->ReadPacket(&szType[0], nLength))
+	while(pPacket->readPacket(&szType[0], nLength))
 	{
 		nNext = pPacket->m_nPosition + nLength;
 
 		if(strcmp("BODY", szType) == 0)
 		{
-			sMessage = pPacket->ReadString(nLength);
+			sMessage = pPacket->readString(nLength);
 		}
 		else if (strcmp("ACT", szType) == 0 )
 		{
@@ -462,12 +462,12 @@ void CChatSessionG2::sendMessage(QString sMessage, bool bAction)
 
 	G2Packet* pPacket = G2Packet::newPacket("CMSG", true);
 	if( bAction )
-		pPacket->WritePacket("ACT", 0);
+		pPacket->writePacket("ACT", 0);
 
 	G2Packet* pBody = G2Packet::newPacket("BODY");
-	pBody->WriteString(sMessage);
-	pPacket->WritePacket(pBody);
-	pBody->Release();
+	pBody->writeString(sMessage);
+	pPacket->writePacket(pBody);
+	pBody->release();
 
 	sendPacket(pPacket);
 }

@@ -137,13 +137,13 @@ bool CSearchManager::OnQueryAcknowledge(G2Packet* pPacket, CEndPoint& addr, QUui
 		return false;
 	}
 
-	pPacket->SkipCompound();			// skip children to get search GUID
-	if ( pPacket->GetRemaining() < 16 )	// must be at least 16 bytes for GUID
+	pPacket->skipCompound();			// skip children to get search GUID
+	if ( pPacket->getRemaining() < 16 )	// must be at least 16 bytes for GUID
 	{
 		return false;
 	}
 
-	oGUID = pPacket->ReadGUID();		// Read search GUID
+	oGUID = pPacket->readGUID();		// Read search GUID
 
 	QMutexLocker l( &m_pSection );
 
@@ -167,7 +167,7 @@ bool CSearchManager::OnQueryAcknowledge(G2Packet* pPacket, CEndPoint& addr, QUui
 		char szType[9];
 		quint32 nLength = 0, nNext = 0;
 
-		while ( pPacket->ReadPacket( &szType[0], nLength ) )
+		while ( pPacket->readPacket( &szType[0], nLength ) )
 		{
 			nNext = pPacket->m_nPosition + nLength;
 
@@ -178,35 +178,35 @@ bool CSearchManager::OnQueryAcknowledge(G2Packet* pPacket, CEndPoint& addr, QUui
 				{
 					// IPv6
 					Q_IPV6ADDR nIP;
-					pPacket->Read( &nIP, 16 );
+					pPacket->read( &nIP, 16 );
 					ha.setAddress( nIP );
 
 					if ( nLength >= 18 )
 					{
-						quint16 nPort = pPacket->ReadIntLE<quint16>();
+						quint16 nPort = pPacket->readIntLE<quint16>();
 						ha.setPort(nPort);
 					}
 
 					if ( nLength >= 20 )
 					{
-						nLeaves += pPacket->ReadIntLE<quint16>();
+						nLeaves += pPacket->readIntLE<quint16>();
 					}
 				}
 				else
 				{
 					// IPv4
-					quint32 nIP = pPacket->ReadIntBE<quint32>();
+					quint32 nIP = pPacket->readIntBE<quint32>();
 					ha.setAddress( nIP );
 
 					if ( nLength >= 6 )
 					{
-						quint16 nPort = pPacket->ReadIntLE<quint16>();
+						quint16 nPort = pPacket->readIntLE<quint16>();
 						ha.setPort(nPort);
 					}
 
 					if ( nLength >= 8 )
 					{
-						nLeaves += pPacket->ReadIntLE<quint16>();
+						nLeaves += pPacket->readIntLE<quint16>();
 					}
 				}
 				lDone.append( ha );
@@ -216,9 +216,9 @@ bool CSearchManager::OnQueryAcknowledge(G2Packet* pPacket, CEndPoint& addr, QUui
 			else if ( strcmp( "S", szType ) == 0 && nLength >= 6 )
 			{
 				CEndPoint a;
-				pPacket->ReadHostAddress( &a, !( nLength >= 18 ) );
+				pPacket->readHostAddress( &a, !( nLength >= 18 ) );
 				const quint32 tTimeStamp = ( nLength >= (a.protocol() == 0 ? 10u : 22u) ) ?
-											 pPacket->ReadIntLE<quint32>() + tAdjust : tNow - 60;
+											 pPacket->readIntLE<quint32>() + tAdjust : tNow - 60;
 
 				lSuggested.insert(a, tTimeStamp);
 
@@ -226,17 +226,17 @@ bool CSearchManager::OnQueryAcknowledge(G2Packet* pPacket, CEndPoint& addr, QUui
 			}
 			else if ( strcmp("TS", szType) == 0 && nLength >= 4 )
 			{
-				tAdjust = tNow - pPacket->ReadIntLE<quint32>();
+				tAdjust = tNow - pPacket->readIntLE<quint32>();
 			}
 			else if ( strcmp("RA", szType) == 0 && nLength >= 2 )
 			{
 				if ( nLength >= 4 )
 				{
-					nRetryAfter = pPacket->ReadIntLE<quint32>();
+					nRetryAfter = pPacket->readIntLE<quint32>();
 				}
 				else if ( nLength >= 2 )
 				{
-					nRetryAfter = pPacket->ReadIntLE<quint16>();
+					nRetryAfter = pPacket->readIntLE<quint16>();
 				}
 
 				hostCache.m_pSection.lock();
@@ -252,18 +252,18 @@ bool CSearchManager::OnQueryAcknowledge(G2Packet* pPacket, CEndPoint& addr, QUui
 				if ( nLength >= 16 )
 				{
 					Q_IPV6ADDR ip;
-					pPacket->Read( &ip, 16 );
+					pPacket->read( &ip, 16 );
 					oFromIp.setAddress( ip );
 				}
 				else
 				{
-					quint32 nFromIp = pPacket->ReadIntBE<quint32>();
+					quint32 nFromIp = pPacket->readIntBE<quint32>();
 					oFromIp.setAddress( nFromIp );
 				}
 			}
 			else if( strcmp("V", szType) == 0 && nLength >= 4 )
 			{
-				sVendor = pPacket->ReadString( 4 );
+				sVendor = pPacket->readString( 4 );
 			}
 
 			pPacket->m_nPosition = nNext;

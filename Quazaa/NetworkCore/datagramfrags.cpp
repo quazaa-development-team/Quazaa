@@ -124,7 +124,7 @@ G2Packet* DatagramIn::toG2Packet()
 		throw std::logic_error("Unable to uncompress compressed packet.");
 	}
 
-	return G2Packet::ReadBuffer(m_pBuffer[0]);
+	return G2Packet::readBuffer(m_pBuffer[0]);
 }
 
 DatagramOut::DatagramOut()
@@ -149,7 +149,7 @@ void DatagramOut::create(CEndPoint oAddr, G2Packet* pPacket, quint16 nSequence, 
 	m_nSequence = nSequence;
 	m_pBuffer = pBuffer;
 
-	pPacket->ToBuffer(m_pBuffer);
+	pPacket->toBuffer(m_pBuffer);
 
 	m_bCompressed = ZLibUtils::Compress(*m_pBuffer, true);
 

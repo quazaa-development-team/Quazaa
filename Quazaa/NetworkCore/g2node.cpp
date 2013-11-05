@@ -74,7 +74,7 @@ CG2Node::~CG2Node()
 
 	while(m_lSendQueue.size())
 	{
-		m_lSendQueue.dequeue()->Release();
+		m_lSendQueue.dequeue()->release();
 	}
 
 	if(m_pLocalTable)
@@ -100,20 +100,20 @@ void CG2Node::sendPacket(G2Packet* pPacket, bool bBuffered, bool bRelease)
 	{
 		while(m_lSendQueue.size() > 128)
 		{
-			m_lSendQueue.dequeue()->Release();
+			m_lSendQueue.dequeue()->release();
 		}
 
-		pPacket->AddRef();
+		pPacket->addRef();
 		m_lSendQueue.enqueue(pPacket);
 	}
 	else
 	{
-		pPacket->ToBuffer(GetOutputBuffer());
+		pPacket->toBuffer(GetOutputBuffer());
 	}
 
 	if(bRelease)
 	{
-		pPacket->Release();
+		pPacket->release();
 	}
 
 	emit readyToTransfer();
@@ -186,22 +186,22 @@ void CG2Node::onRead()
 		G2Packet* pPacket = 0;
 		try
 		{
-			while((pPacket = G2Packet::ReadBuffer(GetInputBuffer())))
+			while((pPacket = G2Packet::readBuffer(GetInputBuffer())))
 			{
 				m_tLastPacketIn = time(0);
 				m_nPacketsIn++;
 
 				onPacket(pPacket);
 
-				pPacket->Release();
+				pPacket->release();
 			}
 		}
 		catch(...)
 		{
 			if(pPacket)
 			{
-				systemLog.postLog(LogSeverity::Debug, QString("%1").arg(pPacket->Dump()));
-				pPacket->Release();
+				systemLog.postLog(LogSeverity::Debug, QString("%1").arg(pPacket->dump()));
+				pPacket->release();
 			}
 
 			systemLog.postLog(LogSeverity::Debug, QString("Packet error - %1").arg(m_oAddress.toString()));
@@ -726,9 +726,9 @@ void CG2Node::sendStartups()
 	{
 		CEndPoint addr = Network.GetLocalAddress();
 		G2Packet* pPacket = G2Packet::newPacket("PI", true);
-		pPacket->WritePacket("UDP", 6);
-		pPacket->WriteHostAddress(&addr);
-		pPacket->WritePacket("TFW", 0);
+		pPacket->writePacket("UDP", 6);
+		pPacket->writeHostAddress(&addr);
+		pPacket->writePacket("TFW", 0);
 		sendPacket(pPacket, false, true);
 	}
 
@@ -740,26 +740,26 @@ void CG2Node::sendLNI()
 	G2Packet* pLNI = G2Packet::newPacket("LNI", true);
 	if(Network.m_oAddress.protocol() == 0)
 	{
-		pLNI->WritePacket("NA", 6)->WriteHostAddress(&Network.m_oAddress);
+		pLNI->writePacket("NA", 6)->writeHostAddress(&Network.m_oAddress);
 	}
 	else
 	{
-		pLNI->WritePacket("NA", 18)->WriteHostAddress(&Network.m_oAddress);
+		pLNI->writePacket("NA", 18)->writeHostAddress(&Network.m_oAddress);
 	}
-	pLNI->WritePacket("GU", 16)->WriteGUID(quazaaSettings.Profile.GUID);
-	pLNI->WritePacket("V", 4)->WriteString(CQuazaaGlobals::VENDOR_CODE(), false);
+	pLNI->writePacket("GU", 16)->writeGUID(quazaaSettings.Profile.GUID);
+	pLNI->writePacket("V", 4)->writeString(CQuazaaGlobals::VENDOR_CODE(), false);
 
 	if(Neighbours.IsG2Hub())
 	{
 		quint16 nLeavesMax = quazaaSettings.Gnutella2.NumLeafs;
 		quint16 nLeaves = Neighbours.m_nLeavesConnectedG2;
-		pLNI->WritePacket("HS", 4);
-		pLNI->WriteIntLE<quint16>(nLeaves);
-		pLNI->WriteIntLE<quint16>(nLeavesMax);
-		pLNI->WritePacket("QK", 0);
+		pLNI->writePacket("HS", 4);
+		pLNI->writeIntLE<quint16>(nLeaves);
+		pLNI->writeIntLE<quint16>(nLeavesMax);
+		pLNI->writePacket("QK", 0);
 	}
 
-	pLNI->WritePacket("g2core", 0);
+	pLNI->writePacket("g2core", 0);
 
 	sendPacket(pLNI, false, true);
 }
@@ -773,53 +773,53 @@ void CG2Node::onPacket(G2Packet* pPacket)
 	if(!Network.RoutePacket(pPacket))
 	{
 
-		if(pPacket->IsType("PI"))
+		if(pPacket->isType("PI"))
 		{
 			onPing(pPacket);
 		}
-		else if(pPacket->IsType("PO"))
+		else if(pPacket->isType("PO"))
 		{
 			onPong(pPacket);
 		}
-		else if(pPacket->IsType("LNI"))
+		else if(pPacket->isType("LNI"))
 		{
 			onLNI(pPacket);
 		}
-		else if(pPacket->IsType("KHL"))
+		else if(pPacket->isType("KHL"))
 		{
 			onKHL(pPacket);
 		}
-		else if(pPacket->IsType("QHT"))
+		else if(pPacket->isType("QHT"))
 		{
 			onQHT(pPacket);
 		}
-		else if(pPacket->IsType("Q2"))
+		else if(pPacket->isType("Q2"))
 		{
 			onQuery(pPacket);
 		}
-		else if(pPacket->IsType("QKR"))
+		else if(pPacket->isType("QKR"))
 		{
 			onQKR(pPacket);
 		}
-		else if(pPacket->IsType("QKA"))
+		else if(pPacket->isType("QKA"))
 		{
 			onQKA(pPacket);
 		}
-		else if(pPacket->IsType("QA"))
+		else if(pPacket->isType("QA"))
 		{
 			onQA(pPacket);
 		}
-		else if(pPacket->IsType("QH2"))
+		else if(pPacket->isType("QH2"))
 		{
 			onQH2(pPacket);
 		}
-		else if(pPacket->IsType("HAW"))
+		else if(pPacket->isType("HAW"))
 		{
 			onHaw(pPacket);
 		}
 		else
 		{
-			systemLog.postLog(LogSeverity::Debug, QString("G2 TCP recieved unknown packet %1").arg(pPacket->GetType()));
+			systemLog.postLog(LogSeverity::Debug, QString("G2 TCP recieved unknown packet %1").arg(pPacket->getType()));
 			//qDebug() << "Unknown packet " << pPacket->GetType();
 		}
 	}
@@ -844,13 +844,13 @@ void CG2Node::onPing(G2Packet* pPacket)
 		char szType[9];
 		quint32 nLength = 0, nNext = 0;
 
-		while(pPacket->ReadPacket(&szType[0], nLength))
+		while(pPacket->readPacket(&szType[0], nLength))
 		{
 			nNext = pPacket->m_nPosition + nLength;
 
 			if(strcmp("UDP", szType) == 0 && nLength >= 6)
 			{
-				pPacket->ReadHostAddress(&addr);
+				pPacket->readHostAddress(&addr);
 				if(addr.isValid())
 				{
 					bUdp = true;
@@ -885,7 +885,7 @@ void CG2Node::onPing(G2Packet* pPacket)
 		if(Neighbours.IsG2Hub()) // If we are a hub.
 		{
 			G2Packet* pRelay = G2Packet::newPacket("RELAY");
-			pPacket->PrependPacket(pRelay);
+			pPacket->prependPacket(pRelay);
 
 			int nRelayed = 0, nCount = Neighbours.GetCount();
 			QList<int> lToRelayIndex;
@@ -901,7 +901,7 @@ void CG2Node::onPing(G2Packet* pPacket)
 							&& pNode->m_nState == nsConnected
 							&& static_cast<CG2Node*>(pNode)->m_nType == G2_LEAF )
 					{
-						pPacket->AddRef();
+						pPacket->addRef();
 						((CG2Node*)pNode)->sendPacket(pPacket, true, true);
 						nRelayed++;
 					}
@@ -914,9 +914,9 @@ void CG2Node::onPing(G2Packet* pPacket)
 	if(bUdp && bRelay)
 	{
 		G2Packet* pPong = G2Packet::newPacket("PO", true);
-		pPong->WritePacket("RELAY", 0);
+		pPong->writePacket("RELAY", 0);
 		Datagrams.sendPacket(addr, pPong, true);
-		pPong->Release();
+		pPong->release();
 	}
 }
 
@@ -951,7 +951,7 @@ void CG2Node::onLNI(G2Packet* pPacket)
 	char szType[9];
 	quint32 nLength = 0, nNext = 0;
 
-	while(pPacket->ReadPacket(&szType[0], nLength))
+	while(pPacket->readPacket(&szType[0], nLength))
 	{
 		nNext = pPacket->m_nPosition + nLength;
 
@@ -959,11 +959,11 @@ void CG2Node::onLNI(G2Packet* pPacket)
 		{
 			if(nLength >= 18)
 			{
-				pPacket->ReadHostAddress(&hostAddr, false);
+				pPacket->readHostAddress(&hostAddr, false);
 			}
 			else
 			{
-				pPacket->ReadHostAddress(&hostAddr);
+				pPacket->readHostAddress(&hostAddr);
 			}
 
 			if(hostAddr.isValid())
@@ -983,14 +983,14 @@ void CG2Node::onLNI(G2Packet* pPacket)
 		else if(strcmp("GU", szType) == 0 && nLength >= 16)
 		{
 			hasGUID = true;
-			pGUID = pPacket->ReadGUID();
+			pGUID = pPacket->readGUID();
 		}
 		else if(strcmp("HS", szType) == 0 && nLength >= 4)
 		{
 			if(m_nType == G2_HUB)
 			{
-				m_nLeafCount = pPacket->ReadIntLE<quint16>();
-				m_nLeafMax = pPacket->ReadIntLE<quint16>();
+				m_nLeafCount = pPacket->readIntLE<quint16>();
+				m_nLeafMax = pPacket->readIntLE<quint16>();
 			}
 		}
 		else if(strcmp("QK", szType) == 0)
@@ -1029,7 +1029,7 @@ void CG2Node::onKHL(G2Packet* pPacket)
 	bool bCompound = false;
 	quint32 nNext = 0, nInnerNext = 0;
 
-	while(pPacket->ReadPacket(&szType[0], nLength, &bCompound))
+	while(pPacket->readPacket(&szType[0], nLength, &bCompound))
 	{
 		nNext = pPacket->m_nPosition + nLength;
 
@@ -1039,13 +1039,13 @@ void CG2Node::onKHL(G2Packet* pPacket)
 
 			if(bCompound)
 			{
-				while(pPacket->m_nPosition < nNext && pPacket->ReadPacket(&szInner[0], nInnerLength))
+				while(pPacket->m_nPosition < nNext && pPacket->readPacket(&szInner[0], nInnerLength))
 				{
 					nInnerNext = pPacket->m_nPosition + nInnerLength;
 
 					if(strcmp("GU", szInner) == 0 && nInnerLength >= 16)
 					{
-						pGUID = pPacket->ReadGUID();
+						pGUID = pPacket->readGUID();
 					}
 
 					pPacket->m_nPosition = nInnerNext;
@@ -1060,11 +1060,11 @@ void CG2Node::onKHL(G2Packet* pPacket)
 
 				if(nLength >= 18)
 				{
-					pPacket->ReadHostAddress(&pAddr, false);
+					pPacket->readHostAddress(&pAddr, false);
 				}
 				else
 				{
-					pPacket->ReadHostAddress(&pAddr);
+					pPacket->readHostAddress(&pAddr);
 				}
 
 				if(m_nType == G2_HUB)
@@ -1086,13 +1086,13 @@ void CG2Node::onKHL(G2Packet* pPacket)
 
 			if( bCompound )
 			{
-				while(pPacket->m_nPosition < nNext && pPacket->ReadPacket(&szInner[0], nInnerLength))
+				while(pPacket->m_nPosition < nNext && pPacket->readPacket(&szInner[0], nInnerLength))
 				{
 					nInnerNext = pPacket->m_nPosition + nInnerLength;
 
 					if(strcmp("V", szInner) == 0 && nInnerLength >= 4)
 					{
-						sVendor = pPacket->ReadString(4);
+						sVendor = pPacket->readString(4);
 					}
 
 					pPacket->m_nPosition = nInnerNext;
@@ -1108,14 +1108,14 @@ void CG2Node::onKHL(G2Packet* pPacket)
 
 				if(nLength >= 22)
 				{
-					pPacket->ReadHostAddress(&ep, false);
+					pPacket->readHostAddress(&ep, false);
 				}
 				else
 				{
-					pPacket->ReadHostAddress(&ep);
+					pPacket->readHostAddress(&ep);
 				}
 
-				/*nTs = */pPacket->ReadIntLE<quint32>();
+				/*nTs = */pPacket->readIntLE<quint32>();
 
 				if ( !sVendor.isEmpty() && securityManager.isVendorBlocked( sVendor ) )
 				{
@@ -1134,12 +1134,12 @@ void CG2Node::onKHL(G2Packet* pPacket)
 		{
 			if(bCompound)
 			{
-				pPacket->SkipCompound(nLength);
+				pPacket->skipCompound(nLength);
 			}
 
 			if(nLength >= 4)
 			{
-				nDiff = tNow - pPacket->ReadIntLE<quint32>();
+				nDiff = tNow - pPacket->readIntLE<quint32>();
 			}
 		}
 		pPacket->m_nPosition = nNext;
@@ -1199,7 +1199,7 @@ void CG2Node::onQKR(G2Packet* pPacket)
 	bool bCacheOK = true;
 	CEndPoint addr;
 
-	while(pPacket->ReadPacket(&szType[0], nLength))
+	while(pPacket->readPacket(&szType[0], nLength))
 	{
 		nNext = pPacket->m_nPosition + nLength;
 
@@ -1207,11 +1207,11 @@ void CG2Node::onQKR(G2Packet* pPacket)
 		{
 			if(nLength >= 18)
 			{
-				pPacket->ReadHostAddress(&addr, false);
+				pPacket->readHostAddress(&addr, false);
 			}
 			else
 			{
-				pPacket->ReadHostAddress(&addr);
+				pPacket->readHostAddress(&addr);
 			}
 		}
 		else if(strcmp("REF", szType) == 0)
@@ -1238,14 +1238,14 @@ void CG2Node::onQKR(G2Packet* pPacket)
 		G2Packet* pQKA = G2Packet::newPacket( "QKA", true );
 		if ( addr.protocol() == 0 )
 		{
-			pQKA->WritePacket( "QNA", 6 )->WriteHostAddress( &addr );
+			pQKA->writePacket( "QNA", 6 )->writeHostAddress( &addr );
 		}
 		else
 		{
-			pQKA->WritePacket( "QNA", 18 )->WriteHostAddress( &addr );
+			pQKA->writePacket( "QNA", 18 )->writeHostAddress( &addr );
 		}
-		pQKA->WritePacket( "QK", 4 )->WriteIntLE<quint32>( pHost->m_nQueryKey );
-		pQKA->WritePacket( "CACHED", 0 );
+		pQKA->writePacket( "QK", 4 )->writeIntLE<quint32>( pHost->m_nQueryKey );
+		pQKA->writePacket( "CACHED", 0 );
 		sendPacket( pQKA, true, true );
 	}
 	else
@@ -1253,24 +1253,24 @@ void CG2Node::onQKR(G2Packet* pPacket)
 		G2Packet* pQKR = G2Packet::newPacket( "QKR", true );
 		if ( addr.protocol() == 0 )
 		{
-			pQKR->WritePacket( "SNA", 6 )->WriteHostAddress( &m_oAddress );
+			pQKR->writePacket( "SNA", 6 )->writeHostAddress( &m_oAddress );
 		}
 		else
 		{
-			pQKR->WritePacket( "SNA", 18 )->WriteHostAddress( &m_oAddress );
+			pQKR->writePacket( "SNA", 18 )->writeHostAddress( &m_oAddress );
 		}
 
 		if ( Network.m_oAddress.protocol() == 0 )
 		{
-			pQKR->WritePacket( "RNA", 6 )->WriteHostAddress( &Network.m_oAddress );
+			pQKR->writePacket( "RNA", 6 )->writeHostAddress( &Network.m_oAddress );
 		}
 		else
 		{
-			pQKR->WritePacket( "RNA", 18 )->WriteHostAddress( &Network.m_oAddress );
+			pQKR->writePacket( "RNA", 18 )->writeHostAddress( &Network.m_oAddress );
 		}
 
 		Datagrams.sendPacket( addr, pQKR, false );
-		pQKR->Release();
+		pQKR->release();
 	}
 }
 
@@ -1289,13 +1289,13 @@ void CG2Node::onQKA(G2Packet* pPacket)
 	char szType[9];
 	quint32 nLength = 0, nNext = 0;
 
-	while ( pPacket->ReadPacket( &szType[0], nLength ) )
+	while ( pPacket->readPacket( &szType[0], nLength ) )
 	{
 		nNext = pPacket->m_nPosition + nLength;
 
 		if(strcmp("QK", szType) == 0 && nLength >= 4)
 		{
-			nKey = pPacket->ReadIntLE<quint32>();
+			nKey = pPacket->readIntLE<quint32>();
 		}
 		else if(strcmp("QNA", szType) == 0)
 		{
@@ -1304,25 +1304,25 @@ void CG2Node::onQKA(G2Packet* pPacket)
 				if(nLength >= 18)
 				{
 					// IPv6 with port
-					pPacket->ReadHostAddress(&addr, false);
+					pPacket->readHostAddress(&addr, false);
 				}
 				else if(nLength >= 16)
 				{
 					// IPv6 without port
 					Q_IPV6ADDR ip6;
-					pPacket->Read(&ip6, 16);
+					pPacket->read(&ip6, 16);
 					addr.setAddress(ip6);
 				}
 				else
 				{
 					// IPv4 with port
-					pPacket->ReadHostAddress(&addr);
+					pPacket->readHostAddress(&addr);
 				}
 			}
 			else if(nLength >= 4)
 			{
 				// IPv4 without port
-				quint32 ip4 = pPacket->ReadIntBE<quint32>();
+				quint32 ip4 = pPacket->readIntBE<quint32>();
 				addr.setAddress(ip4);
 				addr.setPort(6346);
 			}
@@ -1451,8 +1451,8 @@ qint64 CG2Node::writeToNetwork(qint64 nBytes)
 		if(GetOutputBuffer()->isEmpty() && !m_lSendQueue.isEmpty())
 		{
 			G2Packet* pPacket = m_lSendQueue.dequeue();
-			pPacket->ToBuffer(GetOutputBuffer());
-			pPacket->Release();
+			pPacket->toBuffer(GetOutputBuffer());
+			pPacket->release();
 		}
 
 		qint64 nSent = CNeighbour::writeToNetwork(nBytes - nTotalSent);
@@ -1473,20 +1473,20 @@ void CG2Node::sendHAW()
 {
 	G2Packet* pPacket = G2Packet::newPacket("HAW");
 
-	pPacket->WritePacket("NA", Network.m_oAddress.protocol() == QAbstractSocket::IPv4Protocol ? 6 : 18);
-	pPacket->WriteHostAddress(&Network.m_oAddress);
+	pPacket->writePacket("NA", Network.m_oAddress.protocol() == QAbstractSocket::IPv4Protocol ? 6 : 18);
+	pPacket->writeHostAddress(&Network.m_oAddress);
 
-	pPacket->WritePacket("V", 4);
-	pPacket->WriteString(CQuazaaGlobals::VENDOR_CODE());
+	pPacket->writePacket("V", 4);
+	pPacket->writeString(CQuazaaGlobals::VENDOR_CODE());
 
-	pPacket->WritePacket("HS", 2);
-	pPacket->WriteIntLE<quint16>(Neighbours.m_nLeavesConnectedG2);
+	pPacket->writePacket("HS", 2);
+	pPacket->writeIntLE<quint16>(Neighbours.m_nLeavesConnectedG2);
 
-	pPacket->WriteByte(0); // end of child packets
-	pPacket->WriteByte(100);
-	pPacket->WriteByte(0);
+	pPacket->writeByte(0); // end of child packets
+	pPacket->writeByte(100);
+	pPacket->writeByte(0);
 	QUuid oGUID = QUuid::createUuid();
-	pPacket->WriteGUID(oGUID);
+	pPacket->writeGUID(oGUID);
 
 	sendPacket(pPacket, false, true);
 }
@@ -1501,13 +1501,13 @@ void CG2Node::onHaw(G2Packet *pPacket)
 
 	CEndPoint addr;
 
-	while ( pPacket->ReadPacket( &szType[0], nLength ) )
+	while ( pPacket->readPacket( &szType[0], nLength ) )
 	{
 		nNext = pPacket->m_nPosition + nLength;
 
 		if ( strcmp("V", szType) == 0 && nLength >= 4 )
 		{
-			strVendor = pPacket->ReadString( 4 );
+			strVendor = pPacket->readString( 4 );
 		}
 		else if ( strcmp("NA", szType) == 0 )
 		{
@@ -1516,12 +1516,12 @@ void CG2Node::onHaw(G2Packet *pPacket)
 				if(nLength >= 18)
 				{
 					// IPv6 with port
-					pPacket->ReadHostAddress(&addr, false);
+					pPacket->readHostAddress(&addr, false);
 				}
 				else
 				{
 					// IPv4 with port
-					pPacket->ReadHostAddress(&addr);
+					pPacket->readHostAddress(&addr);
 				}
 			}
 		}
@@ -1529,13 +1529,13 @@ void CG2Node::onHaw(G2Packet *pPacket)
 		pPacket->m_nPosition = nNext;
 	}
 
-	if ( pPacket->GetRemaining() < 2 + 16 ) return;
+	if ( pPacket->getRemaining() < 2 + 16 ) return;
 
 	BYTE* pPtr	= pPacket->m_pBuffer + pPacket->m_nPosition;
-	BYTE nTTL	= pPacket->ReadByte();
-	BYTE nHops	= pPacket->ReadByte();
+	BYTE nTTL	= pPacket->readByte();
+	BYTE nHops	= pPacket->readByte();
 
-	/*	QUuid oGUID = */pPacket->ReadGUID();
+	/*	QUuid oGUID = */pPacket->readGUID();
 
 	if( !strVendor.isEmpty() && securityManager.isVendorBlocked(strVendor) )
 	{

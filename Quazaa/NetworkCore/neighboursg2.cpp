@@ -198,7 +198,7 @@ void CNeighboursG2::DispatchKHL()
 
 	const quint32 tNow = common::getTNowUTC();
 
-	pKHL->WritePacket( "TS", 4 )->WriteIntLE<quint32>( tNow );
+	pKHL->writePacket( "TS", 4 )->writeIntLE<quint32>( tNow );
 
 	foreach ( CNeighbour * pNode, m_lNodes )
 	{
@@ -211,11 +211,11 @@ void CNeighboursG2::DispatchKHL()
 		{
 			if ( pNode->m_oAddress.protocol() == QAbstractSocket::IPv4Protocol )
 			{
-				pKHL->WritePacket( "NH", 6 )->WriteHostAddress( &pNode->m_oAddress );
+				pKHL->writePacket( "NH", 6 )->writeHostAddress( &pNode->m_oAddress );
 			}
 			else
 			{
-				pKHL->WritePacket( "NH", 18 )->WriteHostAddress( &pNode->m_oAddress );
+				pKHL->writePacket( "NH", 18 )->writeHostAddress( &pNode->m_oAddress );
 			}
 		}
 	}
@@ -232,13 +232,13 @@ void CNeighboursG2::DispatchKHL()
 		{
 			if ( (*itHost)->m_oAddress.protocol() == QAbstractSocket::IPv4Protocol )
 			{
-				pKHL->WritePacket( "CH", 10 )->WriteHostAddress( &(*itHost)->m_oAddress );
-				pKHL->WriteIntLE<quint32>( (*itHost)->m_tTimestamp );
+				pKHL->writePacket( "CH", 10 )->writeHostAddress( &(*itHost)->m_oAddress );
+				pKHL->writeIntLE<quint32>( (*itHost)->m_tTimestamp );
 			}
 			else
 			{
-				pKHL->WritePacket( "CH", 22 )->WriteHostAddress( &(*itHost)->m_oAddress );
-				pKHL->WriteIntLE<quint32>( (*itHost)->m_tTimestamp );
+				pKHL->writePacket( "CH", 22 )->writeHostAddress( &(*itHost)->m_oAddress );
+				pKHL->writeIntLE<quint32>( (*itHost)->m_tTimestamp );
 			}
 			--nCount;
 		}
@@ -254,7 +254,7 @@ void CNeighboursG2::DispatchKHL()
 		}
 	}
 
-	pKHL->Release();
+	pKHL->release();
 }
 
 bool CNeighboursG2::SwitchG2ClientMode(G2NodeType nRequestedMode)
@@ -415,25 +415,25 @@ G2Packet* CNeighboursG2::CreateQueryAck(QUuid oGUID, bool bWithHubs, CNeighbour*
 {
 	G2Packet* pPacket = G2Packet::newPacket("QA", true);
 
-	pPacket->WritePacket("TS", 4)->WriteIntLE<quint32>( common::getTNowUTC() );
-	pPacket->WritePacket("FR", (Network.m_oAddress.protocol() == QAbstractSocket::IPv4Protocol ? 6 : 18))->WriteHostAddress(&Network.m_oAddress);
-	pPacket->WritePacket("RA", 4)->WriteIntLE<quint32>(30 + 30 * m_nHubsConnectedG2);
-	pPacket->WritePacket("V", 4)->WriteString(CQuazaaGlobals::VENDOR_CODE(), false);
+	pPacket->writePacket("TS", 4)->writeIntLE<quint32>( common::getTNowUTC() );
+	pPacket->writePacket("FR", (Network.m_oAddress.protocol() == QAbstractSocket::IPv4Protocol ? 6 : 18))->writeHostAddress(&Network.m_oAddress);
+	pPacket->writePacket("RA", 4)->writeIntLE<quint32>(30 + 30 * m_nHubsConnectedG2);
+	pPacket->writePacket("V", 4)->writeString(CQuazaaGlobals::VENDOR_CODE(), false);
 
 	if(bDone)
 	{
-		pPacket->WritePacket("D", (Network.m_oAddress.protocol() == QAbstractSocket::IPv4Protocol ? 8 : 20))->WriteHostAddress(&Network.m_oAddress);
+		pPacket->writePacket("D", (Network.m_oAddress.protocol() == QAbstractSocket::IPv4Protocol ? 8 : 20))->writeHostAddress(&Network.m_oAddress);
 
 		if(bWithHubs)
 		{
-			pPacket->WriteIntLE<quint16>(m_nLeavesConnectedG2);
+			pPacket->writeIntLE<quint16>(m_nLeavesConnectedG2);
 
 			foreach(CNeighbour * pNode, m_lNodes)
 			{
 				if(pNode->m_nProtocol == dpG2 && pNode->m_nState == nsConnected && ((CG2Node*)pNode)->m_nType == G2_HUB && pNode != pExcept)
 				{
-					pPacket->WritePacket("D", (pNode->m_oAddress.protocol() == QAbstractSocket::IPv4Protocol ? 8 : 20))->WriteHostAddress(&pNode->m_oAddress);
-					pPacket->WriteIntLE<quint16>(((CG2Node*)pNode)->m_nLeafCount);
+					pPacket->writePacket("D", (pNode->m_oAddress.protocol() == QAbstractSocket::IPv4Protocol ? 8 : 20))->writeHostAddress(&pNode->m_oAddress);
+					pPacket->writeIntLE<quint16>(((CG2Node*)pNode)->m_nLeafCount);
 				}
 			}
 
@@ -454,12 +454,12 @@ G2Packet* CNeighboursG2::CreateQueryAck(QUuid oGUID, bool bWithHubs, CNeighbour*
 		}
 		else
 		{
-			pPacket->WriteIntLE<quint16>(0);
+			pPacket->writeIntLE<quint16>(0);
 		}
 	}
 
-	pPacket->WriteByte(0);
-	pPacket->WriteGUID(oGUID);
+	pPacket->writeByte(0);
+	pPacket->writeGUID(oGUID);
 
 	return pPacket;
 }

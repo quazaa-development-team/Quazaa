@@ -70,60 +70,60 @@ G2Packet* CQuery::ToG2Packet(CEndPoint* pAddr, quint32 nKey)
 
 	if(pAddr)
 	{
-		G2Packet* pUDP = pPacket->WritePacket("UDP", 10);
-		pUDP->WriteHostAddress(pAddr);
-		pUDP->WriteIntLE(nKey);
+		G2Packet* pUDP = pPacket->writePacket("UDP", 10);
+		pUDP->writeHostAddress(pAddr);
+		pUDP->writeIntLE(nKey);
 	}
 
 	if(bWantDN)
 	{
-		pPacket->WritePacket("DN", m_sDescriptiveName.toUtf8().size())->WriteString(m_sDescriptiveName, false);
+		pPacket->writePacket("DN", m_sDescriptiveName.toUtf8().size())->writeString(m_sDescriptiveName, false);
 	}
 	if(bWantMD)
 	{
-		pPacket->WritePacket("MD", m_sMetadata.toUtf8().size())->WriteString(m_sMetadata, false);
+		pPacket->writePacket("MD", m_sMetadata.toUtf8().size())->writeString(m_sMetadata, false);
 	}
 
 	foreach(CHash pHash, m_lHashes)
 	{
-		pPacket->WritePacket("URN", pHash.getFamilyName().size() + CHash::byteCount(pHash.getAlgorithm()) + 1);
-		pPacket->WriteString(pHash.getFamilyName() + "\0" + pHash.rawValue(), false);
+		pPacket->writePacket("URN", pHash.getFamilyName().size() + CHash::byteCount(pHash.getAlgorithm()) + 1);
+		pPacket->writeString(pHash.getFamilyName() + "\0" + pHash.rawValue(), false);
 	}
 
 	/*if( m_nMinimumSize > 0 && m_nMaximumSize < 0xFFFFFFFFFFFFFFFF )
 	{
 		G2Packet* pSZR = pPacket->WriteChild("SZR");
-		pSZR->WriteIntLE(m_nMinimumSize);
-		pSZR->WriteIntLE(m_nMaximumSize);
+		pSZR->writeIntLE(m_nMinimumSize);
+		pSZR->writeIntLE(m_nMaximumSize);
 	}
 	else if( m_nMinimumSize > 0 )
 	{
 		G2Packet* pSZR = pPacket->WriteChild("SZR");
-		pSZR->WriteIntLE(m_nMinimumSize);
-		pSZR->WriteIntLE(0xFFFFFFFFFFFFFFFF);
+		pSZR->writeIntLE(m_nMinimumSize);
+		pSZR->writeIntLE(0xFFFFFFFFFFFFFFFF);
 	}
 	else if( m_nMaximumSize < 0xFFFFFFFFFFFFFFFF )
 	{
 		G2Packet* pSZR = pPacket->WriteChild("SZR");
-		pSZR->WriteIntLE(0);
-		pSZR->WriteIntLE(m_nMaximumSize);
+		pSZR->writeIntLE(0);
+		pSZR->writeIntLE(m_nMaximumSize);
 	}
 
 	if( bWantURL || bWantDN || bWantMD || bWantPFS )
 	{
 		G2Packet* pInt = pPacket->WriteChild("I");
 		if( bWantURL )
-			pInt->WriteString("URL", true);
+			pInt->writeString("URL", true);
 		if( bWantDN )
-			pInt->WriteString("DN", true);
+			pInt->writeString("DN", true);
 		if( bWantMD )
-			pInt->WriteString("MD", true);
+			pInt->writeString("MD", true);
 		if( bWantPFS )
-			pInt->WriteString("PFS", true);
+			pInt->writeString("PFS", true);
 	}*/
 
-	pPacket->WriteByte(0);
-	pPacket->WriteGUID(m_oGUID);
+	pPacket->writeByte(0);
+	pPacket->writeGUID(m_oGUID);
 
 	return pPacket;
 }
@@ -264,7 +264,7 @@ bool CQuery::FromG2Packet(G2Packet *pPacket, CEndPoint *pEndpoint)
 	char szType[9];
 	quint32 nLength = 0, nNext = 0;
 
-	while(pPacket->ReadPacket(&szType[0], nLength))
+	while(pPacket->readPacket(&szType[0], nLength))
 	{
 		nNext = pPacket->m_nPosition + nLength;
 
@@ -273,12 +273,12 @@ bool CQuery::FromG2Packet(G2Packet *pPacket, CEndPoint *pEndpoint)
 			if( nLength > 18 )
 			{
 				// IPv6
-				pPacket->ReadHostAddress(&m_oEndpoint, false);
+				pPacket->readHostAddress(&m_oEndpoint, false);
 			}
 			else
 			{
 				// IPv4
-				pPacket->ReadHostAddress(&m_oEndpoint);
+				pPacket->readHostAddress(&m_oEndpoint);
 			}
 
 			if( m_oEndpoint.isNull() && pEndpoint )
@@ -286,7 +286,7 @@ bool CQuery::FromG2Packet(G2Packet *pPacket, CEndPoint *pEndpoint)
 
 			if( nLength >= 10 || nLength >= 22 )
 			{
-				m_nQueryKey = pPacket->ReadIntLE<quint32>();
+				m_nQueryKey = pPacket->readIntLE<quint32>();
 
 				quint32* pKey = (quint32*)(pPacket->m_pBuffer + pPacket->m_nPosition - 4);
 				*pKey = 0;
@@ -294,18 +294,18 @@ bool CQuery::FromG2Packet(G2Packet *pPacket, CEndPoint *pEndpoint)
 		}
 		else if( strcmp("DN", szType) == 0 )
 		{
-			m_sDescriptiveName = pPacket->ReadString(nLength);
+			m_sDescriptiveName = pPacket->readString(nLength);
 		}
 		else if( strcmp("URN", szType) == 0 )
 		{
 			QString sURN;
 			QByteArray hashBuff;
-			sURN = pPacket->ReadString();
+			sURN = pPacket->readString();
 
 			if(nLength >= 44u && sURN.compare("bp") == 0)
 			{
 				hashBuff.resize(CHash::byteCount(CHash::SHA1));
-				pPacket->Read(hashBuff.data(), CHash::byteCount(CHash::SHA1));
+				pPacket->read(hashBuff.data(), CHash::byteCount(CHash::SHA1));
 				CHash* pHash = CHash::fromRaw(hashBuff, CHash::SHA1);
 				if(pHash)
 				{
@@ -317,7 +317,7 @@ bool CQuery::FromG2Packet(G2Packet *pPacket, CEndPoint *pEndpoint)
 			else if(nLength >= CHash::byteCount(CHash::SHA1) + 5u && sURN.compare("sha1") == 0)
 			{
 				hashBuff.resize(CHash::byteCount(CHash::SHA1));
-				pPacket->Read(hashBuff.data(), CHash::byteCount(CHash::SHA1));
+				pPacket->read(hashBuff.data(), CHash::byteCount(CHash::SHA1));
 				CHash* pHash = CHash::fromRaw(hashBuff, CHash::SHA1);
 				if(pHash)
 				{
@@ -330,13 +330,13 @@ bool CQuery::FromG2Packet(G2Packet *pPacket, CEndPoint *pEndpoint)
 		{
 			if( nLength >= 16 )
 			{
-				m_nMinimumSize = pPacket->ReadIntLE<quint64>();
-				m_nMaximumSize = pPacket->ReadIntLE<quint64>();
+				m_nMinimumSize = pPacket->readIntLE<quint64>();
+				m_nMaximumSize = pPacket->readIntLE<quint64>();
 			}
 			else
 			{
-				m_nMinimumSize = pPacket->ReadIntLE<quint32>();
-				m_nMaximumSize = pPacket->ReadIntLE<quint32>();
+				m_nMinimumSize = pPacket->readIntLE<quint32>();
+				m_nMaximumSize = pPacket->readIntLE<quint32>();
 			}
 
 		}
@@ -350,10 +350,10 @@ bool CQuery::FromG2Packet(G2Packet *pPacket, CEndPoint *pEndpoint)
 		pPacket->m_nPosition = nNext;
 	}
 
-	if( pPacket->GetRemaining() < 16 )
+	if( pPacket->getRemaining() < 16 )
 		return false;
 
-	m_oGUID = pPacket->ReadGUID();
+	m_oGUID = pPacket->readGUID();
 
 	return CheckValid();
 }

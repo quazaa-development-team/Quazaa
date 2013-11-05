@@ -378,9 +378,9 @@ bool CQueryHashTable::PatchTo(const CQueryHashTable* pTarget,
 		memset(m_pHash, 0xFF, (m_nHash + 31) / 8);
 
 		G2Packet* pReset = G2Packet::newPacket("QHT");
-		pReset->WriteByte(0);
-		pReset->WriteIntLE(m_nHash);
-		pReset->WriteByte(1);
+		pReset->writeByte(0);
+		pReset->writeIntLE(m_nHash);
+		pReset->writeByte(1);
 
 		pNeighbour->sendPacket(pReset, false, true);
 
@@ -443,11 +443,11 @@ bool CQueryHashTable::PatchTo(const CQueryHashTable* pTarget,
 		p.nFragNum = nFrag;
 
 		G2Packet* pPatch = G2Packet::newPacket("QHT");
-		pPatch->Write((void*)&p, sizeof(p));
+		pPatch->write((void*)&p, sizeof(p));
 
 		quint32 nFs = qMin(nToWrite, nFragSize);
 
-		pPatch->Write((void*)(baBuffer.data() + nOffset), nFs);
+		pPatch->write((void*)(baBuffer.data() + nOffset), nFs);
 
 		nOffset += nFs;
 		nToWrite -= nFs;
@@ -469,10 +469,10 @@ bool CQueryHashTable::OnPacket(G2Packet* pPacket)
 	quint32 nLength = pPacket->m_nLength;
 	if(pPacket->m_bCompound)
 	{
-		pPacket->SkipCompound(nLength);
+		pPacket->skipCompound(nLength);
 	}
 
-	uchar nVariant = pPacket->ReadByte();
+	uchar nVariant = pPacket->readByte();
 
 	if(nVariant == 0)
 	{
@@ -501,8 +501,8 @@ bool CQueryHashTable::OnReset(G2Packet* pPacket)
 		QueryHashMaster.Remove(this);
 	}
 
-	nHashSize	= pPacket->ReadIntLE<quint32>();
-	m_nInfinity	= pPacket->ReadByte();
+	nHashSize	= pPacket->readIntLE<quint32>();
+	m_nInfinity	= pPacket->readByte();
 
 	if(nHashSize < 64)
 	{
@@ -565,10 +565,10 @@ bool CQueryHashTable::OnPatch(G2Packet* pPacket)
 		return false;
 	}
 
-	uchar nSequence		= pPacket->ReadByte();
-	uchar nMaximum		= pPacket->ReadByte();
-	uchar nCompression	= pPacket->ReadByte();
-	uchar nBits			= pPacket->ReadByte();
+	uchar nSequence		= pPacket->readByte();
+	uchar nMaximum		= pPacket->readByte();
+	uchar nCompression	= pPacket->readByte();
+	uchar nBits			= pPacket->readByte();
 
 	if(nBits != 1 && nBits != 4 && nBits != 8)
 	{
