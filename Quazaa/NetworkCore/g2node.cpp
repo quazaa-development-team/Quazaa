@@ -1022,7 +1022,7 @@ void CG2Node::onKHL(G2Packet* pPacket)
 	const quint32 tNow = common::getTNowUTC();
 	qint32 nDiff = 0;
 
-	m_pHubGroup->Clear();
+	m_pHubGroup->clear();
 
 	char szType[9], szInner[9];
 	quint32 nLength = 0, nInnerLength = 0;
@@ -1069,7 +1069,7 @@ void CG2Node::onKHL(G2Packet* pPacket)
 
 				if(m_nType == G2_HUB)
 				{
-					m_pHubGroup->Add(pAddr);
+					m_pHubGroup->add(pAddr);
 				}
 
 				if(!pGUID.isNull())

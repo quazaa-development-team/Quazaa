@@ -51,7 +51,7 @@ CHandshakes::~CHandshakes()
 	}
 }
 
-void CHandshakes::Listen()
+void CHandshakes::listen()
 {
 	QMutexLocker l(&m_pSection);
 
@@ -98,7 +98,7 @@ void CHandshakes::incomingConnection(qintptr handle)
 	}
 }
 
-void CHandshakes::OnTimer()
+void CHandshakes::onTimer()
 {
 	QMutexLocker l(&m_pSection);
 
@@ -106,11 +106,11 @@ void CHandshakes::OnTimer()
 
 	foreach(CHandshake * pHs, m_lHandshakes)
 	{
-		pHs->OnTimer(tNow);
+		pHs->onTimer(tNow);
 	}
 }
 
-void CHandshakes::RemoveHandshake(CHandshake* pHs)
+void CHandshakes::removeHandshake(CHandshake* pHs)
 {
 	ASSUME_LOCK(Handshakes.m_pSection);
 
@@ -123,11 +123,11 @@ void CHandshakes::RemoveHandshake(CHandshake* pHs)
 
 void CHandshakes::processNeighbour(CHandshake* pHs)
 {
-	RemoveHandshake(pHs);
+	removeHandshake(pHs);
 	Neighbours.OnAccept(pHs);
 }
 
-void CHandshakes::SetupThread()
+void CHandshakes::setupThread()
 {
 	m_pController = new CRateController(&m_pSection);
 
@@ -151,10 +151,10 @@ void CHandshakes::SetupThread()
 	}
 
 	m_pTimer = new QTimer(this);
-	connect(m_pTimer, SIGNAL(timeout()), this, SLOT(OnTimer()));
+	connect(m_pTimer, SIGNAL(timeout()), this, SLOT(onTimer()));
 	m_pTimer->start(1000);
 }
-void CHandshakes::CleanupThread()
+void CHandshakes::cleanupThread()
 {
 	if(isListening())
 	{

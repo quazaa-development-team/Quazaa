@@ -36,7 +36,7 @@ public:
 	CHandshake(QObject* parent = 0);
 	~CHandshake();
 
-	void OnTimer(quint32 tNow);
+	void onTimer(quint32 tNow);
 
 public slots:
 	void onRead();
@@ -46,7 +46,7 @@ public slots:
 	void onStateChange(QAbstractSocket::SocketState s);
 
 private:
-	void OnWebRequest();
+	void onWebRequest();
 
 };
 

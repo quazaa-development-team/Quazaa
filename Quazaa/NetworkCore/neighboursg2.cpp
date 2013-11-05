@@ -81,7 +81,7 @@ void CNeighboursG2::connectNode()
 		bStartupRequest = true;
 	}
 
-	HubHorizonPool.Setup();
+	HubHorizonPool.setup();
 
 }
 
@@ -437,7 +437,7 @@ G2Packet* CNeighboursG2::CreateQueryAck(QUuid oGUID, bool bWithHubs, CNeighbour*
 				}
 			}
 
-			/*int nCount = */HubHorizonPool.AddHorizonHubs(pPacket);
+			/*int nCount = */HubHorizonPool.addHorizonHubs(pPacket);
 
 			// TODO Add hubs from HostCache
 			/*if( nCount < 10 )

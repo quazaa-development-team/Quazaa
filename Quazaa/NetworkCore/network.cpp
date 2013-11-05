@@ -78,7 +78,7 @@ void CNetwork::start()
 	m_bActive = true;
 	m_oAddress.setPort(quazaaSettings.Connection.Port);
 
-	Handshakes.Listen();
+	Handshakes.listen();
 
 	m_oRoutingTable.Clear();
 
@@ -104,7 +104,7 @@ void CNetwork::stop()
 	}
 
 }
-void CNetwork::SetupThread()
+void CNetwork::setupThread()
 {
 	Q_ASSERT(m_pSecondTimer == 0);
 
@@ -113,7 +113,7 @@ void CNetwork::SetupThread()
 	m_pSecondTimer->start(1000);
 
 	Datagrams.listen();
-	Handshakes.Listen();
+	Handshakes.listen();
 
 	m_bSharesReady = ShareManager.SharesReady();
 }
@@ -182,7 +182,7 @@ bool CNetwork::IsListening()
 
 bool CNetwork::IsFirewalled()
 {
-	return Datagrams.isFirewalled() || Handshakes.IsFirewalled();
+	return Datagrams.isFirewalled() || Handshakes.isFirewalled();
 }
 
 void CNetwork::AcquireLocalAddress(QString& sHeader)

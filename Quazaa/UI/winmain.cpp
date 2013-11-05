@@ -804,7 +804,7 @@ void CWinMain::updateStatusBar()
 
 	if(Handshakes.m_pSection.tryLock(50))
 	{
-		if(!Handshakes.IsFirewalled())
+		if(!Handshakes.isFirewalled())
 		{
 			tcpFirewalled = ":/Resource/Network/CheckedShieldGreen.png";
 		}

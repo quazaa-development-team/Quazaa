@@ -80,7 +80,7 @@ public:
 public slots:
 	void OnSecondTimer();
 
-	void SetupThread();
+	void setupThread();
 	void CleanupThread();
 
 	void connectToNode(CEndPoint& addr);

@@ -317,7 +317,7 @@ void CDatagrams::onReceiveGND()
 		//m_mOutput.Add(sizeof(GND_HEADER));
 		m_AckCache.append(qMakePair(CEndPoint(*m_pHostAddress, m_nPort), reinterpret_cast<char*>(pAck)));
 		if( m_AckCache.count() == 1 )
-			QMetaObject::invokeMethod(this, "FlushSendCache", Qt::QueuedConnection);
+			QMetaObject::invokeMethod(this, "flushSendCache", Qt::QueuedConnection);
 	}
 
 	if(pDatagramIn->add(pHeader->nPart, m_pRecvBuffer->data() + sizeof(GND_HEADER), m_pRecvBuffer->size() - sizeof(GND_HEADER)))

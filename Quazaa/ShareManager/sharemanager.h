@@ -91,7 +91,7 @@ signals:
 	void remainingFilesChanged(qint32);
 
 public slots:
-	void SetupThread();
+	void setupThread();
 	void CleanupThread();
 
 	void RunHashing();

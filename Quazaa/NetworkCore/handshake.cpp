@@ -44,10 +44,10 @@ CHandshake::~CHandshake()
 {
 	ASSUME_LOCK(Handshakes.m_pSection);
 
-	Handshakes.RemoveHandshake(this);
+	Handshakes.removeHandshake(this);
 }
 
-void CHandshake::OnTimer(quint32 tNow)
+void CHandshake::onTimer(quint32 tNow)
 {
 	if(tNow - m_tConnected > 15)
 	{
@@ -78,7 +78,7 @@ void CHandshake::onRead()
 		if( Peek(bytesAvailable()).indexOf("\r\n\r\n") != -1 )
 		{
 			systemLog.postLog(LogSeverity::Debug, QString("Incoming connection from %1 is a Web request").arg(m_pSocket->peerAddress().toString().toLocal8Bit().constData()));
-			OnWebRequest();
+			onWebRequest();
 		}
 	}
 	else
@@ -119,7 +119,7 @@ void CHandshake::onStateChange(QAbstractSocket::SocketState s)
 	Q_UNUSED(s);
 }
 
-void CHandshake::OnWebRequest()
+void CHandshake::onWebRequest()
 {
 	QString sRequest;
 

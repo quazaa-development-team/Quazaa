@@ -63,7 +63,7 @@ void CShareManager::Start()
 	ShareManagerThread.start("ShareManager", &m_oSection, this);
 }
 
-void CShareManager::SetupThread()
+void CShareManager::setupThread()
 {
 	systemLog.postLog(LogSeverity::Debug, QString("Setting up ShareManager thread"));
 	m_oDatabase = QSqlDatabase::addDatabase("QSQLITE", "Shares");

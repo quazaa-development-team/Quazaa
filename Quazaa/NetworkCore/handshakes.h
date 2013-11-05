@@ -53,19 +53,19 @@ public:
 	CHandshakes(QObject* parent = 0);
 	virtual ~CHandshakes();
 
-	bool IsFirewalled()
+	bool isFirewalled()
 	{
 		return (m_nAccepted == 0);
 	}
 
 public slots:
-	void Listen();
+	void listen();
 	void stop();
-	void OnTimer();
+	void onTimer();
 
 protected slots:
-	void SetupThread();
-	void CleanupThread();
+	void setupThread();
+	void cleanupThread();
 
 signals:
 
@@ -75,7 +75,7 @@ protected:
 #else
 	void incomingConnection(qintptr handle);
 #endif
-	void RemoveHandshake(CHandshake* pHs);
+	void removeHandshake(CHandshake* pHs);
 
 	void processNeighbour(CHandshake* pHs);
 
