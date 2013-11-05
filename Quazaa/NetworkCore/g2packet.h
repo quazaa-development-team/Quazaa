@@ -41,8 +41,8 @@ protected:
 	~G2Packet();
 
 public:
-	static G2Packet* New(const char* pszType = 0, bool bCompound = false);
-	static G2Packet* New(char* pSource);
+	static G2Packet* newPacket(const char* pszType = 0, bool bCompound = false);
+	static G2Packet* newPacket(char* pSource);
 
 
 	// Attributes
@@ -110,7 +110,7 @@ public:
 	inline void AddRef();
 	inline void Release();
 	inline void ReleaseChain();
-	void Delete();
+	void deletePacket();
 
 	QString ToHex() const;
 	QString ToASCII() const;
@@ -147,8 +147,8 @@ protected:
 
 	// Inlines
 public:
-	inline G2Packet* New();
-	inline void Delete(G2Packet* pPacket);
+	inline G2Packet* newPacket();
+	inline void deletePacket(G2Packet* pPacket);
 
 };
 
@@ -304,7 +304,7 @@ void G2Packet::Release()
 {
 	if(this != NULL && ! --m_nReference)
 	{
-		Delete();
+		deletePacket();
 	}
 }
 void G2Packet::ReleaseChain()
@@ -324,7 +324,7 @@ void G2Packet::ReleaseChain()
 
 
 // G2PacketPool
-G2Packet* G2PacketPool::New()
+G2Packet* G2PacketPool::newPacket()
 {
 	m_pSection.lock();
 
@@ -345,7 +345,7 @@ G2Packet* G2PacketPool::New()
 
 	return pPacket;
 }
-void G2PacketPool::Delete(G2Packet *pPacket)
+void G2PacketPool::deletePacket(G2Packet *pPacket)
 {
 	Q_ASSERT(pPacket != NULL);
 	Q_ASSERT(pPacket->m_nReference == 0);

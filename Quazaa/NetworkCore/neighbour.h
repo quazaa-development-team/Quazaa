@@ -58,13 +58,13 @@ public:
 	CNeighbour(QObject* parent = NULL);
 	virtual ~CNeighbour();
 
-	virtual void ConnectTo(CEndPoint oAddress)
+	virtual void connectTo(CEndPoint oAddress)
 	{
 		systemLog.postLog( LogSeverity::Information, Components::Network,
 						   "Initiating neighbour connection to %s...",
 						   qPrintable( oAddress.toString() ) );
 		m_nState = nsConnecting;
-		CNetworkConnection::ConnectTo( oAddress );
+		CNetworkConnection::connectTo( oAddress );
 	}
 	void AttachTo(CNetworkConnection* pOther)
 	{
@@ -78,7 +78,7 @@ public:
 signals:
 
 public slots:
-	void OnDisconnect();
+	void onDisconnectNode();
 	void OnError(QAbstractSocket::SocketError e);
 
 };

@@ -70,7 +70,7 @@ CDatagrams::~CDatagrams()
 {
 	if(m_bActive)
 	{
-		Disconnect();
+		disconnectNode();
 	}
 
 	if(m_pSocket)
@@ -136,14 +136,14 @@ void CDatagrams::Listen()
 	else
 	{
 		systemLog.postLog(LogSeverity::Debug, QString("Can't bind UDP socket! UDP communication disabled!"));
-		Disconnect();
+		disconnectNode();
 	}
 
 	m_bFirewalled = true;
 
 }
 
-void CDatagrams::Disconnect()
+void CDatagrams::disconnectNode()
 {
 	QMutexLocker l(&m_pSection);
 
@@ -688,7 +688,7 @@ void CDatagrams::OnPing(CEndPoint& addr, G2Packet* pPacket)
 {
 	Q_UNUSED(pPacket);
 
-	G2Packet* pNew = G2Packet::New("PO", false);
+	G2Packet* pNew = G2Packet::newPacket("PO", false);
 	SendPacket(addr, pNew, false);
 	pNew->Release();
 }
@@ -706,7 +706,7 @@ void CDatagrams::OnPong(CEndPoint& addr, G2Packet* pPacket)
 
 			if(strcmp("RELAY", szType) == 0)
 			{
-				if(!Network.IsConnectedTo(addr))
+				if(!Network.isConnectedTo(addr))
 				{
 					m_bFirewalled = false;
 				}
@@ -757,9 +757,9 @@ void CDatagrams::OnCRAWLR(CEndPoint& addr, G2Packet* pPacket)
 		pPacket->m_nPosition = nNext;
 	}
 
-	G2Packet* pCA = G2Packet::New("CRAWLA", true);
+	G2Packet* pCA = G2Packet::newPacket("CRAWLA", true);
 
-	G2Packet* pTmp = G2Packet::New("SELF", true);
+	G2Packet* pTmp = G2Packet::newPacket("SELF", true);
 	if(Neighbours.IsG2Hub())
 	{
 		pTmp->WritePacket("HUB", 0);
@@ -793,7 +793,7 @@ void CDatagrams::OnCRAWLR(CEndPoint& addr, G2Packet* pPacket)
 		{
 			if(pNode->m_nType == G2_HUB)
 			{
-				G2Packet* pNH = G2Packet::New("NH");
+				G2Packet* pNH = G2Packet::newPacket("NH");
 				pNH->WritePacket("NA", ((pNode->m_oAddress.protocol() == 0) ? 6 : 18))->WriteHostAddress(&pNode->m_oAddress);
 				pNH->WritePacket("HS", 2)->WriteIntLE(pNode->m_nLeafCount);
 				pCA->WritePacket(pNH);
@@ -801,7 +801,7 @@ void CDatagrams::OnCRAWLR(CEndPoint& addr, G2Packet* pPacket)
 			}
 			else if(pNode->m_nType == G2_LEAF)
 			{
-				G2Packet* pNL = G2Packet::New("NL");
+				G2Packet* pNL = G2Packet::newPacket("NL");
 				pNL->WritePacket("NA", ((pNode->m_oAddress.protocol() == 0) ? 6 : 18))->WriteHostAddress(&pNode->m_oAddress);
 				pCA->WritePacket(pNL);
 				pNL->Release();
@@ -866,11 +866,11 @@ void CDatagrams::OnQKR(CEndPoint& addr, G2Packet* pPacket)
 		return;
 	}
 
-	G2Packet* pAns = G2Packet::New("QKA", true);
+	G2Packet* pAns = G2Packet::newPacket("QKA", true);
 	quint32 nKey = QueryKeys.Create(oRequestedAddress);
 	pAns->WritePacket("QK", 4);
 	pAns->WriteIntLE<quint32>(nKey);
-	G2Packet* pSNA = G2Packet::New("SNA");
+	G2Packet* pSNA = G2Packet::newPacket("SNA");
 	pSNA->WriteHostAddress(&oSendingAddress);
 	pAns->WritePacket(pSNA);
 	pSNA->Release();
@@ -943,7 +943,7 @@ void CDatagrams::OnQKA(CEndPoint& addr, G2Packet* pPacket)
 
 	if(Neighbours.IsG2Hub() && !nKeyHost.isNull() && nKeyHost != ((QHostAddress)Network.m_oAddress))
 	{
-		G2Packet* pQNA = G2Packet::New("QNA");
+		G2Packet* pQNA = G2Packet::newPacket("QNA");
 		pQNA->WriteHostAddress(&addr);
 		pPacket->PrependPacket(pQNA);
 
@@ -975,7 +975,7 @@ void CDatagrams::OnQA(CEndPoint& addr, G2Packet* pPacket)
 	if ( SearchManager.OnQueryAcknowledge( pPacket, addr, oGuid ) && Neighbours.IsG2Hub() )
 	{
 		// Add from address
-		G2Packet* pFR = G2Packet::New( "FR" );
+		G2Packet* pFR = G2Packet::newPacket( "FR" );
 		pFR->WriteHostAddress( &addr );
 		pPacket->AddOrReplaceChild( "FR", pFR );
 
@@ -1049,7 +1049,7 @@ void CDatagrams::OnQuery(CEndPoint &addr, G2Packet *pPacket)
 		systemLog.postLog(LogSeverity::Debug, "Sending null query key to %s because we're not a hub.", qPrintable(addr.toStringWithPort()));
 #endif // LOG_QUERY_HANDLING
 
-		G2Packet* pQKA = G2Packet::New("QKA", true);
+		G2Packet* pQKA = G2Packet::newPacket("QKA", true);
 		pQKA->WritePacket("QK", 4)->WriteIntLE<quint32>(0);
 
 		if( addr != pQuery->m_oEndpoint )
@@ -1069,7 +1069,7 @@ void CDatagrams::OnQuery(CEndPoint &addr, G2Packet *pPacket)
 		systemLog.postLog(LogSeverity::Debug, "Issuing query key correction for %s.", qPrintable(addr.toStringWithPort()));
 #endif // LOG_QUERY_HANDLING
 
-		G2Packet* pQKA = G2Packet::New("QKA", true);
+		G2Packet* pQKA = G2Packet::newPacket("QKA", true);
 		pQKA->WritePacket("QK", 4)->WriteIntLE<quint32>(QueryKeys.Create(pQuery->m_oEndpoint));
 
 		if( addr != pQuery->m_oEndpoint )
@@ -1103,7 +1103,7 @@ void CDatagrams::OnQuery(CEndPoint &addr, G2Packet *pPacket)
 		systemLog.postLog( LogSeverity::Error, Components::Network,
 						   "Q2 received via UDP and return address points to us, changing return address to source %s",
 						   qPrintable( addr.toStringWithPort() ) );
-		G2Packet* pUDP = G2Packet::New("UDP");
+		G2Packet* pUDP = G2Packet::newPacket("UDP");
 		pUDP->WriteHostAddress(&addr);
 		pUDP->WriteIntLE<quint32>(0);
 		pPacket->AddOrReplaceChild("UDP", pUDP);

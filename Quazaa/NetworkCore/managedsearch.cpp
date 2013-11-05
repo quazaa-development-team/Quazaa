@@ -339,7 +339,7 @@ void CManagedSearch::SearchG2(const QDateTime& tNowDT, quint32* pnMaxPackets)
 			if ( !Network.IsFirewalled() )
 			{
 				// request a key for our address
-				G2Packet* pQKR = G2Packet::New( "QKR", false );
+				G2Packet* pQKR = G2Packet::newPacket( "QKR", false );
 				pQKR->WritePacket( "RNA", (Network.m_oAddress.protocol() ? 18 : 6)
 				                   )->WriteHostAddress( &Network.m_oAddress );
 				Datagrams.SendPacket( pHost->m_oAddress, pQKR, false );
@@ -406,7 +406,7 @@ void CManagedSearch::SearchG2(const QDateTime& tNowDT, quint32* pnMaxPackets)
 
 					if ( pHub->m_bCachedKeys )
 					{
-						G2Packet* pQKR = G2Packet::New( "QKR", true );
+						G2Packet* pQKR = G2Packet::newPacket( "QKR", true );
 						pQKR->WritePacket( "QNA", (pHost->m_oAddress.protocol() ? 18 : 6)
 						                   )->WriteHostAddress( &pHost->m_oAddress );
 						if ( bRefreshKey )
@@ -422,7 +422,7 @@ void CManagedSearch::SearchG2(const QDateTime& tNowDT, quint32* pnMaxPackets)
 					}
 					else
 					{
-						G2Packet* pQKR = G2Packet::New( "QKR", true );
+						G2Packet* pQKR = G2Packet::newPacket( "QKR", true );
 						pQKR->WritePacket( "RNA", (pHub->m_oAddress.protocol() ? 18 : 6)
 						                   )->WriteHostAddress( &pHub->m_oAddress );
 						Datagrams.SendPacket( pHost->m_oAddress, pQKR, false );

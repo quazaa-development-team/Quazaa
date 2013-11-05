@@ -285,7 +285,7 @@ int main(int argc, char *argv[])
 	{
 		if ( quazaaSettings.Gnutella2.Enable )
 		{
-			Network.Connect();
+			Network.start();
 		}
 	}
 

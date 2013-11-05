@@ -41,7 +41,7 @@ public:
 	bool SwitchG2ClientMode(G2NodeType nRequestedMode);
 	bool NeedMoreG2(G2NodeType nType);
 
-	virtual void Connect();
+	virtual void connectNode();
 
 	G2Packet* CreateQueryAck(QUuid oGUID, bool bWithHubs = true, CNeighbour* pExcept = 0, bool bDone = true);
 
@@ -52,7 +52,7 @@ protected:
 	quint32 m_nLNIWait;
 	bool	m_bNeedLNI;
 	G2NodeType m_nClientMode;
-    quint32 m_nUpdateWait;
+	quint32 m_nUpdateWait;
 
 	quint32 m_nSecsTrying;		// How long we are without hub connection?
 	quint32 m_tLastModeChange;	// When we changed client mode last time?

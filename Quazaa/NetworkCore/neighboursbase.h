@@ -50,8 +50,8 @@ public:
 	CNeighboursBase(QObject* parent = 0);
 	virtual ~CNeighboursBase();
 
-	virtual void Connect();
-	virtual void Disconnect();
+	virtual void connectNode();
+	virtual void disconnectNode();
 
 	virtual void AddNode(CNeighbour* pNode);
 	virtual void RemoveNode(CNeighbour* pNode);

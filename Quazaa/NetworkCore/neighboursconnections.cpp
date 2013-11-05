@@ -49,7 +49,7 @@ CNeighboursConnections::~CNeighboursConnections()
 {
 }
 
-void CNeighboursConnections::Connect()
+void CNeighboursConnections::connectNode()
 {
 	QMutexLocker l(&m_pSection);
 
@@ -62,9 +62,9 @@ void CNeighboursConnections::Connect()
 
 	m_nHubsConnectedG2 = m_nLeavesConnectedG2 = 0;
 
-	CNeighboursRouting::Connect();
+	CNeighboursRouting::connectNode();
 }
-void CNeighboursConnections::Disconnect()
+void CNeighboursConnections::disconnectNode()
 {
 	QMutexLocker l(&m_pSection);
 
@@ -77,7 +77,7 @@ void CNeighboursConnections::Disconnect()
 	delete m_pController;
 	m_pController = 0;
 
-	CNeighboursRouting::Disconnect();
+	CNeighboursRouting::disconnectNode();
 }
 
 void CNeighboursConnections::AddNode(CNeighbour* pNode)
@@ -123,7 +123,7 @@ CNeighbour* CNeighboursConnections::RandomNode(DiscoveryProtocol nProtocol, int 
 	return lNodeList.at(nIndex);
 }
 
-void CNeighboursConnections::DisconnectYoungest(DiscoveryProtocol nProtocol, int nType, bool bCore)
+void CNeighboursConnections::disconnectYoungest(DiscoveryProtocol nProtocol, int nType, bool bCore)
 {
 	CNeighbour* pNode = 0;
 
@@ -258,7 +258,7 @@ void CNeighboursConnections::Maintain()
 
 			for(; nToDisconnect; nToDisconnect--)
 			{
-				DisconnectYoungest(dpG2, G2_HUB, (100 * nCoreHubsG2 / nHubsG2) > 50);
+				disconnectYoungest(dpG2, G2_HUB, (100 * nCoreHubsG2 / nHubsG2) > 50);
 			}
 		}
 		else if(nHubsG2 < quazaaSettings.Gnutella2.NumHubs)
@@ -292,7 +292,7 @@ void CNeighboursConnections::Maintain()
 							hostCache.remove( pHost );
 							continue;
 						}
-						ConnectTo(pHost->m_oAddress, dpG2);
+						connectTo(pHost->m_oAddress, dpG2);
 						pHost->m_tLastConnect = tNow;
 					}
 					else
@@ -335,7 +335,7 @@ void CNeighboursConnections::Maintain()
 
 			for(; nToDisconnect; nToDisconnect--)
 			{
-				DisconnectYoungest(dpG2, G2_HUB, (100 * nCoreHubsG2 / nHubsG2) > 50);
+				disconnectYoungest(dpG2, G2_HUB, (100 * nCoreHubsG2 / nHubsG2) > 50);
 			}
 		}
 		else if(nHubsG2 < quazaaSettings.Gnutella2.NumPeers)
@@ -362,7 +362,7 @@ void CNeighboursConnections::Maintain()
 							continue;
 						}
 
-						ConnectTo( pHost->m_oAddress, dpG2 );
+						connectTo( pHost->m_oAddress, dpG2 );
 						pHost->m_tLastConnect = tNow;
 					}
 					else
@@ -384,7 +384,7 @@ void CNeighboursConnections::Maintain()
 
 			for(; nToDisconnect; nToDisconnect--)
 			{
-				DisconnectYoungest(dpG2, G2_LEAF, (100 * nCoreLeavesG2 / nLeavesG2) > 50);
+				disconnectYoungest(dpG2, G2_LEAF, (100 * nCoreLeavesG2 / nLeavesG2) > 50);
 			}
 		}
 	}
@@ -430,7 +430,7 @@ CNeighbour* CNeighboursConnections::OnAccept(CNetworkConnection* pConn)
 	return pNew;
 }
 
-CNeighbour* CNeighboursConnections::ConnectTo(CEndPoint& oAddress, DiscoveryProtocol nProtocol, bool bAutomatic)
+CNeighbour* CNeighboursConnections::connectTo(CEndPoint& oAddress, DiscoveryProtocol nProtocol, bool bAutomatic)
 {
 	ASSUME_LOCK(m_pSection);
 
@@ -446,7 +446,7 @@ CNeighbour* CNeighboursConnections::ConnectTo(CEndPoint& oAddress, DiscoveryProt
 	}
 
 	pNode->m_bAutomatic = bAutomatic;
-	pNode->ConnectTo(oAddress);
+	pNode->connectTo(oAddress);
 	pNode->moveToThread(&NetworkThread);
 	AddNode(pNode);
 	return pNode;

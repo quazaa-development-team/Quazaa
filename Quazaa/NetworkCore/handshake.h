@@ -40,8 +40,8 @@ public:
 
 public slots:
 	void OnRead();
-	void OnConnect();
-	void OnDisconnect() ;
+	void onConnectNode();
+	void onDisconnectNode() ;
 	void OnError(QAbstractSocket::SocketError e);
 	void OnStateChange(QAbstractSocket::SocketState s);
 

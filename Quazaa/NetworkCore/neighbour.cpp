@@ -103,12 +103,13 @@ void CNeighbour::Close(bool bDelayed)
 	CCompressedConnection::Close(bDelayed);
 }
 
-void CNeighbour::OnDisconnect()
+void CNeighbour::onDisconnectNode()
 {
 	Neighbours.m_pSection.lock();
 	delete this;
 	Neighbours.m_pSection.unlock();
 }
+
 void CNeighbour::OnError(QAbstractSocket::SocketError e)
 {
 	if ( e == QAbstractSocket::RemoteHostClosedError )

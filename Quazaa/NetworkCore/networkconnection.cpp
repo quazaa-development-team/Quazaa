@@ -13,12 +13,12 @@
 ** but WITHOUT ANY WARRANTY; without even the implied warranty of
 ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 **
-** Please review the following information to ensure the GNU General Public 
-** License version 3.0 requirements will be met: 
+** Please review the following information to ensure the GNU General Public
+** License version 3.0 requirements will be met:
 ** http://www.gnu.org/copyleft/gpl.html.
 **
-** You should have received a copy of the GNU General Public License version 
-** 3.0 along with Quazaa; if not, write to the Free Software Foundation, 
+** You should have received a copy of the GNU General Public License version
+** 3.0 along with Quazaa; if not, write to the Free Software Foundation,
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
@@ -67,7 +67,7 @@ CNetworkConnection::~CNetworkConnection()
 	}
 }
 
-void CNetworkConnection::ConnectTo(CEndPoint oAddress)
+void CNetworkConnection::connectTo(CEndPoint oAddress)
 {
 	m_oAddress = oAddress;
 
@@ -156,7 +156,7 @@ void CNetworkConnection::AcceptFrom(qintptr nHandle)
 void CNetworkConnection::Close(bool bDelayed)
 {
 	systemLog.postLog( LogSeverity::Information, Components::Network,
-	                   "Closing connection to %s.", qPrintable( m_oAddress.toStringWithPort() ) );
+					   "Closing connection to %s.", qPrintable( m_oAddress.toStringWithPort() ) );
 
 	QMetaObject::invokeMethod(this, "closeImplementation", Q_ARG(bool, bDelayed));
 }
@@ -190,24 +190,24 @@ void CNetworkConnection::initializeSocket()
 	m_pSocket->disconnect();
 
 	connect(m_pSocket, SIGNAL(connected()),
-	        this, SIGNAL(connected()));
+			this, SIGNAL(connected()));
 	connect(m_pSocket, SIGNAL(connected()),
-	        this, SIGNAL(readyToTransfer()));
+			this, SIGNAL(readyToTransfer()));
 	connect(m_pSocket, SIGNAL(readyRead()),
-	        this, SIGNAL(readyToTransfer()));
+			this, SIGNAL(readyToTransfer()));
 	connect(m_pSocket, SIGNAL(disconnected()),
-			this, SLOT(OnDisconnectInt()));
+			this, SLOT(onDisconnectInt()));
 	connect(m_pSocket, SIGNAL(error(QAbstractSocket::SocketError)),
 			this, SLOT(OnErrorInt(QAbstractSocket::SocketError)));
 	connect(m_pSocket, SIGNAL(bytesWritten(qint64)),
-	        this, SIGNAL(bytesWritten(qint64)));
+			this, SIGNAL(bytesWritten(qint64)));
 	connect(m_pSocket, SIGNAL(stateChanged(QAbstractSocket::SocketState)),
-	        this, SIGNAL(stateChanged(QAbstractSocket::SocketState)));
+			this, SIGNAL(stateChanged(QAbstractSocket::SocketState)));
 	connect(m_pSocket, SIGNAL(aboutToClose()),
-	        this, SIGNAL(aboutToClose()));
+			this, SIGNAL(aboutToClose()));
 
-	connect(this, SIGNAL(connected()), this, SLOT(OnConnect()), Qt::QueuedConnection);
-	connect(this, SIGNAL(disconnected()), this, SLOT(OnDisconnect()), Qt::QueuedConnection);
+	connect(this, SIGNAL(connected()), this, SLOT(onConnectNode()), Qt::QueuedConnection);
+	connect(this, SIGNAL(disconnected()), this, SLOT(onDisconnectNode()), Qt::QueuedConnection);
 	connect(this, SIGNAL(readyRead()), this, SLOT(OnRead()), Qt::QueuedConnection);
 	connect(this, SIGNAL(error(QAbstractSocket::SocketError)), this, SLOT(OnError(QAbstractSocket::SocketError)), Qt::QueuedConnection);
 	connect(this, SIGNAL(stateChanged(QAbstractSocket::SocketState)), this, SLOT(OnStateChange(QAbstractSocket::SocketState)), Qt::QueuedConnection);
@@ -425,7 +425,7 @@ quint32 TCPBandwidthMeter::Usage()
 	return nUsage;
 }
 
-void CNetworkConnection::OnDisconnectInt()
+void CNetworkConnection::onDisconnectInt()
 {
 	readFromNetwork(m_pSocket->bytesAvailable());
 

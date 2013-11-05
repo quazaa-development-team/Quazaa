@@ -37,7 +37,7 @@ protected:
 public:
 	CChatSessionG2(CEndPoint oRemoteHost, QObject *parent = 0);
 
-	void Connect();
+	void connectNode();
 
 protected:
 	void ParseOutgoingHandshake();
@@ -55,8 +55,8 @@ protected:
 signals:
 
 public slots:
-	void OnConnect();
-	void OnDisconnect();
+	void onConnectNode();
+	void onDisconnectNode();
 	void OnRead();
 
 	void SendMessage(QString sMessage, bool bAction = false);

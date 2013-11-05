@@ -68,13 +68,13 @@ CChatSessionG2::CChatSessionG2(CEndPoint oRemoteHost, QObject *parent) :
 	m_oRemoteHost = m_oAddress = oRemoteHost;
 }
 
-void CChatSessionG2::Connect()
+void CChatSessionG2::connectNode()
 {
-	CNetworkConnection::ConnectTo(m_oRemoteHost);
-	CChatSession::Connect();
+	CNetworkConnection::connectTo(m_oRemoteHost);
+	CChatSession::connectNode();
 }
 
-void CChatSessionG2::OnConnect()
+void CChatSessionG2::onConnectNode()
 {
 	qDebug() << "OnConnect";
 
@@ -94,9 +94,9 @@ void CChatSessionG2::OnConnect()
 
 	qDebug() << "Chat send:\n" << baHs;
 }
-void CChatSessionG2::OnDisconnect()
+void CChatSessionG2::onDisconnectNode()
 {
-	CChatSession::OnDisconnect();
+	CChatSession::onDisconnectNode();
 }
 void CChatSessionG2::OnRead()
 {
@@ -215,7 +215,7 @@ void CChatSessionG2::Send_ChatError(QString sReason)
 void CChatSessionG2::SendStartups()
 {
 	qDebug() << "sending startups";
-	G2Packet* pPacket = G2Packet::New("UPROC", false);
+	G2Packet* pPacket = G2Packet::newPacket("UPROC", false);
 
 	// A dirty workaround for Shareaza bug...
 	if( m_bShareaza )
@@ -269,7 +269,7 @@ void CChatSessionG2::OnUPROC(G2Packet *pPacket)
 	QString sXML = "<?xml version=\"1.0\"?><gprofile xmlns=\"http://www.shareaza.com/schemas/GProfile.xsd\"><gnutella guid=\"%1\"/><identity><handle primary=\"%2\"/></identity></gprofile>";
 	sXML = sXML.arg(quazaaSettings.Profile.GUID.toString().toUpper().replace("{", "").replace("}", "")).arg(quazaaSettings.Profile.GnutellaScreenName);
 
-	G2Packet* pD = G2Packet::New("UPROD", true);
+	G2Packet* pD = G2Packet::newPacket("UPROD", true);
 	pD->WritePacket("XML", sXML.toUtf8().size());
 	pD->WriteString(sXML);
 
@@ -367,7 +367,7 @@ void CChatSessionG2::OnUPROD(G2Packet *pPacket)
 
 	if( m_bInitiated ) // TODO PUSH handling
 	{
-		G2Packet* pReq = G2Packet::New("CHATREQ", true);
+		G2Packet* pReq = G2Packet::newPacket("CHATREQ", true);
 		pReq->WritePacket("USERGUID", 16);
 		pReq->WriteGUID(m_oGUID);
 
@@ -460,11 +460,11 @@ void CChatSessionG2::SendMessage(QString sMessage, bool bAction)
 {
 	qDebug() << "Send message:" << sMessage << bAction;
 
-	G2Packet* pPacket = G2Packet::New("CMSG", true);
+	G2Packet* pPacket = G2Packet::newPacket("CMSG", true);
 	if( bAction )
 		pPacket->WritePacket("ACT", 0);
 
-	G2Packet* pBody = G2Packet::New("BODY");
+	G2Packet* pBody = G2Packet::newPacket("BODY");
 	pBody->WriteString(sMessage);
 	pPacket->WritePacket(pBody);
 	pBody->Release();

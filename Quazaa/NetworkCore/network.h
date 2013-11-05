@@ -59,8 +59,8 @@ public:
 	CNetwork(QObject* parent = 0);
 	~CNetwork();
 
-	void Connect();
-	void Disconnect();
+	void start();
+	void stop();
 
 	void AcquireLocalAddress(QString& sHeader);
 	bool IsListening();
@@ -75,7 +75,7 @@ public:
 	}
 
 
-	bool IsConnectedTo(CEndPoint addr);
+	bool isConnectedTo(CEndPoint addr);
 
 public slots:
 	void OnSecondTimer();
@@ -83,7 +83,7 @@ public slots:
 	void SetupThread();
 	void CleanupThread();
 
-	void ConnectTo(CEndPoint& addr);
+	void connectToNode(CEndPoint& addr);
 
 	void OnSharesReady();
 

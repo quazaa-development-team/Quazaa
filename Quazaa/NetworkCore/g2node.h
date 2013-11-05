@@ -89,7 +89,7 @@ public:
 signals:
 	void NodeStateChanged();
 public slots:
-	void OnConnect();
+	void onConnectNode();
 	void OnRead();
 
 public:

@@ -111,13 +111,15 @@ char* G2Packet::GetType() const
 {
 	return (char*)&m_sType;
 }
-void G2Packet::Delete()
+
+void G2Packet::deletePacket()
 {
-	G2Packets.Delete(this);
+	G2Packets.deletePacket(this);
 }
-G2Packet* G2Packet::New(const char* pszType, bool bCompound)
+
+G2Packet* G2Packet::newPacket(const char* pszType, bool bCompound)
 {
-	G2Packet* pPacket = G2Packets.New();
+	G2Packet* pPacket = G2Packets.newPacket();
 
 	if(pszType != 0)
 	{
@@ -130,9 +132,9 @@ G2Packet* G2Packet::New(const char* pszType, bool bCompound)
 
 	return pPacket;
 }
-G2Packet* G2Packet::New(char* pSource)
+G2Packet* G2Packet::newPacket(char* pSource)
 {
-	G2Packet* pPacket = New();
+	G2Packet* pPacket = newPacket();
 
 	char nInput		= *pSource++;
 
@@ -430,7 +432,7 @@ G2Packet* G2Packet::ReadBuffer(CBuffer* pBuffer)
 		return 0;
 	}
 
-	G2Packet* pPacket = G2Packet::New(pBuffer->data());
+	G2Packet* pPacket = G2Packet::newPacket(pBuffer->data());
 	pBuffer->remove(0, nLength + nLenLen + nTypeLen + 2u);
 
 	return pPacket;
@@ -606,7 +608,7 @@ G2Packet * G2Packet::AddOrReplaceChild(const char* pFind, G2Packet *pReplacement
 		return PrependPacket(pReplacement, bRelease);
 	}
 
-	G2Packet* pNew = G2Packet::New(m_sType, m_bCompound);
+	G2Packet* pNew = G2Packet::newPacket(m_sType, m_bCompound);
 
 	char szType[9];
 	quint32 nLength = 0, nNext = 0;
@@ -632,7 +634,7 @@ G2Packet * G2Packet::AddOrReplaceChild(const char* pFind, G2Packet *pReplacement
 				SkipCompound(nLength);
 				nCompoundLength -= nLength;
 
-				G2Packet* pReplace = G2Packet::New(pReplacement->m_sType, true);
+				G2Packet* pReplace = G2Packet::newPacket(pReplacement->m_sType, true);
 				pReplace->Write(pStart, nCompoundLength);
 				if( !pReplacement->m_bCompound && pReplacement->m_nLength > 0 )
 					pReplace->WriteByte(0);

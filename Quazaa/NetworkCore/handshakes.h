@@ -60,7 +60,7 @@ public:
 
 public slots:
 	void Listen();
-	void Disconnect();
+	void stop();
 	void OnTimer();
 
 protected slots:

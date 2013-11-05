@@ -58,7 +58,7 @@ public:
 	CChatSession(QObject *parent = 0);
 	virtual ~CChatSession();
 
-	virtual void Connect();
+	virtual void connectNode();
 
 	virtual void OnTimer(quint32 tNow);
 
@@ -71,8 +71,8 @@ signals:
 	void guidChanged(QUuid);
 
 public slots:
-	void OnConnect();
-	void OnDisconnect();
+	void onConnectNode();
+	void onDisconnectNode();
 	void OnRead();
 	void OnError(QAbstractSocket::SocketError e);
 	void OnStateChange(QAbstractSocket::SocketState s);

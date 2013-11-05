@@ -54,7 +54,7 @@ CNeighboursG2::~CNeighboursG2()
 {
 }
 
-void CNeighboursG2::Connect()
+void CNeighboursG2::connectNode()
 {
 	if(quazaaSettings.Gnutella2.ClientMode < 2)
 	{
@@ -70,7 +70,7 @@ void CNeighboursG2::Connect()
 	m_nLNIWait = quazaaSettings.Gnutella2.LNIMinimumUpdate;
 	m_tLastModeChange = time(0);
 
-	CNeighboursConnections::Connect();
+	CNeighboursConnections::connectNode();
 
 	static bool bStartupRequest = false;
 
@@ -194,7 +194,7 @@ void CNeighboursG2::DispatchKHL()
 		return;
 	}
 
-	G2Packet* pKHL = G2Packet::New( "KHL" );
+	G2Packet* pKHL = G2Packet::newPacket( "KHL" );
 
 	const quint32 tNow = common::getTNowUTC();
 
@@ -413,7 +413,7 @@ void CNeighboursG2::HubBalancing()
 
 G2Packet* CNeighboursG2::CreateQueryAck(QUuid oGUID, bool bWithHubs, CNeighbour* pExcept, bool bDone)
 {
-	G2Packet* pPacket = G2Packet::New("QA", true);
+	G2Packet* pPacket = G2Packet::newPacket("QA", true);
 
 	pPacket->WritePacket("TS", 4)->WriteIntLE<quint32>( common::getTNowUTC() );
 	pPacket->WritePacket("FR", (Network.m_oAddress.protocol() == QAbstractSocket::IPv4Protocol ? 6 : 18))->WriteHostAddress(&Network.m_oAddress);

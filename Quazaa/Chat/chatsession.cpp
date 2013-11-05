@@ -47,7 +47,7 @@ CChatSession::~CChatSession()
 }
 
 // called from GUI thread
-void CChatSession::Connect()
+void CChatSession::connectNode()
 {
 	MainWindow->OpenChat(this);
 	m_nState = csConnecting;
@@ -74,11 +74,11 @@ void CChatSession::OnTimer(quint32 tNow)
 	}
 }
 
-void CChatSession::OnConnect()
+void CChatSession::onConnectNode()
 {
 
 }
-void CChatSession::OnDisconnect()
+void CChatSession::onDisconnectNode()
 {
 	m_nState = csClosed;
 	emit systemMessage("Connection lost");

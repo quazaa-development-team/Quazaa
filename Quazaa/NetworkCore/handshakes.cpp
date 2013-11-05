@@ -47,7 +47,7 @@ CHandshakes::~CHandshakes()
 {
 	if(m_bActive)
 	{
-		Disconnect();
+		stop();
 	}
 }
 
@@ -65,7 +65,7 @@ void CHandshakes::Listen()
 
 	HandshakesThread.start("Handshakes", &m_pSection, this);
 }
-void CHandshakes::Disconnect()
+void CHandshakes::stop()
 {
 	QMutexLocker l(&m_pSection);
 

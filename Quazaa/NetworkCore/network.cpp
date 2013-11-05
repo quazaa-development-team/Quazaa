@@ -61,11 +61,11 @@ CNetwork::~CNetwork()
 {
 	if(m_bActive)
 	{
-		Disconnect();
+		stop();
 	}
 }
 
-void CNetwork::Connect()
+void CNetwork::start()
 {
 	QMutexLocker l(&m_pSection);
 
@@ -90,10 +90,10 @@ void CNetwork::Connect()
 
 	SearchManager.moveToThread(&NetworkThread);
 	Neighbours.moveToThread(&NetworkThread);
-	Neighbours.Connect();
+	Neighbours.connectNode();
 
 }
-void CNetwork::Disconnect()
+void CNetwork::stop()
 {
 	QMutexLocker l(&m_pSection);
 
@@ -125,11 +125,11 @@ void CNetwork::CleanupThread()
 	//	WebCache.CancelRequests();
 
 	qDebug() << "Shutting down Handshakes...";
-	Handshakes.Disconnect();
+	Handshakes.stop();
 	qDebug() << "Shutting down Datagrams...";
-	Datagrams.Disconnect();
+	Datagrams.disconnectNode();
 	qDebug() << "Shutting down Neighbours...";
-	Neighbours.Disconnect();
+	Neighbours.disconnectNode();
 
 	moveToThread(qApp->thread());
 
@@ -199,7 +199,7 @@ void CNetwork::AcquireLocalAddress(QString& sHeader)
 	}
 }
 
-bool CNetwork::IsConnectedTo(CEndPoint /*addr*/)
+bool CNetwork::isConnectedTo(CEndPoint /*addr*/)
 {
 	return false;
 }
@@ -292,7 +292,7 @@ bool CNetwork::RoutePacket(G2Packet* pPacket, CG2Node* pNbr)
 	return false;
 }
 
-void CNetwork::ConnectTo(CEndPoint& /*addr*/)
+void CNetwork::connectToNode(CEndPoint& /*addr*/)
 {
 	// TODO: Verify network is connected before attempting connection and create connection if it is not
 	/*CG2Node* pNew = Neighbours.ConnectTo(addr);

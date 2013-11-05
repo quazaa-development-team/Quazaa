@@ -101,7 +101,7 @@ public:
 	~CDatagrams();
 
 	void Listen();
-	void Disconnect();
+	void disconnectNode();
 
 	void SendPacket(CEndPoint& oAddr, G2Packet* pPacket, bool bAck = false, DatagramWatcher* pWatcher = 0, void* pParam = 0);
 

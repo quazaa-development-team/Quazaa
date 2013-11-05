@@ -436,7 +436,7 @@ void CWinMain::quazaaShutdown()
 	neighboursRefresher->stop();
 	delete neighboursRefresher;
 	neighboursRefresher = 0;
-	Network.Disconnect();
+	Network.stop();
 	ShareManager.Stop();
 
 	dlgSplash->updateProgress(65, tr("Saving Security Manager..."));
@@ -758,14 +758,14 @@ void CWinMain::on_actionConnect_triggered()
 {
 	ui->actionConnect->setEnabled(false);
 	ui->actionDisconnect->setEnabled(true);
-	Network.Connect();
+	Network.start();
 }
 
 void CWinMain::on_actionDisconnect_triggered()
 {
 	ui->actionConnect->setEnabled(true);
 	ui->actionDisconnect->setEnabled(false);
-	Network.Disconnect();
+	Network.stop();
 }
 
 void CWinMain::on_actionEDonkey_triggered(bool checked)
@@ -856,7 +856,7 @@ void CWinMain::on_actionConnectTo_triggered()
 		{
 		case CDialogConnectTo::G2:
 			Neighbours.m_pSection.lock();
-			Neighbours.ConnectTo(ip, dpG2, false);
+			Neighbours.connectTo(ip, dpG2, false);
 			Neighbours.m_pSection.unlock();
 			break;
 		case CDialogConnectTo::eDonkey:
@@ -895,8 +895,8 @@ void CWinMain::on_actionChatWith_triggered()
 		{
 		case CDialogConnectTo::G2:
 		{
-			CChatSessionG2* pS = new CChatSessionG2(ip);
-			pS->Connect();
+			CChatSessionG2* pSession = new CChatSessionG2(ip);
+			pSession->connectNode();
 			break;
 		}
 		case CDialogConnectTo::eDonkey:

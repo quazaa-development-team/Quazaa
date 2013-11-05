@@ -76,7 +76,7 @@ public:
 	void moveToThread(QThread* thread);
 
 public:
-	virtual void ConnectTo(CEndPoint oAddress);
+	virtual void connectTo(CEndPoint oAddress);
 	virtual void AttachTo(CNetworkConnection* pOther);
 #if QT_VERSION < QT_VERSION_CHECK(5,0,0)
 	virtual void AcceptFrom(int nHandle);
@@ -176,12 +176,12 @@ signals:
 	void readyToTransfer();
 
 public slots:
-	void OnDisconnectInt();
+	void onDisconnectInt();
 	void OnErrorInt(QAbstractSocket::SocketError e);
 
 public slots:
-	virtual void OnConnect() = 0;
-	virtual void OnDisconnect() = 0;
+	virtual void onConnectNode() = 0;
+	virtual void onDisconnectNode() = 0;
 	virtual void OnRead() = 0;
 	virtual void OnError(QAbstractSocket::SocketError e) = 0;
 	virtual void OnStateChange(QAbstractSocket::SocketState s);

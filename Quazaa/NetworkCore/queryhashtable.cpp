@@ -13,12 +13,12 @@
 ** but WITHOUT ANY WARRANTY; without even the implied warranty of
 ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 **
-** Please review the following information to ensure the GNU General Public 
-** License version 3.0 requirements will be met: 
+** Please review the following information to ensure the GNU General Public
+** License version 3.0 requirements will be met:
 ** http://www.gnu.org/copyleft/gpl.html.
 **
-** You should have received a copy of the GNU General Public License version 
-** 3.0 along with Quazaa; if not, write to the Free Software Foundation, 
+** You should have received a copy of the GNU General Public License version
+** 3.0 along with Quazaa; if not, write to the Free Software Foundation,
 ** Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
@@ -349,7 +349,7 @@ bool CQueryHashTable::Merge(const CQueryHashGroup* pSource)
 }
 
 bool CQueryHashTable::PatchTo(const CQueryHashTable* pTarget,
-                              CG2Node* pNeighbour)
+							  CG2Node* pNeighbour)
 {
 	if(!pTarget->m_pHash)
 	{
@@ -377,7 +377,7 @@ bool CQueryHashTable::PatchTo(const CQueryHashTable* pTarget,
 
 		memset(m_pHash, 0xFF, (m_nHash + 31) / 8);
 
-		G2Packet* pReset = G2Packet::New("QHT");
+		G2Packet* pReset = G2Packet::newPacket("QHT");
 		pReset->WriteByte(0);
 		pReset->WriteIntLE(m_nHash);
 		pReset->WriteByte(1);
@@ -442,7 +442,7 @@ bool CQueryHashTable::PatchTo(const CQueryHashTable* pTarget,
 		p.nFragCount = nFrags;
 		p.nFragNum = nFrag;
 
-		G2Packet* pPatch = G2Packet::New("QHT");
+		G2Packet* pPatch = G2Packet::newPacket("QHT");
 		pPatch->Write((void*)&p, sizeof(p));
 
 		quint32 nFs = qMin(nToWrite, nFragSize);
@@ -591,7 +591,7 @@ bool CQueryHashTable::OnPatch(G2Packet* pPacket)
 	}
 
 	m_pBuffer->append((char*)pPacket->m_pBuffer + pPacket->m_nPosition,
-	                  pPacket->m_nLength - pPacket->m_nPosition);
+					  pPacket->m_nLength - pPacket->m_nPosition);
 
 	if(nSequence < nMaximum)
 	{

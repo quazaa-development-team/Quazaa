@@ -119,7 +119,7 @@ void CG2Node::SendPacket(G2Packet* pPacket, bool bBuffered, bool bRelease)
 	emit readyToTransfer();
 }
 
-void CG2Node::OnConnect()
+void CG2Node::onConnectNode()
 {
 	//QMutexLocker l(&Neighbours.m_pSection);
 
@@ -224,7 +224,7 @@ void CG2Node::OnTimer(quint32 tNow)
 			// or our last ping at least 2 minutes ago
 			// and do not expect a response to an earlier ping
 			// then we send keep-alive ping, on the occasion of the RTT measurement
-			G2Packet* pPacket = G2Packet::New("PI", false);
+			G2Packet* pPacket = G2Packet::newPacket("PI", false);
 			SendPacket(pPacket, false, true); // Unbuffered, we can accurately measure the RTT
 			m_nPingsWaiting++;
 			m_tLastPingOut = tNow;
@@ -725,7 +725,7 @@ void CG2Node::SendStartups()
 	if(Network.IsListening())
 	{
 		CEndPoint addr = Network.GetLocalAddress();
-		G2Packet* pPacket = G2Packet::New("PI", true);
+		G2Packet* pPacket = G2Packet::newPacket("PI", true);
 		pPacket->WritePacket("UDP", 6);
 		pPacket->WriteHostAddress(&addr);
 		pPacket->WritePacket("TFW", 0);
@@ -737,7 +737,7 @@ void CG2Node::SendStartups()
 
 void CG2Node::SendLNI()
 {
-	G2Packet* pLNI = G2Packet::New("LNI", true);
+	G2Packet* pLNI = G2Packet::newPacket("LNI", true);
 	if(Network.m_oAddress.protocol() == 0)
 	{
 		pLNI->WritePacket("NA", 6)->WriteHostAddress(&Network.m_oAddress);
@@ -873,7 +873,7 @@ void CG2Node::OnPing(G2Packet* pPacket)
 	if(!bUdp && !bRelay)
 	{
 		// direct ping
-		G2Packet* pPong = G2Packet::New("PO", false);
+		G2Packet* pPong = G2Packet::newPacket("PO", false);
 		SendPacket(pPong, false, true);
 		return;
 	}
@@ -884,7 +884,7 @@ void CG2Node::OnPing(G2Packet* pPacket)
 
 		if(Neighbours.IsG2Hub()) // If we are a hub.
 		{
-			G2Packet* pRelay = G2Packet::New("RELAY");
+			G2Packet* pRelay = G2Packet::newPacket("RELAY");
 			pPacket->PrependPacket(pRelay);
 
 			int nRelayed = 0, nCount = Neighbours.GetCount();
@@ -913,7 +913,7 @@ void CG2Node::OnPing(G2Packet* pPacket)
 
 	if(bUdp && bRelay)
 	{
-		G2Packet* pPong = G2Packet::New("PO", true);
+		G2Packet* pPong = G2Packet::newPacket("PO", true);
 		pPong->WritePacket("RELAY", 0);
 		Datagrams.SendPacket(addr, pPong, true);
 		pPong->Release();
@@ -1235,7 +1235,7 @@ void CG2Node::OnQKR(G2Packet* pPacket)
 	if ( pHost && pHost->m_nQueryKey && pHost->m_nKeyHost == Network.m_oAddress &&
 			tNow - pHost->m_nKeyTime < quazaaSettings.Gnutella2.QueryKeyTime )
 	{
-		G2Packet* pQKA = G2Packet::New( "QKA", true );
+		G2Packet* pQKA = G2Packet::newPacket( "QKA", true );
 		if ( addr.protocol() == 0 )
 		{
 			pQKA->WritePacket( "QNA", 6 )->WriteHostAddress( &addr );
@@ -1250,7 +1250,7 @@ void CG2Node::OnQKR(G2Packet* pPacket)
 	}
 	else
 	{
-		G2Packet* pQKR = G2Packet::New( "QKR", true );
+		G2Packet* pQKR = G2Packet::newPacket( "QKR", true );
 		if ( addr.protocol() == 0 )
 		{
 			pQKR->WritePacket( "SNA", 6 )->WriteHostAddress( &m_oAddress );
@@ -1471,7 +1471,7 @@ qint64 CG2Node::writeToNetwork(qint64 nBytes)
 
 void CG2Node::SendHAW()
 {
-	G2Packet* pPacket = G2Packet::New("HAW");
+	G2Packet* pPacket = G2Packet::newPacket("HAW");
 
 	pPacket->WritePacket("NA", Network.m_oAddress.protocol() == QAbstractSocket::IPv4Protocol ? 6 : 18);
 	pPacket->WriteHostAddress(&Network.m_oAddress);
