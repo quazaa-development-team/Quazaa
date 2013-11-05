@@ -114,7 +114,7 @@ void CWidgetSearchResults::startSearch(QString searchString)
 					if ( tabSearch )
 					{
 						CQuery* pQuery = new CQuery();
-						pQuery->SetDescriptiveName( searchString );
+						pQuery->setDescriptiveName( searchString );
 						tabSearch->StartSearch( pQuery );
 						connect( tabSearch, SIGNAL( stateChanged() ), this, SIGNAL( stateChanged() ) );
 						ui->tabWidgetSearch->setTabText( ui->tabWidgetSearch->currentIndex(), searchString );
@@ -126,7 +126,7 @@ void CWidgetSearchResults::startSearch(QString searchString)
 			else
 			{
 				CQuery* pQuery = new CQuery();
-				pQuery->SetDescriptiveName( searchString );
+				pQuery->setDescriptiveName( searchString );
 				tabSearch->StartSearch( pQuery );
 				connect( tabSearch, SIGNAL( stateChanged() ), this, SIGNAL( stateChanged() ) );
 				ui->tabWidgetSearch->setTabText( ui->tabWidgetSearch->currentIndex(), searchString );
@@ -145,7 +145,7 @@ void CWidgetSearchResults::startNewSearch(QString* searchString)
 				if(tabSearch)
 		{
 			CQuery* pQuery = new CQuery();
-			pQuery->SetDescriptiveName(QString(*searchString));
+			pQuery->setDescriptiveName(QString(*searchString));
 						tabSearch->StartSearch(pQuery);
 						connect(tabSearch, SIGNAL(stateChanged()), this, SIGNAL(stateChanged()));
 			ui->tabWidgetSearch->setTabText(ui->tabWidgetSearch->currentIndex(), QString(*searchString));

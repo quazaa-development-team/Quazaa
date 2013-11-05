@@ -236,7 +236,7 @@ CWinMain::CWinMain(QWidget* parent) :
 	interfaceLoaded = true;
 
 	connect(&ChatCore, SIGNAL(openChatWindow(CChatSession*)), this, SLOT(OpenChat(CChatSession*)));
-	connect(&Network, SIGNAL(LocalAddressChanged()), this, SLOT(localAddressChanged()));
+	connect(&Network, SIGNAL(localAddressChanged()), this, SLOT(localAddressChanged()));
 	connect(&ShareManager, SIGNAL(hasherStarted(int)), this, SLOT(onHasherStarted(int)));
 	setSkin();
 }

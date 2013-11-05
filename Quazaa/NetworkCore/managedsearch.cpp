@@ -51,7 +51,7 @@ CManagedSearch::CManagedSearch(CQuery* pQuery, QObject* parent) :
 	m_tCleanHostsNext = common::getDateTimeUTC().addSecs(quazaaSettings.Gnutella2.QueryHostThrottle);
 
 	m_oGUID = QUuid::createUuid();
-	pQuery->SetGUID(m_oGUID);
+	pQuery->setGUID(m_oGUID);
 
 	m_nHubs = m_nLeaves = m_nHits = 0;
 
@@ -87,7 +87,7 @@ void CManagedSearch::start()
 {
 	if(!m_bPaused)
 	{
-		SearchManager.Add(this);
+		SearchManager.add(this);
 	}
 
 	m_bActive = true;
@@ -110,7 +110,7 @@ void CManagedSearch::stop()
 	m_bActive = false;
 	m_bPaused = false;
 
-	SearchManager.Remove(this);
+	SearchManager.remove(this);
 
 	emit stateChanged();
 }
@@ -201,7 +201,7 @@ void CManagedSearch::searchNeighbours(const QDateTime& tNowDT)
 			 ( tNow - pNode->m_tLastQuery > quazaaSettings.Gnutella2.QueryHostThrottle &&
 			   !m_lSearchedNodes.contains( pNode->m_oAddress ) ) )
 		{
-			G2Packet* pQuery = m_pQuery->ToG2Packet( Network.isFirewalled() ?
+			G2Packet* pQuery = m_pQuery->toG2Packet( Network.isFirewalled() ?
 														 NULL : &Network.m_oAddress );
 			if ( pQuery )
 			{
@@ -314,7 +314,7 @@ void CManagedSearch::searchG2(const QDateTime& tNowDT, quint32* pnMaxPackets)
 				pHost->m_tAck = tNow;
 			}
 
-			G2Packet* pQuery = m_pQuery->ToG2Packet( &pReceiver, pHost->m_nQueryKey );
+			G2Packet* pQuery = m_pQuery->toG2Packet( &pReceiver, pHost->m_nQueryKey );
 
 			if ( pQuery )
 			{

@@ -71,7 +71,7 @@ public:
 	CQueryHit(CQueryHit* pHit);
 	~CQueryHit();
 
-	static QueryHitInfo* ReadInfo(G2Packet* pPacket, CEndPoint* pSender = 0);
+	static QueryHitInfo* readInfo(G2Packet* pPacket, CEndPoint* pSender = 0);
 	static CQueryHit*    readPacket(G2Packet* pPacket, QueryHitInfo* pHitInfo);
 
 	void resolveURLs();

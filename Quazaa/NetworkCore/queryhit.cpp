@@ -64,7 +64,7 @@ CQueryHit::~CQueryHit()
 	}
 }
 
-QueryHitInfo* CQueryHit::ReadInfo(G2Packet* pPacket, CEndPoint* pSender)
+QueryHitInfo* CQueryHit::readInfo(G2Packet* pPacket, CEndPoint* pSender)
 {
 	// do a shallow parsing...
 

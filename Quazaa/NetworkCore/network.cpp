@@ -161,14 +161,14 @@ void CNetwork::onSecondTimer()
 		m_tCleanRoutesNext = 60;
 	}
 
-	if(!QueryHashMaster.IsValid())
+	if(!QueryHashMaster.isValid())
 	{
-		QueryHashMaster.Build();
+		QueryHashMaster.build();
 	}
 
 	Neighbours.maintain();
 
-	SearchManager.OnTimer();
+	SearchManager.onTimer();
 
 	m_pSection.unlock();
 

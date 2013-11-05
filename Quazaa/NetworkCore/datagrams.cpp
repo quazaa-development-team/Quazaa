@@ -972,7 +972,7 @@ void CDatagrams::onQA(CEndPoint& addr, G2Packet* pPacket)
 	QUuid oGuid;
 
 	// Hubs are only supposed to route UDP /QA - we'll drop it if we're in leaf mode
-	if ( SearchManager.OnQueryAcknowledge( pPacket, addr, oGuid ) && Neighbours.isG2Hub() )
+	if ( SearchManager.onQueryAcknowledge( pPacket, addr, oGuid ) && Neighbours.isG2Hub() )
 	{
 		// Add from address
 		G2Packet* pFR = G2Packet::newPacket( "FR" );
@@ -992,7 +992,7 @@ void CDatagrams::onQH2(CEndPoint& addr, G2Packet* pPacket)
 		return;
 	}
 
-	QueryHitInfo* pInfo = CQueryHit::ReadInfo(pPacket, &addr);
+	QueryHitInfo* pInfo = CQueryHit::readInfo(pPacket, &addr);
 
 	if(pInfo)
 	{
@@ -1001,7 +1001,7 @@ void CDatagrams::onQH2(CEndPoint& addr, G2Packet* pPacket)
 			securityManager.ban( pInfo->m_oNodeAddress, RuleTime::SixHours, true,
 								 QString( "Vendor blocked (%1)" ).arg( pInfo->m_sVendor ));
 		} else {
-			if(SearchManager.OnQueryHit(pPacket, pInfo) && Neighbours.isG2Hub() && pInfo->m_nHops < 7)
+			if(SearchManager.onQueryHit(pPacket, pInfo) && Neighbours.isG2Hub() && pInfo->m_nHops < 7)
 			{
 				pPacket->m_pBuffer[pPacket->m_nLength - 17]++;
 
@@ -1029,7 +1029,7 @@ void CDatagrams::onQH2(CEndPoint& addr, G2Packet* pPacket)
 
 void CDatagrams::onQuery(CEndPoint &addr, G2Packet *pPacket)
 {
-	CQueryPtr pQuery = CQuery::FromPacket(pPacket, &addr);
+	CQueryPtr pQuery = CQuery::fromPacket(pPacket, &addr);
 
 	if(pQuery.isNull())
 	{

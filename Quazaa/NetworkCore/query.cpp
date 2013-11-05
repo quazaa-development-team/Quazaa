@@ -36,30 +36,30 @@ CQuery::CQuery()
 	m_nMaximumSize = Q_UINT64_C(0xffffffffffffffff);
 }
 
-void CQuery::SetGUID(QUuid& guid)
+void CQuery::setGUID(QUuid& guid)
 {
 	m_oGUID = guid;
 }
 
-void CQuery::SetDescriptiveName(QString sDN)
+void CQuery::setDescriptiveName(QString sDN)
 {
 	m_sDescriptiveName = sDN;
 }
-void CQuery::SetMetadata(QString sMeta)
+void CQuery::setMetadata(QString sMeta)
 {
 	m_sMetadata = sMeta;
 }
-void CQuery::SetSizeRestriction(quint64 nMin, quint64 nMax)
+void CQuery::setSizeRestriction(quint64 nMin, quint64 nMax)
 {
 	m_nMinimumSize = nMin;
 	m_nMaximumSize = nMax;
 }
-void CQuery::AddURN(const CHash& pHash)
+void CQuery::addURN(const CHash& pHash)
 {
 	m_lHashes.append(pHash);
 }
 
-G2Packet* CQuery::ToG2Packet(CEndPoint* pAddr, quint32 nKey)
+G2Packet* CQuery::toG2Packet(CEndPoint* pAddr, quint32 nKey)
 {
 	G2Packet* pPacket = G2Packet::newPacket("Q2", true);
 
@@ -128,7 +128,7 @@ G2Packet* CQuery::ToG2Packet(CEndPoint* pAddr, quint32 nKey)
 	return pPacket;
 }
 
-void CQuery::BuildG2Keywords(QString strPhrase)
+void CQuery::buildG2Keywords(QString strPhrase)
 {
 	QStringList lPositive, lNegative;
 
@@ -234,18 +234,18 @@ void CQuery::BuildG2Keywords(QString strPhrase)
 
 	foreach(QString sWord, lPositive)
 	{
-		quint32 nHash = CQueryHashTable::HashWord(sWord.toUtf8().constData(), sWord.toUtf8().size(), 32);
+		quint32 nHash = CQueryHashTable::hashWord(sWord.toUtf8().constData(), sWord.toUtf8().size(), 32);
 		m_lHashedKeywords.append(nHash);
 	}
 }
 
-CQueryPtr CQuery::FromPacket(G2Packet *pPacket, CEndPoint *pEndpoint)
+CQueryPtr CQuery::fromPacket(G2Packet *pPacket, CEndPoint *pEndpoint)
 {
 	CQueryPtr pQuery(new CQuery());
 
 	try
 	{
-		if( pQuery->FromG2Packet(pPacket, pEndpoint) )
+		if( pQuery->fromG2Packet(pPacket, pEndpoint) )
 			return pQuery;
 	}
 	catch(...)
@@ -256,7 +256,7 @@ CQueryPtr CQuery::FromPacket(G2Packet *pPacket, CEndPoint *pEndpoint)
 	return CQueryPtr();
 }
 
-bool CQuery::FromG2Packet(G2Packet *pPacket, CEndPoint *pEndpoint)
+bool CQuery::fromG2Packet(G2Packet *pPacket, CEndPoint *pEndpoint)
 {
 	if( !pPacket->m_bCompound )
 		return false;
@@ -355,12 +355,12 @@ bool CQuery::FromG2Packet(G2Packet *pPacket, CEndPoint *pEndpoint)
 
 	m_oGUID = pPacket->readGUID();
 
-	return CheckValid();
+	return checkValid();
 }
 
-bool CQuery::CheckValid()
+bool CQuery::checkValid()
 {
-	BuildG2Keywords(m_sDescriptiveName);
+	buildG2Keywords(m_sDescriptiveName);
 
 	if( m_lHashes.isEmpty() && m_lHashedKeywords.isEmpty() )
 		return false;

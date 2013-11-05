@@ -58,7 +58,7 @@ void CNeighboursRouting::routeQuery(CQueryPtr pQuery, G2Packet *pPacket, CNeighb
 
 			if( pG2->m_pRemoteTable != 0 && pG2->m_pRemoteTable->m_bLive )
 			{
-				if( !pG2->m_pRemoteTable->CheckQuery(pQuery) )
+				if( !pG2->m_pRemoteTable->checkQuery(pQuery) )
 				{
 					continue;
 				}

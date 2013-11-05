@@ -247,9 +247,9 @@ void CG2Node::onTimer(quint32 tNow)
 				   !m_pLocalTable->m_bLive ))
 		   )
 		{
-			if(m_pLocalTable->PatchTo(&QueryHashMaster, this))
+			if(m_pLocalTable->patchTo(&QueryHashMaster, this))
 			{
-				systemLog.postLog(LogSeverity::Notice, tr("Sending query routing table to %1 (%2 bits, %3 entries, %4 bytes, %5% full)").arg(m_oAddress.toString().toLocal8Bit().constData()).arg(m_pLocalTable->m_nBits).arg(m_pLocalTable->m_nHash).arg(m_pLocalTable->m_nHash / 8).arg(m_pLocalTable->GetPercent()));
+				systemLog.postLog(LogSeverity::Notice, tr("Sending query routing table to %1 (%2 bits, %3 entries, %4 bytes, %5% full)").arg(m_oAddress.toString().toLocal8Bit().constData()).arg(m_pLocalTable->m_nBits).arg(m_pLocalTable->m_nHash).arg(m_pLocalTable->m_nHash / 8).arg(m_pLocalTable->getPercent()));
 			}
 		}
 
@@ -1162,7 +1162,7 @@ void CG2Node::onQHT(G2Packet* pPacket)
 
 	bool bLive = m_pRemoteTable->m_bLive;
 
-	if(!m_pRemoteTable->OnPacket(pPacket))
+	if(!m_pRemoteTable->onPacket(pPacket))
 	{
 		systemLog.postLog(LogSeverity::Error, tr("Neighbour %1 sent bad query hash table update. Closing connection.").arg(m_oAddress.toString().toLocal8Bit().constData()));
 		close();
@@ -1171,10 +1171,10 @@ void CG2Node::onQHT(G2Packet* pPacket)
 
 	if(m_pRemoteTable->m_bLive && !bLive)
 	{
-		systemLog.postLog(LogSeverity::Notice, tr("Neighbour %1 updated its query hash table. %2 bits %3% full.").arg(m_oAddress.toString().toUtf8().constData()).arg(m_pRemoteTable->m_nBits).arg(m_pRemoteTable->GetPercent()));
+		systemLog.postLog(LogSeverity::Notice, tr("Neighbour %1 updated its query hash table. %2 bits %3% full.").arg(m_oAddress.toString().toUtf8().constData()).arg(m_pRemoteTable->m_nBits).arg(m_pRemoteTable->getPercent()));
 	}
 
-	if(m_nType == G2_LEAF && m_pRemoteTable && m_pRemoteTable->GetPercent() > 90)
+	if(m_nType == G2_LEAF && m_pRemoteTable && m_pRemoteTable->getPercent() > 90)
 	{
 		systemLog.postLog(LogSeverity::Error, tr("Dropping neighbour %1 - hash table fill percentage too high.").arg(m_oAddress.toString().toLocal8Bit().constData()));
 		close();
@@ -1183,7 +1183,7 @@ void CG2Node::onQHT(G2Packet* pPacket)
 
 	if(m_nType == G2_LEAF && m_pRemoteTable->m_pGroup == 0)
 	{
-		QueryHashMaster.Add(m_pRemoteTable);
+		QueryHashMaster.add(m_pRemoteTable);
 	}
 }
 
@@ -1352,7 +1352,7 @@ void CG2Node::onQKA(G2Packet* pPacket)
 void CG2Node::onQA(G2Packet* pPacket)
 {
 	QUuid oGUID;
-	SearchManager.OnQueryAcknowledge(pPacket, m_oAddress, oGUID);
+	SearchManager.onQueryAcknowledge(pPacket, m_oAddress, oGUID);
 
 	// TCP /QA - no need for routing, it's either for us or to be dropped
 }
@@ -1364,14 +1364,14 @@ void CG2Node::onQH2(G2Packet* pPacket)
 		return;
 	}
 
-	QueryHitInfo* pInfo = CQueryHit::ReadInfo(pPacket, &m_oAddress);
+	QueryHitInfo* pInfo = CQueryHit::readInfo(pPacket, &m_oAddress);
 
 	if( securityManager.isVendorBlocked( pInfo->m_sVendor ) ) // Block foxy client search results. We can't download from them any way.
 	{
 		securityManager.ban( pInfo->m_oNodeAddress, RuleTime::SixHours, true,
 							 QString( "Vendor blocked (%1)" ).arg( pInfo->m_sVendor ), true );
 	} else {
-		if(SearchManager.OnQueryHit(pPacket, pInfo))
+		if(SearchManager.onQueryHit(pPacket, pInfo))
 		{
 			Network.m_pSection.lock();
 
@@ -1396,7 +1396,7 @@ void CG2Node::onQuery(G2Packet* pPacket)
 		return;
 	}
 
-	CQueryPtr pQuery = CQuery::FromPacket(pPacket);
+	CQueryPtr pQuery = CQuery::fromPacket(pPacket);
 
 	if ( pQuery.isNull() )
 	{

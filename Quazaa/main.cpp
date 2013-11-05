@@ -250,7 +250,7 @@ int main(int argc, char *argv[])
 	//Load the library
 	dlgSplash->updateProgress( 38, QObject::tr( "Loading Library..." ) );
 	qApp->processEvents();
-	QueryHashMaster.Create();
+	QueryHashMaster.create();
 	ShareManager.Start();
 
 	// Load Download Manager

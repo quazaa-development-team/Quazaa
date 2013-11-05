@@ -120,7 +120,7 @@ void CWidgetSearchTemplate::StartSearch(CQuery* pQuery)
 
 	m_searchState = SearchState::Searching;
 	m_pSearch->start();
-	m_sSearchString = m_pSearch->m_pQuery->DescriptiveName();
+	m_sSearchString = m_pSearch->m_pQuery->descriptiveName();
 }
 
 void CWidgetSearchTemplate::StopSearch()

@@ -59,7 +59,7 @@ void CShareManager::Start()
 {
 	QMutexLocker l(&m_oSection);
 	systemLog.postLog(LogSeverity::Debug, QString("Starting share manager..."));
-	connect(this, SIGNAL(sharesReady()), &QueryHashMaster, SLOT(Build()));
+	connect(this, SIGNAL(sharesReady()), &QueryHashMaster, SLOT(build()));
 	ShareManagerThread.start("ShareManager", &m_oSection, this);
 }
 
@@ -694,10 +694,10 @@ void CShareManager::BuildHashTable()
 		{
 			return;
 		}
-		m_pTable->Create();
+		m_pTable->create();
 	}
 
-	m_pTable->Clear();
+	m_pTable->clear();
 
 	// TODO: Optimize it
 
@@ -712,7 +712,7 @@ void CShareManager::BuildHashTable()
 	{
 		while(q.next())
 		{
-			m_pTable->AddExactString(q.record().value(0).toString());
+			m_pTable->addExactString(q.record().value(0).toString());
 		}
 
 		q.prepare("SELECT sha1 FROM hashes");
@@ -729,7 +729,7 @@ void CShareManager::BuildHashTable()
 				CHash* pHash = CHash::fromRaw(m_oHash, CHash::SHA1);
 				if(pHash)
 				{
-					m_pTable->AddExactString(pHash->toURN());
+					m_pTable->addExactString(pHash->toURN());
 					delete pHash;
 				}
 			}
