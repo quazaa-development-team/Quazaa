@@ -270,7 +270,7 @@ void CG2Node::onTimer(quint32 tNow)
 		// something is very wrong. Ban it for a short while.
 		if(m_nType == G2_HUB && (tNow - m_tConnected > 300) && m_nLeafCount < 2) {
 			close();
-			securityManager.ban(m_oAddress, RuleTime::TwoHours, true, QString("Hub not accepting leaves (%1)").arg(m_oAddress.toString()));
+			securityManager.ban(m_oAddress, RuleTime::ThirtyMinutes, true, QString("Hub not accepting leaves (%1)").arg(m_oAddress.toString()));
 			return;
 		}
 
