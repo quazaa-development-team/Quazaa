@@ -94,6 +94,7 @@ MessageView::MessageView(ViewInfo::Type type, IrcConnection* connection, IrcChan
 	d.listView->setVisible(type == ViewInfo::Channel);
 	if (type == ViewInfo::Channel) {
 		d.listView->setConnection(connection);
+		d.listView->setIconSize(QSize(16,16));
 		connect(d.listView, SIGNAL(queried(QString)), this, SIGNAL(queried(QString)));
 		connect(d.listView, SIGNAL(doubleClicked(QString)), this, SIGNAL(queried(QString)));
 		connect(d.listView, SIGNAL(commandRequested(IrcCommand*)), d.connection, SLOT(sendCommand(IrcCommand*)));
