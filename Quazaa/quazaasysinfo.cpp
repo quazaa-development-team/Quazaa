@@ -11,11 +11,7 @@
 #define BUFSIZE 80
 
 // Preventing redefinition warnings on Windows using MinGW toolchain.
-// The QT_VERSION check is used as a substitute for checking against MinGW >= v4.7, as the Qt4.8 SDK
-// is delivered bundled with MinGW4.4 by default. This is a result of __MINGW32_MAJOR_VERSION and
-// __MINGW32_MINOR_VERSION being set to useless values for some reason.
 // [cedric] mingw xcompiler toolchain gives still problems though
-#if !( defined(Q_OS_WIN) && defined(Q_CC_GNU) && QT_VERSION >= 0x050000 ) || !defined(PRODUCT_UNDEFINED)
 
 #ifndef Q_CC_MSVC
 #define VER_SUITE_WH_SERVER 0x8000
@@ -93,9 +89,6 @@
 #define PRODUCT_PROFESSIONAL_E                      0x00000045
 #define PRODUCT_ENTERPRISE_E                        0x00000046
 #define PRODUCT_ULTIMATE_E                          0x00000047
-
-#endif // !defined(Q_OS_WIN) || !defined(Q_CC_GNU) || QT_VERSION < 0x050000
-
 #define PRODUCT_ENTERPRISE_EVALUATION               0x00000048
 #define PRODUCT_MULTIPOINT_STANDARD_SERVER          0x0000004C
 #define PRODUCT_MULTIPOINT_PREMIUM_SERVER           0x0000004D
@@ -214,10 +207,8 @@ OSVersion::OSVersion CQuazaaSysInfo::osVersion()
 		return OSVersion::WinVista;
 	case QSysInfo::WV_WINDOWS7:
 		return OSVersion::Win7;
-#if QT_VERSION >= 0x050000
 	case QSysInfo::WV_WINDOWS8: // not yet defined in Qt4.8
 		return OSVersion::Win8;
-#endif
 	default:
 		return OSVersion::Win7;
 	}

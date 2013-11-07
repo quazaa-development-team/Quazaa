@@ -30,11 +30,7 @@
 #include <QXmlStreamReader>
 #include <QXmlStreamWriter>
 
-#if QT_VERSION >= 0x050000
-#  include <QRegularExpression>
-#else
-#  include <QRegExp>
-#endif
+#include <QRegularExpression>
 
 #include <QString>
 #include <QUuid>

@@ -25,12 +25,7 @@
 #include <QFile>
 #include <QDateTime>
 #include <QDir>
-
-#if QT_VERSION >= 0x050000
 #include <QRegularExpression>
-#else
-#include <QRegExp>
-#endif
 
 #include <QNetworkConfigurationManager>
 
@@ -1477,13 +1472,8 @@ bool CDiscovery::normalizeURL(QString& sURL)
 	// Check it has a valid protocol
 	if ( sURL.startsWith( "http://" ) || sURL.startsWith("https://") )
 	{
-#if QT_VERSION >= 0x050000
 		sURL.remove( QRegularExpression( "/*$" ) );
 		sURL.remove( QRegularExpression( "\\.nyud\\.net:[0-9]+" ) );
-#else
-		sURL.remove( QRegExp( "/*$" ) );
-		sURL.remove( QRegExp( "\\.nyud\\.net:[0-9]+" ) );
-#endif
 
 		// First check whether the URL can be parsed at all.
 		QUrl oURL( sURL, QUrl::StrictMode );

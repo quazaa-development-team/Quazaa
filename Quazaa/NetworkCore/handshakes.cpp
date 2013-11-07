@@ -76,11 +76,7 @@ void CHandshakes::stop()
 	Q_ASSERT(m_lHandshakes.isEmpty());
 }
 
-#if QT_VERSION < QT_VERSION_CHECK(5,0,0)
-void CHandshakes::incomingConnection(int handle)
-#else
 void CHandshakes::incomingConnection(qintptr handle)
-#endif
 {
 	QMutexLocker l(&m_pSection);
 

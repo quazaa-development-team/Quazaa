@@ -27,12 +27,7 @@
 
 #include "debug_new.h"
 
-#if QT_VERSION >= 0x050000
 #include <QStandardPaths>
-#else
-#include <QDesktopServices>
-#endif
-
 #include <QDir>
 
 /*!
@@ -144,15 +139,9 @@ QString CQuazaaGlobals::MEDIA_OPEN_FILTER()
 
 QString CQuazaaGlobals::SETTINGS_PATH()
 {
-#if QT_VERSION >= 0x050000
 	QDir path;
 	path.mkpath( ( QString("%1/.quazaa/").arg(QStandardPaths::writableLocation(QStandardPaths::HomeLocation ) ) ) );
 	return QDir::toNativeSeparators( QString("%1/.quazaa/").arg(QStandardPaths::writableLocation(QStandardPaths::HomeLocation ) ) );
-#else
-	QDir path;
-	path.mkpath( QString("%1/.quazaa/").arg(QDesktopServices::storageLocation(QDesktopServices::HomeLocation ) ) );
-	return QDir::toNativeSeparators( QString("%1/.quazaa/").arg(QDesktopServices::storageLocation(QDesktopServices::HomeLocation ) ) );
-#endif
 }
 
 /*!
@@ -167,24 +156,14 @@ QString CQuazaaGlobals::DATA_PATH()
 
 QString CQuazaaGlobals::STORAGE_PATH()
 {
-#if QT_VERSION >= 0x050000
 	QDir path;
 	path.mkpath( QString("%1/Quazaa/").arg(QStandardPaths::writableLocation(QStandardPaths::HomeLocation ) ) );
 	return QDir::toNativeSeparators( QString("%1/Quazaa/").arg(QStandardPaths::writableLocation(QStandardPaths::HomeLocation ) ) );
-#else
-	QDir path;
-	path.mkpath( QString("%1/Quazaa/").arg(QDesktopServices::storageLocation(QDesktopServices::HomeLocation ) ) );
-	return QDir::toNativeSeparators( QString("%1/Quazaa/").arg(QDesktopServices::storageLocation(QDesktopServices::HomeLocation ) ) );
-#endif
 }
 
 QString CQuazaaGlobals::INI_FILE()
 {
-#if QT_VERSION >= 0x050000
 	return QString("%1quazaa.ini").arg( SETTINGS_PATH() );
-#else
-	return QString("%1quazaa.ini").arg( SETTINGS_PATH() );
-#endif
 }
 
 

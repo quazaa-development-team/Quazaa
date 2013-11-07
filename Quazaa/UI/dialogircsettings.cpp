@@ -68,13 +68,8 @@ CDialogIrcSettings::CDialogIrcSettings(QWidget *parent) :
 
 //TODO:	ui->treeWidgetColors->setItemDelegate(new ColorItemDelegate(ui->treeWidgetColors));
 	ui->treeWidgetShortcuts->setItemDelegate(new ShortcutItemDelegate(ui->treeWidgetShortcuts));
-#if QT_VERSION >= 0x050000
 //TODO:		ui->treeWidgetColors->header()->setSectionResizeMode(ColorColumns::Message, QHeaderView::ResizeToContents);
 	ui->treeWidgetShortcuts->header()->setSectionResizeMode(ShortcutColumns::Description, QHeaderView::ResizeToContents);
-#else
-	ui->treeWidgetColors->header()->setResizeMode(ColorColumns::Message, QHeaderView::ResizeToContents);
-	ui->treeWidgetShortcuts->header()->setResizeMode(ShortcutColumns::Description, QHeaderView::ResizeToContents);
-#endif
 	ui->treeWidgetShortcuts->expandItem(ui->treeWidgetShortcuts->topLevelItem(0));
 	ui->treeWidgetShortcuts->expandItem(ui->treeWidgetShortcuts->topLevelItem(1));
 	proxyModel = new SortFilterProxyModel(ui->treeViewAliases);
@@ -260,15 +255,9 @@ void CDialogIrcSettings::loadSettings()
 			addAliasRow(alias, command);
 	}
 
-#if QT_VERSION < 0x050000
-	ui->treeViewAliases->header()->setResizeMode(0, QHeaderView::ResizeToContents);
-	ui->treeViewAliases->header()->setResizeMode(1, QHeaderView::Stretch);
-	ui->treeViewAliases->header()->setResizeMode(2, QHeaderView::ResizeToContents);
-#else
 	ui->treeViewAliases->header()->setSectionResizeMode(0, QHeaderView::ResizeToContents);
 	ui->treeViewAliases->header()->setSectionResizeMode(1, QHeaderView::Stretch);
 	ui->treeViewAliases->header()->setSectionResizeMode(2, QHeaderView::ResizeToContents);
-#endif
 }
 
 void CDialogIrcSettings::on_pushButtonOK_clicked()

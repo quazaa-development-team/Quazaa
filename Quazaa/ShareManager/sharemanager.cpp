@@ -67,19 +67,11 @@ void CShareManager::setupThread()
 {
 	systemLog.postLog(LogSeverity::Debug, QString("Setting up ShareManager thread"));
 	m_oDatabase = QSqlDatabase::addDatabase("QSQLITE", "Shares");
-#if QT_VERSION >= 0x050000
 	QDir path = QDir(CQuazaaGlobals::SETTINGS_PATH());
 	if(!path.exists())
 		path.mkpath(CQuazaaGlobals::SETTINGS_PATH());
 
 	m_oDatabase.setDatabaseName(QString("%1shares.sdb").arg(CQuazaaGlobals::SETTINGS_PATH()));
-#else
-	QDir path = QDir(CQuazaaGlobals::SETTINGS_PATH());
-	if(!path.exists())
-		path.mkpath(CQuazaaGlobals::SETTINGS_PATH());
-
-	m_oDatabase.setDatabaseName(QString("%1shares.sdb").arg(CQuazaaGlobals::SETTINGS_PATH());
-#endif
 
 	if(!m_oDatabase.open())
 	{

@@ -29,9 +29,7 @@
 #include <QDebug>
 #include <QApplication>
 
-#if QT_VERSION >= 0x050000
 #include <QTextDocument> //For Qt::escape()
-#endif
 
 #include "debug_new.h"
 
@@ -206,12 +204,7 @@ void CWidgetReturnEmitTextEdit::addHistory(QTextDocument* document)
 void CWidgetReturnEmitTextEdit::addHistory(QString* text)
 {
 	QTextDocument* document = new QTextDocument();
-#if QT_VERSION >= 0x050000
 	document->setHtml(text->toHtmlEscaped());
-#else
-	QString escapeText = text->toLocal8Bit();
-	document->setHtml(Qt::escape(escapeText));
-#endif
 	addHistory(document);
 }
 

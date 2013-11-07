@@ -7,12 +7,7 @@ class CUserAgentRule : public CSecureRule
 {
 private:
 	bool				m_bRegExp;  // is the content of this rule is a regular expression?
-
-#if QT_VERSION >= 0x050000
 	QRegularExpression	m_regularExpressionContent;
-#else
-	QRegExp				m_regExpContent;
-#endif
 
 public:
 	CUserAgentRule();

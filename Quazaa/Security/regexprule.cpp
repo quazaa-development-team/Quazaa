@@ -42,13 +42,8 @@ bool CRegularExpressionRule::parseContent(const QString& sContent)
 		m_bSpecialElements = false;
 		bool bValid;
 
-#if QT_VERSION >= 0x050000
 		m_regularExpressionContent = QRegularExpression( m_sContent );
 		bValid = m_regularExpressionContent.isValid();
-#else
-		m_regExpContent = QRegExp( m_sContent );
-		bValid = m_regExpContent.isValid();
-#endif
 
 		return bValid;
 	}
@@ -97,35 +92,21 @@ bool CRegularExpressionRule::match(const QList<QString>& lQuery, const QString& 
 			// add whats left of the base filter string to the newly generated filter
 			sFilter += sBaseFilter;
 
-#if QT_VERSION >= 0x050000
 			QRegularExpression oRegExpFilter = QRegularExpression( sFilter );
 			return oRegExpFilter.match( sContent ).hasMatch();
-#else
-			QRegExp oRegExpFilter = QRegExp( sFilter );
-			return oRegExpFilter.exactMatch( sContent );
-#endif
 		}
 		else
 		{
 			// This shouldn't happen, but it's covered anyway...
 			Q_ASSERT( false );
 
-#if QT_VERSION >= 0x050000
 			QRegularExpression oRegExpFilter = QRegularExpression( m_sContent );
 			return oRegExpFilter.match( sContent ).hasMatch();
-#else
-			QRegExp oRegExpFilter = QRegExp( m_sContent );
-			return oRegExpFilter.exactMatch( sContent );
-#endif
 		}
 	}
 	else
 	{
-#if QT_VERSION >= 0x050000
 		return m_regularExpressionContent.match( sContent ).hasMatch();
-#else
-		return m_regExpContent.exactMatch( sContent );
-#endif
 	}
 }
 

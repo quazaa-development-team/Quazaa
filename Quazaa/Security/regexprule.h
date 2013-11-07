@@ -8,11 +8,7 @@ class CRegularExpressionRule : public CSecureRule
 private:
 	bool				m_bSpecialElements;
 
-#if QT_VERSION >= 0x050000
 	QRegularExpression	m_regularExpressionContent;
-#else
-	QRegExp				m_regExpContent;
-#endif
 
 public:
 	CRegularExpressionRule();

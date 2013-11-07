@@ -78,11 +78,7 @@ public:
 public:
 	virtual void connectTo(CEndPoint oAddress);
 	virtual void attachTo(CNetworkConnection* pOther);
-#if QT_VERSION < QT_VERSION_CHECK(5,0,0)
-	virtual void AcceptFrom(int nHandle);
-#else
 	virtual void acceptFrom(qintptr nHandle);
-#endif
 	virtual void close(bool bDelayed = false);
 
 private:
