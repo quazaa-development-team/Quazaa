@@ -40,6 +40,7 @@ DatagramIn::DatagramIn()
 	m_bLocked = 0;
 	m_nBuffer = 0;
 }
+
 DatagramIn::~DatagramIn()
 {
 	if(m_pBuffer)
@@ -81,8 +82,8 @@ void DatagramIn::create(CEndPoint pHost, quint8 nFlags, quint16 nSequence, quint
 
 	memset(m_bLocked, 0x00, sizeof(bool) * m_nBuffer);
 	memset(m_pBuffer, 0x00, sizeof(CBuffer*) * m_nBuffer);
-
 }
+
 bool DatagramIn::add(quint8 nPart, const void* pData, qint32 nLength)
 {
 	if(nPart < 1 || nPart > m_nCount)
@@ -108,6 +109,7 @@ bool DatagramIn::add(quint8 nPart, const void* pData, qint32 nLength)
 
 	return false;
 }
+
 G2Packet* DatagramIn::toG2Packet()
 {
 	if(m_nCount > 1)
@@ -134,6 +136,7 @@ DatagramOut::DatagramOut()
 	m_nLocked = 0;
 	m_bAck = false;
 }
+
 DatagramOut::~DatagramOut()
 {
 	if(m_pLocked)
@@ -141,6 +144,7 @@ DatagramOut::~DatagramOut()
 		delete[] m_pLocked;
 	}
 }
+
 void DatagramOut::create(CEndPoint oAddr, G2Packet* pPacket, quint16 nSequence, CBuffer* pBuffer, bool bAck)
 {
 	Q_ASSERT(m_pBuffer == 0);
@@ -191,6 +195,7 @@ void DatagramOut::create(CEndPoint oAddr, G2Packet* pPacket, quint16 nSequence, 
 
 	m_tSent = time(0);
 }
+
 bool DatagramOut::getPacket(quint32 tNow, char** ppPacket, quint32* pnPacket, bool bResend)
 {
 	Q_ASSERT(m_pBuffer != 0);
@@ -229,8 +234,8 @@ bool DatagramOut::getPacket(quint32 tNow, char** ppPacket, quint32* pnPacket, bo
 	*pnPacket = qMin(nPacket, m_pBuffer->size() - (nPart * nPacket));
 
 	return true;
-
 }
+
 bool DatagramOut::acknowledge(quint8 nPart)
 {
 	if(nPart > 0 && nPart <= m_nCount && m_nAcked > 0)
@@ -248,4 +253,3 @@ bool DatagramOut::acknowledge(quint8 nPart)
 
 	return false;
 }
-

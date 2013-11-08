@@ -42,14 +42,17 @@ public:
 	{
 		return m_pBuffer;
 	}
+
 	inline quint32 size() const
 	{
 		return m_nLength;
 	}
+
 	inline quint32 capacity() const
 	{
 		return m_nBuffer;
 	}
+
 	inline bool isEmpty() const
 	{
 		return (m_nLength == 0);
@@ -92,7 +95,6 @@ public:
 	QString toHex() const;
 	QString toAscii() const;
 	QString dump() const;
-
 };
 
 #endif // BUFFER_H

@@ -64,8 +64,8 @@ CDatagrams::CDatagrams()
 
 	m_nInFrags = 0;
 	m_nOutFrags = 0;
-
 }
+
 CDatagrams::~CDatagrams()
 {
 	if(m_bActive)
@@ -140,7 +140,6 @@ void CDatagrams::listen()
 	}
 
 	m_bFirewalled = true;
-
 }
 
 void CDatagrams::disconnectNode()
@@ -232,7 +231,6 @@ void CDatagrams::onDatagram()
 
 void CDatagrams::onReceiveGND()
 {
-
 	GND_HEADER* pHeader = (GND_HEADER*)m_pRecvBuffer->data();
 	QHostAddress nIp = *m_pHostAddress;
 	quint32 nSeq = ((pHeader->nSequence << 16) & 0xFFFF0000) + (m_nPort & 0x0000FFFF);
@@ -347,7 +345,6 @@ void CDatagrams::onReceiveGND()
 		remove(pDatagramIn, true);
 		m_pSection.unlock();
 	}
-
 }
 
 void CDatagrams::onAcknowledgeGND()
@@ -581,7 +578,6 @@ void CDatagrams::__FlushSendCache()
 	{
 		remove(m_SendCache.back());
 	}
-
 }
 
 void CDatagrams::sendPacket(CEndPoint& oAddr, G2Packet* pPacket, bool bAck, DatagramWatcher* pWatcher, void* pParam)
@@ -632,7 +628,6 @@ void CDatagrams::sendPacket(CEndPoint& oAddr, G2Packet* pPacket, bool bAck, Data
 
 	//emit SendQueueUpdated();
 	__FlushSendCache();
-
 }
 
 void CDatagrams::onPacket(CEndPoint addr, G2Packet* pPacket)
@@ -716,6 +711,7 @@ void CDatagrams::onPong(CEndPoint& addr, G2Packet* pPacket)
 		}
 	}
 }
+
 void CDatagrams::onCRAWLR(CEndPoint& addr, G2Packet* pPacket)
 {
 	QMutexLocker l2(&Neighbours.m_pSection);
@@ -813,6 +809,7 @@ void CDatagrams::onCRAWLR(CEndPoint& addr, G2Packet* pPacket)
 
 	pCA->release();
 }
+
 void CDatagrams::onQKR(CEndPoint& addr, G2Packet* pPacket)
 {
 	if(!Neighbours.isG2Hub())
@@ -955,8 +952,8 @@ void CDatagrams::onQKA(CEndPoint& addr, G2Packet* pPacket)
 		}
 		Neighbours.m_pSection.unlock();
 	}
-
 }
+
 void CDatagrams::onQA(CEndPoint& addr, G2Packet* pPacket)
 {
 	hostCache.m_pSection.lock();
@@ -1119,4 +1116,3 @@ void CDatagrams::onQuery(CEndPoint &addr, G2Packet *pPacket)
 
 	// local search
 }
-

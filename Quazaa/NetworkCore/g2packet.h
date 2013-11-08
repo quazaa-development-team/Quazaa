@@ -76,7 +76,6 @@ public:
 	bool	skipCompound(quint32& nLength, quint32 nRemaining = 0);
 	bool	getTo(QUuid& pGUID);
 
-
 public:
 	static	G2Packet* readBuffer(CBuffer* pBuffer);
 	void	toBuffer(CBuffer* pBuffer) const;

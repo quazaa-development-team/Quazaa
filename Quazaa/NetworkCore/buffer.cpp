@@ -36,6 +36,7 @@ CBuffer::CBuffer(quint32 nMinimum) :
 {
 	m_nMinimum = nMinimum;
 }
+
 CBuffer::~CBuffer()
 {
 	if(m_pBuffer)
@@ -59,14 +60,17 @@ CBuffer& CBuffer::append(const void* pData, const quint32 nLength)
 
 	return *this;
 }
+
 CBuffer& CBuffer::append(const char* pStr)
 {
 	return append(pStr, qstrlen(pStr));
 }
+
 CBuffer& CBuffer::append(QByteArray& baData)
 {
 	return append(baData.data(), baData.size());
 }
+
 CBuffer& CBuffer::append(CBuffer& pOther)
 {
 	return append(pOther.data(), pOther.size());
@@ -81,6 +85,7 @@ CBuffer& CBuffer::prepend(const void* pData, const quint32 nLength)
 {
 	return insert(0, pData, nLength);
 }
+
 CBuffer& CBuffer::prepend(const char* pStr)
 {
 	return prepend(pStr, qstrlen(pStr));
@@ -103,6 +108,7 @@ CBuffer& CBuffer::insert(const quint32 i, const void* pData, const quint32 nLeng
 
 	return *this;
 }
+
 CBuffer& CBuffer::insert(const quint32 i, const char* pStr)
 {
 	return insert(i, pStr, qstrlen(pStr));
@@ -126,6 +132,7 @@ CBuffer& CBuffer::remove(const quint32 nPos, const quint32 nLength)
 
 	return *this;
 }
+
 CBuffer& CBuffer::remove(const quint32 nLength)
 {
 	return remove(0, nLength);
@@ -262,4 +269,3 @@ QString CBuffer::dump() const
 
 	return sRet;
 }
-
