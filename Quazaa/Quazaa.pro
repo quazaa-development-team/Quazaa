@@ -394,7 +394,7 @@ HEADERS += \
 		Security/contentrule.h \
 		Models/securityfiltermodel.h \
 		UI/dialogimportsecurity.h \
-    UI/dialogmodifyrule.h
+	UI/dialogmodifyrule.h
 
 # Sources
 SOURCES += \
@@ -554,7 +554,7 @@ SOURCES += \
 		Security/contentrule.cpp \
 		Models/securityfiltermodel.cpp \
 		UI/dialogimportsecurity.cpp \
-    UI/dialogmodifyrule.cpp
+	UI/dialogmodifyrule.cpp
 
 FORMS += \
 		UI/dialogabout.ui \
@@ -614,7 +614,7 @@ FORMS += \
 	UI/dialogirccolordialog.ui \
 	UI/wizardircconnection.ui \
 	UI/dialogimportsecurity.ui \
-    UI/dialogmodifyrule.ui
+	UI/dialogmodifyrule.ui
 
 TRANSLATIONS = \
 		Language/quazaa_af.ts \

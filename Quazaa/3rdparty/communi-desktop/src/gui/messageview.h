@@ -70,6 +70,7 @@ public slots:
 	void sendMessage(QTextDocument *message);
 	void receiveMessage(IrcMessage* message);
 	void updateLag(qint64 lag);
+	void sendWho();
 
 signals:
 	void activeChanged();
@@ -106,6 +107,7 @@ private:
 	struct Private : public Ui::MessageView {
 		QStringList messages;
 		QTimer *messageTimer;
+		QTimer *whoTimer;
 		ViewInfo::Type viewType;
 		QString receiver;
 		QPointer<IrcConnection> connection;

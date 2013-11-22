@@ -330,7 +330,6 @@ void CDatagrams::onReceiveGND()
 			{
 				onPacket(addr, pPacket);
 			}
-
 		}
 		catch(...)
 		{

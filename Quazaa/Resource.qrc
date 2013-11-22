@@ -1070,5 +1070,7 @@
         <file>Resource/Chat/Palette.png</file>
         <file>Resource/Chat/PaletteDark.png</file>
         <file>Resource/Chat/SendDark.png</file>
+        <file>Resource/Chat/ServOp.png</file>
+        <file>Resource/Chat/ServOpDark.png</file>
     </qresource>
 </RCC>

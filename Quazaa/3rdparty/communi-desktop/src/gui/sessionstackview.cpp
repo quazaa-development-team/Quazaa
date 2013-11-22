@@ -13,7 +13,7 @@
 */
 
 #include "sessionstackview.h"
-#include "messagestackview.h"
+#include "ircchannelstackview.h"
 #include "messageview.h"
 #include "connection.h"
 
@@ -23,37 +23,37 @@ SessionStackView::SessionStackView(QWidget* parent) : QStackedWidget(parent)
 
 QList<IrcConnection*> SessionStackView::connections() const
 {
-    return d.connections;
+	return d.connections;
 }
 
 int SessionStackView::addConnection(IrcConnection* connection)
 {
-    IrcChannelStackView* widget = new IrcChannelStackView(connection, this);
-    d.connections += connection;
-    d.connectionWidgets.insert(connection, widget);
-    return addWidget(widget);
+	IrcChannelStackView* widget = new IrcChannelStackView(connection, this);
+	d.connections += connection;
+	d.connectionWidgets.insert(connection, widget);
+	return addWidget(widget);
 }
 
 void SessionStackView::removeConnection(IrcConnection* connection)
 {
-    IrcChannelStackView* widget = d.connectionWidgets.take(connection);
-    if (widget) {
-        removeWidget(widget);
-        widget->deleteLater();
-        d.connections.removeOne(connection);
-        if (Connection* connection = qobject_cast<Connection*>(widget->connection())) {
-            connection->quit();
-            QTimer::singleShot(1000, connection, SLOT(deleteLater()));
-        }
-    }
+	IrcChannelStackView* widget = d.connectionWidgets.take(connection);
+	if (widget) {
+		removeWidget(widget);
+		widget->deleteLater();
+		d.connections.removeOne(connection);
+		if (Connection* connection = qobject_cast<Connection*>(widget->connection())) {
+			connection->quit();
+			QTimer::singleShot(1000, connection, SLOT(deleteLater()));
+		}
+	}
 }
 
 IrcChannelStackView* SessionStackView::currentWidget() const
 {
-    return qobject_cast<IrcChannelStackView*>(QStackedWidget::currentWidget());
+	return qobject_cast<IrcChannelStackView*>(QStackedWidget::currentWidget());
 }
 
 IrcChannelStackView* SessionStackView::connectionWidget(IrcConnection* connection) const
 {
-    return d.connectionWidgets.value(connection);
+	return d.connectionWidgets.value(connection);
 }

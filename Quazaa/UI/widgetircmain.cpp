@@ -20,7 +20,7 @@
 #include "sessionstackview.h"
 #include "soundnotification.h"
 #include "sessiontreewidget.h"
-#include "messagestackview.h"
+#include "ircchannelstackview.h"
 #include "sessiontreeitem.h"
 #include "connectioninfo.h"
 #include "addviewdialog.h"
@@ -245,7 +245,6 @@ void CWidgetIrcMain::highlighted(IrcMessage* message)
 	if (!isActiveWindow()) {
 		QApplication::alert(this);
 		if (dockTile)
-			dockTile->setBadge(dockTile->badge() + 1);
 		if (sound && quazaaSettings.Chat.HighlightSounds )
 			sound->play();
 	}
@@ -257,7 +256,6 @@ void CWidgetIrcMain::highlighted(IrcMessage* message)
 			item = item->findChild(view->receiver());
 		if (item) {
 			treeWidget->highlight(item);
-			item->setBadge(item->badge() + 1);
 		}
 	}
 }
@@ -290,6 +288,9 @@ void CWidgetIrcMain::viewAdded(MessageView* view)
 		treeWidget->restoreState(quazaaSettings.WinMain.ChatTreeWidget);
 
 	update();
+
+	if(view->viewType() == ViewInfo::Channel)
+		view->sendWho();
 }
 
 void CWidgetIrcMain::viewActivated(MessageView* view)
@@ -298,6 +299,9 @@ void CWidgetIrcMain::viewActivated(MessageView* view)
 		view->restoreSplitter(quazaaSettings.WinMain.ChatUserListSplitter);
 
 	treeWidget->setCurrentView(view);
+
+	if(view->viewType() == ViewInfo::Channel)
+		view->sendWho();
 }
 
 void CWidgetIrcMain::closeTreeItem(SessionTreeItem* item)
@@ -467,7 +471,6 @@ QString CWidgetIrcMain::generateStyleSheet(bool dark)
 	QString result;
 	if(dark) {
 		result = "UserListView { border: none; background: #222222; } ";
-		result += QString("UserListView::item { color: %1; } ").arg(quazaaSettings.Chat.Colors[IrcColorType::Default]);
 		result += "UserListView::item:hover { background: #222222; } ";
 		result += "UserListView::item:selected { color: white; background: #444444; } ";
 		result += "UserListView::item:hover:selected { background: #444444; } ";
@@ -495,7 +498,6 @@ QString CWidgetIrcMain::generateStyleSheet(bool dark)
 		result += "StyledScrollBar::add-line, StyledScrollBar::sub-line, StyledScrollBar::up-arrow, StyledScrollBar::down-arrow, StyledScrollBar::add-page, StyledScrollBar::sub-page { width: 0; height: 0; background: none; } ";
 	} else {
 		result = "UserListView { border: none; background: palette(alternate-base); selection-background-color: palette(highlight); } ";
-		result += QString("UserListView::item { color: %1; } ").arg(quazaaSettings.Chat.Colors[IrcColorType::Default]);
 		result += "UserListView::item:selected { color: black; background: #444444; } ";
 		result += "SessionTreeWidget { border: none; background: palette(alternate-base); selection-background-color: palette(highlight); } ";
 		result += "SessionTreeWidget::branch { border: none; background: palette(alternate-base); }";

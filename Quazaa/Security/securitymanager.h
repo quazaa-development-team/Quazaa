@@ -102,7 +102,7 @@ public:
 	void			setDenyPolicy(bool bDenyPolicy);
 	bool			check(const CSecureRule* const pRule) const;
 	bool			add(CSecureRule* pRule);
-	inline void		remove(CSecureRule* pRule);
+	void			remove(CSecureRule* pRule);
 	void			clear();
 	void			ban(const CEndPoint &oAddress, quint32 nRuleTime, bool bMessage = true, const QString& sComment = "", bool bAutomatic = true, bool bForever = false);
 	// Methods used during sanity check
@@ -111,8 +111,8 @@ public:
 	bool			isDenied(const CEndPoint& oAddress);
 	bool			isDenied(const CQueryHit* const pHit, const QList<QString>& lQuery);	// This does not check for the hit IP to avoid double checking.
 	bool			isPrivate(const CEndPoint &oAddress);
-	CIPRule			*isInAddressRules(const CEndPoint nIp);
-	CIPRangeRule	*isInAddressRangeRules(const CEndPoint nIp);
+	CIPRule*		isInAddressRules(const CEndPoint nIp);
+	CIPRangeRule*	isInAddressRangeRules(const CEndPoint nIp);
 	// Checks the user agent to see if it's a GPL breaker, or other trouble-maker
 	// We don't ban them, but also don't offer leaf slots to them.
 	bool			isClientBad(const QString& sUserAgent) const;

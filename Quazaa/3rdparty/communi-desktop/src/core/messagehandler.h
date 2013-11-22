@@ -64,6 +64,7 @@ protected:
     void handlePrivateMessage(IrcPrivateMessage* message);
     void handleQuitMessage(IrcQuitMessage* message);
     void handleTopicMessage(IrcTopicMessage* message);
+    void handleWhoReplyMessage(IrcWhoReplyMessage* message);
     void handleUnknownMessage(IrcMessage* message);
 
     void sendMessage(IrcMessage* message, MessageView* view);

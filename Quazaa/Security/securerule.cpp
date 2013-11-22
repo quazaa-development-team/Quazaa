@@ -33,10 +33,10 @@
  */
 CSecureRule::CSecureRule() :
 m_bModifyLock( false ),
-m_bRemoving( false),
 m_bForever(true),
 m_nToday(0),
-m_nTotal(0)
+m_nTotal(0),
+m_bRemoving( false)
 {
 	// This invalidates rule as long as it does not contain any useful content.
 	m_nType   = RuleType::Undefined;
@@ -46,7 +46,8 @@ m_nTotal(0)
 	m_oUUID   = QUuid::createUuid();
 }
 
-CSecureRule::CSecureRule(const CSecureRule& pRule)
+CSecureRule::CSecureRule(const CSecureRule& pRule) :
+	QObject()
 {
 	// The usage of a custom copy constructor makes sure the list of registered
 	// pointers is NOT forwarded to a copy of this rule.

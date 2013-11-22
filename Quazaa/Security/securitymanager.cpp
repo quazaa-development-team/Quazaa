@@ -60,9 +60,9 @@ bool IPLessThan(const CIPRule *rule1, const CIPRule *rule2)
 // See initialize() for that kind of initializations.
 CSecurity::CSecurity() :
 	m_pSection(QMutex::Recursive),
+	m_bIsLoading( false ),
 	m_bLogIPCheckHits( false ),
 	m_bUseMissCache( false ),
-	m_bIsLoading( false ),
 	m_bNewRulesLoaded( false ),
 	m_nPendingOperations( 0 ),
 	m_nMaxUnsavedRules( 100 ),
