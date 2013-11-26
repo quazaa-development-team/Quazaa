@@ -394,7 +394,8 @@ HEADERS += \
 		Security/contentrule.h \
 		Models/securityfiltermodel.h \
 		UI/dialogimportsecurity.h \
-	UI/dialogmodifyrule.h
+	UI/dialogmodifyrule.h \
+    UI/mediaoverlay.h
 
 # Sources
 SOURCES += \
@@ -554,7 +555,8 @@ SOURCES += \
 		Security/contentrule.cpp \
 		Models/securityfiltermodel.cpp \
 		UI/dialogimportsecurity.cpp \
-	UI/dialogmodifyrule.cpp
+	UI/dialogmodifyrule.cpp \
+    UI/mediaoverlay.cpp
 
 FORMS += \
 		UI/dialogabout.ui \

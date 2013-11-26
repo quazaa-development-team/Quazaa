@@ -22,15 +22,19 @@
 #ifndef WIDGETMEDIA_H
 #define WIDGETMEDIA_H
 
-#include <QMainWindow>
+#include "mediaoverlay.h"
+
+#include <QWidget>
 #include <QSlider>
+#include <QEvent>
+#include <QTimer>
 
 namespace Ui
 {
 	class CWidgetMedia;
 }
 
-class CWidgetMedia : public QMainWindow
+class CWidgetMedia : public QWidget
 {
 	Q_OBJECT
 public:
@@ -42,6 +46,7 @@ public:
 
 protected:
 	void changeEvent(QEvent* e);
+	void mouseMoveEvent(QMouseEvent *e);
 
 private:
 	Ui::CWidgetMedia* ui;
@@ -52,6 +57,10 @@ private slots:
 	void on_actionMediaShuffle_triggered(bool checked);
 	void on_actionMediaRepeat_triggered(bool checked);
 	void setSkin();
+
+private:
+	QTimer* m_tMediaControls;
+	QTimer* m_tVolumeControl;
 };
 
 #endif // WIDGETMEDIA_H

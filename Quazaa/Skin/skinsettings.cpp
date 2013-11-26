@@ -68,14 +68,16 @@ void CSkinSettings::setGenericSkin()
 
 	// Sidebar
 	sidebarBackground = ".QFrame { background-color: #0C1A2B; } ";
-	sidebarBackground += "QTabWidget::pane { border-top: 2px transparent; top: 1px; } ";
-	sidebarBackground += "QTabWidget::tab-bar { left: 1px; } ";
-	sidebarBackground += "QTabBar::tab { color: white; background-color: #6E99C6; border: 1px solid transparent; border-radius: 6px; margin: 2px; min-width: 8ex; padding: 3px; padding-left: 2px; padding-right: -2px; } ";
-	sidebarBackground += "QTabBar::tab:selected, QTabBar::tab:hover { border: 1px solid white; background-color: #666666; } ";
-	sidebarBackground += "QTabBar::tab:selected { padding-top: 3px; }";
+	sidebarBackground += "QTabWidget::pane { border: 2px transparent; } ";
+	sidebarBackground += "QTabBar::tab { color: white; background-color: transparent; border: 1px solid transparent; border-radius: 3px; margin: 2px; min-width: 8ex; padding: 3px; font-weight: bold; } ";
+	sidebarBackground += "QTabBar::tab:selected, QTabBar::tab:hover { background-color: #6E99C6; }";
 
 	sidebarTaskBackground = "QFrame { border-image: none; border: 0px solid transparent; background-color: white; color: rgb(16,21,59); }";
-	sidebarTaskHeader = "QToolButton { border-image: none; background-color: qlineargradient(spread:pad, x1:0, y1:0.267, x2:1, y2:0.262, stop:0 rgba(0, 0, 0, 255), stop:0.716578 rgba(58, 58, 58, 243), stop:1 rgba(0, 0, 0, 132)); border: 0px solid transparent; border-radius: 3px; border-bottom-left-radius: 0px; border-bottom-right-radius: 0px; color: white; font-size: 16px; font-weight: bold; } QToolButton:!checked { border-bottom-left-radius: 3px; border-bottom-right-radius: 3px; } QToolButton:hover { color: lightgrey; }";
+
+	sidebarTaskHeader = "QToolButton { border-image: none; background-color: #6E99C6; border: 0px solid transparent; border-radius: 3px; border-bottom-left-radius: 0px; border-bottom-right-radius: 0px; color: white; font-size: 16px; font-weight: bold; } ";
+	sidebarTaskHeader += "QToolButton:!checked { border-bottom-left-radius: 3px; border-bottom-right-radius: 3px; } ";
+	sidebarTaskHeader += "QToolButton:hover { color: black; background-color: #666666; }";
+
 	addSearchButton = "";
 
 	// Toolbars
