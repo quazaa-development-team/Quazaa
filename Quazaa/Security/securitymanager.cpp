@@ -1295,7 +1295,7 @@ bool CSecurity::load( QString sPath )
 			pRule = NULL;
 
 			nCount--;
-			qApp->processEvents(QEventLoop::AllEvents, 50);
+			qApp->processEvents(QEventLoop::ExcludeUserInputEvents, 50);
 		}
 
 		if(nSuccessCount > 0) {
