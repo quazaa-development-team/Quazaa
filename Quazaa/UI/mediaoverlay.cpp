@@ -24,8 +24,6 @@ MediaOverlay::~MediaOverlay()
 
 void MediaOverlay::mouseMoveEvent(QMouseEvent *e)
 {
-	Q_UNUSED(e);
-
 	if(underMouse()) {
 		if(!ui->frameMediaControls->isVisible())
 			ui->frameMediaControls->show();
@@ -39,4 +37,6 @@ void MediaOverlay::mouseMoveEvent(QMouseEvent *e)
 
 		m_tVolumeControl->start(5000);
 	}
+
+	QWidget::mouseMoveEvent(e);
 }
