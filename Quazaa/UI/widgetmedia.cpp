@@ -31,30 +31,32 @@
 #include "debug_new.h"
 
 #include <QDebug>
+#include <QtMultimedia>
+
+#include <QFileDialog>
 
 // The Media Tab's Base Widget
 
 CWidgetMedia::CWidgetMedia(QWidget* parent) :
 	QWidget(parent),
+	videoWidget(0),
 	ui(new Ui::CWidgetMedia)
 {
 	ui->setupUi(this);
-	m_tMediaControls = new QTimer(this);
-	m_tMediaControls->setSingleShot(true);
-	connect(m_tMediaControls, SIGNAL(timeout()), ui->frameMediaControls, SLOT(hide()));
 
-	m_tVolumeControl = new QTimer(this);
-	m_tVolumeControl->setSingleShot(true);
-	connect(m_tVolumeControl, SIGNAL(timeout()), ui->horizontalSliderVolume, SLOT(hide()));
-
-	seekSlider = new QSlider();
-	seekSlider->setOrientation(Qt::Horizontal);
-	volumeSlider = new QSlider();
-	volumeSlider->setOrientation(Qt::Horizontal);
-	volumeSlider->setMaximumWidth(100);
 	ui->splitterMedia->restoreState(quazaaSettings.WinMain.MediaSplitter);
-	ui->frameMediaControls->hide();
-	ui->horizontalSliderVolume->hide();
+
+	player = new QMediaPlayer(this);
+	// owned by PlaylistModel
+	playlist = new QMediaPlaylist();
+	player->setPlaylist(playlist);
+
+	videoWidget = new VideoWidget(ui->videoContainerWidget);
+	//player->setVideoOutput(videoWidget);
+
+	ui->verticalLayoutMedia->addWidget(videoWidget);
+
+
 	setSkin();
 }
 
@@ -73,25 +75,6 @@ void CWidgetMedia::changeEvent(QEvent* e)
 			break;
 		default:
 			break;
-	}
-}
-
-void CWidgetMedia::mouseMoveEvent(QMouseEvent *e)
-{
-	Q_UNUSED(e);
-
-	if(ui->frameMediaWindow->underMouse()) {
-		if(!ui->frameMediaControls->isVisible())
-			ui->frameMediaControls->show();
-
-		m_tMediaControls->start(10000);
-	}
-
-	if(ui->toolButtonMute->underMouse()) {
-		if(!ui->horizontalSliderVolume->isVisible())
-			ui->horizontalSliderVolume->show();
-
-		m_tVolumeControl->start(10000);
 	}
 }
 
@@ -167,9 +150,18 @@ void CWidgetMedia::on_toolButtonMediaPlaylistTaskHeader_clicked()
 
 void CWidgetMedia::setSkin()
 {
-	seekSlider->setStyleSheet(skinSettings.seekSlider);
-	volumeSlider->setStyleSheet(skinSettings.volumeSlider);
 	ui->toolButtonMediaPlaylistTaskHeader->setStyleSheet(skinSettings.taskHeader);
 	ui->frameMediaPlaylistTask->setStyleSheet(skinSettings.sidebarBackground);
 	ui->listViewMediaPlaylist->setStyleSheet(skinSettings.listViews);
+}
+
+void CWidgetMedia::on_toolButtonOpen_clicked()
+{
+	QString file = QFileDialog::getOpenFileName(this, tr("Open File"));
+
+	QUrl url = QUrl::fromLocalFile(file);
+
+	playlist->addMedia(url);
+
+	player->play();
 }

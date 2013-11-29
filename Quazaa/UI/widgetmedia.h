@@ -22,12 +22,13 @@
 #ifndef WIDGETMEDIA_H
 #define WIDGETMEDIA_H
 
-#include "mediaoverlay.h"
+#include "videowidget.h"
 
 #include <QWidget>
 #include <QSlider>
 #include <QEvent>
-#include <QTimer>
+#include <QMediaPlayer>
+#include <QMediaPlaylist>
 
 namespace Ui
 {
@@ -40,13 +41,10 @@ class CWidgetMedia : public QWidget
 public:
 	CWidgetMedia(QWidget* parent = 0);
 	~CWidgetMedia();
-	QSlider* seekSlider;
-	QSlider* volumeSlider;
 	void saveWidget();
 
 protected:
 	void changeEvent(QEvent* e);
-	void mouseMoveEvent(QMouseEvent *e);
 
 private:
 	Ui::CWidgetMedia* ui;
@@ -58,9 +56,13 @@ private slots:
 	void on_actionMediaRepeat_triggered(bool checked);
 	void setSkin();
 
+	void on_toolButtonOpen_clicked();
+
 private:
-	QTimer* m_tMediaControls;
-	QTimer* m_tVolumeControl;
+	QMediaPlayer *player;
+	QMediaPlaylist *playlist;
+	VideoWidget *videoWidget;
+
 };
 
 #endif // WIDGETMEDIA_H

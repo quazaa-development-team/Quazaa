@@ -1,60 +1,28 @@
-/*
-* Copyright (C) 2008-2013 The Communi Project
-*
-* This program is free software; you can redistribute it and/or modify
-* it under the terms of the GNU General Public License as published by
-* the Free Software Foundation; either version 2 of the License, or
-* (at your option) any later version.
-*
-* This program is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-* GNU General Public License for more details.
-*/
+#ifndef MEDIAOVERLAY_H
+#define MEDIAOVERLAY_H
 
-#ifndef OVERLAY_H
-#define OVERLAY_H
+#include <QWidget>
+#include <QTimer>
 
-#include <QLabel>
-#include <QPointer>
-#include <QToolButton>
+namespace Ui {
+class MediaOverlay;
+}
 
-class MediaOverlay : public QLabel
+class MediaOverlay : public QWidget
 {
 	Q_OBJECT
-	Q_PROPERTY(bool busy READ isBusy WRITE setBusy)
-	Q_PROPERTY(bool dark READ isDark WRITE setDark)
-	Q_PROPERTY(bool refresh READ hasRefresh WRITE setRefresh)
 
 public:
-	explicit MediaOverlay(QWidget* parent);
-
-	bool isBusy() const;
-	void setBusy(bool busy);
-
-	bool isDark() const;
-	void setDark(bool dark);
-
-	bool hasRefresh() const;
-	void setRefresh(bool enabled);
-
-signals:
-	void refresh();
-
-protected:
-	bool event(QEvent* event);
-	bool eventFilter(QObject* object, QEvent* event);
-
-private slots:
-	void relayout();
-	void reparent();
+	explicit MediaOverlay(QWidget *parent = 0);
+	~MediaOverlay();
 
 private:
-	struct Private {
-		bool dark;
-		QToolButton* button;
-		QPointer<QWidget> prevParent;
-	} d;
+	Ui::MediaOverlay *ui;
+	QTimer* m_tMediaControls;
+	QTimer* m_tVolumeControl;
+
+protected:
+	void mouseMoveEvent(QMouseEvent *e);
 };
 
-#endif // OVERLAY_H
+#endif // MEDIAOVERLAY_H

@@ -395,7 +395,8 @@ HEADERS += \
 		Models/securityfiltermodel.h \
 		UI/dialogimportsecurity.h \
 	UI/dialogmodifyrule.h \
-    UI/mediaoverlay.h
+    UI/mediaoverlay.h \
+    UI/videowidget.h
 
 # Sources
 SOURCES += \
@@ -556,7 +557,8 @@ SOURCES += \
 		Models/securityfiltermodel.cpp \
 		UI/dialogimportsecurity.cpp \
 	UI/dialogmodifyrule.cpp \
-    UI/mediaoverlay.cpp
+    UI/mediaoverlay.cpp \
+    UI/videowidget.cpp
 
 FORMS += \
 		UI/dialogabout.ui \
@@ -616,7 +618,8 @@ FORMS += \
 	UI/dialogirccolordialog.ui \
 	UI/wizardircconnection.ui \
 	UI/dialogimportsecurity.ui \
-	UI/dialogmodifyrule.ui
+	UI/dialogmodifyrule.ui \
+    UI/mediaoverlay.ui
 
 TRANSLATIONS = \
 		Language/quazaa_af.ts \
