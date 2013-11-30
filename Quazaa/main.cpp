@@ -191,6 +191,10 @@ int main(int argc, char *argv[])
 	quazaaSettings.translator.load( quazaaSettings.Language.File );
 	qApp->installTranslator( &quazaaSettings.translator );
 
+	MainWindow = new CWinMain();
+	MainWindow->show();
+	MainWindow->hide();
+
 	//Create splash window
 	CDialogSplash* dlgSplash = new CDialogSplash();
 	dlgSplash->show();
@@ -261,7 +265,6 @@ int main(int argc, char *argv[])
 	dlgSplash->updateProgress( 80, QObject::tr( "Loading User Interface..." ) );
 	qApp->processEvents();
 
-	MainWindow = new CWinMain();
 	if ( quazaaSettings.WinMain.Visible )
 	{
 		if(bFirstRun)
