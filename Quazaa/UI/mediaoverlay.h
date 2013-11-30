@@ -23,6 +23,9 @@ private:
 
 protected:
 	void mouseMoveEvent(QMouseEvent *e);
+
+public slots:
+	void showControls();
 };
 
 #endif // MEDIAOVERLAY_H

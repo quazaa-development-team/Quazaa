@@ -2,6 +2,7 @@
 
 #include <QKeyEvent>
 #include <QMouseEvent>
+#include <QDebug>
 
 VideoWidget::VideoWidget(QWidget *parent) :
 	QVideoWidget(parent)
@@ -15,6 +16,7 @@ VideoWidget::VideoWidget(QWidget *parent) :
 	setAttribute(Qt::WA_OpaquePaintEvent);
 
 	mediaOverlay = new MediaOverlay(this);
+	setMouseTracking(true);
 }
 
 VideoWidget::~VideoWidget()
@@ -50,4 +52,9 @@ void VideoWidget::resizeEvent(QResizeEvent *event)
 {
 	mediaOverlay->resize(event->size());
 	event->accept();
+}
+
+void VideoWidget::raiseControls()
+{
+	mediaOverlay->raise();
 }

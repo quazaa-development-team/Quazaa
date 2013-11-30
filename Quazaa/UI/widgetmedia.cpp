@@ -53,6 +53,7 @@ CWidgetMedia::CWidgetMedia(QWidget* parent) :
 
 	videoWidget = new VideoWidget(ui->videoContainerWidget);
 	player->setVideoOutput(videoWidget);
+	videoWidget->raiseControls(); // This corrects the controls being put under the video widget during setVideoWidget
 
 	ui->verticalLayoutMedia->addWidget(videoWidget);
 

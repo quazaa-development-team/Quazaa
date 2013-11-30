@@ -1,6 +1,8 @@
 #include "mediaoverlay.h"
 #include "ui_mediaoverlay.h"
 
+#include <QDebug>
+
 MediaOverlay::MediaOverlay(QWidget *parent) :
 	QWidget(parent),
 	ui(new Ui::MediaOverlay)
@@ -24,6 +26,7 @@ MediaOverlay::~MediaOverlay()
 
 void MediaOverlay::mouseMoveEvent(QMouseEvent *e)
 {
+	qDebug() << "MediaOverlay mouse move detected.";
 	if(underMouse()) {
 		if(!ui->frameMediaControls->isVisible())
 			ui->frameMediaControls->show();
@@ -39,4 +42,12 @@ void MediaOverlay::mouseMoveEvent(QMouseEvent *e)
 	}
 
 	QWidget::mouseMoveEvent(e);
+}
+
+void MediaOverlay::showControls()
+{
+	if(!ui->frameMediaControls->isVisible())
+		ui->frameMediaControls->show();
+
+	m_tMediaControls->start(5000);
 }

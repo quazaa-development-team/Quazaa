@@ -191,6 +191,8 @@ int main(int argc, char *argv[])
 	quazaaSettings.translator.load( quazaaSettings.Language.File );
 	qApp->installTranslator( &quazaaSettings.translator );
 
+	// If the MainWindow object is not created and shown before any other dialogs,
+	// the media player will break input event processing
 	MainWindow = new CWinMain();
 	MainWindow->show();
 	MainWindow->hide();

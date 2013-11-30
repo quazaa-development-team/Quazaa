@@ -23,7 +23,7 @@ private:
 signals:
 
 public slots:
-
+	void raiseControls();
 };
 
 #endif // VIDEOWIDGET_H
