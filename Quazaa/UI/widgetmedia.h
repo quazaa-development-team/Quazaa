@@ -55,8 +55,8 @@ private slots:
 	void on_actionMediaShuffle_triggered(bool checked);
 	void on_actionMediaRepeat_triggered(bool checked);
 	void setSkin();
-
-	void on_toolButtonOpen_clicked();
+	void fullScreenChanged(bool fullScreen);
+	void openMedia();
 
 private:
 	QMediaPlayer *player;

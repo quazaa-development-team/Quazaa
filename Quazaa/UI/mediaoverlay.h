@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QTimer>
+#include <QToolButton>
 
 namespace Ui {
 class MediaOverlay;
@@ -26,6 +27,16 @@ protected:
 
 public slots:
 	void showControls();
+	QToolButton* playPauseButton();
+	QToolButton* previousButton();
+	QToolButton* stopButton();
+	QToolButton* nextButton();
+	QToolButton* openButton();
+	QToolButton* replayButton();
+	QToolButton* shuffleButton();
+	QToolButton* fullScreenButton();
+	QToolButton* settingsButton();
+	QToolButton* muteButton();
 };
 
 #endif // MEDIAOVERLAY_H

@@ -24,6 +24,7 @@ signals:
 
 public slots:
 	void raiseControls();
+	MediaOverlay* controls();
 };
 
 #endif // VIDEOWIDGET_H

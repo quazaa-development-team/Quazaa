@@ -56,7 +56,9 @@ CWidgetMedia::CWidgetMedia(QWidget* parent) :
 	videoWidget->raiseControls(); // This corrects the controls being put under the video widget during setVideoWidget
 
 	ui->verticalLayoutMedia->addWidget(videoWidget);
+	connect(videoWidget, SIGNAL(fullScreenChanged(bool)), SLOT(fullScreenChanged(bool)));
 
+	connect(videoWidget->controls()->openButton(), SIGNAL(clicked()), SLOT(openMedia()));
 
 	setSkin();
 }
@@ -83,16 +85,6 @@ void CWidgetMedia::saveWidget()
 {
 	quazaaSettings.WinMain.MediaSplitter = ui->splitterMedia->saveState();
 }
-
-/*void WidgetMedia::on_actionMediaOpen_triggered()
-{
-	mediaPlayer->openFile();
-}
-
-void WidgetMedia::on_volumeSlider_valueChanged(int value)
-{
-	quazaaSettings.Media.Volume = value;
-}*/
 
 void CWidgetMedia::on_actionMediaRepeat_triggered(bool checked)
 {
@@ -156,7 +148,14 @@ void CWidgetMedia::setSkin()
 	ui->listViewMediaPlaylist->setStyleSheet(skinSettings.listViews);
 }
 
-void CWidgetMedia::on_toolButtonOpen_clicked()
+void CWidgetMedia::fullScreenChanged(bool fullScreen)
+{
+	qDebug() << "Full screen change caught.";
+	if(!fullScreen)
+		ui->verticalLayoutMedia->addWidget(videoWidget);
+}
+
+void CWidgetMedia::openMedia()
 {
 	QString file = QFileDialog::getOpenFileName(this, tr("Open File"));
 

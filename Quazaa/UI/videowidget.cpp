@@ -50,11 +50,16 @@ void VideoWidget::mousePressEvent(QMouseEvent *event)
 
 void VideoWidget::resizeEvent(QResizeEvent *event)
 {
-	mediaOverlay->resize(event->size());
+	//mediaOverlay->resize(event->size());
 	event->accept();
 }
 
 void VideoWidget::raiseControls()
 {
 	mediaOverlay->raise();
+}
+
+MediaOverlay *VideoWidget::controls()
+{
+	return mediaOverlay;
 }
