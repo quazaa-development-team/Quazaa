@@ -32,6 +32,7 @@
 
 #include <QDebug>
 #include <QtMultimedia>
+#include <QDesktopWidget>
 
 #include <QFileDialog>
 
@@ -39,7 +40,6 @@
 
 CWidgetMedia::CWidgetMedia(QWidget* parent) :
 	QWidget(parent),
-	videoWidget(0),
 	ui(new Ui::CWidgetMedia)
 {
 	ui->setupUi(this);
@@ -50,15 +50,16 @@ CWidgetMedia::CWidgetMedia(QWidget* parent) :
 	// owned by PlaylistModel
 	playlist = new QMediaPlaylist();
 	player->setPlaylist(playlist);
+	videoContainer = new VideoContainer(this);
 
-	videoWidget = new VideoWidget(ui->videoContainerWidget);
-	player->setVideoOutput(videoWidget);
-	videoWidget->raiseControls(); // This corrects the controls being put under the video widget during setVideoWidget
+	player->setVideoOutput(videoContainer->videoWidget());
 
-	ui->verticalLayoutMedia->addWidget(videoWidget);
-	connect(videoWidget, SIGNAL(fullScreenChanged(bool)), SLOT(fullScreenChanged(bool)));
+	connect(videoContainer, SIGNAL(doubleClicked()), SLOT(toggleFullScreen()));
+	connect(videoContainer->mediaControls()->fullScreenButton(), SIGNAL(clicked()), SLOT(toggleFullScreen()));
 
-	connect(videoWidget->controls()->openButton(), SIGNAL(clicked()), SLOT(openMedia()));
+	ui->verticalLayoutMedia->addWidget(videoContainer);
+
+	connect(videoContainer->mediaControls()->openButton(), SIGNAL(clicked()), SLOT(openMedia()));
 
 	setSkin();
 }
@@ -84,16 +85,6 @@ void CWidgetMedia::changeEvent(QEvent* e)
 void CWidgetMedia::saveWidget()
 {
 	quazaaSettings.WinMain.MediaSplitter = ui->splitterMedia->saveState();
-}
-
-void CWidgetMedia::on_actionMediaRepeat_triggered(bool checked)
-{
-	quazaaSettings.Media.Repeat = checked;
-}
-
-void CWidgetMedia::on_actionMediaShuffle_triggered(bool checked)
-{
-	quazaaSettings.Media.Shuffle = checked;
 }
 
 void CWidgetMedia::on_splitterMedia_customContextMenuRequested(QPoint pos)
@@ -148,13 +139,6 @@ void CWidgetMedia::setSkin()
 	ui->listViewMediaPlaylist->setStyleSheet(skinSettings.listViews);
 }
 
-void CWidgetMedia::fullScreenChanged(bool fullScreen)
-{
-	qDebug() << "Full screen change caught.";
-	if(!fullScreen)
-		ui->verticalLayoutMedia->addWidget(videoWidget);
-}
-
 void CWidgetMedia::openMedia()
 {
 	QString file = QFileDialog::getOpenFileName(this, tr("Open File"));
@@ -164,4 +148,17 @@ void CWidgetMedia::openMedia()
 	playlist->addMedia(url);
 
 	player->play();
+}
+
+void CWidgetMedia::toggleFullScreen()
+{
+	if(!ui->videoContainerWidget->isFullScreen()) {
+		ui->videoContainerWidget->setParent(0);
+		ui->videoContainerWidget->showFullScreen();
+		videoContainer->mediaControls()->fullScreenButton()->setIcon(QIcon(":/Resource/Media/NoFullScreen.png"));
+	} else {
+		ui->videoContainerWidget->setParent(this);
+		ui->splitterMedia->insertWidget(0,ui->videoContainerWidget);
+		videoContainer->mediaControls()->fullScreenButton()->setIcon(QIcon(":/Resource/Media/FullScreen.png"));
+	}
 }

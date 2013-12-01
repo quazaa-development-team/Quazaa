@@ -1,7 +1,5 @@
 #include "videowidget.h"
 
-#include <QKeyEvent>
-#include <QMouseEvent>
 #include <QDebug>
 
 VideoWidget::VideoWidget(QWidget *parent) :
@@ -14,52 +12,10 @@ VideoWidget::VideoWidget(QWidget *parent) :
 	setPalette(p);
 
 	setAttribute(Qt::WA_OpaquePaintEvent);
-
-	mediaOverlay = new MediaOverlay(this);
-	setMouseTracking(true);
+	setAttribute(Qt::WA_TransparentForMouseEvents);
 }
 
 VideoWidget::~VideoWidget()
 {
 
-}
-
-void VideoWidget::keyPressEvent(QKeyEvent *event)
-{
-	if (event->key() == Qt::Key_Escape && isFullScreen()) {
-		setFullScreen(false);
-		event->accept();
-	} else if (event->key() == Qt::Key_Enter && event->modifiers() & Qt::Key_Alt) {
-		setFullScreen(!isFullScreen());
-		event->accept();
-	} else {
-		QVideoWidget::keyPressEvent(event);
-	}
-}
-
-void VideoWidget::mouseDoubleClickEvent(QMouseEvent *event)
-{
-	setFullScreen(!isFullScreen());
-	event->accept();
-}
-
-void VideoWidget::mousePressEvent(QMouseEvent *event)
-{
-	QVideoWidget::mousePressEvent(event);
-}
-
-void VideoWidget::resizeEvent(QResizeEvent *event)
-{
-	//mediaOverlay->resize(event->size());
-	event->accept();
-}
-
-void VideoWidget::raiseControls()
-{
-	mediaOverlay->raise();
-}
-
-MediaOverlay *VideoWidget::controls()
-{
-	return mediaOverlay;
 }

@@ -63,6 +63,11 @@
       <property name="autoFillBackground">
        <bool>false</bool>
       </property>
+      <property name="styleSheet">
+       <string notr="true">QWidget#videoContainerWidget {
+	background-color: black;
+}</string>
+      </property>
       <layout class="QVBoxLayout" name="verticalLayoutMedia">
        <property name="spacing">
         <number>0</number>

@@ -22,7 +22,7 @@
 #ifndef WIDGETMEDIA_H
 #define WIDGETMEDIA_H
 
-#include "videowidget.h"
+#include "videocontainer.h"
 
 #include <QWidget>
 #include <QSlider>
@@ -52,17 +52,14 @@ private:
 private slots:
 	void on_toolButtonMediaPlaylistTaskHeader_clicked();
 	void on_splitterMedia_customContextMenuRequested(QPoint pos);
-	void on_actionMediaShuffle_triggered(bool checked);
-	void on_actionMediaRepeat_triggered(bool checked);
 	void setSkin();
-	void fullScreenChanged(bool fullScreen);
 	void openMedia();
+	void toggleFullScreen();
 
 private:
 	QMediaPlayer *player;
 	QMediaPlaylist *playlist;
-	VideoWidget *videoWidget;
-
+	VideoContainer *videoContainer;
 };
 
 #endif // WIDGETMEDIA_H

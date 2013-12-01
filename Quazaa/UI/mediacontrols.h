@@ -6,27 +6,25 @@
 #include <QToolButton>
 
 namespace Ui {
-class MediaOverlay;
+class MediaControls;
 }
 
-class MediaOverlay : public QWidget
+class MediaControls : public QWidget
 {
 	Q_OBJECT
 
 public:
-	explicit MediaOverlay(QWidget *parent = 0);
-	~MediaOverlay();
+	explicit MediaControls(QWidget *parent = 0);
+	~MediaControls();
 
 private:
-	Ui::MediaOverlay *ui;
-	QTimer* m_tMediaControls;
+	Ui::MediaControls *ui;
 	QTimer* m_tVolumeControl;
 
 protected:
 	void mouseMoveEvent(QMouseEvent *e);
 
 public slots:
-	void showControls();
 	QToolButton* playPauseButton();
 	QToolButton* previousButton();
 	QToolButton* stopButton();

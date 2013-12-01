@@ -2,7 +2,7 @@
 #define VIDEOWIDGET_H
 
 #include <QVideoWidget>
-#include "mediaoverlay.h"
+#include "mediacontrols.h"
 
 class VideoWidget : public QVideoWidget
 {
@@ -12,19 +12,10 @@ public:
 	~VideoWidget();
 
 protected:
-	void keyPressEvent(QKeyEvent *event);
-	void mouseDoubleClickEvent(QMouseEvent *event);
-	void mousePressEvent(QMouseEvent *event);
-	void resizeEvent(QResizeEvent *event);
 
 private:
-	MediaOverlay *mediaOverlay;
-
-signals:
 
 public slots:
-	void raiseControls();
-	MediaOverlay* controls();
 };
 
 #endif // VIDEOWIDGET_H
