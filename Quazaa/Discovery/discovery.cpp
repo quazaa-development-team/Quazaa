@@ -50,6 +50,10 @@ CDiscovery::CDiscovery(QObject *parent) :
 	m_nLastID( 0 ),
 	m_pActive( new quint16[Discovery::stNumberOfServiceTypes] )
 {
+	// reg. meta types
+	qRegisterMetaType<TServiceID>( "TServiceID" );
+	qRegisterMetaType<TConstServicePtr>( "TConstServicePtr" );
+
 	for ( quint8 i = 0; i < Discovery::stNumberOfServiceTypes; ++i )
 	{
 		m_pActive[i] = 0;
@@ -335,6 +339,7 @@ QSharedPointer<QNetworkAccessManager> CDiscovery::requestNAM()
 
 		// Make sure the networkAccessible state is properly initialized.
 		QNetworkConfigurationManager manager;
+		manager.updateConfigurations();
 		pReturnVal->setConfiguration( manager.defaultConfiguration() );
 		// QNetworkAccessManager::networkAccessible is not explicitly set when the
 		// QNetworkAccessManager is created. It is only set after the network session is
@@ -613,10 +618,6 @@ void CDiscovery::asyncStartUpHelper()
 #if ENABLE_DISCOVERY_DEBUGGING
 	postLog( LogSeverity::Debug, "Initialized random number generator.", true );
 #endif
-
-	// reg. meta types
-	qRegisterMetaType<TServiceID>( "TServiceID" );
-	qRegisterMetaType<TConstServicePtr>( "TConstServicePtr" );
 
 #if ENABLE_DISCOVERY_DEBUGGING
 	postLog( LogSeverity::Debug, "Registered Meta Types.", true );
